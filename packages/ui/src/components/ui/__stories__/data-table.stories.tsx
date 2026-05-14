@@ -189,11 +189,11 @@ export const ExpandableRowsToggled: Story = {
   render: ExpandableRows.render,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    const expandButtons = await canvas.findAllByRole('button', { name: 'Expand row' })
-    if (expandButtons.length === 0) {
-      throw new Error('No expandable row buttons found')
-    }
-    await userEvent.click(expandButtons[0])
-    await waitFor(() => canvas.getByText(/Detailed payment information for/i), { timeout: 1500 })
+    const [firstExpandButton] = await canvas.findAllByRole('button', { name: 'Expand row' })
+    await userEvent.click(firstExpandButton)
+    await waitFor(
+      () => canvas.getByText(/Detailed payment information for\s*p1:\s*amount \$316\.00 via ken99@example\.com/i),
+      { timeout: 1500 }
+    )
   },
 }
