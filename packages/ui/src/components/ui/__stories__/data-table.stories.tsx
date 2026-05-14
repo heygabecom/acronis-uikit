@@ -142,7 +142,6 @@ const expandableColumns: ColumnDef<Payment>[] = [
         className="h-7 w-7 p-0 text-muted-foreground"
         onClick={row.getToggleExpandedHandler()}
         aria-label={row.getIsExpanded() ? 'Collapse row' : 'Expand row'}
-        data-testid={row.original.id === 'p1' ? 'expand-row-first' : undefined}
       >
         {row.getIsExpanded() ? '−' : '+'}
       </Button>
@@ -182,6 +181,7 @@ export const ExpandableRows: Story = {
 }
 
 export const ExpandableRowsToggled: Story = {
+  args: {} as React.ComponentProps<typeof DataTable>,
   tags: ['visual-expandable-toggle'],
   parameters: {
     snapshot: { animationDelay: 100 },
@@ -189,7 +189,7 @@ export const ExpandableRowsToggled: Story = {
   render: ExpandableRows.render,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    await userEvent.click(canvas.getByTestId('expand-row-first'))
+    await userEvent.click((await canvas.findAllByRole('button', { name: 'Expand row' }))[0])
     await waitFor(() => canvas.getByText(/Detailed payment information for/i), { timeout: 1500 })
   },
 }
