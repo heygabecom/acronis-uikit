@@ -1,3 +1,15 @@
+## [0.36.1](https://github.com/acronis/shadcn-uikit/compare/v0.36.0...v0.36.1) (2026-05-18)
+
+
+### Bug Fixes
+
+* conditionally disable Vitest addon and update TypeScript configuration ([6cc7c33](https://github.com/acronis/shadcn-uikit/commit/6cc7c33a2ab2fc51ee0cf52d27c5da54e9d4424a))
+* update documentation links to reflect new apps directory structure ([926c357](https://github.com/acronis/shadcn-uikit/commit/926c35706cd6770bddaff4b074d05789b2be4c76))
+* update import paths for storybook test utilities ([6a23a9c](https://github.com/acronis/shadcn-uikit/commit/6a23a9c9b2e2e972d9754579260191d7cf6c8c82))
+* update package dependencies and improve build scripts ([5290fe1](https://github.com/acronis/shadcn-uikit/commit/5290fe19051a53a22fab7d6d4f3e21d3a154aa5d))
+* update package versions for happy-dom, postcss, storybook, tailwindcss, and vite ([dccbe2c](https://github.com/acronis/shadcn-uikit/commit/dccbe2c6f9a7d323fb0038097654e67ed8c29ba7))
+* update snapshots ([c6a1700](https://github.com/acronis/shadcn-uikit/commit/c6a17005b0ffb4ecf5231f6f408f156358ea05a7))
+
 ## [0.36.0](https://github.com/acronis/shadcn-uikit/compare/v0.35.0...v0.36.0) (2026-05-15)
 
 
@@ -72,11 +84,4 @@
 ### Bug Fixes
 
 * **empty:** set default size for empty icon component ([a8723cd](https://github.com/acronis/shadcn-uikit/commit/a8723cd46b779aa78a058ac778410726f971a852))
-
-## [0.32.4](https://github.com/acronis/shadcn-uikit/compare/v0.32.3...v0.32.4) (2026-04-02)
-
-
-### Bug Fixes
-
-* update lucide-react to version 1.7.0 for improved compatibility ([26791fd](https://github.com/acronis/shadcn-uikit/commit/26791fdc0a839a336975b3cafaff7855daff51d0))
 
