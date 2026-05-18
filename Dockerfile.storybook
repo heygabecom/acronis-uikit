@@ -4,7 +4,7 @@
 # This image does NOT build Storybook — the static output is built on the host
 # (where the Vite cache already lives) and mounted as a volume at runtime.
 # The image only provides Playwright + pnpm deps + the test-runner config.
-FROM mcr.microsoft.com/playwright:v1.57.0-jammy
+FROM mcr.microsoft.com/playwright:v1.60.0-jammy
 
 WORKDIR /app
 
