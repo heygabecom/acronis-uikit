@@ -11,21 +11,51 @@ permissions:
   id-token: write  # Required for OIDC trusted publishing
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup pnpm
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run tests
+        run: pnpm test
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PNPM
         uses: pnpm/action-setup@v4
         with:
-          version: 10.27.0  # match package.json
           run_install: false
 
-      - name: Checkout code
-        uses: actions/checkout@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          ref: main  # Always checkout main branch, not the tag
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build UI Component Library
+        run: pnpm --filter ./packages/ui run build
 
       - name: Publish NPM Package
         uses: phucbm/publish-npm-action@v1  # Docs https://github.com/phucbm/publish-npm-action
