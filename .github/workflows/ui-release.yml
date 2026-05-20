@@ -57,7 +57,5 @@ jobs:
       - name: Build UI Component Library
         run: pnpm --filter ./packages/ui run build
 
-      - name: Publish NPM Package
-        uses: phucbm/publish-npm-action@v1  # Docs https://github.com/phucbm/publish-npm-action
-        with:
-          skip-tests: ${{ github.event.inputs.skip-tests || 'false' }}
+      - name: Publish package on NPM
+        run: pnpm publish packages/ui --access public --no-git-checks
