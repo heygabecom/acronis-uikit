@@ -50,7 +50,7 @@ jobs:
       # Docker only serves the pre-built static output and runs Playwright.
       # --build rebuilds the image when Dockerfile or .storybook config changes.
       - name: Run visual regression tests
-        run: docker compose -f docker-compose.storybook.yml up --build --abort-on-container-exit --exit-code-from test-runner
+        run: docker compose -f packages/legacy/ui/docker-compose.storybook.yml up --build --abort-on-container-exit --exit-code-from test-runner
 
       - name: Upload diff artifacts on failure
         if: failure()
