@@ -23,6 +23,7 @@ instead and skip this workspace.
 - Shared utility code. Components only.
 - Production logic — these are demonstrations.
 - Tests. This workspace has no automated test suite (and no `test` / `test:watch` scripts).
+
 ## Workflow
 
 1. Create `src/<component>/<DemoName>.tsx` exporting your demo component.
