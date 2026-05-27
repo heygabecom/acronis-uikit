@@ -8,7 +8,7 @@ on:
     branches: [main]
     paths:
       - 'apps/demo/**'
-      - 'packages/ui/**'
+      - 'packages/legacy/ui/**'
       - 'apps/docs/**'
       - 'apps/demos/**'
 
@@ -53,18 +53,18 @@ jobs:
         run: pnpm install
 
       - name: Build UI Component Library
-        run: pnpm --filter ./packages/ui run build
+        run: pnpm --filter ./packages/legacy/ui run build
 
       - name: Build demo
         run: VITE_BASE_PATH=/shadcn-uikit/ pnpm --filter ./apps/demo run build
 
       - name: Build storybook
-        run: STORYBOOK_DISABLE_ADDON_VITEST=true pnpm --filter ./packages/ui run storybook:build
+        run: STORYBOOK_DISABLE_ADDON_VITEST=true pnpm --filter ./packages/legacy/ui run storybook:build
 
       - name: Copy storybook to demo dist
         run: |
           rm -rf apps/demo/dist/storybook
-          cp -r packages/ui/storybook-static apps/demo/dist/storybook
+          cp -r packages/legacy/ui/storybook-static apps/demo/dist/storybook
 
       - name: Build docs
         run: DOCS_STATIC_EXPORT=true DOCS_BASE_PATH=/shadcn-uikit/docs pnpm --filter ./apps/docs run build

@@ -38,9 +38,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            packages/ui/node_modules/.vite
-            packages/ui/node_modules/.cache/storybook
-          key: storybook-${{ runner.os }}-${{ hashFiles('packages/ui/src/**', 'packages/ui/.storybook/**', 'packages/ui/package.json') }}
+            packages/legacy/ui/node_modules/.vite
+            packages/legacy/ui/node_modules/.cache/storybook
+          key: storybook-${{ runner.os }}-${{ hashFiles('packages/legacy/ui/src/**', 'packages/legacy/ui/.storybook/**', 'packages/legacy/ui/package.json') }}
           restore-keys: storybook-${{ runner.os }}-
 
       - name: Build Storybook
@@ -56,4 +56,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: visual-regression-diffs
-          path: packages/ui/test/__snapshots__/__diff_output__/
+          path: packages/legacy/ui/test/__snapshots__/__diff_output__/

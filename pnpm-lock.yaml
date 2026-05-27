@@ -72,7 +72,7 @@ importers:
     dependencies:
       '@acronis-platform/shadcn-uikit':
         specifier: workspace:*
-        version: link:../../packages/ui
+        version: link:../../packages/legacy/ui
       '@acronis-platform/shadcn-uikit-demos':
         specifier: workspace:*
         version: link:../demos
@@ -184,7 +184,7 @@ importers:
     dependencies:
       '@acronis-platform/shadcn-uikit':
         specifier: workspace:*
-        version: link:../../packages/ui
+        version: link:../../packages/legacy/ui
       '@hookform/resolvers':
         specifier: 3.10.0
         version: 3.10.0(react-hook-form@7.76.0(react@19.2.6))
@@ -236,7 +236,7 @@ importers:
     dependencies:
       '@acronis-platform/shadcn-uikit':
         specifier: workspace:*
-        version: link:../../packages/ui
+        version: link:../../packages/legacy/ui
       '@acronis-platform/shadcn-uikit-demos':
         specifier: workspace:*
         version: link:../demos
@@ -293,7 +293,7 @@ importers:
         specifier: 5.9.3
         version: 5.9.3
 
-  packages/ui:
+  packages/legacy/ui:
     dependencies:
       '@base-ui/react':
         specifier: ^1.0.0

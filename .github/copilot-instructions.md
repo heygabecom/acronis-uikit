@@ -19,9 +19,9 @@ These rules are the source of truth for AI-assisted changes. Follow them strictl
   - Build everything: `pnpm run build`.
   - Lint everything: `pnpm run lint` or `pnpm run lint:fix`.
   - Type check: `pnpm run type-check`.
-  - Test UI package: `pnpm --filter ./packages/ui run test` (Vitest + React Testing Library).
+  - Test UI package: `pnpm --filter ./packages/legacy/ui run test` (Vitest + React Testing Library).
   - Demo dev: `pnpm --filter ./apps/demo run dev` (Vite + React).
-  - Storybook: `pnpm --filter ./packages/ui run storybook` (component documentation and testing).
+  - Storybook: `pnpm --filter ./packages/legacy/ui run storybook` (component documentation and testing).
 
 - Coding conventions (React + shadcn/ui)
   - Use React functional components with TypeScript. Use hooks for state management.
@@ -33,9 +33,9 @@ These rules are the source of truth for AI-assisted changes. Follow them strictl
 
   - Testing
     - Unit tests: Vitest + React Testing Library. Place `*.spec.ts` or `*.test.tsx` in `__tests__/` directories.
-    - Visual regression: Storybook with Playwright test runner. Run with `pnpm --filter ./packages/ui run storybook:test:visual`.
+    - Visual regression: Storybook with Playwright test runner. Run with `pnpm --filter ./packages/legacy/ui run storybook:test:visual`.
     - Accessibility: use `@storybook/addon-a11y` for accessibility testing in Storybook.
-    - Coverage: `pnpm --filter ./packages/ui run test:coverage`.
+    - Coverage: `pnpm --filter ./packages/legacy/ui run test:coverage`.
     - See `.github/instructions/unit-tests.instructions.md` for detailed testing guidelines used in this repo.
 
   - Documentation
@@ -124,18 +124,18 @@ These rules are the source of truth for AI-assisted changes. Follow them strictl
 #### Component Development
 - Build UI components in watch mode:
   ```bash
-  pnpm --filter ./packages/ui run dev
+  pnpm --filter ./packages/legacy/ui run dev
   ```
 
 - Run Storybook for component development:
   ```bash
-  pnpm --filter ./packages/ui run storybook
+  pnpm --filter ./packages/legacy/ui run storybook
   ```
   Access at: `http://localhost:6006`
 
 - Build Storybook:
   ```bash
-  pnpm --filter ./packages/ui run storybook:build
+  pnpm --filter ./packages/legacy/ui run storybook:build
   ```
 
 #### Testing and Quality
@@ -146,17 +146,17 @@ These rules are the source of truth for AI-assisted changes. Follow them strictl
 
 - Run tests with coverage:
   ```bash
-  pnpm --filter ./packages/ui run test:coverage
+  pnpm --filter ./packages/legacy/ui run test:coverage
   ```
 
 - Run Storybook visual regression tests:
   ```bash
-  pnpm --filter ./packages/ui run storybook:test:visual
+  pnpm --filter ./packages/legacy/ui run storybook:test:visual
   ```
 
 - Update visual snapshots:
   ```bash
-  pnpm --filter ./packages/ui run storybook:test:visual:update
+  pnpm --filter ./packages/legacy/ui run storybook:test:visual:update
   ```
 
 ## Code Standards for development
@@ -171,10 +171,10 @@ Note: Husky pre-commit hooks automatically run lint-staged and type checking.
 
 ### Development Workflow
 
-- **UI Components**: Edit files in `packages/ui/src/components/ui/`
-- **React Components**: Additional components in `packages/ui/src/components/react/`
-- **Icons**: Auto-generated icons in `packages/ui/src/components/icons/`
-- **Styles**: Theme files in `packages/ui/src/styles/`
+- **UI Components**: Edit files in `packages/legacy/ui/src/components/ui/`
+- **React Components**: Additional components in `packages/legacy/ui/src/components/react/`
+- **Icons**: Auto-generated icons in `packages/legacy/ui/src/components/icons/`
+- **Styles**: Theme files in `packages/legacy/ui/src/styles/`
 - **Demo**: Demo application in `apps/demo/src/`
 - **Documentation**: Markdown docs in `apps/docs/`
 
@@ -190,7 +190,7 @@ Workflow:
 After making changes, validate with these scenarios:
 
 1. **Storybook Validation**:
-   - Run `pnpm --filter ./packages/ui run storybook`
+   - Run `pnpm --filter ./packages/legacy/ui run storybook`
    - Access `http://localhost:6006`
    - Navigate to component stories affected by your changes
    - Verify all variants and states render correctly
@@ -206,7 +206,7 @@ After making changes, validate with these scenarios:
 3. **Build Validation**:
    - Run `pnpm run build`
    - Verify all packages build successfully
-   - Check `packages/ui/dist/` contains expected output
+   - Check `packages/legacy/ui/dist/` contains expected output
    - Verify TypeScript types are generated correctly
 
 ## Repository Structure
@@ -236,9 +236,9 @@ apps/
 - `package.json` - Root package with pnpm version (10.27.0)
 - `.github/workflows/ci.yml` - Main CI pipeline
 - `.github/workflows/demo-deploy.yml` - Demo deployment
-- `packages/ui/vite.config.ts` - UI library build configuration
-- `packages/ui/package.json` - Main component library package
-- `packages/ui/tailwind.config.ts` - Tailwind CSS configuration
+- `packages/legacy/ui/vite.config.ts` - UI library build configuration
+- `packages/legacy/ui/package.json` - Main component library package
+- `packages/legacy/ui/tailwind.config.ts` - Tailwind CSS configuration
 - `apps/demo/vite.config.ts` - Demo app configuration
 
 ### CI/CD Workflows
@@ -281,7 +281,7 @@ pnpm run type-check
 
 For UI package only:
 ```bash
-pnpm --filter ./packages/ui run type-check
+pnpm --filter ./packages/legacy/ui run type-check
 ```
 
 ### Dependency Issues
@@ -293,15 +293,15 @@ pnpm install --frozen-lockfile
 ## Development Tips
 
 ### Making Changes
-- **Components**: Edit files in `packages/ui/src/components/ui/`
-- **Styles**: Edit theme files in `packages/ui/src/styles/themes/`
+- **Components**: Edit files in `packages/legacy/ui/src/components/ui/`
+- **Styles**: Edit theme files in `packages/legacy/ui/src/styles/themes/`
 - **Documentation**: Edit markdown files in `apps/docs/`
-- **Icons**: Auto-generated in `packages/ui/src/components/icons/`
+- **Icons**: Auto-generated in `packages/legacy/ui/src/components/icons/`
 - **Demo**: Add examples in `apps/demo/src/app/`
 
 ### Testing Changes
-- Unit tests: `pnpm --filter ./packages/ui run test`
-- Visual regression: `pnpm --filter ./packages/ui run storybook:test:visual`
+- Unit tests: `pnpm --filter ./packages/legacy/ui run test`
+- Visual regression: `pnpm --filter ./packages/legacy/ui run storybook:test:visual`
 - Manual testing: Use Storybook or demo application
 - Accessibility: Check Storybook a11y addon
 
@@ -322,16 +322,16 @@ pnpm install --frozen-lockfile
 - `pnpm run lint:fix` - Auto-fix linting issues
 
 ### UI Package Scripts
-- `pnpm --filter ./packages/ui run dev` - Watch mode build
-- `pnpm --filter ./packages/ui run build` - Production build
-- `pnpm --filter ./packages/ui run test` - Run unit tests
-- `pnpm --filter ./packages/ui run test:coverage` - Tests with coverage
-- `pnpm --filter ./packages/ui run test:ui` - Vitest UI
-- `pnpm --filter ./packages/ui run storybook` - Start Storybook
-- `pnpm --filter ./packages/ui run storybook:build` - Build Storybook
-- `pnpm --filter ./packages/ui run storybook:test:visual` - Visual regression tests
-- `pnpm --filter ./packages/ui run lint` - Lint UI package
-- `pnpm --filter ./packages/ui run type-check` - TypeScript checks
+- `pnpm --filter ./packages/legacy/ui run dev` - Watch mode build
+- `pnpm --filter ./packages/legacy/ui run build` - Production build
+- `pnpm --filter ./packages/legacy/ui run test` - Run unit tests
+- `pnpm --filter ./packages/legacy/ui run test:coverage` - Tests with coverage
+- `pnpm --filter ./packages/legacy/ui run test:ui` - Vitest UI
+- `pnpm --filter ./packages/legacy/ui run storybook` - Start Storybook
+- `pnpm --filter ./packages/legacy/ui run storybook:build` - Build Storybook
+- `pnpm --filter ./packages/legacy/ui run storybook:test:visual` - Visual regression tests
+- `pnpm --filter ./packages/legacy/ui run lint` - Lint UI package
+- `pnpm --filter ./packages/legacy/ui run type-check` - TypeScript checks
 
 ### Demo Package Scripts
 - `pnpm --filter ./apps/demo run dev` - Dev server (http://localhost:3000)

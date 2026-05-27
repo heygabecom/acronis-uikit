@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'packages/ui/**'
+      - 'packages/legacy/ui/**'
 
   workflow_dispatch:
 
@@ -27,9 +27,9 @@ jobs:
         with:
           preset: "conventionalcommits"
           github-token: ${{ secrets.ACV_TOKEN }}
-          version-file: './packages/ui/package.json'
-          output-file: './packages/ui/CHANGELOG.md'
-          git-path: './packages/ui'
+          version-file: './packages/legacy/ui/package.json'
+          output-file: './packages/legacy/ui/CHANGELOG.md'
+          git-path: './packages/legacy/ui'
           git-user-name: 'Team-RND-Tools-Github'
           git-user-email: 'team-rnd-tools-github@acronis.com'
 

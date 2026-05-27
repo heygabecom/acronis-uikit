@@ -6,7 +6,7 @@ A monorepo containing 40+ custom UI components built on [shadcn/ui](https://ui.s
 
 ## 📦 Packages
 
-### [@acronis-platform/shadcn-uikit](./packages/ui) (v0.34.0)
+### [@acronis-platform/shadcn-uikit](./packages/legacy/ui) (v0.34.0)
 
 The core UI component library. Ships pre-built CSS — consumers do **not** need Tailwind CSS installed.
 
@@ -332,7 +332,7 @@ applyTheme('acronis-ocean');
 Create custom themes by copying the template file and customizing colors:
 
 ```bash
-# See packages/ui/src/styles/themes/_template.scss for the template
+# See packages/legacy/ui/src/styles/themes/_template.scss for the template
 ```
 
 See [Theme Documentation](./apps/docs/THEMES.md) for details.
@@ -350,20 +350,20 @@ shadcn-uikit/
 │   │   └── package.json
 │   └── docs/                  # Documentation site
 ├── packages/
-│   ├── ui/                    # Core UI components library (@acronis-platform/shadcn-uikit)
-│   │   ├── src/
-│   │   │   ├── components/    # React components
-│   │   │   ├── hooks/         # Custom React hooks
-│   │   │   ├── lib/           # Utility functions
-│   │   │   ├── styles/        # SCSS source — themes, tokens, base
-│   │   │   │   ├── themes/    # Theme SCSS files + template
-│   │   │   │   └── tokens/    # Design tokens (CSS variables)
-│   │   │   ├── types/         # Shared TypeScript types
-│   │   │   ├── utils/         # Additional utilities
-│   │   │   ├── index.ts       # Main entry (all exports)
-│   │   │   └── react.ts       # React-only entry
-│   │   └── package.json
-│   └── (publishable packages only)
+│   └── legacy/
+│       └── ui/                # Core UI components library (@acronis-platform/shadcn-uikit)
+│           ├── src/
+│           │   ├── components/    # React components
+│           │   ├── hooks/         # Custom React hooks
+│           │   ├── lib/           # Utility functions
+│           │   ├── styles/        # SCSS source — themes, tokens, base
+│           │   │   ├── themes/    # Theme SCSS files + template
+│           │   │   └── tokens/    # Design tokens (CSS variables)
+│           │   ├── types/         # Shared TypeScript types
+│           │   ├── utils/         # Additional utilities
+│           │   ├── index.ts       # Main entry (all exports)
+│           │   └── react.ts       # React-only entry
+│           └── package.json
 ├── docs/                      # Project-level documentation
 │   ├── explorations/          # Research & exploration documents
 │   ├── features/              # Feature specifications
@@ -428,7 +428,7 @@ export function App() {
 - [Theme System Guide](./apps/docs/THEMES.md) — complete theme usage guide
 - [Theme Build Configuration](./apps/docs/THEME_BUILD.md) — build setup details
 - [Theme Architecture](./apps/demo/docs/THEME_ARCHITECTURE.md) — token system architecture
-- [UI Package Documentation](./packages/ui/README.md)
+- [UI Package Documentation](./packages/legacy/ui/README.md)
 - [Demo Package Documentation](./apps/demo/README.md)
 
 ## 📝 License

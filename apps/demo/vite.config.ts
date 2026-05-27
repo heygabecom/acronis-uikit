@@ -16,7 +16,7 @@ const resolveAtAlias = (): Plugin => ({
       const isFromUikit = normalizedImporter.includes('/ui/src/')
       const isFromDemos = normalizedImporter.includes('/demos/src/')
       const basePath = isFromUikit
-        ? source.replace('@/', '../../packages/ui/src/')
+        ? source.replace('@/', '../../packages/legacy/ui/src/')
         : isFromDemos
           ? source.replace('@/', '../demos/src/')
           : source.replace('@/', './src/')
@@ -68,13 +68,13 @@ export default defineConfig(({ mode }) => ({
     dedupe: ['react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
     alias: {
       '@acronis-platform/shadcn-uikit-demos': resolve(__dirname, '../demos/src'),
-      '@acronis-platform/shadcn-uikit/react': resolve(__dirname, '../../packages/ui/src/react.ts'),
-      '@acronis-platform/shadcn-uikit/styles': resolve(__dirname, '../../packages/ui/src/styles/index.scss'),
-      '@acronis-platform/shadcn-uikit': resolve(__dirname, '../../packages/ui/src/react.ts'),
-      '@uikit-utils': resolve(__dirname, '../../packages/ui/src/utils'),
+      '@acronis-platform/shadcn-uikit/react': resolve(__dirname, '../../packages/legacy/ui/src/react.ts'),
+      '@acronis-platform/shadcn-uikit/styles': resolve(__dirname, '../../packages/legacy/ui/src/styles/index.scss'),
+      '@acronis-platform/shadcn-uikit': resolve(__dirname, '../../packages/legacy/ui/src/react.ts'),
+      '@uikit-utils': resolve(__dirname, '../../packages/legacy/ui/src/utils'),
       'tw-animate-css/dist/tw-animate.css': resolve(
         __dirname,
-        '../../packages/ui/node_modules/tw-animate-css/dist/tw-animate.css'
+        '../../packages/legacy/ui/node_modules/tw-animate-css/dist/tw-animate.css'
       ),
     },
     extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json'],

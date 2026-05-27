@@ -6,9 +6,9 @@
  */
 
 /* Import library's design tokens and base styles */
-@use '../../../../packages/ui/src/styles/tokens';
-@use '../../../../packages/ui/src/styles/themes';
-@use '../../../../packages/ui/src/styles/base';
+@use '../../../../packages/legacy/ui/src/styles/tokens';
+@use '../../../../packages/legacy/ui/src/styles/themes';
+@use '../../../../packages/legacy/ui/src/styles/base';
 
 /* Tailwind v4 imports */
 @import "tailwindcss/theme.css" layer(theme);
@@ -17,7 +17,7 @@
 @import "tw-animate-css/dist/tw-animate.css";
 
 @config "../../tailwind.config.js";
-@source "../../../../packages/ui/src/components";
+@source "../../../../packages/legacy/ui/src/components";
 
 /* Demo-app specific styles can be added here */
 body {
