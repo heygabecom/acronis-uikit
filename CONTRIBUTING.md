@@ -102,8 +102,32 @@ The files located at `types` folder. You can find more information about TypeScr
 
 ### Bump Version & Update Changelog
 
-We use conventional commit rules in repository. Every commit message must be understandable,
-and after all can automatically generate changelog based on every pull request to our repository.
+We use [changesets](https://github.com/changesets/changesets) to manage versions
+and changelogs. **Every PR that changes the published UI library
+(`@acronis-platform/shadcn-uikit`) must include a changeset**, otherwise the
+release PR won't know what to bump.
+
+From the repo root:
+
+```bash
+pnpm changeset
+```
+
+Answer the prompts (patch / minor / major + a one-line summary). A new
+markdown file is written under `.changeset/`. Commit it as part of your PR.
+
+You don't need a changeset for changes scoped to the apps (`apps/demo`,
+`apps/demos`, `apps/docs`) — they are private and listed as ignored in
+`.changeset/config.json`.
+
+On merge to `main`, the `Release` workflow opens (or updates) a single
+"Version Packages" PR aggregating all pending changesets. Merging that PR
+publishes the bumped package to both npm and GitHub Packages and creates the
+corresponding GitHub Release.
+
+Commit messages still follow [Conventional Commits](https://www.conventionalcommits.org/)
+so the existing commitlint hook keeps working, but the **release version is
+driven by the changeset bump type, not the commit prefix**.
 
 ## License
 
