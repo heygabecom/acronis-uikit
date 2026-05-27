@@ -6,8 +6,7 @@
   "workspaces": [
     "apps/*",
     "packages/*",
-    "packages/legacy/*",
-    "plugins/*"
+    "packages/legacy/*"
   ],
   "scripts": {
     "husky": "pnpm run lint-staged && pnpm run lint:ts",

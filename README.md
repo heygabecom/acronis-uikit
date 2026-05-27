@@ -368,7 +368,7 @@ shadcn-uikit/
 │   ├── explorations/          # Research & exploration documents
 │   ├── features/              # Feature specifications
 │   └── team/                  # Team processes & guides
-├── git-hooks/                 # Git hook scripts
+├── .husky/                    # Git hooks (managed by Husky)
 ├── package.json               # Root workspace config
 ├── pnpm-workspace.yaml        # pnpm workspace definition
 └── README.md
