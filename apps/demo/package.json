@@ -7,9 +7,13 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
+    "clean": "rm -rf dist node_modules/.vite",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives",
-    "type-check": "tsc --noEmit"
+    "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --fix",
+    "preview": "vite preview",
+    "test": "echo \"no tests in this workspace\" && exit 0",
+    "test:watch": "echo \"no tests in this workspace\" && exit 0",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@acronis-platform/shadcn-uikit": "workspace:*",

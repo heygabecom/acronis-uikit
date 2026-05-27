@@ -7,6 +7,15 @@
     "./*": "./src/*/index.ts",
     "./icons/missing-icons": "./src/icons/missing-icons.tsx"
   },
+  "scripts": {
+    "build": "echo \"no build (consumed via source by demo/docs)\" && exit 0",
+    "clean": "echo \"nothing to clean\" && exit 0",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "test": "echo \"no tests in this workspace\" && exit 0",
+    "test:watch": "echo \"no tests in this workspace\" && exit 0",
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "@acronis-platform/shadcn-uikit": "workspace:*",
     "@hookform/resolvers": "3.10.0",

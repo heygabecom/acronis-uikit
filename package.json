@@ -9,16 +9,18 @@
     "packages/legacy/*"
   ],
   "scripts": {
-    "husky": "pnpm run lint-staged && pnpm run lint:ts",
-    "lint-staged": "lint-staged",
-    "lint": "pnpm run -r lint",
-    "lint:fix": "pnpm run -r lint:fix",
-    "lint:ts": "pnpm run -r lint:ts",
-    "prepare": "husky",
     "build": "pnpm -r build",
-    "test": "pnpm -r test -- --watch=false",
-    "release": "pnpm run release --workspaces",
-    "type-check": "npm run type-check --workspaces --if-present"
+    "clean": "pnpm -r clean",
+    "format": "prettier --write . --ignore-unknown",
+    "format:check": "prettier --check . --ignore-unknown",
+    "husky": "pnpm run lint-staged && pnpm run typecheck",
+    "lint": "pnpm -r lint",
+    "lint:fix": "pnpm -r lint:fix",
+    "lint-staged": "lint-staged",
+    "prepare": "husky",
+    "test": "pnpm -r test",
+    "test:watch": "pnpm -r test:watch",
+    "typecheck": "pnpm -r typecheck"
   },
   "keywords": [
     "ui",

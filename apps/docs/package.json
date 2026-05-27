@@ -3,9 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "clean": "rm -rf .next .source",
+    "dev": "next dev",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "start": "next start",
+    "test": "echo \"no tests in this workspace\" && exit 0",
+    "test:watch": "echo \"no tests in this workspace\" && exit 0",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@acronis-platform/shadcn-uikit": "workspace:*",
