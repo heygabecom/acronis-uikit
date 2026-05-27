@@ -10,7 +10,7 @@ Project-level guidance for AI assistants working in this repository.
 
 | Package | Path | Name |
 |---------|------|------|
-| UI library | `packages/ui/` | `@acronis-platform/shadcn-uikit` |
+| UI library | `packages/legacy/ui/` | `@acronis-platform/shadcn-uikit` |
 | Demo app | `apps/demo/` | `@acronis-platform/shadcn-uikit-demo` |
 | Shared demos | `apps/demos/` | `@acronis-platform/shadcn-uikit-demos` |
 | Documentation site | `apps/docs/` | `@acronis-platform/shadcn-uikit-docs` |
@@ -38,16 +38,16 @@ The component resolves this via `resolve(process.cwd(), '..', '..', sourcePath)`
 **AutoTypeTable path convention** -- `<AutoTypeTable>` paths are relative to `apps/docs/`. To reference a UI component source file:
 
 ```
-<AutoTypeTable path="../../packages/ui/src/components/ui/button.tsx" name="ButtonProps" />
+<AutoTypeTable path="../../packages/legacy/ui/src/components/ui/button.tsx" name="ButtonProps" />
 ```
 
 For compound components or types that `AutoTypeTable` cannot resolve (e.g., re-exported Radix/Base UI types, complex CVA generics), use a `.docs.ts` companion file:
 
 ```
-<AutoTypeTable path="../../packages/ui/src/components/ui/dialog.docs.ts" name="DialogContentProps" />
+<AutoTypeTable path="../../packages/legacy/ui/src/components/ui/dialog.docs.ts" name="DialogContentProps" />
 ```
 
-**`.docs.ts` companion files** -- Located alongside component source files in `packages/ui/src/components/ui/`. These files define explicit interfaces with TSDoc comments for components where `AutoTypeTable` cannot resolve types from the source alone. Currently 8 companion files exist. Only create one when `AutoTypeTable` fails to produce a useful table from the original source.
+**`.docs.ts` companion files** -- Located alongside component source files in `packages/legacy/ui/src/components/ui/`. These files define explicit interfaces with TSDoc comments for components where `AutoTypeTable` cannot resolve types from the source alone. Currently 8 companion files exist. Only create one when `AutoTypeTable` fails to produce a useful table from the original source.
 
 **AutoTypeTable global registration** -- `AutoTypeTable` is registered as a global MDX component in `apps/docs/src/app/docs/[[...slug]]/page.tsx`. MDX files do not need to import it.
 

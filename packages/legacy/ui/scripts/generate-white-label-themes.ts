@@ -39,7 +39,7 @@ const __dirname = dirname(__filename);
  * If your ui-syntax checkout lives elsewhere, update this path.
  */
 const UI_SYNTAX_BRANDS_DIR = resolve(
-  __dirname, '..', '..', '..', '..', 'ui-syntax', 'packages', 'tokens', 'src', 'tokens', 'brands'
+  __dirname, '..', '..', '..', '..', '..', 'ui-syntax', 'packages', 'tokens', 'src', 'tokens', 'brands'
 );
 
 const OUTPUT_FILE = resolve(__dirname, '..', 'src', 'styles', 'themes', 'acronis-white-label.scss');

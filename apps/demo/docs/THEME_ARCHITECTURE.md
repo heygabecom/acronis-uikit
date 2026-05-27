@@ -68,7 +68,7 @@ Purpose-based mappings that define color meaning:
 Maps semantic tokens to Tailwind utility classes:
 
 ```javascript
-// packages/ui/tailwind.config.js
+// packages/legacy/ui/tailwind.config.js
 theme: {
   extend: {
     colors: {
@@ -163,9 +163,9 @@ function applyColorPalette(root: HTMLElement, palette: ColorPalette): void {
 
 ### UI Package (Production)
 
-- `packages/ui/src/styles/tokens/primitives.scss` - Layer 1: Primitive tokens
-- `packages/ui/src/styles/tokens/semantic.scss` - Layer 2: Semantic tokens
-- `packages/ui/tailwind.config.js` - Layer 3: Tailwind config
+- `packages/legacy/ui/src/styles/tokens/primitives.scss` - Layer 1: Primitive tokens
+- `packages/legacy/ui/src/styles/tokens/semantic.scss` - Layer 2: Semantic tokens
+- `packages/legacy/ui/tailwind.config.js` - Layer 3: Tailwind config
 
 ### Demo Package (Playground)
 
@@ -199,7 +199,7 @@ The UI package currently has:
 Create separate CSS files for each color scheme that can be applied via classes:
 
 ```scss
-// packages/ui/src/styles/themes/acronis-default.scss
+// packages/legacy/ui/src/styles/themes/acronis-default.scss
 .theme-acronis-default {
   &:root,
   &.light {
@@ -214,7 +214,7 @@ Create separate CSS files for each color scheme that can be applied via classes:
   }
 }
 
-// packages/ui/src/styles/themes/acronis-blue.scss
+// packages/legacy/ui/src/styles/themes/acronis-blue.scss
 .theme-acronis-blue {
   &:root,
   &.light {
@@ -223,7 +223,7 @@ Create separate CSS files for each color scheme that can be applied via classes:
   }
 }
 
-// packages/ui/src/styles/themes/custom.scss
+// packages/legacy/ui/src/styles/themes/custom.scss
 .theme-custom {
   // Consumer can override this file
 }
@@ -234,7 +234,7 @@ Create separate CSS files for each color scheme that can be applied via classes:
 **1. Create theme files structure:**
 
 ```
-packages/ui/src/styles/themes/
+packages/legacy/ui/src/styles/themes/
 ├── index.scss           # Export all themes
 ├── acronis-default.scss # Current Acronis theme
 ├── acronis-ocean.scss   # Alternative blue theme
@@ -256,7 +256,7 @@ packages/ui/src/styles/themes/
 **3. Provide theme switcher utility:**
 
 ```typescript
-// packages/ui/src/utils/theme-switcher.ts
+// packages/legacy/ui/src/utils/theme-switcher.ts
 export function applyTheme(
   theme: 'acronis-default' | 'acronis-ocean' | 'custom'
 ) {

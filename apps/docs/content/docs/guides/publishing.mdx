@@ -20,10 +20,10 @@ This guide explains how to build and publish `@acronis-platform/shadcn-uikit` fr
 pnpm install
 
 # Build the library
-pnpm --filter ./packages/ui run build
+pnpm --filter ./packages/legacy/ui run build
 
 # Verify the build
-ls packages/ui/dist/
+ls packages/legacy/ui/dist/
 ```
 
 ## Package Structure
@@ -74,13 +74,13 @@ See the [Versioning guide](/docs/guides/versioning) for how to create releases u
 pnpm release
 
 # 2. Build the library
-pnpm --filter ./packages/ui run build
+pnpm --filter ./packages/legacy/ui run build
 
 # 3. Dry run to verify what will be published
-cd packages/ui && npm publish --dry-run
+cd packages/legacy/ui && npm publish --dry-run
 
 # 4. Publish
-cd packages/ui && npm publish --access public
+cd packages/legacy/ui && npm publish --access public
 
 # 5. Push the release commit and tag
 git push --follow-tags origin main
@@ -114,27 +114,27 @@ jobs:
         run: pnpm install
 
       - name: Build library
-        run: pnpm --filter ./packages/ui run build
+        run: pnpm --filter ./packages/legacy/ui run build
 
       - name: Publish to npm
-        run: cd packages/ui && npm publish --access public
+        run: cd packages/legacy/ui && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 ```
 
 ## Pre-publish Checklist
 
-- [ ] All tests pass (`pnpm --filter ./packages/ui test`)
+- [ ] All tests pass (`pnpm --filter ./packages/legacy/ui test`)
 - [ ] Build completes without errors
 - [ ] TypeScript declarations generated correctly
 - [ ] Version number bumped
 - [ ] `CHANGELOG.md` updated
-- [ ] All new exports added to `packages/ui/src/index.ts`
+- [ ] All new exports added to `packages/legacy/ui/src/index.ts`
 
 ## Build Verification
 
 ```bash
-cd packages/ui
+cd packages/legacy/ui
 
 # Check dist contents
 ls -la dist/
@@ -154,7 +154,7 @@ npm version prerelease --preid=beta
 # → 0.34.0-beta.0
 
 # Publish with beta tag
-cd packages/ui && npm publish --tag beta
+cd packages/legacy/ui && npm publish --tag beta
 
 # Install beta in consuming projects
 npm install @acronis-platform/shadcn-uikit@beta
@@ -165,7 +165,7 @@ npm install @acronis-platform/shadcn-uikit@beta
 ### Build errors
 
 ```bash
-cd packages/ui
+cd packages/legacy/ui
 rm -rf dist
 pnpm run build
 ```
@@ -181,4 +181,4 @@ npm install @acronis-platform/shadcn-uikit
 
 ### Wrong files published
 
-Check the `files` field in `packages/ui/package.json` — only listed paths are included in the tarball.
+Check the `files` field in `packages/legacy/ui/package.json` — only listed paths are included in the tarball.

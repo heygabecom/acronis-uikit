@@ -37,7 +37,7 @@ packages/
 ## UI Package Structure
 
 ```text
-packages/ui/src/
+packages/legacy/ui/src/
 ├── components/
 │   └── ui/                     # All components live here
 │       ├── button.tsx
@@ -66,7 +66,7 @@ packages/ui/src/
 Each component follows this pattern:
 
 ```tsx
-// packages/ui/src/components/ui/button.tsx
+// packages/legacy/ui/src/components/ui/button.tsx
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
@@ -117,7 +117,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Themes are SCSS files that define CSS custom properties on the `:root`. They use an `--av-*` token namespace:
 
 ```scss
-// packages/ui/src/styles/themes/acronis-default.scss
+// packages/legacy/ui/src/styles/themes/acronis-default.scss
 :root {
   --av-background: 0 0% 100%;
   --av-foreground: 222 84% 5%;
@@ -146,7 +146,7 @@ colors: {
 ## Build Output
 
 ```text
-packages/ui/dist/
+packages/legacy/ui/dist/
 ├── index.js          # Main ES module entry (re-exports everything)
 ├── index.d.ts        # TypeScript declarations
 ├── components/ui/    # Individual component modules (tree-shakeable)
@@ -172,9 +172,9 @@ import '@acronis-platform/shadcn-uikit/styles/themes/acronis-ocean';
 
 ## Adding a New Component
 
-1. Create `packages/ui/src/components/ui/[component].tsx`
+1. Create `packages/legacy/ui/src/components/ui/[component].tsx`
 2. Follow the CVA + forwardRef pattern shown above
-3. Export from `packages/ui/src/index.ts`
+3. Export from `packages/legacy/ui/src/index.ts`
 4. Add Storybook stories in `__stories__/[component].stories.tsx`
 5. Add a demo in `apps/demos/src/[component]/`
 6. Create an MDX doc in `apps/docs/content/docs/components/[component].mdx`

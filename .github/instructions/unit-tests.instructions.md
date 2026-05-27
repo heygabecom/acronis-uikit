@@ -14,7 +14,7 @@ These guidelines reflect our actual test stack and patterns. Use them for all ne
 
 ### File placement and naming
 - Use `*.spec.ts` for all tests
-- Components: co-locate next to component source (e.g. `packages/ui/src/components/button/button.spec.ts`)
+- Components: co-locate next to component source (e.g. `packages/legacy/ui/src/components/button/button.spec.ts`)
 - Utilities: in the package tests folder (e.g. `packages/utils/tests/case.spec.ts`)
 
 ### Test structure

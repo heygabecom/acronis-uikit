@@ -1,4 +1,4 @@
-import libraryConfig from '../../packages/ui/tailwind.config.js'
+import libraryConfig from '../../packages/legacy/ui/tailwind.config.js'
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -6,7 +6,7 @@ export default {
   content: [
     './index.html',
     './src/**/*.{js,jsx,ts,tsx,vue}',
-    '../../packages/ui/src/**/*.{js,jsx,ts,tsx,vue}', // Include library components
+    '../../packages/legacy/ui/src/**/*.{js,jsx,ts,tsx,vue}', // Include library components
   ],
   // Extend the library's config
   presets: [libraryConfig],
