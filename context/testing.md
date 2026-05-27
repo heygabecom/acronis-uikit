@@ -27,9 +27,12 @@ exclusion globs catch them.
 - Run all UI tests: `pnpm --filter @acronis-platform/shadcn-uikit test`.
 - Watch mode: `pnpm --filter @acronis-platform/shadcn-uikit test:watch`.
 - Coverage: `pnpm --filter @acronis-platform/shadcn-uikit test:coverage`.
-- A `localStorage` polyfill is registered in the vitest setup so
-  components that read/write storage (theme toggle, etc.) work under
-  jsdom without per-test scaffolding.
+- DOM environment: **happy-dom** (not jsdom). Configured in
+  `packages/legacy/ui/vitest.config.ts`.
+- A `localStorage` polyfill is registered in `vitest.setup.ts` because
+  happy-dom@20.x + vitest@4.x stopped auto-attaching `window.localStorage`.
+  Components that read/write storage (theme toggle, etc.) work without
+  per-test scaffolding.
 
 ## What to assert
 

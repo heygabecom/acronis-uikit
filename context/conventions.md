@@ -32,8 +32,11 @@ workspace's own `AGENTS.md`.
 
 ## Accessibility
 
-- Build on **Radix UI** (and Base UI in `apps/docs/`) primitives — they
-  handle keyboard nav, focus management, and ARIA attributes.
+- Build on **Radix UI** and **Base UI** (`@base-ui/react`) primitives —
+  both are peer dependencies of the published library and handle
+  keyboard nav, focus management, and ARIA attributes. The library
+  pulls a couple of Radix primitives as direct deps (`react-slot`,
+  `react-navigation-menu`); everything else comes from peers.
 - Don't reinvent dialogs, popovers, menus, etc. from scratch.
 - A11y is verified in Storybook via `@storybook/addon-a11y` — see
   `context/testing.md`.
