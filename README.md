@@ -342,57 +342,63 @@ See [Theme Documentation](./apps/docs/THEMES.md) for details.
 ```
 shadcn-uikit/
 ├── apps/
-│   ├── demo/                  # Demo application
-│   │   ├── src/
-│   │   │   ├── components/    # Demo-specific components
-│   │   │   ├── demos/         # Per-component demo pages
-│   │   │   └── layouts/       # App layouts
-│   │   └── package.json
-│   └── docs/                  # Documentation site
+│   ├── demo/                  # Vite demo app (@acronis-platform/shadcn-uikit-demo)
+│   ├── demos/                 # Shared demo components (@acronis-platform/shadcn-uikit-demos)
+│   └── docs/                  # Fumadocs documentation site (@acronis-platform/shadcn-uikit-docs)
 ├── packages/
 │   └── legacy/
-│       └── ui/                # Core UI components library (@acronis-platform/shadcn-uikit)
-│           ├── src/
-│           │   ├── components/    # React components
-│           │   ├── hooks/         # Custom React hooks
-│           │   ├── lib/           # Utility functions
-│           │   ├── styles/        # SCSS source — themes, tokens, base
-│           │   │   ├── themes/    # Theme SCSS files + template
-│           │   │   └── tokens/    # Design tokens (CSS variables)
-│           │   ├── types/         # Shared TypeScript types
-│           │   ├── utils/         # Additional utilities
-│           │   ├── index.ts       # Main entry (all exports)
-│           │   └── react.ts       # React-only entry
+│       └── ui/                # Published library (@acronis-platform/shadcn-uikit)
+│           ├── src/           # React components, hooks, lib, styles, types, utils
+│           ├── docker-compose.storybook.yml      # Storybook visual-regression compose
+│           ├── Dockerfile.storybook              # ... and its image
 │           └── package.json
-├── docs/                      # Project-level documentation
-│   ├── explorations/          # Research & exploration documents
-│   ├── features/              # Feature specifications
-│   └── team/                  # Team processes & guides
+├── .changeset/                # Pending changesets (each PR adds one)
+├── .github/workflows/         # ci.yml, release.yml, demo-deploy.yml, visual-regression.yml
 ├── .husky/                    # Git hooks (managed by Husky)
-├── package.json               # Root workspace config
-├── pnpm-workspace.yaml        # pnpm workspace definition
+├── package.json               # Workspace root: scripts + shared devDeps
+├── pnpm-workspace.yaml        # pnpm workspaces + dependency catalog
 └── README.md
 ```
 
-## 🛠️ Development
+## 🛠️ Scripts
 
-### Build All Packages
+All commands run from the repo root unless noted otherwise. Every workspace
+exposes the same vocabulary, so `pnpm -r <name>` is reliable.
+
+| Script | What it does |
+|---|---|
+| `pnpm -r dev` / `pnpm --filter <name> dev` | Run the dev server / watcher for one or all workspaces |
+| `pnpm -r build` | Build every package in topological order (ui → demo/docs) |
+| `pnpm -r test` | Run the test suite once across all workspaces |
+| `pnpm -r test:watch` | Run tests in watch mode |
+| `pnpm -r lint` / `pnpm -r lint:fix` | ESLint across all workspaces |
+| `pnpm -r typecheck` | `tsc --noEmit` across all workspaces |
+| `pnpm format` / `pnpm format:check` | Prettier write / check from the repo root |
+| `pnpm -r clean` | Delete `dist/`, `.next/`, `storybook-static/`, etc. |
+| `pnpm changeset` | Add a changeset for a PR that changes the published UI library |
+
+To run a single workspace, prefix with `pnpm --filter <package-name>`:
 
 ```bash
-pnpm run build
+pnpm --filter @acronis-platform/shadcn-uikit-docs dev
+pnpm --filter @acronis-platform/shadcn-uikit storybook
 ```
 
-### Type Checking
+## 🚢 Releasing
+
+Releases are driven by [changesets](https://github.com/changesets/changesets).
+Every PR that changes `@acronis-platform/shadcn-uikit` should include a
+`.changeset/*.md` file describing the bump:
 
 ```bash
-pnpm run type-check
+pnpm changeset
 ```
 
-### Linting
-
-```bash
-pnpm run lint
-```
+On merge to `main`, the **Release** workflow opens (or updates) a single
+"Version Packages" PR aggregating all pending changesets. Merging that PR
+publishes to **npm** and **GitHub Packages** and creates the corresponding
+**GitHub Release**, which in turn triggers the **Demo & Storybook Pages
+deploy**. See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for the full flow.
 
 ## 🚀 Quick Reference
 

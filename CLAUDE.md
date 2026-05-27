@@ -15,6 +15,27 @@ Project-level guidance for AI assistants working in this repository.
 | Shared demos | `apps/demos/` | `@acronis-platform/shadcn-uikit-demos` |
 | Documentation site | `apps/docs/` | `@acronis-platform/shadcn-uikit-docs` |
 
+Only `@acronis-platform/shadcn-uikit` is published. Apps are private (`"private": true`).
+
+## Scripts vocabulary
+
+Every workspace exposes the same script names — assume any of these work
+both as `pnpm -r <name>` (all workspaces, topological order) and as
+`pnpm --filter <package> <name>`:
+
+`dev` · `build` · `test` · `test:watch` · `lint` · `lint:fix` · `typecheck` · `clean`
+
+Root-only scripts: `format`, `format:check` (Prettier from repo root),
+`changeset`, `version`, `release` (Changesets CLI passthroughs).
+
+Shared dep versions live in the `catalog:` block of `pnpm-workspace.yaml`;
+workspaces reference them with `"catalog:"`. Bump in one place.
+
+Releases are driven by [Changesets](https://github.com/changesets/changesets):
+a PR that changes the published library should include a `.changeset/*.md`
+file. The `Release` workflow opens a "Version Packages" PR on merge to main;
+merging that PR publishes to npm + GitHub Packages and creates a GitHub Release.
+
 ## Documentation site
 
 The docs site lives at `apps/docs/`. It is a Next.js 15 application built with [Fumadocs](https://www.fumadocs.dev/).

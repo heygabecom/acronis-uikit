@@ -22,6 +22,31 @@ You can file a ticket for the bug/issue you found through [Issues](https://githu
 A clear reproduce steps will be very helpful to identify the root cause.
 For the complicated scenario, you can also create an example in the [Sandbox](https://github.com/acronis/shadcn-uikit/sandbox/index.vue), or provide the example code in the ticket.
 
+## Working in the monorepo
+
+This repo is a pnpm workspace with four packages: the published UI library
+(`packages/legacy/ui`), a Vite demo (`apps/demo`), a shared demo components
+package (`apps/demos`), and a Fumadocs site (`apps/docs`).
+
+Every workspace exposes the same script vocabulary, so you have two equally
+valid styles for any task:
+
+```bash
+# Run a script in every workspace, in topological order
+pnpm -r build
+pnpm -r typecheck
+pnpm -r lint
+
+# Or run it for a single workspace
+pnpm --filter @acronis-platform/shadcn-uikit-docs dev
+pnpm --filter @acronis-platform/shadcn-uikit storybook
+```
+
+Shared dependency versions (React, TypeScript, ESLint, Vite, react-hook-form,
+etc.) are pinned in the `catalog:` block of `pnpm-workspace.yaml`. Workspaces
+reference them with `"catalog:"` in their `package.json`, so version bumps
+happen in exactly one place.
+
 ## Pull Request for Feature request/Bug Fixing/Improvements
 
 Pull requests are welcomed for bug fixing/improvement in Acronis UI Component Library.
