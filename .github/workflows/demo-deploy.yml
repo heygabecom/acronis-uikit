@@ -1,16 +1,16 @@
-# Sample workflow for building and deploying a VitePress site to GitHub Pages
+# Builds the demo + Storybook + docs into a single GitHub Pages artefact
+# and deploys it.
 #
+# Trigger: GitHub Release published. \`release.yml\` is configured with
+# \`createGithubReleases: true\`, so a successful Changesets publish
+# emits the release event we listen to here — meaning the Pages site
+# only updates when a real version of the UI library ships, not on
+# every push to main.
 name: Demo & Storybook - Deploy to Pages
 
 on:
-  # TODO: Add more specific event, such as release ui
-  push:
-    branches: [main]
-    paths:
-      - 'apps/demo/**'
-      - 'packages/legacy/ui/**'
-      - 'apps/docs/**'
-      - 'apps/demos/**'
+  release:
+    types: [published]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -50,7 +50,7 @@ jobs:
         uses: actions/configure-pages@v4
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Build UI Component Library
         run: pnpm --filter ./packages/legacy/ui run build
