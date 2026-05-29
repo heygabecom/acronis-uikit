@@ -6,7 +6,7 @@
     "build": "next build",
     "clean": "rm -rf .next .source",
     "dev": "next dev",
-    "lint": "next lint",
+    "lint": "eslint .",
     "lint:fix": "next lint --fix",
     "start": "next start",
     "test": "echo \"no tests in this workspace\" && exit 0",
