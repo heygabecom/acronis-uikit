@@ -6,7 +6,13 @@
     "jsx": "react-jsx",
     "strict": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@acronis-platform/shadcn-uikit": [
+        "../../packages/legacy/ui/dist/index.d.ts"
+      ],
+      "@acronis-platform/shadcn-uikit/react": [
+        "../../packages/legacy/ui/dist/react.d.ts"
+      ]
     }
   },
   "include": ["src"]

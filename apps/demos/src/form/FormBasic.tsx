@@ -22,7 +22,8 @@ const formSchema = z.object({
 
 export function FormBasic() {
   const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+    // Cast is required because apps/demos uses zod v3 schemas while @hookform/resolvers is typed against zod v4.
+    resolver: zodResolver(formSchema as never),
     defaultValues: {
       username: '',
     },
