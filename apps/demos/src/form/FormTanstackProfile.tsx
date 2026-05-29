@@ -83,8 +83,8 @@ export function FormTanstackProfile() {
                 <Input
                   id={field.name}
                   placeholder="johndoe"
-                  value={field.state.value as never}
-                  onChange={(e) => field.handleChange(e.target.value as never)}
+                  value={field.state.value as string}
+                  onChange={(e) => field.handleChange(e.target.value as string)}
                   onBlur={field.handleBlur}
                   aria-invalid={
                     field.state.meta.isTouched &&
