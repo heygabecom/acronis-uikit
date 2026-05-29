@@ -24,10 +24,10 @@ instead — those don't gate the release.
 ## Workflow
 
 1. Implement the change in `src/components/ui/<component>/`.
-2. Add or update a **Vitest** test in `__tests__/<component>.test.tsx`
+2. Add or update a **Vitest** test in `src/components/ui/<component>/__tests__/<component>.test.tsx`
    covering render, key props, variants, and any interactive behavior.
 3. Add or update a **Storybook** story in
-   `__stories__/<component>.stories.tsx` covering every variant, size,
+   `src/components/ui/<component>/__stories__/<component>.stories.tsx` covering every variant, size,
    and state. The a11y panel should be clean.
 4. If the component's prop types are too compound for `AutoTypeTable`
    to resolve in the docs site, add or update a `<component>.docs.ts`

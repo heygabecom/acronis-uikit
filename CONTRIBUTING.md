@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for your interest in contributing to `@acronis/shadcn-uikit`. This
+Thanks for your interest in contributing to `acronis/shadcn-uikit`. This
 file covers the **umbrella** process — forking, branching, commits, and
 the things that apply across the whole repo.
 

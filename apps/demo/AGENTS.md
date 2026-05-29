@@ -35,10 +35,8 @@ Opens at `http://localhost:3000`. Preview the built app with
 
 ## No tests here
 
-`test` and `test:watch` are no-ops by design (`echo … && exit 0`).
-Component-level coverage belongs in `packages/legacy/ui`'s Vitest +
-Storybook suites. If you're tempted to add a test here, ask whether it
-belongs in the library workspace instead.
+This workspace has no automated test suite (and no `test` / `test:watch` scripts).
+Component-level coverage belongs in `packages/legacy/ui`'s Vitest + Storybook suites. If you're tempted to add a test here, ask whether it belongs in the library workspace instead.
 
 ## zod version note
 

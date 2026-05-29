@@ -22,8 +22,7 @@ instead and skip this workspace.
 - One-off demos used only by `apps/demo`. Those belong in `apps/demo/src/`.
 - Shared utility code. Components only.
 - Production logic — these are demonstrations.
-- Tests. `test` and `test:watch` are no-op echoes by design.
-
+- Tests. This workspace has no automated test suite (and no `test` / `test:watch` scripts).
 ## Workflow
 
 1. Create `src/<component>/<DemoName>.tsx` exporting your demo component.
@@ -55,7 +54,7 @@ pnpm --filter @acronis-platform/shadcn-uikit-demos typecheck
 pnpm --filter @acronis-platform/shadcn-uikit-demos lint
 ```
 
-There is no build step (`build` is a no-op echo) and no test suite.
+There is no build step and no test suite in this workspace. Verify your demo renders by running `apps/demo` or `apps/docs` with the demo wired in.
 Verify your demo renders by running `apps/demo` or `apps/docs` with the
 demo wired in.
 

@@ -68,10 +68,7 @@ pnpm --filter @acronis-platform/shadcn-uikit-docs typecheck
 pnpm --filter @acronis-platform/shadcn-uikit-docs lint
 ```
 
-Visually verify every page you changed at `pnpm dev`. There is no
-automated test suite by design — `test` and `test:watch` are no-op
-echoes. Search is server-side via Fumadocs `createFromSource`; no
-external provider needs configuring.
+Visually verify every page you changed at `pnpm dev`. There is no automated test suite (and no `test` / `test:watch` scripts) in this workspace by design. Search is server-side via Fumadocs `createFromSource`; no external provider needs configuring.
 
 ## No changeset needed
 

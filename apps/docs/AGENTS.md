@@ -78,5 +78,4 @@ The search API at `src/app/api/search/route.ts` uses Fumadocs
 
 ## No tests here
 
-`test` and `test:watch` are no-ops. Documentation is verified by
-building and visually inspecting at `pnpm dev`.
+This workspace has no automated test suite (and no `test` / `test:watch` scripts). Documentation is verified by building and visually inspecting at `pnpm dev`.
