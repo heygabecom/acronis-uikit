@@ -39,7 +39,7 @@ export default async function Page({
           components={{
             ...defaultMdxComponents,
             AutoTypeTable: (props: Omit<AutoTypeTableProps, 'generator'>) => (
-              <AutoTypeTable generator={generator} {...props} />
+              <AutoTypeTable {...props} generator={generator} />
             ),
           }}
         />
