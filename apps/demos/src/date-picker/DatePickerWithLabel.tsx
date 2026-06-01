@@ -39,7 +39,6 @@ export function DatePickerWithLabel() {
             mode="single"
             selected={date}
             onSelect={setDate}
-            initialFocus
             defaultMonth={new Date(1990, 0)}
           />
         </PopoverContent>

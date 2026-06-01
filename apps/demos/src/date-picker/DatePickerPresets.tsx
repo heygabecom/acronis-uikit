@@ -72,7 +72,6 @@ export function DatePickerPresets() {
             mode="single"
             selected={date}
             onSelect={setDate}
-            initialFocus
           />
         </div>
       </PopoverContent>

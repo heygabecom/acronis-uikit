@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { RootProvider } from 'fumadocs-ui/provider';
+import { RootProvider } from 'fumadocs-ui/provider/next';
 import { Toaster } from '@/components/Toaster';
 import './globals.css';
 import 'fumadocs-ui/style.css';

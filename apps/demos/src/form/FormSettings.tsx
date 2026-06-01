@@ -26,9 +26,9 @@ import {
 } from '@acronis-platform/shadcn-uikit/react';
 
 const formSchema = z.object({
-  notifications: z.boolean().default(false),
-  marketing: z.boolean().default(false),
-  security: z.boolean().default(true),
+  notifications: z.boolean(),
+  marketing: z.boolean(),
+  security: z.boolean(),
   language: z.string({
     message: 'Please select a language.',
   }),

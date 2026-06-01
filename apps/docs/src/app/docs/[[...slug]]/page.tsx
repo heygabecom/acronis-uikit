@@ -8,7 +8,14 @@ import {
 } from 'fumadocs-ui/page';
 import { notFound } from 'next/navigation';
 import defaultMdxComponents from 'fumadocs-ui/mdx';
-import { AutoTypeTable } from 'fumadocs-typescript/ui';
+import { AutoTypeTable, type AutoTypeTableProps } from 'fumadocs-typescript/ui';
+import { createGenerator } from 'fumadocs-typescript';
+
+// fumadocs-typescript v5 split the TS analyzer out of <AutoTypeTable>: the
+// component now requires a `generator` prop rather than constructing one
+// itself. Create it once and inject it via the global MDX component map so
+// MDX files can keep using <AutoTypeTable path=... name=... /> unchanged.
+const generator = createGenerator();
 
 export default async function Page({
   params,
@@ -28,7 +35,14 @@ export default async function Page({
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
-        <MDX components={{ ...defaultMdxComponents, AutoTypeTable }} />
+        <MDX
+          components={{
+            ...defaultMdxComponents,
+            AutoTypeTable: (props: Omit<AutoTypeTableProps, 'generator'>) => (
+              <AutoTypeTable generator={generator} {...props} />
+            ),
+          }}
+        />
         <EditOnGitHub href={editUrl} />
       </DocsBody>
     </DocsPage>

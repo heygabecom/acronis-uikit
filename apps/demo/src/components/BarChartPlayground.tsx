@@ -601,7 +601,7 @@ export function BarChartPlayground() {
           <CardContent>
             <ChartContainer config={config} className="h-[400px] w-full">
               <BarChart
-                data={currentSource.data}
+                data={currentSource.data as readonly unknown[]}
                 layout={layout}
                 barGap={barGap}
                 barCategoryGap={`${barCategoryGap}%`}

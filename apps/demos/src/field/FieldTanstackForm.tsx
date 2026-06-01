@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useForm } from '@tanstack/react-form';
-import { zodValidator } from '@tanstack/zod-form-adapter';
 import * as z from 'zod';
 import {
   Field,
@@ -37,8 +36,6 @@ export function FieldTanstackForm() {
 
   const form = useForm({
     defaultValues: { username: '', email: '', role: '', bio: '' },
-    validatorAdapter: zodValidator(),
-    validators: { onChange: schema },
     onSubmit: async ({ value }) => setSubmitted(value as FormValues),
   });
 
@@ -68,7 +65,14 @@ export function FieldTanstackForm() {
         <FieldGroup>
           <form.Field
             name="username"
-            validators={{ onChange: schema.shape.username }}
+            validators={{
+              onChange: ({ value }) => {
+                const result = schema.shape.username.safeParse(value);
+                return result.success
+                  ? undefined
+                  : result.error.issues[0]?.message;
+              },
+            }}
           >
             {(field) => (
               <Field
@@ -105,7 +109,14 @@ export function FieldTanstackForm() {
 
           <form.Field
             name="email"
-            validators={{ onChange: schema.shape.email }}
+            validators={{
+              onChange: ({ value }) => {
+                const result = schema.shape.email.safeParse(value);
+                return result.success
+                  ? undefined
+                  : result.error.issues[0]?.message;
+              },
+            }}
           >
             {(field) => (
               <Field
@@ -140,7 +151,17 @@ export function FieldTanstackForm() {
             )}
           </form.Field>
 
-          <form.Field name="role" validators={{ onChange: schema.shape.role }}>
+          <form.Field
+            name="role"
+            validators={{
+              onChange: ({ value }) => {
+                const result = schema.shape.role.safeParse(value);
+                return result.success
+                  ? undefined
+                  : result.error.issues[0]?.message;
+              },
+            }}
+          >
             {(field) => (
               <Field
                 data-invalid={
@@ -175,7 +196,17 @@ export function FieldTanstackForm() {
             )}
           </form.Field>
 
-          <form.Field name="bio" validators={{ onChange: schema.shape.bio }}>
+          <form.Field
+            name="bio"
+            validators={{
+              onChange: ({ value }) => {
+                const result = schema.shape.bio.safeParse(value);
+                return result.success
+                  ? undefined
+                  : result.error.issues[0]?.message;
+              },
+            }}
+          >
             {(field) => (
               <Field>
                 <FieldLabel htmlFor={field.name}>Bio</FieldLabel>
