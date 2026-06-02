@@ -1,7 +1,7 @@
 {
-  "name": "shadcn-uikit-monorepo",
+  "name": "uikit-monorepo",
   "private": true,
-  "description": "The Acronis UI Shadcn UI components library with color schemes and demos",
+  "description": "The Acronis UI components library with color schemes and demos",
   "type": "module",
   "scripts": {
     "build": "pnpm -r build",
@@ -14,7 +14,7 @@
     "lint:fix": "pnpm -r lint:fix",
     "lint-staged": "lint-staged",
     "prepare": "husky",
-    "release": "changeset publish",
+    "release": "changeset publish --provenance",
     "test": "pnpm -r test",
     "test:watch": "pnpm -r test:watch",
     "typecheck": "pnpm -r typecheck",
@@ -31,10 +31,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/acronis/shadcn-uikit.git"
+    "url": "git+https://github.com/acronis/uikit.git"
   },
   "bugs": {
-    "url": "https://github.com/acronis/shadcn-uikit/issues"
+    "url": "https://github.com/acronis/uikit/issues"
   },
   "devDependencies": {
     "@changesets/changelog-github": "0.7.0",
