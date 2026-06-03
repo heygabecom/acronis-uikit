@@ -1,0 +1,6 @@
+{
+  "$schema": "../schemas/rule.schema.json",
+  "name": "scale-16",
+  "kind": "scale",
+  "target": { "value": 16, "unit": "px" }
+}

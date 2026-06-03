@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://acronis.local/schemas/pack.schema.json",
+  "title": "Acronis Assets Manifest",
+  "description": "Pack manifest for visual assets. DTCG-divergent: borrows $-prefixed vocabulary, project fields live at top-level keys. See ../context/spec.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "name", "version", "$type", "values", "assets"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Schema discriminator. Identifies this file as an Acronis assets pack manifest."
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Pack id. MUST equal the manifest filename stem (e.g., icons-stroke-mono.json -> \"icons-stroke-mono\")."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?$",
+      "description": "Semver."
+    },
+    "$type": {
+      "$ref": "#/$defs/AssetType",
+      "description": "Pack-level type. Inherits to every asset unless an asset overrides it (R8)."
+    },
+    "values": {
+      "$ref": "#/$defs/Values",
+      "description": "Pack-level variant map. Exactly one entry carries `\"default\": true` — the pack-wide canonical variant. Other entries are shared variant values (computed or source) applied to every asset that does not override per-key."
+    },
+    "assets": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z0-9][a-z0-9-]*$" },
+      "additionalProperties": { "$ref": "#/$defs/Asset" },
+      "description": "Flat map of asset id -> Asset. Categorization lives in metadata, not in structure. Asset ids MAY start with a digit (illustrations pack uses 4-digit catalog ids)."
+    }
+  },
+  "$defs": {
+    "AssetType": {
+      "type": "string",
+      "enum": ["vector", "raster"],
+      "description": "vector = SVG; raster = PNG/WebP."
+    },
+    "Values": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^[a-z0-9][a-z0-9-]*$",
+        "description": "Variant id. Real label (e.g., \"16\", \"24\", \"32\", \"48\", \"96\", \"dark\", \"24-dark\", \"de-DE\")."
+      },
+      "additionalProperties": { "$ref": "#/$defs/VariantValue" },
+      "description": "Variant map shared by pack and asset level: variant id -> VariantValue. The canonical variant is the one entry carrying `\"default\": true`. Pack and asset levels are merged per key (asset wins) before resolution; cardinality of the `default` flag and existence of the canonical source are runtime invariants (see ../context/spec.md)."
+    },
+    "Asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["values", "platforms", "metadata"],
+      "properties": {
+        "$type": {
+          "$ref": "#/$defs/AssetType",
+          "description": "Optional override of the inherited pack-level $type. Used for e.g. a single raster asset inside a vector pack (R8)."
+        },
+        "$description": {
+          "type": "string",
+          "description": "One-line human summary of the asset."
+        },
+        "values": {
+          "$ref": "#/$defs/Values",
+          "description": "Asset's variant map. Entries override pack-supplied values per key. Use null on a key to opt out of an inherited pack value. The asset supplies its canonical's `$file` here; it MAY carry `\"default\": true` on a different entry to override the pack-level canonical (R12)."
+        },
+        "platforms": { "$ref": "#/$defs/Platforms" },
+        "metadata": { "$ref": "#/$defs/Metadata" },
+        "$extensions": { "$ref": "#/$defs/Extensions" }
+      },
+      "allOf": [
+        {
+          "description": "Invariant 5 (partial, per-asset $type): when an asset declares its own `$type`, every $file in its values map MUST carry the matching extension (svg for vector, png/webp for raster). Assets that omit `$type` and inherit from the pack are not constrained by this rule.",
+          "if": {
+            "required": ["$type"],
+            "properties": { "$type": { "const": "raster" } }
+          },
+          "then": {
+            "properties": {
+              "values": {
+                "type": "object",
+                "additionalProperties": {
+                  "if": { "type": "object", "required": ["$file"] },
+                  "then": {
+                    "type": "object",
+                    "properties": {
+                      "$file": {
+                        "type": "string",
+                        "pattern": "^\\./packs/[a-z0-9-]+/[a-z0-9-]+\\.(png|webp)$"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["$type"],
+            "properties": { "$type": { "const": "vector" } }
+          },
+          "then": {
+            "properties": {
+              "values": {
+                "type": "object",
+                "additionalProperties": {
+                  "if": { "type": "object", "required": ["$file"] },
+                  "then": {
+                    "type": "object",
+                    "properties": {
+                      "$file": {
+                        "type": "string",
+                        "pattern": "^\\./packs/[a-z0-9-]+/[a-z0-9-]+\\.svg$"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Platforms": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "enum": ["WEB", "PD"] },
+      "description": "Platform scope: which consumers this Asset targets. Per-Asset only; not defaultable. Default value [\"PD\"]; widen to [\"WEB\"] only after audit."
+    },
+    "Metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "tags", "legacyNames"],
+      "properties": {
+        "category": { "type": "array", "items": { "type": "string" } },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "legacyNames": { "type": "array", "items": { "type": "string" } }
+      },
+      "description": "Per-Asset descriptive fields. Per-Asset only -- not defaultable, not per-Variant."
+    },
+    "VariantValue": {
+      "oneOf": [
+        { "type": "null" },
+        { "$ref": "#/$defs/SourceValue" },
+        { "$ref": "#/$defs/ComputedValue" }
+      ],
+      "description": "A variant entry resolves to exactly one of: null (opt-out -- this variant does not exist for this asset), a SourceValue (own binary and/or canonical marker), or a ComputedValue (computed from a sibling variant by applying rules). The three branches are key-disjoint, so the oneOf is unambiguous."
+    },
+    "SourceValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "anyOf": [{ "required": ["$file"] }, { "required": ["default"] }],
+      "properties": {
+        "$file": {
+          "type": "string",
+          "pattern": "^\\./packs/[a-z0-9-]+/[a-z0-9-]+\\.(svg|png|webp)$",
+          "description": "Project-relative path to the on-disk binary. MUST resolve under ./packs/<pack>/. File-extension / $type consistency (svg for vector, png|webp for raster) is a runtime invariant, not enforced by the schema."
+        },
+        "default": {
+          "const": true,
+          "description": "Marks this variant as the canonical. Exactly one entry in a pack's `values` carries it (pack-wide canonical); an asset MAY carry it on a different entry to override the pack canonical (R12). The canonical is always a source, never computed. At pack level the canonical entry is `{ \"default\": true }` with no `$file` (each asset supplies the binary); at asset level it is `{ \"$file\": ..., \"default\": true }`. The anyOf requires at least one of `$file`/`default`, so an empty `{}` is rejected."
+        }
+      }
+    },
+    "ComputedValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["$rules"],
+      "properties": {
+        "$from": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$",
+          "description": "OPTIONAL source sibling for this computation: a literal variant id (e.g., \"24\", \"48\", \"dark\") looked up on the same asset. OMIT it to compute from the effective canonical -- the common case (R1). Present only to derive from a NON-canonical sibling (R9)."
+        },
+        "$rules": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "description": "Ordered list of rule ids (declared under ./rules/) to apply, left to right, to the resolved source (the `$from` sibling, or the effective canonical when `$from` is omitted)."
+        }
+      }
+    },
+    "Extensions": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9]*(\\.[a-zA-Z0-9-]+)+$"
+      },
+      "properties": {
+        "com.figma.nodeId": {
+          "type": "string",
+          "description": "Figma node identifier carried through for round-trip back into Figma."
+        },
+        "com.figma.variableId": {
+          "type": "string",
+          "description": "Figma variable identifier carried through for round-trip back into Figma."
+        }
+      },
+      "additionalProperties": true,
+      "description": "Open object accepting any reverse-DNS-namespaced key (e.g., com.figma.*, com.acronis.*, io.example.*). propertyNames enforces multi-segment rDNS shape; additionalProperties: true keeps the spec extensible without schema changes."
+    }
+  }
+}

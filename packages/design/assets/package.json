@@ -1,0 +1,48 @@
+{
+  "name": "@acronis-platform/assets",
+  "version": "0.2.0",
+  "description": "Acronis visual assets — icons and illustrations as JSON manifests + bundled binaries.",
+  "license": "MIT AND ISC",
+  "type": "module",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "files": [
+    "packs/**",
+    "rules/**",
+    "schemas/**",
+    "README.md",
+    "CONTRIBUTING.md",
+    "LICENSE"
+  ],
+  "exports": {
+    "./package.json": "./package.json",
+    "./packs/*.json": "./packs/*.json",
+    "./packs/*/*": "./packs/*/*",
+    "./rules/*.json": "./rules/*.json",
+    "./schemas/*": "./schemas/*"
+  },
+  "scripts": {
+    "build": "echo \"no build (JSON data package)\" && exit 0",
+    "clean": "echo \"nothing to clean (JSON data package)\" && exit 0",
+    "dev": "echo \"no dev server (JSON data package)\" && exit 0",
+    "lint": "echo \"no lint (JSON data package; validated via test)\" && exit 0",
+    "lint:fix": "echo \"no lint (JSON data package; validated via test)\" && exit 0",
+    "test": "pnpm run validate",
+    "test:watch": "echo \"no watch mode (run test)\" && exit 0",
+    "typecheck": "echo \"no typecheck (JSON data package)\" && exit 0",
+    "validate": "ajv compile -s schemas/pack.schema.json --spec=draft2020 && ajv compile -s schemas/rule.schema.json --spec=draft2020 && ajv validate -s schemas/pack.schema.json -d \"packs/*.json\" --spec=draft2020 && ajv validate -s schemas/rule.schema.json -d \"rules/*.json\" --spec=draft2020"
+  },
+  "keywords": [
+    "design-assets",
+    "icons",
+    "illustrations",
+    "acronis"
+  ],
+  "devDependencies": {
+    "ajv": "catalog:",
+    "ajv-cli": "catalog:",
+    "ajv-formats": "catalog:"
+  }
+}

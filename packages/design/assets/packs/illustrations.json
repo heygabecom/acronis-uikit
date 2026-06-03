@@ -1,0 +1,3412 @@
+{
+  "$schema": "../schemas/pack.schema.json",
+  "name": "illustrations",
+  "version": "1.0.0",
+  "$type": "vector",
+  "values": {
+    "48": { "default": true },
+    "96": { "$rules": ["scale-96"] }
+  },
+  "assets": {
+    "0001-dark-role-based-administrative-acess": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0001-dark-role-based-administrative-acess-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["dark"],
+        "tags": [],
+        "legacyNames": ["0001-Dark-role_based_administrative_acess-48px"]
+      }
+    },
+    "0001-full-image-backup": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0001-full-image-backup-48.svg"
+        },
+        "96": { "$file": "./packs/illustrations/0001-full-image-backup-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0001-full-image_backup-48px",
+          "0001-full-image_backup-96px"
+        ]
+      }
+    },
+    "0002-active-disk-cloning": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0002-active-disk-cloning-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0002-active-disk-cloning-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0002-active-disk_cloning-48px",
+          "0002-active-disk_cloning-96px"
+        ]
+      }
+    },
+    "0002-dark-virtual-server-protection": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0002-dark-virtual-server-protection-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["dark"],
+        "tags": [],
+        "legacyNames": ["0002-Dark-virtual_server_protection-48px"]
+      }
+    },
+    "0003-active-ransomware-protection": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0003-active-ransomware-protection-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0003-active-ransomware-protection-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0003-active-ransomware_protection-48px",
+          "0003-active-ransomware_protection-96px"
+        ]
+      }
+    },
+    "0003-dark-acronis-instant-restore": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0003-dark-acronis-instant-restore-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["dark"],
+        "tags": [],
+        "legacyNames": ["0003-Dark-acronis_instant_restore-48px"]
+      }
+    },
+    "0004-dark-san-storage-snapshots": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0004-dark-san-storage-snapshots-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["dark"],
+        "tags": [],
+        "legacyNames": ["0004-Dark-SAN_storage_snapshots-48px"]
+      }
+    },
+    "0004-media-builder": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0004-media-builder-48.svg" },
+        "96": { "$file": "./packs/illustrations/0004-media-builder-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0004-media-builder-48px", "0004-media-builder-96px"]
+      }
+    },
+    "0005-conversion-to-virtual-hard-drive": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0005-conversion-to-virtual-hard-drive-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0005-conversion-to-virtual-hard-drive-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0005-conversion-to_virtual_hard_drive-48px",
+          "0005-conversion-to_virtual_hard_drive-96px"
+        ]
+      }
+    },
+    "0005-dark-acronis-notary": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0005-dark-acronis-notary-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["dark"],
+        "tags": [],
+        "legacyNames": ["0005-Dark-acronis_notary-48px"]
+      }
+    },
+    "0006-dark-off-host": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0006-dark-off-host-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["dark"],
+        "tags": [],
+        "legacyNames": ["0006-Dark-off_host-48px"]
+      }
+    },
+    "0006-visual-dashboards": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0006-visual-dashboards-48.svg"
+        },
+        "96": { "$file": "./packs/illustrations/0006-visual-dashboards-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0006-visual-dashboards-48px",
+          "0006-visual-dashboards-96px"
+        ]
+      }
+    },
+    "0007-dark-acronis-for-racing": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0007-dark-acronis-for-racing-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["dark"],
+        "tags": [],
+        "legacyNames": ["0007-Dark-acronis_for_racing-48px"]
+      }
+    },
+    "0007-dual-protection": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0007-dual-protection-48.svg" },
+        "96": { "$file": "./packs/illustrations/0007-dual-protection-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0007-dual-protection-48px",
+          "0007-dual-protection-96px"
+        ]
+      }
+    },
+    "0008-speedy-backup-and-recovery": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0008-speedy-backup-and-recovery-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0008-speedy-backup-and-recovery-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0008-speedy-backup_and_recovery-48px",
+          "0008-speedy-backup_and_recovery-96px"
+        ]
+      }
+    },
+    "0009-anywhere-access": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0009-anywhere-access-48.svg" },
+        "96": { "$file": "./packs/illustrations/0009-anywhere-access-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0009-anywhere-access-48px",
+          "0009-anywhere-access-96px"
+        ]
+      }
+    },
+    "0010-secure-data-centers": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0010-secure-data-centers-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0010-secure-data-centers-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0010-secure-data_centers-48px",
+          "0010-secure-data_centers-96px"
+        ]
+      }
+    },
+    "0011-protection-on-the-go": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0011-protection-on-the-go-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0011-protection-on-the-go-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0011-protection-on_the_go-48px",
+          "0011-protection-on_the_go-96px"
+        ]
+      }
+    },
+    "0012-unlimited-devices": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0012-unlimited-devices-48.svg"
+        },
+        "96": { "$file": "./packs/illustrations/0012-unlimited-devices-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0012-unlimited-devices-48px",
+          "0012-unlimited-devices-96px"
+        ]
+      }
+    },
+    "0013-local-wireless-backup": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0013-local-wireless-backup-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0013-local-wireless-backup-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0013-local-wireless_backup-48px",
+          "0013-local-wireless_backup-96px"
+        ]
+      }
+    },
+    "0014-restore-individual-files": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0014-restore-individual-files-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0014-restore-individual-files-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0014-restore-individual_files-48px",
+          "0014-restore-individual_files-96px"
+        ]
+      }
+    },
+    "0015-back-up": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0015-back-up-48.svg" },
+        "96": { "$file": "./packs/illustrations/0015-back-up-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0015-back-up-48px", "0015-back-up-96px"]
+      }
+    },
+    "0016-store": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0016-store-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0016-Store-48px"]
+      }
+    },
+    "0017-restore": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0017-restore-48.svg" },
+        "96": { "$file": "./packs/illustrations/0017-restore-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0017-restore-48px", "0017-restore-96px"]
+      }
+    },
+    "0018-end-to-end-encryption": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0018-end-to-end-encryption-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0018-end-to-end-encryption-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0018-end-to-end encryption-48px",
+          "0018-end-to-end encryption-96px"
+        ]
+      }
+    },
+    "0019-notary": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0019-notary-48.svg" },
+        "96": { "$file": "./packs/illustrations/0019-notary-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0019-notary-48px", "0019-notary-96px"]
+      }
+    },
+    "0020-asign": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0020-asign-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0020-asign-48px"]
+      }
+    },
+    "0021-flexible-mngmnt": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0021-flexible-mngmnt-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0021-flexible-mngmnt-48px"]
+      }
+    },
+    "0022-recover-from-anywhere": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0022-recover-from-anywhere-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0022-recover-from-anywhere-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0022-recover-from_anywhere-48px",
+          "0022-recover-from_anywhere-96px"
+        ]
+      }
+    },
+    "0023-control-recovery": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0023-control-recovery-48.svg" },
+        "96": { "$file": "./packs/illustrations/0023-control-recovery-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0023-control-recovery-48px",
+          "0023-control-recovery-96px"
+        ]
+      }
+    },
+    "0024-social-media-backup": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0024-social-media-backup-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0024-social-media_backup-48px"]
+      }
+    },
+    "0025-flexible-migrate": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0025-flexible-migrate-48.svg" },
+        "96": { "$file": "./packs/illustrations/0025-flexible-migrate-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0025-flexible-migrate-48px",
+          "0025-flexible-migrate-96px"
+        ]
+      }
+    },
+    "0026-backup-at-hand": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0026-backup-at-hand-48.svg" },
+        "96": { "$file": "./packs/illustrations/0026-backup-at-hand-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0026-Backup-at_hand-48px", "0026-Backup-at_hand-96px"]
+      }
+    },
+    "0027-in-cloud-versions": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0027-in-cloud-versions-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0027-In-cloud-versions-48px"]
+      }
+    },
+    "0028-tougher-security": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0028-tougher-security-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0028-tougher-security-48px"]
+      }
+    },
+    "0029-easier-access": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0029-easier-access-48.svg" },
+        "96": { "$file": "./packs/illustrations/0029-easier-access-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0029-Easier-access-48px", "0029-Easier-access-96px"]
+      }
+    },
+    "0030-greater-flexibility": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0030-greater-flexibility-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0030-greater-flexibility-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0030-Greater-flexibility-48px",
+          "0030-Greater-flexibility-96px"
+        ]
+      }
+    },
+    "0031-certification-backups": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0031-certification-backups-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0031-certification-backups-48px"]
+      }
+    },
+    "0032-backup-full-system": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0032-backup-full-system-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0032-backup-full_system-48px"]
+      }
+    },
+    "0033-two-click-protection": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0033-two-click-protection-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0033-two-click-protection-48px"]
+      }
+    },
+    "0034-install-true-image": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0034-install-true-image-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0034-install-true-image-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0034-install-true_image-48px",
+          "0034-install-true_image-96px"
+        ]
+      }
+    },
+    "0035-prevent-data-loss": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0035-prevent-data-loss-48.svg"
+        },
+        "96": { "$file": "./packs/illustrations/0035-prevent-data-loss-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0035-prevent-data_loss-48px",
+          "0035-prevent-data_loss-96px"
+        ]
+      }
+    },
+    "0036-locate": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0036-locate-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0036-locate-48px"]
+      }
+    },
+    "0037-estimate": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0037-estimate-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0037-estimate-48px"]
+      }
+    },
+    "0038-restore": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0038-restore-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0038-restore-48px"]
+      }
+    },
+    "0039-many-reasons": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0039-many-reasons-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0039-many-reasons-48px"]
+      }
+    },
+    "0040-advanced-features": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0040-advanced-features-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0040-advanced-features-48px"]
+      }
+    },
+    "0041-cover-everything": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0041-cover-everything-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0041-cover-everything-48px"]
+      }
+    },
+    "0042-start-selling-fast": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0042-start-selling-fast-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0042-start-selling_fast-48px"]
+      }
+    },
+    "0043-key-data-protection-features": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0043-key-data-protection-features-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0043-key-data_protection_features-48px"]
+      }
+    },
+    "0044-key-features-for-service-providers": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0044-key-features-for-service-providers-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0044-key-features_for_service_providers-48px"]
+      }
+    },
+    "0045-packaging": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0045-packaging-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0045-packaging-48px"]
+      }
+    },
+    "0046-technology-model": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0046-technology-model-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0046-technology-model-48px"]
+      }
+    },
+    "0047-deployment": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0047-deployment-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0047-deployment-48px"]
+      }
+    },
+    "0048-licensing": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0048-licensing-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0048-licensing-48px"]
+      }
+    },
+    "0049-disaster-recovery-for-any-workload": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0049-disaster-recovery-for-any-workload-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0049-disaster-recovery_for_any_workload-48px"]
+      }
+    },
+    "0050-complete-business-protection": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0050-complete-business-protection-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0050-complete-business_protection-48px"]
+      }
+    },
+    "0051-cloud-recovery": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0051-cloud-recovery-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0051-cloud-recovery-48px"]
+      }
+    },
+    "0052-local-recovery": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0052-local-recovery-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0052-local-recovery-48px"]
+      }
+    },
+    "0053-proven": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0053-proven-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0053-proven-48px"]
+      }
+    },
+    "0054-efficient": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0054-efficient-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0054-efficient-48px"]
+      }
+    },
+    "0055-cloud-raid": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0055-cloud-raid-48.svg" },
+        "96": { "$file": "./packs/illustrations/0055-cloud-raid-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0055-cloud-raid-48px", "0055-cloud-raid-96px"]
+      }
+    },
+    "0056-scalability": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0056-scalability-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0056-scalability-48px"]
+      }
+    },
+    "0057-professional-services": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0057-professional-services-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0057-professional-services-48px"]
+      }
+    },
+    "0058-cold-storage": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0058-cold-storage-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0058-cold-storage-48px"]
+      }
+    },
+    "0059-hot-storage": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0059-hot-storage-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0059-hot-storage-48px"]
+      }
+    },
+    "0060-files-storage": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0060-files-storage-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0060-files-storage-48px"]
+      }
+    },
+    "0061-object-storage": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0061-object-storage-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0061-object-storage-48px"]
+      }
+    },
+    "0062-knowledge-protection": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0062-knowledge-protection-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0062-knowledge- protection-48px"]
+      }
+    },
+    "0063-touch-bar": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0063-touch-bar-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0063-touch-bar-48px"]
+      }
+    },
+    "0064-desktop-vm-recovery": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0064-desktop-vm-recovery-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0064-desktop-vm-recovery-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0064-desktop-vm_recovery-48px",
+          "0064-desktop-vm_recovery-96px"
+        ]
+      }
+    },
+    "0065-easy-prepare": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0065-easy-prepare-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0065-easy-prepare-48px"]
+      }
+    },
+    "0066-easy-data-protection": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0066-easy-data-protection-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0066-easy-data_protection-48px"]
+      }
+    },
+    "0067-starting-the-system": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0067-starting-the-system-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0067-starting-the_system-48px"]
+      }
+    },
+    "0068-attaching-a-usb-drive": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0068-attaching-a-usb-drive-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0068-attaching-a_USB_drive-48px"]
+      }
+    },
+    "0069-shutting-down": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0069-shutting-down-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0069-shutting-down-48px"]
+      }
+    },
+    "0070-informed-decisions": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0070-informed-decisions-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0070-Informed-decisions-48px"]
+      }
+    },
+    "0071-survival-kit": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0071-survival-kit-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0071-survival-kit-48px"]
+      }
+    },
+    "0072-backup-cleanup-tool": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0072-backup-cleanup-tool-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0072-backup-cleanup_tool-48px"]
+      }
+    },
+    "0073-easy-network-configuration": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0073-easy-network-configuration-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0073-easy-network-configuration-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0073-easy-network_configuration-48px",
+          "0073-easy-network_configuration-96px"
+        ]
+      }
+    },
+    "0074-isolated-testing-enviroment": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0074-isolated-testing-enviroment-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0074-isolated-testing_enviroment-48px"]
+      }
+    },
+    "0075-multiple-recovery-point-times": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0075-multiple-recovery-point-times-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0075-multiple-recovery_point_times-48px"]
+      }
+    },
+    "0076-application-level-replication": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0076-application-level-replication-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0076-application-level_replication-48px"]
+      }
+    },
+    "0077-enable-the-fastest-granular-restore": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0077-enable-the-fastest-granular-restore-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0077-enable-the_fastest_granular_restore-48px"]
+      }
+    },
+    "0078-ensure-regulatory-compliance": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0078-ensure-regulatory-compliance-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0078-ensure-regulatory_compliance-48px"]
+      }
+    },
+    "0079-make-disaster-recovery-painless": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0079-make-disaster-recovery-painless-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0079-make-disaster_recovery_painless-48px"]
+      }
+    },
+    "0080-convenient-agentless-backup": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0080-convenient-agentless-backup-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0080-convenient-agentless_backup-48px"]
+      }
+    },
+    "0081-quick-backup-search": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0081-quick-backup-search-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0081-quick-backup_search-48px"]
+      }
+    },
+    "0082-office-365-data": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0082-office-365-data-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0082-office-365_data-48px"]
+      }
+    },
+    "0083-acronis-instant-restore": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0083-acronis-instant-restore-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0083-acronis-instant_restore-48px"]
+      }
+    },
+    "0084-boost-business-continuity": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0084-boost-business-continuity-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0084-boost-business_continuity-48px"]
+      }
+    },
+    "0085-acronis-universal-restore": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0085-acronis-universal-restore-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0085-acronis-universal_restore-48px"]
+      }
+    },
+    "0086-disaster-recovery-orchestration": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0086-disaster-recovery-orchestration-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0086-disaster-recovery_orchestration-48px"]
+      }
+    },
+    "0087-acronis-notary-cloud": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0087-acronis-notary-cloud-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0087-acronis-notary_cloud-48px"]
+      }
+    },
+    "0088-cryptomining-blocker": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0088-cryptomining-blocker-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0088-cryptomining-blocker-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0088-сryptomining-blocker-48px",
+          "0088-сryptomining-blocker-96px"
+        ]
+      }
+    },
+    "0089-delivering-superior-reliability": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0089-delivering-superior-reliability-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0089-delivering-superior_reliability-48px"]
+      }
+    },
+    "0090-full-account-restoration": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0090-full-account-restoration-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0090-full-account_restoration-48px"]
+      }
+    },
+    "0091-google-cloud": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0091-google-cloud-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0091-google-cloud-48px"]
+      }
+    },
+    "0092-acronis-cloud": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0092-acronis-cloud-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0092-acronis-cloud-48px"]
+      }
+    },
+    "0093-microsoft-azure-storage": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0093-microsoft-azure-storage-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0093-microsoft-azure_storage-48px"]
+      }
+    },
+    "0094-convert-to-hyper-v": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0094-convert-to-hyper-v-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0094-convert-to_hyper_v-48px"]
+      }
+    },
+    "0095-virtual-machine": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0095-virtual-machine-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0095-virtual-machine-48px"]
+      }
+    },
+    "0096": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0096-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0096-48px"]
+      }
+    },
+    "0097-ai-ml-model": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0097-ai-ml-model-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0097-AI-ML_model-48px"]
+      }
+    },
+    "0098-dialog-system": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0098-dialog-system-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0098-dialog-system-48px"]
+      }
+    },
+    "0099-smart-search": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0099-smart-search-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0099-smart-search-48px"]
+      }
+    },
+    "0100-acronis-for-racing": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0100-acronis-for-racing-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0100-acronis-for_racing-48px"]
+      }
+    },
+    "0101-s-acronis-for-football": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0101-s-acronis-for-football-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0101- S_acronis_for_football-48px"]
+      }
+    },
+    "0102-disk-editing": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0102-disk-editing-48.svg" },
+        "96": { "$file": "./packs/illustrations/0102-disk-editing-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0102-disk-editing-48px", "0102-disk-editing-96px"]
+      }
+    },
+    "0103-resellers": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0103-resellers-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0103-resellers-48px"]
+      }
+    },
+    "0104-cloud-partners": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0104-cloud-partners-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0104-cloud-partners-48px"]
+      }
+    },
+    "0105-isvs": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0105-isvs-48.svg" },
+        "96": { "$file": "./packs/illustrations/0105-isvs-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0105-ISVs-48px", "0105-ISVs-96px"]
+      }
+    },
+    "0106-oem": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0106-oem-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0106-OEM-48px"]
+      }
+    },
+    "0107-distributors": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0107-distributors-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0107-distributors-48px"]
+      }
+    },
+    "0108-g-suite": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0108-g-suite-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0108-G-suite-48px"]
+      }
+    },
+    "0109-produtivity": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0109-produtivity-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0109-produtivity-48px"]
+      }
+    },
+    "0110-internet-of-things": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0110-internet-of-things-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0110-internet-of_ things-48px"]
+      }
+    },
+    "0111-robots": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0111-robots-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0111-robots-48px"]
+      }
+    },
+    "0112-drones": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0112-drones-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0112-drones-48px"]
+      }
+    },
+    "0113-self-driving-cars": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0113-self-driving-cars-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0113-self-driving_cars-48px"]
+      }
+    },
+    "0114-3d-printers": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0114-3d-printers-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0114-3d-printers-48px"]
+      }
+    },
+    "0115-next-gen-computers": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0115-next-gen-computers-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0115-next-gen_computers-48px"]
+      }
+    },
+    "0116-fintech": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0116-fintech-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0116-fintech-48px"]
+      }
+    },
+    "0117-big-data": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0117-big-data-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0117-big-data-48px"]
+      }
+    },
+    "0118-bitcoin": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0118-bitcoin-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0118-bitcoin-48px"]
+      }
+    },
+    "0119-wearables": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0119-wearables-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0119-wearables-48px"]
+      }
+    },
+    "0120-virtual-reality": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0120-virtual-reality-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0120-virtual-reality-48px"]
+      }
+    },
+    "0121-life-sciences": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0121-life-sciences-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0121-life-sciences-48px"]
+      }
+    },
+    "0122-blockchain": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0122-blockchain-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0122-blockchain-48px"]
+      }
+    },
+    "0123-space-exploration": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0123-space-exploration-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0123-space-exploration-48px"]
+      }
+    },
+    "0124-artificial-intelligence": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0124-artificial-intelligence-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0124-аrtificial-intelligence-48px"]
+      }
+    },
+    "0125-safety-security-privacy": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0125-safety-security-privacy-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0125-safety-security_privacy-48px"]
+      }
+    },
+    "0126-quantum-technologies": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0126-quantum-technologies-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0126-quantum-technologies-48px"]
+      }
+    },
+    "0127-ease-of-use": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0127-ease-of-use-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0127-ease-of_use-48px"]
+      }
+    },
+    "0128-security": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0128-security-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0128-security-48px"]
+      }
+    },
+    "0129-any-data-technology": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0129-any-data-technology-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0129-any-data_technology-48px"]
+      }
+    },
+    "0130-acronis-cyber-infrastructure": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0130-acronis-cyber-infrastructure-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0130-acronis-cyber_infrastructure-48px"]
+      }
+    },
+    "0131-blockchain": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0131-blockchain-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0131-blockchain-48px"]
+      }
+    },
+    "0132-artificial-intelligence": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0132-artificial-intelligence-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0132-artificial-intelligence-48px"]
+      }
+    },
+    "0133-white-label": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0133-white-label-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0133-white-label-48px"]
+      }
+    },
+    "0134-innovate-with-new-cyber-protection-solution": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0134-innovate-with-new-cyber-protection-solution-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0134-innovate-with_new_cyber_protection_solution-48px"]
+      }
+    },
+    "0135-deploy-new-data-destinations": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0135-deploy-new-data-destinations-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0135-deploy-new_data_destinations-48px"]
+      }
+    },
+    "0136-full-content-spotlight-searching": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0136-full-content-spotlight-searching-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0136-full-content_spotlight_searching-48px"]
+      }
+    },
+    "0137-file-access-for-mobile-devices": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0137-file-access-for-mobile-devices-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0137-file-access_for_mobile_devices-48px"]
+      }
+    },
+    "0138-browse-and-restore-previous-versions-of-files": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0138-browse-and-restore-previous-versions-of-files-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0138-browse-and_restore_previous_versions_of_files-48px"
+        ]
+      }
+    },
+    "0139-rapid-deployment-and-provisioning-1": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0139-rapid-deployment-and-provisioning-1-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0139-rapid-deployment_and_provisioning 1-48px"]
+      }
+    },
+    "0140-web-based-tracking-and-reporting": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0140-web-based-tracking-and-reporting-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0140-web-based_tracking_and_reporting-48px"]
+      }
+    },
+    "0141-multiple-transfer-protocols": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0141-multiple-transfer-protocols-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0141-multiple-transfer_protocols-48px"]
+      }
+    },
+    "0142-file-verification": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0142-file-verification-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0142-file-verification-48px"]
+      }
+    },
+    "0143-support-resources": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0143-support-resources-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0143-support-resources-48px"]
+      }
+    },
+    "0144-new-mac-client-application": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0144-new-mac-client-application-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0144-new-mac_client_application-48px"]
+      }
+    },
+    "0145-fast-powerful-search-capabilities": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0145-fast-powerful-search-capabilities-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0145-fast-powerful_search_capabilities-48px"]
+      }
+    },
+    "0146-time-machine-backup-to-file-shares": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0146-time-machine-backup-to-file-shares-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0146-time-machine_backup_to_file_shares-48px"]
+      }
+    },
+    "0147-self-service-management": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0147-self-service-management-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0147-self-service_management-48px"]
+      }
+    },
+    "0148-easy-rebranding-with-css-style-sheet": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0148-easy-rebranding-with-css-style-sheet-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0148-easy-rebranding_with_css_style_sheet-48px"]
+      }
+    },
+    "0149-a-simple-web-interface": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0149-a-simple-web-interface-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0149-a-simple_web_interface-48px"]
+      }
+    },
+    "0150": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0150-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0150-48px"]
+      }
+    },
+    "0151": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0151-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0151-48px"]
+      }
+    },
+    "0152": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0152-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0152-48px"]
+      }
+    },
+    "0153": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0153-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0153-48px"]
+      }
+    },
+    "0154": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0154-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0154-48px"]
+      }
+    },
+    "0155": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0155-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0155-48px"]
+      }
+    },
+    "0156": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0156-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0156-48px"]
+      }
+    },
+    "0157": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0157-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0157-48px"]
+      }
+    },
+    "0158-site-to-site-connection": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0158-site-to-site-connection-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0158-site-to_site_connection-48px"]
+      }
+    },
+    "0159-cloud-only-connection": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0159-cloud-only-connection-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0159-cloud-only_connection-48px"]
+      }
+    },
+    "0160": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0160-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0160-48px"]
+      }
+    },
+    "0161": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0161-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0161-48px"]
+      }
+    },
+    "0162-voice-control": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0162-voice-control-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0162-voice-control-48px"]
+      }
+    },
+    "0163-microsoft-teams-backup": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0163-microsoft-teams-backup-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0163-Microsoft-Teams_backup-48px"]
+      }
+    },
+    "0164-anywhere-access": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0164-anywhere-access-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0164-anywhere-access-48px"]
+      }
+    },
+    "0165-zoom-calls": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0165-zoom-calls-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0165-Zoom-calls-48px"]
+      }
+    },
+    "0166-url-filtering": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0166-url-filtering-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0166-URL-filtering-48px"]
+      }
+    },
+    "0167-predefined-protection-plans": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0167-predefined-protection-plans-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0167-Predefined-protection_plans-48px"]
+      }
+    },
+    "0168-device-protection": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0168-device-protection-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0168-device-protection-48px"]
+      }
+    },
+    "0169-account-protection": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0169-account-protection-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0169-account-protection-48px"]
+      }
+    },
+    "0170-safety": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0170-safety-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0170-Safety-48px"]
+      }
+    },
+    "0171-availability": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0171-availability-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0171-Availability-48px"]
+      }
+    },
+    "0172-privacy": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0172-privacy-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0172-Privacy-48px"]
+      }
+    },
+    "0173-authenticity": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0173-authenticity-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0173-Authenticity-48px"]
+      }
+    },
+    "0174-security": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0174-security-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0174-Security-48px"]
+      }
+    },
+    "0175-e-signature": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0175-e-signature-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0175-e-signature-48px"]
+      }
+    },
+    "0176-protection-for-citrix-workspace": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0176-protection-for-citrix-workspace-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0176-Protection-for_Citrix_WorkSpace-48px"]
+      }
+    },
+    "0177-backup-antimalware-data-loss-prevention": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0177-backup-antimalware-data-loss-prevention-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0177-Backup-Antimalware_Data Loss_Prevention-48px"]
+      }
+    },
+    "0178-detect-machine": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0178-detect-machine-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0178-detect-machine-48px"]
+      }
+    },
+    "0179-detect-hard-disk": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0179-detect-hard-disk-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0179-detect-hard_disk-48px"]
+      }
+    },
+    "0180-disaster-recovery-setup": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0180-disaster-recovery-setup-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0180-disaster-recovery_setup-48px"]
+      }
+    },
+    "0181-vulnerability-assessments": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0181-vulnerability-assessments-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0181-vulnerability-assessments-48px"]
+      }
+    },
+    "0182-pdf": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0182-pdf-48.svg" },
+        "96": { "$file": "./packs/illustrations/0182-pdf-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0182-PDF-48px", "0182-PDF-96px"]
+      }
+    },
+    "0183-ppsx": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0183-ppsx-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0183-PPSX-48px"]
+      }
+    },
+    "0184-assistance": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0184-assistance-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0184-assistance-48px"]
+      }
+    },
+    "0185-linux-machines-protection": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0185-linux-machines-protection-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0185-Linux-machines_protection-48px"]
+      }
+    },
+    "0186-notary-e-signature": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0186-notary-e-signature-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0186-notary-e-signature-48px"]
+      }
+    },
+    "0187-software-hardware": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0187-software-hardware-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0187-Software-Hardware-48px"]
+      }
+    },
+    "0188": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0188-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0188-48px"]
+      }
+    },
+    "0189": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0189-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0189-48px"]
+      }
+    },
+    "0190-community": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0190-community-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0190-community-48px"]
+      }
+    },
+    "0191-starting": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0191-starting-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0191-starting-48px"]
+      }
+    },
+    "0192-training": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0192-training-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0192-training-48px"]
+      }
+    },
+    "0193-cloud-recovery": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0193-cloud-recovery-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0193-cloud-recovery-48px"]
+      }
+    },
+    "0194-mail": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0194-mail-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0194-mail-48px"]
+      }
+    },
+    "0195-search-server": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0195-search-server-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0195-search-server-48px"]
+      }
+    },
+    "0196": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0196-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0196-48px"]
+      }
+    },
+    "0197-enhanced-security": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0197-enhanced-security-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0197-enhanced-security-48px"]
+      }
+    },
+    "0198-vpn": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0198-vpn-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0198-VPN-48px"]
+      }
+    },
+    "0199-data-loss-prevention": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0199-data-loss-prevention-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0199-data-loss_prevention-48px"]
+      }
+    },
+    "0200-system-update": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0200-system-update-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0200-system-update-48px"]
+      }
+    },
+    "0201-filtering": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0201-filtering-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0201-filtering-48px"]
+      }
+    },
+    "0202-block-filtering": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0202-block-filtering-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0202-block-filtering-48px"]
+      }
+    },
+    "0203-content-filtering": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0203-content-filtering-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0203-content-filtering-48px"]
+      }
+    },
+    "0204-screenshot": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0204-screenshot-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0204-screenshot-48px"]
+      }
+    },
+    "0205-donation": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0205-donation-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0205-donation-48px"]
+      }
+    },
+    "0206-dvd-backup": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0206-dvd-backup-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0206-dvd-backup-48px"]
+      }
+    },
+    "0207-photo": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0207-photo-48.svg" },
+        "96": { "$file": "./packs/illustrations/0207-photo-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0207-photo-48px", "0207-photo-96px"]
+      }
+    },
+    "0208-donate": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0208-donate-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0208-donate-48px"]
+      }
+    },
+    "0209-protection-macos": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0209-protection-macos-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0209-protection-macos-48px"]
+      }
+    },
+    "0210-metadata": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0210-metadata-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0210-metadata-48px"]
+      }
+    },
+    "0211-improvement": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0211-improvement-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0211-improvement-48px"]
+      }
+    },
+    "0212-improvement": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0212-improvement-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0212-improvement-48px"]
+      }
+    },
+    "0213-encrypted-removable-media": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0213-encrypted-removable-media-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0213-encrypted-removable_media-48px"]
+      }
+    },
+    "0214-encrypted-removable-media": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0214-encrypted-removable-media-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0214-encrypted-removable_media-48px"]
+      }
+    },
+    "0215-spam-filter": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0215-spam-filter-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0215-spam-filter-48px"]
+      }
+    },
+    "0216-mail-filter": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0216-mail-filter-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0216-mail-filter-48px"]
+      }
+    },
+    "0217-threat-intelligence": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0217-threat-intelligence-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0217-threat-intelligence-48px"]
+      }
+    },
+    "0218-analysis": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0218-analysis-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0218-analysis-48px"]
+      }
+    },
+    "0219-email-analysis": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0219-email-analysis-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0219-email-analysis-48px"]
+      }
+    },
+    "0220-spoofing": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0220-spoofing-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0220-spoofing-48px"]
+      }
+    },
+    "0221-flag-emails": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0221-flag-emails-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0221-flag-emails-48px"]
+      }
+    },
+    "0222-email-security": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0222-email-security-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0222-email-security-48px"]
+      }
+    },
+    "0223-antimalware-protection": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0223-antimalware-protection-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0223-antimalware-protection-48px"]
+      }
+    },
+    "0224-registration-token": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0224-registration-token-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0224-registration-token-48px"]
+      }
+    },
+    "0225-workshop": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0225-workshop-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0225-workshop-48px"]
+      }
+    },
+    "0226-keynote": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0226-keynote-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0226-keynote-48px"]
+      }
+    },
+    "0227-takeaway": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0227-takeaway-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0227-takeaway-48px"]
+      }
+    },
+    "0228-acronis-partners": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0228-acronis-partners-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0228-acronis-partners-48px"]
+      }
+    },
+    "0228-behavior-pattern-mapping": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0228-behavior-pattern-mapping-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0228-Behavior-pattern_mapping-48px"]
+      }
+    },
+    "0230-price-down": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0230-price-down-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0230-price-down-48px"]
+      }
+    },
+    "0231-firewall": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0231-firewall-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0231-firewall-48px"]
+      }
+    },
+    "0232-secure-connections": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0232-secure-connections-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0232-secure-connections-48px"]
+      }
+    },
+    "0233-sync-share": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0233-sync-share-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0233-sync-share-48px"]
+      }
+    },
+    "0234-cyber-attacks": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0234-cyber-attacks-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0234-cyber-attacks-48px"]
+      }
+    },
+    "0235-reports": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0235-reports-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0235-reports-48px"]
+      }
+    },
+    "0236-client-log": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0236-client-log-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0236-client-log-48px"]
+      }
+    },
+    "0237-installer": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0237-installer-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0237-installer-48px"]
+      }
+    },
+    "0238-server-licensing": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0238-server-licensing-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0238-server-licensing-48px"]
+      }
+    },
+    "0239": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0239-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0239-48px"]
+      }
+    },
+    "0240-human-error": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0240-human-error-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0240-human-error-48px"]
+      }
+    },
+    "0241-patch-management": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0241-patch-management-48.svg" },
+        "96": { "$file": "./packs/illustrations/0241-patch-management-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0241-patch-management-48px",
+          "0241-patch-management-96px"
+        ]
+      }
+    },
+    "0242-android-backup-management": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0242-android-backup-management-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0242-android-backup_management-48px"]
+      }
+    },
+    "0243-android-media-backup": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0243-android-media-backup-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0243-android-media-backup-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0243-android-media_backup-48px",
+          "0243-android-media_backup-96px"
+        ]
+      }
+    },
+    "0244-integration": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0244-integration-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0244-integration-48px"]
+      }
+    },
+    "0245-integration": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0245-integration-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0245-integration-48px"]
+      }
+    },
+    "0246-restore-operator": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0246-restore-operator-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0246-restore-operator-48px"]
+      }
+    },
+    "0247-restore-operator": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0247-restore-operator-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0247-restore-operator-48px"]
+      }
+    },
+    "0248": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0248-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0248-48px"]
+      }
+    },
+    "0249-microsoft-notifications": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0249-microsoft-notifications-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0249-microsoft-notifications-48px"]
+      }
+    },
+    "0250-healthcare": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0250-healthcare-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0250-healthcare-48px"]
+      }
+    },
+    "0251-dlp": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0251-dlp-48.svg" },
+        "96": { "$file": "./packs/illustrations/0251-dlp-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0251-DLP-48px", "0251-DLP-96px"]
+      }
+    },
+    "0252-scheduled-maintenance": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0252-scheduled-maintenance-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0252-scheduled-maintenance-48px"]
+      }
+    },
+    "0253-urgent-maintenance": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0253-urgent-maintenance-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0253-urgent-maintenance-48px"]
+      }
+    },
+    "0254-incident": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0254-incident-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0254-incident-48px"]
+      }
+    },
+    "0255-time-is-money": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0255-time-is-money-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0255-time-is_money-48px"]
+      }
+    },
+    "0256-trophy": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0256-trophy-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0256-trophy-48px"]
+      }
+    },
+    "0257-review": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0257-review-48.svg" },
+        "96": { "$file": "./packs/illustrations/0257-review-96.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0257-review-48px", "0257-review-96px"]
+      }
+    },
+    "0258-business": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0258-business-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0258-business-48px"]
+      }
+    },
+    "0259-advanced-automation": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0259-advanced-automation-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0259-advanced-automation-48px"]
+      }
+    },
+    "0260-advanced-security-edr": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0260-advanced-security-edr-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0260-advanced-security_EDR-48px"]
+      }
+    },
+    "0261-ai-powered-shield-solid": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0261-ai-powered-shield-solid-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0261-ai-powered-shield-solid-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0261-ai-powered_shield_solid-48px",
+          "0261-ai-powered_shield_solid-96px"
+        ]
+      }
+    },
+    "0261-dark-ai-powered-shield-solid": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0261-dark-ai-powered-shield-solid-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0261-dark-ai-powered-shield-solid-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["dark"],
+        "tags": [],
+        "legacyNames": [
+          "0261-Dark-ai_powered_shield_solid-48px",
+          "0261-Dark-ai_powered_shield_solid-96px"
+        ]
+      }
+    },
+    "0262-ai-powered-shield-outline": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0262-ai-powered-shield-outline-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0262-ai-powered-shield-outline-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": [
+          "0262-ai-powered_shield_outline-48px",
+          "0262-ai-powered_shield_outline-96px"
+        ]
+      }
+    },
+    "0262-dark-ai-powered-shield-outline": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0262-dark-ai-powered-shield-outline-48.svg"
+        },
+        "96": {
+          "$file": "./packs/illustrations/0262-dark-ai-powered-shield-outline-96.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["dark"],
+        "tags": [],
+        "legacyNames": [
+          "0262-Dark-ai_powered_shield_outline-48px",
+          "0262-Dark-ai_powered_shield_outline-96px"
+        ]
+      }
+    },
+    "0263-ai-logo-gradient": {
+      "values": {
+        "48": { "$file": "./packs/illustrations/0263-ai-logo-gradient-48.svg" }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["light"],
+        "tags": [],
+        "legacyNames": ["0263-ai-logo_gradient-48px"]
+      }
+    },
+    "0263-dark-ai-logo-gradient": {
+      "values": {
+        "48": {
+          "$file": "./packs/illustrations/0263-dark-ai-logo-gradient-48.svg"
+        }
+      },
+      "platforms": ["WEB"],
+      "metadata": {
+        "category": ["dark"],
+        "tags": [],
+        "legacyNames": ["0263-Dark-ai_logo_gradient-48px"]
+      }
+    }
+  }
+}

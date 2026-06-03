@@ -1,0 +1,6 @@
+{
+  "$schema": "../schemas/rule.schema.json",
+  "name": "stroke-1-6",
+  "kind": "stroke",
+  "target": { "value": 1.6, "unit": "px" }
+}

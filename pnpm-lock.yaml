@@ -372,6 +372,18 @@ importers:
       ajv-formats:
         specifier: 'catalog:'
         version: 3.0.1(ajv@8.17.1)
+        
+  packages/design/assets:
+    devDependencies:
+      ajv:
+        specifier: 'catalog:'
+        version: 8.17.1
+      ajv-cli:
+        specifier: 'catalog:'
+        version: 5.0.0
+      ajv-formats:
+        specifier: 'catalog:'
+        version: 3.0.1(ajv@8.17.1)
 
   packages/legacy/ui:
     dependencies:
