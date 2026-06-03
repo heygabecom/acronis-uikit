@@ -9,7 +9,7 @@
       "type": "object",
       "required": ["$schema"],
       "properties": {
-        "$schema": { "type": "string" },
+        "$schema": { "const": "../schemas/tokens.schema.json" },
         "$type": { "$ref": "#/$defs/TokenType" },
         "$description": { "type": "string" },
         "$value": true,
@@ -43,23 +43,27 @@
     },
     "LeafRequiresPlatforms": {
       "description": "A node is a leaf if it carries `values`, `$value`, or `$extensions.com.acronis.units`. Every leaf MUST declare `platforms`.",
-      "allOf": [
-        {
-          "if": {
-            "anyOf": [{ "required": ["values"] }, { "required": ["$value"] }]
-          },
-          "then": { "required": ["platforms"] }
-        },
-        {
-          "if": {
+      "if": {
+        "anyOf": [
+          { "required": ["values"] },
+          { "required": ["$value"] },
+          {
             "required": ["$extensions"],
-            "properties": {
-              "$extensions": { "required": ["com.acronis.units"] }
-            }
-          },
-          "then": { "required": ["platforms"] }
-        }
-      ]
+            "properties": { "$extensions": { "required": ["com.acronis.units"] } }
+          }
+        ]
+      },
+      "then": {
+        "required": ["platforms"],
+        "oneOf": [
+          { "required": ["values"] },
+          { "required": ["$value"] },
+          {
+            "required": ["$extensions"],
+            "properties": { "$extensions": { "required": ["com.acronis.units"] } }
+          }
+        ]
+      }
     },
     "TokenType": {
       "description": "Known DTCG types currently used in this package. Extend as new $types are introduced.",

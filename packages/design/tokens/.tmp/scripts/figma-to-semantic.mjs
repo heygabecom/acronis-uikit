@@ -161,10 +161,10 @@ for (const { path, leaf } of collectColorLeaves(figmaBrandColor)) {
   const meta = metaFor(variableId);
   const ourKey = path.map(normalizeKey);
   const ext = {
-    'com.figma.hiddenFromPublishing': meta.hidden,
     'com.figma.scopes': meta.scopes,
     'com.figma.variableId': variableId,
   };
+  if (meta.hidden) ext['com.figma.hiddenFromPublishing'] = true;
   setPath(out.colors, ourKey, { values, platforms: ['PD'], $extensions: ext });
   count++;
 }

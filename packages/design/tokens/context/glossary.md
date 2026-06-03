@@ -35,8 +35,7 @@ A Group may have one mode, many modes, or none. Not every Group is mode-aware.
 
 ### Brand
 
-**Business name** for the modes under `semantics.colors` and `components.*` — currently `acronis` only, with more brands planned. Brand drives white-labeling. See [`manifest.md`](./manifest.md).
-
+**Business name** for the modes under `semantics.colors` and `components.*` — today `acronis` and `brand-b` (`brand-b` mirrors `acronis` until designers author it). Brand drives white-labeling. See [`manifest.md`](./manifest.md).
 ### Collection
 
 **Figma-native concept.** A Figma Collection groups Variables and supports exactly one mode dimension; every token in the collection follows that dimension. The Figma file has four Collections — see [`figma-sync.md`](./figma-sync.md).
