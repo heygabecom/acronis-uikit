@@ -584,6 +584,9 @@ importers:
         specifier: 3.6.0
         version: 3.6.0
     devDependencies:
+      '@acronis-platform/shadcn-uikit-demos':
+        specifier: workspace:*
+        version: link:../../apps/demos
       '@storybook/addon-a11y':
         specifier: 10.4.1
         version: 10.4.1(storybook@10.4.1(@testing-library/dom@10.4.0)(@types/react@19.2.15)(prettier@3.8.3)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))

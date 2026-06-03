@@ -58,6 +58,7 @@
     "tailwind-merge": "3.6.0"
   },
   "devDependencies": {
+    "@acronis-platform/shadcn-uikit-demos": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:",
     "@storybook/addon-a11y": "10.4.1",
