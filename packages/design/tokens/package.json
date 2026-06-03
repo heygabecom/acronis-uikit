@@ -1,5 +1,5 @@
 {
-  "name": "@acronis-platform/tokens",
+  "name": "@acronis-platform/design-tokens",
   "version": "0.2.0",
   "description": "Acronis design tokens. DTCG-2025.10-conformant JSON.",
   "license": "MIT",
