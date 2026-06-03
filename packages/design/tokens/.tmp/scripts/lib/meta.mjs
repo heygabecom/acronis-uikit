@@ -1,4 +1,4 @@
-// ~/Developer/tokens/scripts/lib/meta.mjs
+// .tmp/scripts/lib/meta.mjs
 // Build a metaFor(variableId) lookup over the variables-meta.json sidecar.
 //
 // The DTCG export drops `scopes` and `hiddenFromPublishing` — this sidecar

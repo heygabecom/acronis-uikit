@@ -1,4 +1,4 @@
-// ~/Developer/design/tokens/.tmp/scripts/lib/paths.mjs
+// .tmp/scripts/lib/paths.mjs
 // Resolve and load the two .tmp/figma-tokens/ sidecar files consumed by generators.
 //
 // Exports:

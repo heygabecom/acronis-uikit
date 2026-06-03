@@ -1,4 +1,4 @@
-// ~/Developer/tokens/scripts/lib/format.mjs
+// .tmp/scripts/lib/format.mjs
 // Mixed-layout DTCG JSON formatter shared by the generator scripts.
 //
 // Layout rules:

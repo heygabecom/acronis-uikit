@@ -1,4 +1,4 @@
-// ~/Developer/tokens/scripts/lib/tree.mjs
+// .tmp/scripts/lib/tree.mjs
 // Generic DTCG tree ops: path-set, color-leaf collector, sorter, reorderer.
 //
 // Examples:

@@ -1,4 +1,4 @@
-// ~/Developer/design-data/scripts/lib/typography-map.mjs
+// .tmp/scripts/lib/typography-map.mjs
 // Typography helpers shared by figma-to-primitives.mjs and figma-to-semantic.mjs.
 //
 //   - styleToWeight("Semi Bold")        → 600

@@ -1,4 +1,4 @@
-// ~/Developer/design-data/scripts/lib/alias-map.mjs
+// .tmp/scripts/lib/alias-map.mjs
 // Translate Figma DTCG aliases to our code paths, and validate the target
 // exists in the emitted primitives / semantic trees.
 //

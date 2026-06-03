@@ -1,4 +1,4 @@
-// ~/Developer/tokens/scripts/lib/color.mjs
+// .tmp/scripts/lib/color.mjs
 // Color math: hex parsing, sRGB → HSL, DTCG color-value builder.
 //
 // All angles/percents are rounded to 2 decimal places — matches the precision

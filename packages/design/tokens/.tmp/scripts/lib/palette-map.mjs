@@ -1,4 +1,4 @@
-// ~/Developer/tokens/scripts/lib/palette-map.mjs
+// .tmp/scripts/lib/palette-map.mjs
 // Shared Figma palette path → our path translator (multi-segment cases only).
 //
 // Single-element handling differs between callers — primitives uses a redirect
