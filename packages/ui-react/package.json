@@ -1,7 +1,7 @@
 {
   "name": "@acronis-platform/ui-react",
   "version": "0.1.0",
-  "description": "Acronis React component library — a Base UI implementation, themed by @acronis-platform/tokens.",
+  "description": "Acronis React component library — a Base UI implementation, themed by @acronis-platform/design-tokens.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -50,8 +50,8 @@
     }
   },
   "dependencies": {
-    "@acronis-platform/assets": "workspace:*",
-    "@acronis-platform/theme": "workspace:*",
+    "@acronis-platform/design-assets": "workspace:*",
+    "@acronis-platform/design-theme": "workspace:*",
     "@base-ui/react": "catalog:",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",

@@ -1,7 +1,7 @@
 # AGENTS.md — `packages/design-theme`
 
-`@acronis-platform/theme` — consumable **CSS / SCSS / JS** artifacts
-generated from [`@acronis-platform/tokens`](../design-tokens) via
+`@acronis-platform/design-theme` — consumable **CSS / SCSS / JS** artifacts
+generated from [`@acronis-platform/design-tokens`](../design-tokens) via
 [Style Dictionary](https://styledictionary.com/). Published.
 
 Repo-wide rules live in the repo root's `./context/`. This file documents
@@ -40,6 +40,6 @@ Outputs are gitignored — they're build artifacts. `dist/` is what ships.
   split are deferred. The matrix in `build.ts` is structured so adding a
   brand is one more array entry.
 - Don't edit `dist/`. Don't fork token values here — change them upstream
-  in `@acronis-platform/tokens` and rebuild.
+  in `@acronis-platform/design-tokens` and rebuild.
 
 See `../../context/releasing.md` for the Changesets / publish flow.

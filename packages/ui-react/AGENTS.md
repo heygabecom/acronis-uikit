@@ -1,8 +1,8 @@
 # AGENTS.md — `packages/ui-react`
 
 `@acronis-platform/ui-react` — the next-generation Acronis React component
-library: a **Base UI implementation** themed by `@acronis-platform/theme`
-(which is generated from `@acronis-platform/tokens`).
+library: a **Base UI implementation** themed by `@acronis-platform/design-theme`
+(which is generated from `@acronis-platform/design-tokens`).
 
 Repo-wide rules (TypeScript, file naming, editing rules, Conventional
 Commits, Changesets) live in the repo root's `./context/` and apply on
@@ -19,10 +19,10 @@ top of this file.
   Don't add Radix here. For element composition use Base UI's `useRender`
   - `mergeProps` (the `render` prop), not Radix `Slot` / `asChild`.
 - **Theming via generated tokens.** Color comes from
-  `@acronis-platform/theme` (`--av-*` CSS custom properties). `src/styles/
+  `@acronis-platform/design-theme` (`--av-*` CSS custom properties). `src/styles/
 index.css` bridges those onto Tailwind color names via `@theme inline`.
   Don't hand-author theme values here — change them in
-  `@acronis-platform/tokens` and rebuild `@acronis-platform/theme`.
+  `@acronis-platform/design-tokens` and rebuild `@acronis-platform/design-theme`.
 
 ## Shared conventions kept from legacy
 

@@ -1,5 +1,5 @@
-import primitivesJson from '@acronis-platform/tokens/tokens/primitives.json' with { type: 'json' };
-import semanticJson from '@acronis-platform/tokens/tokens/semantic.json' with { type: 'json' };
+import primitivesJson from '@acronis-platform/design-tokens/tokens/primitives.json' with { type: 'json' };
+import semanticJson from '@acronis-platform/design-tokens/tokens/semantic.json' with { type: 'json' };
 
 // The raw tokens are a Figma-exported DTCG variant that no consumer can use
 // directly: primitives carry per-scheme values, semantic tokens carry

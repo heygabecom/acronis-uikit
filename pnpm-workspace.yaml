@@ -56,7 +56,7 @@ catalog:
   ajv-cli: 5.0.0
   ajv-formats: 3.0.1
 
-  # Token build — packages/design-theme transforms @acronis-platform/tokens
+  # Token build — packages/design-theme transforms @acronis-platform/design-tokens
   # (DTCG JSON) into CSS/SCSS/JS artifacts.
   style-dictionary: 4.4.0
 

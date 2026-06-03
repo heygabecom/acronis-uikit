@@ -22,7 +22,7 @@ design-data packages are published; the apps are private.
 ## Workspaces
 
 | Path                      | Package                                | Published? | Stack                                                                  | Workspace docs                                |
-|---------------------------|----------------------------------------| ---------- | ---------------------------------------------------------------------- |-----------------------------------------------|
+| ------------------------- | -------------------------------------- | ---------- | ---------------------------------------------------------------------- | --------------------------------------------- |
 | `packages/ui-legacy/`     | `@acronis-platform/shadcn-uikit`       | **yes**    | Vite library, Storybook 10, Vitest + RTL                               | [AGENTS.md](packages/ui-legacy/AGENTS.md)     |
 | `packages/ui-react/`      | `@acronis-platform/ui-react`           | **yes**    | Base UI library, Vite, Storybook 10, Vitest + RTL, Tailwind v4         | [AGENTS.md](packages/ui-react/AGENTS.md)      |
 | `apps/demo/`              | `@acronis-platform/shadcn-uikit-demo`  | no         | Vite SPA, React Router v7, Zustand                                     | [AGENTS.md](apps/demo/AGENTS.md)              |
@@ -37,14 +37,14 @@ design-data packages are published; the apps are private.
 - `packages/ui-legacy/` — the published shadcn-based UI library.
 - `packages/ui-react/` houses the published next-generation **Base UI**
   library (`@base-ui/react` as a direct dep), themed by
-  `@acronis-platform/theme`. New component work goes here.
+  `@acronis-platform/design-theme`. New component work goes here.
 - `packages/design-tokens/` and `packages/design-assets/` — the published
   **design-data** packages. These ship JSON (and, for assets, bundled
   binaries) only: no build step, no runtime API. Their one real script
   is `validate` (ajv); `build`/`dev`/`clean`/`lint`/`typecheck` are
   no-ops and `test` aliases `validate`.
 - `packages/design-theme` is the one design package with a real build: it runs Style
-    Dictionary over `tokens` to emit consumable CSS / SCSS / JS artifacts.
+  Dictionary over `tokens` to emit consumable CSS / SCSS / JS artifacts.
 
 ## Scripts vocabulary
 

@@ -1,7 +1,7 @@
 {
-  "name": "@acronis-platform/theme",
+  "name": "@acronis-platform/design-theme",
   "version": "0.1.0",
-  "description": "Acronis design theme. CSS / SCSS / JS artifacts generated from @acronis-platform/tokens via Style Dictionary.",
+  "description": "Acronis design theme. CSS / SCSS / JS artifacts generated from @acronis-platform/design-tokens via Style Dictionary.",
   "license": "MIT",
   "type": "module",
   "publishConfig": {
@@ -26,7 +26,7 @@
     "build": "tsx scripts/build.ts",
     "dev": "tsx scripts/build.ts",
     "clean": "rm -rf dist",
-    "lint": "echo \"no lint (generated artifacts; source is @acronis-platform/tokens)\" && exit 0",
+    "lint": "echo \"no lint (generated artifacts; source is @acronis-platform/design-tokens)\" && exit 0",
     "lint:fix": "echo \"no lint (generated artifacts)\" && exit 0",
     "typecheck": "tsc --noEmit",
     "test": "pnpm run build",
@@ -40,7 +40,7 @@
     "acronis"
   ],
   "dependencies": {
-    "@acronis-platform/tokens": "workspace:*"
+    "@acronis-platform/design-tokens": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",

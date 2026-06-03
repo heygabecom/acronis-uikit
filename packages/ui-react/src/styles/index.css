@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import '@acronis-platform/theme/css';
+@import '@acronis-platform/design-theme/css';
 
 /* Theme switches via a `.dark` class (set by the consumer / next-themes),
    not the OS media query — mirror that for the `dark:` variant. */
@@ -8,7 +8,7 @@
 /* Bridge: map the generated `--av-*` design-token custom properties onto the
    Tailwind color names the components use. `inline` emits `var(--av-*)`
    references rather than copying values, so the `:root` / `.dark` cascade
-   from @acronis-platform/theme drives light/dark mode with no rebuild. */
+   from @acronis-platform/design-theme drives light/dark mode with no rebuild. */
 @theme inline {
   --color-background: var(--av-colors-background-surface-primary);
   --color-foreground: var(--av-colors-text-on-surface-primary);

@@ -33,7 +33,7 @@ Primitive.Root>`).
   `border-border`, …). They are bridged to the generated `--av-*` tokens in
   `src/styles/index.css`. If a component needs a color name that isn't
   bridged yet, add it to the `@theme inline` block pointing at the relevant
-  `@acronis-platform/theme` token — never hard-code a hex/hsl value.
+  `@acronis-platform/design-theme` token — never hard-code a hex/hsl value.
 
 ## Accessibility
 
@@ -42,6 +42,6 @@ Primitive.Root>`).
 
 ## Theming source of truth
 
-`@acronis-platform/tokens` (raw DTCG) → `@acronis-platform/theme` (generated
+`@acronis-platform/design-tokens` (raw DTCG) → `@acronis-platform/design-theme` (generated
 CSS/SCSS/JS) → this package's `@theme` bridge → component utilities. Change
 colors upstream and rebuild `theme`; don't fork values here.

@@ -1,7 +1,7 @@
-# @acronis-platform/theme
+# @acronis-platform/design-theme
 
 Consumable **CSS / SCSS / JS** design-theme artifacts, generated from
-[`@acronis-platform/tokens`](../design-tokens) (the raw DTCG token data) via
+[`@acronis-platform/design-tokens`](../design-tokens) (the raw DTCG token data) via
 [Style Dictionary](https://styledictionary.com/).
 
 The raw tokens are a Figma-exported, multi-dimensional DTCG variant that
@@ -13,7 +13,7 @@ ready-to-consume artifacts.
 ## Build
 
 ```sh
-pnpm --filter @acronis-platform/theme build
+pnpm --filter @acronis-platform/design-theme build
 ```
 
 `scripts/resolve.ts` flattens the (brand × scheme) matrix into plain
@@ -30,12 +30,12 @@ Dictionary to emit:
 
 ```css
 /* CSS */
-@import '@acronis-platform/theme/css';
+@import '@acronis-platform/design-theme/css';
 ```
 
 ```ts
 // JS
-import { light, dark, tokens } from '@acronis-platform/theme/js';
+import { light, dark, tokens } from '@acronis-platform/design-theme/js';
 ```
 
 CSS custom properties use the `--av-` prefix to stay consistent with the
