@@ -123,7 +123,7 @@ All components now properly use theme tokens from `cyber-chat.scss`:
 
 ## Theme Integration
 
-The cyber-chat theme (`packages/legacy/ui/src/styles/themes/cyber-chat.scss`) provides:
+The cyber-chat theme (`packages/ui-legacy/src/styles/themes/cyber-chat.scss`) provides:
 
 - **Primary color:** #0285FF (Cyber blue)
 - **Secondary color:** #00204D (Deep navy)

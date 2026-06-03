@@ -31,7 +31,7 @@
   identical. Consumers using `<Drawer />`, `<DrawerTrigger />`,
   `<DrawerContent />`, etc. now get full type information.
 
-- [#64](https://github.com/acronis/uikit/pull/64) [`3550e41`](https://github.com/acronis/uikit/commit/3550e41cce9a8fa8097e64cd6a15622ed2ff204f) Thanks [@leonid](https://github.com/leonid)! - Internal: relocate the library to `packages/legacy/ui` as part of the monorepo
+- [#64](https://github.com/acronis/uikit/pull/64) [`3550e41`](https://github.com/acronis/uikit/commit/3550e41cce9a8fa8097e64cd6a15622ed2ff204f) Thanks [@leonid](https://github.com/leonid)! - Internal: relocate the library to `packages/ui-legacy` as part of the monorepo
   restructure. No runtime, API, or type changes — the published tarball contents
   are identical to `0.36.1`.
 

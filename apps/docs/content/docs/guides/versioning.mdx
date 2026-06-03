@@ -146,7 +146,7 @@ git push --follow-tags origin main
 ### 4. Publish to npm
 
 ```bash
-cd packages/legacy/ui
+cd packages/ui-legacy
 npm publish
 ```
 
@@ -268,7 +268,7 @@ jobs:
         run: git push --follow-tags origin main
 
       - name: Publish to npm
-        working-directory: packages/legacy/ui
+        working-directory: packages/ui-legacy
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

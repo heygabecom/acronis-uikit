@@ -409,7 +409,7 @@
 
 **Files to modify:**
 
-- `packages/legacy/ui/src/styles/themes/cyber-chat.scss`
+- `packages/ui-legacy/src/styles/themes/cyber-chat.scss`
 - Component files
 
 **Estimated time:** 2 hours
