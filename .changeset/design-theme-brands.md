@@ -2,13 +2,18 @@
 '@acronis-platform/design-theme': minor
 ---
 
-Emit **all authored brands**, not just `acronis`. The default brand stays on
-`:root` / `.dark`; every other brand (currently `brand-b`) is generated as a
-class-scoped override (`.brand-b`, `.brand-b.dark`) containing only the tokens
-that differ from the default, so consumers switch brand by toggling a class.
-The `./js` export now ships `brands`, `defaultBrand`, and per-brand `tokens`
-(the existing `light` / `dark` exports remain, pointing at the default brand).
+Two additions:
 
-Note: `brand-b` currently differs from `acronis` only in AI gradient tokens,
-which the color-only build skips, so it produces no overrides yet — the
-mechanism is ready for when the brand data diverges.
+- **All authored brands** are emitted, not just `acronis`. The default brand
+  stays on `:root` / `.dark`; every other brand (currently `brand-b`) is a
+  class-scoped override (`.brand-b`, `.brand-b.dark`) containing only the
+  tokens that differ, so consumers switch brand by toggling a class. The
+  `./js` export now ships `brands`, `defaultBrand`, per-brand `tokens`, and a
+  `groups` array (tokens organized by category for display).
+- **Gradient tokens** are now emitted. Color-stop arrays become CSS
+  `linear-gradient(...)`, with the angle derived from the Figma
+  `com.figma.gradientTransform` matrix (e.g. `colors.background.ai.*`).
+
+Note: `brand-b` currently produces no overrides — it matches `acronis` on
+every color token and inherits its gradients. The mechanism is ready for when
+the brand data diverges.
