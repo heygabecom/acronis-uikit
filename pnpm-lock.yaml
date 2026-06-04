@@ -369,6 +369,9 @@ importers:
 
   apps/kitchen-sink:
     dependencies:
+      '@acronis-platform/design-theme':
+        specifier: workspace:*
+        version: link:../../packages/design-theme
       '@acronis-platform/icons-react':
         specifier: workspace:*
         version: link:../../packages/icons-react
