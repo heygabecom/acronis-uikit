@@ -2032,7 +2032,7 @@
         "platforms": ["PD"],
         "$extensions": {
           "com.acronis.units": { "unit": "px", "value": 3 },
-          "com.figma.scopes": ["STROKE_FLOAT"],
+          "com.figma.scopes": ["EFFECT_FLOAT"],
           "com.figma.variableId": "VariableID:1330:10884"
         }
       },

@@ -35,6 +35,12 @@ link.strong-underline}` (5).
 - Typography: `note.default` / `note.heading` now alias `{font.font-size.11}`
   instead of an inline `11px`; `headings.display` letter-spacing refreshed.
 
+**Changed metadata**
+
+- `units.stroke.3` Figma scope changed from `STROKE_FLOAT` to **`EFFECT_FLOAT`**
+  only (`$extensions.com.figma.scopes`). The token value is unchanged; this only
+  affects which Figma properties the variable is offered for.
+
 **Removed / renamed (breaking for consumers of the old paths)**
 
 These paths no longer exist in Figma. Most are renames — migrate references:
