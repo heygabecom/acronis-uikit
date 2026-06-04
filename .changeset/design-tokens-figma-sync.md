@@ -37,9 +37,10 @@ link.strong-underline}` (5).
 
 **Changed metadata**
 
-- `units.stroke.3` Figma scope changed from `STROKE_FLOAT` to **`EFFECT_FLOAT`**
-  only (`$extensions.com.figma.scopes`). The token value is unchanged; this only
-  affects which Figma properties the variable is offered for.
+- `units.stroke.3` is now scoped to **`EFFECT_FLOAT`** only
+  (`$extensions.com.figma.scopes`); previously it also carried `STROKE_FLOAT`.
+  The token value is unchanged — this only affects which Figma properties the
+  variable is offered for.
 
 **Removed / renamed (breaking for consumers of the old paths)**
 
