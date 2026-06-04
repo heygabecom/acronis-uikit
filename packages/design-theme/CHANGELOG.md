@@ -1,5 +1,12 @@
 # @acronis-platform/design-theme
 
+## 0.5.1
+
+### Patch Changes
+
+- Updated dependencies [[`23b62d4`](https://github.com/acronis/uikit/commit/23b62d49263276956b46d34cdd084003c9fd566b)]:
+  - @acronis-platform/design-tokens@0.5.0
+
 ## 0.5.0
 
 ### Minor Changes
