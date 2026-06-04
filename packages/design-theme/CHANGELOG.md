@@ -1,5 +1,24 @@
 # @acronis-platform/design-theme
 
+## 0.4.0
+
+### Minor Changes
+
+- [#89](https://github.com/acronis/uikit/pull/89) [`61fe683`](https://github.com/acronis/uikit/commit/61fe68389b42f482fe9f7a07ab0f14ebad6c12d1) Thanks [@leonid](https://github.com/leonid)! - Two additions:
+  - **All authored brands** are emitted, not just `acronis`. The default brand
+    stays on `:root` / `.dark`; every other brand (currently `brand-b`) is a
+    class-scoped override (`.brand-b`, `.brand-b.dark`) containing only the
+    tokens that differ, so consumers switch brand by toggling a class. The
+    `./js` export now ships `brands`, `defaultBrand`, per-brand `tokens`, and a
+    `groups` array (tokens organized by category for display).
+  - **Gradient tokens** are now emitted. Color-stop arrays become CSS
+    `linear-gradient(...)`, with the angle derived from the Figma
+    `com.figma.gradientTransform` matrix (e.g. `colors.background.ai.*`).
+
+  Note: `brand-b` currently produces no overrides — it matches `acronis` on
+  every color token and inherits its gradients. The mechanism is ready for when
+  the brand data diverges.
+
 ## 0.3.0
 
 ### Minor Changes
