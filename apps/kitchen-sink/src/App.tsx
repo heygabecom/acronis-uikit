@@ -1,4 +1,10 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import {
+  brands,
+  defaultBrand,
+  tokens,
+  type Brand,
+} from '@acronis-platform/design-theme/js';
 
 import { ColorsSection } from '@/sections/colors';
 import { ComponentsSection } from '@/sections/components';
@@ -42,10 +48,27 @@ const SECTIONS = [
 
 export default function App() {
   const [mode, setMode] = useState<ColorMode>('light');
+  const [brand, setBrand] = useState<Brand>(defaultBrand);
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', mode === 'dark');
-  }, [mode]);
+    const html = document.documentElement;
+    // Non-default brands are applied as a class (e.g. `brand-b`); the default
+    // brand lives on `:root` so it carries no class.
+    for (const b of brands) {
+      if (b !== defaultBrand) html.classList.remove(b);
+    }
+    if (brand !== defaultBrand) html.classList.add(brand);
+    html.classList.toggle('dark', mode === 'dark');
+  }, [brand, mode]);
+
+  // How many tokens the selected brand overrides vs the default, for the
+  // current scheme — 0 means the brand renders identically to the default.
+  const overrides = useMemo(() => {
+    if (brand === defaultBrand) return 0;
+    const base = tokens[defaultBrand][mode] as Record<string, string>;
+    const current = tokens[brand][mode] as Record<string, string>;
+    return Object.keys(current).filter((k) => base[k] !== current[k]).length;
+  }, [brand, mode]);
 
   return (
     <div
@@ -83,6 +106,38 @@ export default function App() {
             </a>
           ))}
         </nav>
+        <label
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            fontSize: 13,
+          }}
+        >
+          Brand
+          <select
+            value={brand}
+            onChange={(e) => setBrand(e.target.value as Brand)}
+            style={{
+              padding: '6px 8px',
+              borderRadius: 6,
+              border: '1px solid var(--av-colors-border-on-surface-border)',
+              background: 'var(--av-colors-background-surface-secondary)',
+              color: 'inherit',
+            }}
+          >
+            {brands.map((b) => (
+              <option key={b} value={b}>
+                {b}
+              </option>
+            ))}
+          </select>
+          <span style={{ color: 'var(--av-colors-text-on-surface-secondary)' }}>
+            {brand === defaultBrand
+              ? '(default)'
+              : `(${overrides} override${overrides === 1 ? '' : 's'})`}
+          </span>
+        </label>
         <button
           type="button"
           onClick={() => setMode((m) => (m === 'light' ? 'dark' : 'light'))}

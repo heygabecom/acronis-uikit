@@ -17,6 +17,7 @@
     "test:watch": "echo \"no tests in this workspace\" && exit 0"
   },
   "dependencies": {
+    "@acronis-platform/design-theme": "workspace:*",
     "@acronis-platform/icons-react": "workspace:*",
     "@acronis-platform/ui-react": "workspace:*"
   },
