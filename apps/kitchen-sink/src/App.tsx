@@ -1,17 +1,19 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
-import {
-  brands,
-  defaultBrand,
-  tokens,
-  type Brand,
-} from '@acronis-platform/design-theme/js';
+import { useEffect, useState, type ReactNode } from 'react';
 
+import {
+  applyBrand,
+  applyTheme,
+  brandOverrideCount,
+  BRANDS,
+  DEFAULT_BRAND,
+  type Brand,
+  type ColorMode,
+} from '@/lib/tokens';
 import { ColorsSection } from '@/sections/colors';
 import { ComponentsSection } from '@/sections/components';
 import { ElementsSection } from '@/sections/elements';
 import { IconsSection } from '@/sections/icons';
-
-type ColorMode = 'light' | 'dark';
+import { TypographySection } from '@/sections/typography';
 
 function Section({
   id,
@@ -29,7 +31,7 @@ function Section({
           fontSize: 20,
           marginBottom: 20,
           paddingBottom: 8,
-          borderBottom: '1px solid var(--av-colors-border-on-surface-divider)',
+          borderBottom: '1px solid var(--ui-border-on-surface-divider)',
         }}
       >
         {title}
@@ -41,6 +43,7 @@ function Section({
 
 const SECTIONS = [
   { id: 'colors', title: 'Colors & tokens', Component: ColorsSection },
+  { id: 'typography', title: 'Typography', Component: TypographySection },
   { id: 'elements', title: 'Default elements', Component: ElementsSection },
   { id: 'components', title: 'Components', Component: ComponentsSection },
   { id: 'icons', title: 'Icons', Component: IconsSection },
@@ -48,34 +51,28 @@ const SECTIONS = [
 
 export default function App() {
   const [mode, setMode] = useState<ColorMode>('light');
-  const [brand, setBrand] = useState<Brand>(defaultBrand);
+  const [brand, setBrand] = useState<Brand>(DEFAULT_BRAND);
 
+  // Light/dark drives the tokens' `light-dark()` via `color-scheme`.
   useEffect(() => {
-    const html = document.documentElement;
-    // Non-default brands are applied as a class (e.g. `brand-b`); the default
-    // brand lives on `:root` so it carries no class.
-    for (const b of brands) {
-      if (b !== defaultBrand) html.classList.remove(b);
-    }
-    if (brand !== defaultBrand) html.classList.add(brand);
-    html.classList.toggle('dark', mode === 'dark');
-  }, [brand, mode]);
+    applyTheme(mode);
+  }, [mode]);
 
-  // How many tokens the selected brand overrides vs the default, for the
-  // current scheme — 0 means the brand renders identically to the default.
-  const overrides = useMemo(() => {
-    if (brand === defaultBrand) return 0;
-    const base = tokens[defaultBrand][mode] as Record<string, string>;
-    const current = tokens[brand][mode] as Record<string, string>;
-    return Object.keys(current).filter((k) => base[k] !== current[k]).length;
-  }, [brand, mode]);
+  // A brand applies its `:root` override stylesheet (brand-b) or removes it.
+  useEffect(() => {
+    applyBrand(brand);
+  }, [brand]);
+
+  // How many tokens the selected brand overrides vs the default — 0 means the
+  // brand renders identically to the default.
+  const overrides = brandOverrideCount(brand);
 
   return (
     <div
       style={{
         minHeight: '100vh',
-        background: 'var(--av-colors-background-surface-primary)',
-        color: 'var(--av-colors-text-on-surface-primary)',
+        background: 'var(--ui-background-surface-primary)',
+        color: 'var(--ui-text-on-surface-primary)',
       }}
     >
       <header
@@ -88,8 +85,8 @@ export default function App() {
           justifyContent: 'space-between',
           gap: 16,
           padding: '12px 24px',
-          background: 'var(--av-colors-background-surface-primary)',
-          borderBottom: '1px solid var(--av-colors-border-on-surface-divider)',
+          background: 'var(--ui-background-surface-primary)',
+          borderBottom: '1px solid var(--ui-border-on-surface-divider)',
         }}
       >
         <strong>Acronis UI — Kitchen Sink</strong>
@@ -100,7 +97,7 @@ export default function App() {
             <a
               key={s.id}
               href={`#${s.id}`}
-              style={{ color: 'var(--av-colors-text-on-surface-link)' }}
+              style={{ color: 'var(--ui-text-on-surface-link)' }}
             >
               {s.title}
             </a>
@@ -121,19 +118,19 @@ export default function App() {
             style={{
               padding: '6px 8px',
               borderRadius: 6,
-              border: '1px solid var(--av-colors-border-on-surface-border)',
-              background: 'var(--av-colors-background-surface-secondary)',
+              border: '1px solid var(--ui-border-on-surface-border)',
+              background: 'var(--ui-background-surface-secondary)',
               color: 'inherit',
             }}
           >
-            {brands.map((b) => (
+            {BRANDS.map((b) => (
               <option key={b} value={b}>
                 {b}
               </option>
             ))}
           </select>
-          <span style={{ color: 'var(--av-colors-text-on-surface-secondary)' }}>
-            {brand === defaultBrand
+          <span style={{ color: 'var(--ui-text-on-surface-secondary)' }}>
+            {brand === DEFAULT_BRAND
               ? '(default)'
               : `(${overrides} override${overrides === 1 ? '' : 's'})`}
           </span>
@@ -145,8 +142,8 @@ export default function App() {
             padding: '6px 12px',
             borderRadius: 6,
             cursor: 'pointer',
-            border: '1px solid var(--av-colors-border-on-surface-border)',
-            background: 'var(--av-colors-background-surface-secondary)',
+            border: '1px solid var(--ui-border-on-surface-border)',
+            background: 'var(--ui-background-surface-secondary)',
             color: 'inherit',
           }}
         >

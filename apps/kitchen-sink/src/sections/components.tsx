@@ -28,7 +28,7 @@ function Row({
       <span
         style={{
           fontSize: 12,
-          color: 'var(--av-colors-text-on-surface-secondary)',
+          color: 'var(--ui-text-on-surface-secondary)',
         }}
       >
         {label}
