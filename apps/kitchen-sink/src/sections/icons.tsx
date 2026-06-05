@@ -33,14 +33,14 @@ function Gallery({ icons }: { icons: IconMap }) {
             gap: 6,
             padding: 8,
             borderRadius: 6,
-            border: '1px solid var(--av-colors-border-on-surface-border)',
+            border: '1px solid var(--ui-border-on-surface-border)',
           }}
         >
           <Icon size={24} />
           <span
             style={{
               fontSize: 9,
-              color: 'var(--av-colors-text-on-surface-secondary)',
+              color: 'var(--ui-text-on-surface-secondary)',
               textAlign: 'center',
               overflow: 'hidden',
               textOverflow: 'ellipsis',

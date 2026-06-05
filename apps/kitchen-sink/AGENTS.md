@@ -1,10 +1,10 @@
 # AGENTS.md — `apps/kitchen-sink`
 
 `@acronis-platform/kitchen-sink` — a single-page "kitchen sink" that renders
-**everything at once**: the `--av-*` design tokens / colors, default HTML
-element styles, the implemented `@acronis-platform/ui-react` components, and
-the `@acronis-platform/icons-react` packs. A visual reference / QA surface.
-**Private**, not published.
+**everything at once**: the `--ui-*` design tokens / colors (from
+`@acronis-platform/tokens-pd`), default HTML element styles, the implemented
+`@acronis-platform/ui-react` components, and the `@acronis-platform/icons-react`
+packs. A visual reference / QA surface. **Private**, not published.
 
 Cross-cutting topics live in `../../context/*.md`. This file documents only
 what's specific to this workspace.
@@ -25,24 +25,37 @@ Consequence: the dependency libraries must be built before this app's `dev`,
   (see `.github/workflows/ci.yml`, mirroring the `ui-legacy` step). `pnpm -r`
   is topological, so a plain `pnpm -r build` also builds them before this app.
 
-## Styling
+## Styling & tokens
 
 `src/main.tsx` imports `@acronis-platform/ui-react/styles` — the built CSS that
-already bundles the reset (default element styles), the `--av-*` tokens
-(`:root` + `.dark`), and the component utilities. The page's own layout uses
-inline styles + `var(--av-*)` tokens; there is **no Tailwind pipeline here**.
+bundles the reset (default element styles), the **semantic** `--ui-*` tokens
+(`@acronis-platform/tokens-pd/css/acronis.css`), and the component utilities.
+The page's own layout uses inline styles + `var(--ui-*)` tokens; there is **no
+Tailwind pipeline here**.
+
+`src/lib/tokens.ts` owns the rest of the token wiring, because tokens-pd's
+delivery model differs from the retired `design-theme`:
+
+- **Per-component tokens** (`--ui-button-*`, `--ui-switch-*`, …) are NOT bundled
+  by `ui-react/styles`, so `tokens.ts` imports the `css/<component>/acronis.css`
+  files and injects them once (needed both to render components and to enumerate
+  their names).
+- **Brand switching** injects `brand-b`'s _override-only_ `:root` stylesheet
+  (`applyBrand`) — it is not a class toggle.
+- **Light/dark** flips `color-scheme` (drives the tokens' `light-dark()`) and
+  mirrors `[data-theme]` for ui-react's `dark:` variant (`applyTheme`) — it is
+  not a `.dark` class.
 
 ## Sections (`src/sections/`)
 
-- `colors.tsx` — enumerates `--av-*` custom properties from the loaded
-  stylesheets at runtime (`src/lib/tokens.ts`); values resolve live per theme.
+- `colors.tsx` — enumerates `--ui-*` custom properties (semantic + per-component,
+  e.g. `--ui-button-*`) parsed from the tokens-pd CSS in `src/lib/tokens.ts`;
+  values resolve live per brand/scheme.
 - `elements.tsx` — raw HTML elements (headings, lists, table, native form
   controls) as the reset renders them.
 - `components.tsx` — `ui-react` `Button` (variants/sizes/states/with-icons) and
   `Switch`.
 - `icons.tsx` — galleries for all four `icons-react` packs.
-
-Light/dark is toggled by adding the `dark` class to `<html>` (`src/App.tsx`).
 
 ## Run
 
