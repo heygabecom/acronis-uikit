@@ -32,7 +32,8 @@
   start Field before Input/Label; don't start the Table cluster before
   Tooltip/Checkbox/Scroll Area ship.
 - **Decisions block their phase.** Ratify `decision`-labelled issues before the
-  dependent phase starts — #192 (RSC support, **P0**) before P2 primitive detail.
+  dependent phase starts — #192 (RSC support, **Priority P0-Critical**) before P2
+  primitive detail.
 - **Capacity split (2 FT + 2 PT ≈ 3 FTE):** part-timers take S/M leaf tasks
   (widgets, layout, docs); full-timers own the critical path (E1 tokens, then
   Select/Combobox/Table cluster/Chart).

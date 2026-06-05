@@ -7,7 +7,7 @@
 ## Conventions (apply to every task)
 
 - **Location:** `packages/ui-react/src/components/ui/<component>/` per the layout
-  in `ui-react/AGENTS.md` (`<component>.tsx`, `index.ts`, `__tests__/`,
+  in `packages/ui-react/AGENTS.md` (`<component>.tsx`, `index.ts`, `__tests__/`,
   `__stories__/`, optional `<component>.figma.tsx`).
 - **Primitive source:** Base UI (`@base-ui/react`) — no Radix. Compose with
   `useRender` + `mergeProps` (the `render` prop), not `asChild`/`Slot`.

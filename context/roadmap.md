@@ -67,7 +67,8 @@ contract must be stable before the component ladder accelerates.
 - [ ] **Theme delivery (mirror legacy)** — `design-theme` emits per-brand CSS
       exports that set `--av-*`, consumed by `ui-react` via `@theme inline`;
       selected by class toggle. Port the **white-label generation** concept (legacy
-      `scripts/generate-white-label-themes.ts`) onto the Style Dictionary output.
+      `packages/ui-legacy/scripts/generate-white-label-themes.ts`) onto the Style
+      Dictionary output.
 - [ ] **Brand matrix (Figma-driven)** — ship the legacy four (`acronis-default`,
       `acronis-ocean`, `cyber-chat`, `acronis-white-label`) **plus any new brand
       Figma introduces**. Generation must be **data-driven from the synced brand
@@ -83,8 +84,8 @@ contract must be stable before the component ladder accelerates.
 
 ### E2 — `ui-react` component buildout · #103 _(main thrust, foundational-first ladder)_
 
-Per-component DoD (from `ui-react/AGENTS.md`): Vitest test · Storybook story (all
-variants, **light + dark**) · Changeset · optional Figma Code Connect.
+Per-component DoD (from `packages/ui-react/AGENTS.md`): Vitest test · Storybook
+story (all variants, **light + dark**) · Changeset · optional Figma Code Connect.
 
 - **Tier 0 — done:** Button ✅, Switch ✅
 - **Tier 1 — form & overlay primitives** (unblocks most composites)
