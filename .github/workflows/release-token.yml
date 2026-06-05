@@ -1,0 +1,75 @@
+# Token-based release workflow — fallback / bootstrap path.
+#
+# Use this workflow when npm Trusted Publishing (OIDC) is not yet
+# configured for a package (e.g. first-ever publish of a new package).
+#
+# How it differs from release.yml:
+#   - Triggered manually (workflow_dispatch) instead of on every push.
+#   - Authenticates with a static Automation token (NPM_PUBLISH_TOKEN_2).
+#   - Runs `changeset publish` directly — no version-PR step.
+#     Changesets skips any package whose current version is already on npm,
+#     so it is safe to run even when only some packages need publishing.
+#
+# Required secrets:
+#   ACV_TOKEN             GitHub PAT — needed to create GitHub Releases.
+#   NPM_PUBLISH_TOKEN_2   npm Automation token (NOT a classic Publish token —
+#                         classic tokens require 2FA and will hit EOTP).
+#
+# Provenance attestation is still enabled: the job already holds
+# id-token:write, so npm can generate the SLSA attestation even when the
+# publishing credential itself is a static token.
+name: Release (token auth)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    if: github.repository == 'acronis/uikit'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js (npm registry)
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate design packages
+        run: pnpm --filter "./packages/design-*" test
+
+      - name: Build UI library (ui-legacy)
+        run: pnpm --filter @acronis-platform/shadcn-uikit build
+
+      - name: Build tokens-pd
+        run: pnpm --filter @acronis-platform/tokens-pd build
+
+      - name: Build icons-react
+        run: pnpm --filter @acronis-platform/icons-react build
+
+      - name: Build ui-react
+        run: pnpm --filter @acronis-platform/ui-react build
+
+      - name: Publish to npm
+        run: pnpm run release
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACV_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN_2 }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN_2 }}
+          NPM_CONFIG_PROVENANCE: true
