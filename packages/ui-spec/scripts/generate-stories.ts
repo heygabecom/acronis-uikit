@@ -171,6 +171,7 @@ export const Disabled: Story = {
 
   // ── transitions: drive each interactive transition, land in the new state ──
   const role = anatomy.root.role ?? 'button';
+  const rootSelector = `[role="${role}"], ${anatomy.root.element}`;
   for (const t of (anatomy.transitions ?? []).filter((x) => x.interactive)) {
     needsPlay = true;
     const guard = t.guard ? ` [guard: ${t.guard}]` : '';
@@ -178,7 +179,7 @@ export const Disabled: Story = {
 export const ${cap(t.id)}: Story = {
   render: () => ${base},
   play: async ({ canvasElement }) => {
-    const el = canvasElement.querySelector('[role="${role}"]');
+    const el = canvasElement.querySelector('${rootSelector}');
     if (el) await userEvent.click(el as HTMLElement);
   },
 };`);

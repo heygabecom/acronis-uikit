@@ -64,9 +64,10 @@ describe('state classification is coherent', () => {
         if (s.kind === 'pseudo') {
           expect(s.pseudo, `${name}/${s.id} (pseudo) needs a pseudo selector`).toBeTruthy();
         }
-        if (s.kind === 'prop' && s.prop) {
+        if (s.kind === 'prop') {
+          expect(s.prop, `${name}/${s.id} (prop) needs a prop name`).toBeTruthy();
           expect(
-            propNames.has(s.prop),
+            propNames.has(s.prop ?? ''),
             `${name}/${s.id} references unknown prop "${s.prop}"`
           ).toBe(true);
         }
