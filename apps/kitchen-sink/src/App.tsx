@@ -14,6 +14,12 @@ import { ComponentsSection } from '@/sections/components';
 import { IconsSection } from '@/sections/icons';
 import { TypographySection } from '@/sections/typography';
 
+const SECTION_MARGIN_BOTTOM = 56;
+const SECTION_SCROLL_MARGIN_TOP = 72;
+const SECTION_HEADING_FONT_SIZE = 20;
+const SECTION_HEADING_MARGIN_BOTTOM = 20;
+const SECTION_HEADING_PADDING_BOTTOM = 8;
+
 function Section({
   id,
   title,
@@ -24,12 +30,18 @@ function Section({
   children: ReactNode;
 }) {
   return (
-    <section id={id} style={{ marginBottom: 56, scrollMarginTop: 72 }}>
+    <section
+      id={id}
+      style={{
+        marginBottom: SECTION_MARGIN_BOTTOM,
+        scrollMarginTop: SECTION_SCROLL_MARGIN_TOP,
+      }}
+    >
       <h2
         style={{
-          fontSize: 20,
-          marginBottom: 20,
-          paddingBottom: 8,
+          fontSize: SECTION_HEADING_FONT_SIZE,
+          marginBottom: SECTION_HEADING_MARGIN_BOTTOM,
+          paddingBottom: SECTION_HEADING_PADDING_BOTTOM,
           borderBottom: '1px solid var(--ui-border-on-surface-divider)',
         }}
       >
@@ -46,6 +58,13 @@ const SECTIONS = [
   { id: 'components', title: 'Components', Component: ComponentsSection },
   { id: 'icons', title: 'Icons', Component: IconsSection },
 ];
+
+const HEADER_PADDING_Y = 12;
+const HEADER_PADDING_X = 24;
+const MAIN_CONTENT_MAX_WIDTH = 1080;
+const MAIN_CONTENT_PADDING_TOP = 32;
+const MAIN_CONTENT_PADDING_HORIZONTAL = 24;
+const MAIN_CONTENT_PADDING_BOTTOM = 96;
 
 export default function App() {
   const [mode, setMode] = useState<ColorMode>('light');
@@ -83,7 +102,7 @@ export default function App() {
           alignItems: 'center',
           justifyContent: 'space-between',
           gap: 16,
-          padding: '12px 24px',
+          padding: `${HEADER_PADDING_Y}px ${HEADER_PADDING_X}px`,
           background: 'var(--ui-background-surface-primary)',
           borderBottom: '1px solid var(--ui-border-on-surface-divider)',
         }}
@@ -151,7 +170,11 @@ export default function App() {
       </header>
 
       <main
-        style={{ maxWidth: 1080, margin: '0 auto', padding: '32px 24px 96px' }}
+        style={{
+          maxWidth: MAIN_CONTENT_MAX_WIDTH,
+          margin: '0 auto',
+          padding: `${MAIN_CONTENT_PADDING_TOP}px ${MAIN_CONTENT_PADDING_HORIZONTAL}px ${MAIN_CONTENT_PADDING_BOTTOM}px`,
+        }}
       >
         {SECTIONS.map(({ id, title, Component }) => (
           <Section key={id} id={id} title={title}>
