@@ -169,14 +169,13 @@ export const Disabled: Story = {
     }
   }
 
-  // ── kind=internal: drive the real interaction, land in the changed state ──
-  const internal = anatomy.internal_state ?? [];
-  if (internal.length) {
+  // ── transitions: drive each interactive transition, land in the new state ──
+  const role = anatomy.root.role ?? 'button';
+  for (const t of (anatomy.transitions ?? []).filter((x) => x.interactive)) {
     needsPlay = true;
-    const role = anatomy.root.role ?? 'button';
-    const changedBy = internal[0].changed_by ?? 'interaction';
-    parts.push(`// Internal state "${internal[0].id}" — ${changedBy}.
-export const Interaction: Story = {
+    const guard = t.guard ? ` [guard: ${t.guard}]` : '';
+    parts.push(`// transition "${t.id}": ${t.on} -> ${String(t.to)}${guard}
+export const ${cap(t.id)}: Story = {
   render: () => ${base},
   play: async ({ canvasElement }) => {
     const el = canvasElement.querySelector('[role="${role}"]');

@@ -33,8 +33,8 @@ export const FocusVisible: Story = {
   },
 };
 
-// Internal state "checked" — click / Space / Enter toggles it (when uncontrolled).
-export const Interaction: Story = {
+// transition "toggle": click / Space / Enter -> toggle (!checked) [guard: not disabled]
+export const Toggle: Story = {
   render: () => <Switch aria-label="Toggle" />,
   play: async ({ canvasElement }) => {
     const el = canvasElement.querySelector('[role="switch"]');

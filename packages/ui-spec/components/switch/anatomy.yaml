@@ -20,18 +20,32 @@ parts:
     description: The sliding knob that moves between the off and on positions.
     element: span
 
-# Switch owns one piece of internal state: `checked`. When uncontrolled it is
-# toggled by interaction; when controlled it mirrors the `checked` prop. The
-# checked/unchecked visual states below are therefore `internal` (driven by
-# this state), not `prop` — reaching them in a story needs either the controlled
-# prop or a play interaction.
+# Switch owns one piece of internal state, `checked`, plus the logic that maps
+# interaction -> state -> visuals. The checked/unchecked visual states below are
+# therefore `internal` (driven by this state), reached via the controlled prop or
+# a play interaction (see transitions).
 internal_state:
   - id: checked
     type: boolean
+    values: [false, true]
     initial: false
-    controllable_via: [checked, default-checked]
+    controllable_via: [checked]
+    controlled_default: default-checked
+    emits: checked-change
     changed_by: click / Space / Enter toggles it (when uncontrolled)
     description: On/off state; reflected to aria-checked and the thumb position.
+
+transitions:
+  - id: toggle
+    state: checked
+    on: click / Space / Enter
+    to: toggle (!checked)
+    guard: not disabled
+    effect: emits checked-change(next)
+    when_controlled: >-
+      internal value does NOT change; the component only emits checked-change and
+      the consumer must update the `checked` prop to reflect the new value.
+    interactive: true
 
 states:
   - {

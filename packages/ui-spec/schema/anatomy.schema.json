@@ -84,16 +84,70 @@
           "id": { "type": "string" },
           "type": { "type": "string" },
           "initial": {},
+          "values": {
+            "type": "array",
+            "description": "Allowed values for enumerated state (omit for free/boolean)."
+          },
           "controllable_via": {
             "type": "array",
             "items": { "type": "string" },
             "description": "api.yaml props that read/override this internal state."
+          },
+          "controlled_default": {
+            "type": "string",
+            "description": "api.yaml prop that seeds the value in uncontrolled mode (e.g. 'default-checked')."
+          },
+          "emits": {
+            "type": "string",
+            "description": "api.yaml event fired when the value changes (e.g. 'checked-change')."
           },
           "changed_by": {
             "type": "string",
             "description": "The interaction that mutates it (e.g. 'click / Space toggles')."
           },
           "description": { "type": "string" }
+        }
+      }
+    },
+    "transitions": {
+      "type": "array",
+      "description": "State machine: how interactions move internal state between values (and what that affects).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "state", "on", "to"],
+        "properties": {
+          "id": { "type": "string" },
+          "state": {
+            "type": "string",
+            "description": "internal_state id this transition mutates."
+          },
+          "from": {
+            "description": "Source value, or omit for any."
+          },
+          "on": {
+            "type": "string",
+            "description": "The event/interaction that triggers it (e.g. 'click / Space / Enter')."
+          },
+          "to": {
+            "description": "Resulting value, or an expression like 'toggle'."
+          },
+          "guard": {
+            "type": "string",
+            "description": "Condition that must hold (e.g. 'not disabled')."
+          },
+          "effect": {
+            "type": "string",
+            "description": "Side effect (e.g. 'emits checked-change(next)')."
+          },
+          "when_controlled": {
+            "type": "string",
+            "description": "How behaviour differs when the value is controlled by a prop."
+          },
+          "interactive": {
+            "type": "boolean",
+            "description": "Whether this transition is reachable by a user gesture (drives play-story generation)."
+          }
         }
       }
     }

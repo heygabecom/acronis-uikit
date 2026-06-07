@@ -77,7 +77,10 @@ describe('state classification is coherent', () => {
           ).toBeGreaterThan(0);
         }
       }
-      // Any declared internal state must be readable/overridable by a real prop.
+      // Internal state must be wired to the real API: its controlling prop, its
+      // uncontrolled-default prop, and its change event must all exist.
+      const eventNames = new Set((api.contract.events ?? []).map((e) => e.name));
+      const internalIds = new Set((anatomy.internal_state ?? []).map((s) => s.id));
       for (const st of anatomy.internal_state ?? []) {
         for (const prop of st.controllable_via ?? []) {
           expect(
@@ -85,6 +88,26 @@ describe('state classification is coherent', () => {
             `${name}: internal_state "${st.id}" controllable_via unknown prop "${prop}"`
           ).toBe(true);
         }
+        if (st.controlled_default) {
+          expect(
+            propNames.has(st.controlled_default),
+            `${name}: internal_state "${st.id}" controlled_default unknown prop "${st.controlled_default}"`
+          ).toBe(true);
+        }
+        if (st.emits) {
+          expect(
+            eventNames.has(st.emits),
+            `${name}: internal_state "${st.id}" emits unknown event "${st.emits}"`
+          ).toBe(true);
+        }
+      }
+
+      // Every transition must mutate a declared internal state.
+      for (const t of anatomy.transitions ?? []) {
+        expect(
+          internalIds.has(t.state),
+          `${name}: transition "${t.id}" targets unknown internal_state "${t.state}"`
+        ).toBe(true);
       }
     });
   }

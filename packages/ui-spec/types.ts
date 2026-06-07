@@ -42,9 +42,31 @@ export interface InternalState {
   id: string;
   type: string;
   initial?: unknown;
+  /** Allowed values for enumerated state (omit for free/boolean). */
+  values?: unknown[];
+  /** api.yaml props that read/override this state. */
   controllable_via?: string[];
+  /** api.yaml prop that seeds the value when uncontrolled. */
+  controlled_default?: string;
+  /** api.yaml event fired when the value changes. */
+  emits?: string;
   changed_by?: string;
   description: string;
+}
+
+/** A state-machine edge: an interaction moving internal state between values. */
+export interface Transition {
+  id: string;
+  /** internal_state id this transition mutates. */
+  state: string;
+  from?: unknown;
+  on: string;
+  to: unknown;
+  guard?: string;
+  effect?: string;
+  when_controlled?: string;
+  /** Reachable by a user gesture (drives play-story generation). */
+  interactive?: boolean;
 }
 
 export interface AnatomySpec {
@@ -54,6 +76,7 @@ export interface AnatomySpec {
   root: { element: string; role?: string; description?: string };
   parts: AnatomyPart[];
   internal_state?: InternalState[];
+  transitions?: Transition[];
   layout?: {
     type?: string;
     direction?: string;
