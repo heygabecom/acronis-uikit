@@ -3,7 +3,7 @@
 This guide covers the day-to-day authoring tasks: keeping the tokens and Figma in step (the two [sync pipelines](#sync-pipelines)), adding a new mode, adding a new `$type` or `$extensions` key, and validating your work. For deeper conceptual context (modes, themes, alias chains, the DTCG divergence, the Figma sync) see this package's `context/` directory — the references at the bottom of this file point you at the right doc per topic.
 
 > [!IMPORTANT]
-> The token JSON under `tokens/` is the **source of truth** — it's what's committed and what consumers read. **Figma is never the source of truth**; it's a peer surface designers work in. The two are kept in step by an LLM (Claude) via the [Figma Console MCP](https://github.com/southleft/figma-console-mcp), and changes can flow **either direction** — see [Sync pipelines](#sync-pipelines). Either way it ends with `pnpm validate` → commit.
+> The token JSON under `tiers/` is the **source of truth** — it's what's committed and what consumers read. **Figma is never the source of truth**; it's a peer surface designers work in. The two are kept in step by an LLM (Claude) via the [Figma Console MCP](https://github.com/southleft/figma-console-mcp), and changes can flow **either direction** — see [Sync pipelines](#sync-pipelines). Either way it ends with `pnpm validate` → commit.
 
 ## Before you start
 
@@ -13,7 +13,7 @@ This guide covers the day-to-day authoring tasks: keeping the tokens and Figma i
 
 ## Sync pipelines
 
-The JSON under `tokens/` is the **source of truth**; Figma is a peer surface. An LLM (Claude) keeps them in step through the [Figma Console MCP](https://github.com/southleft/figma-console-mcp). Changes flow in **either direction** — pick the one that matches where the change originated. Both end with `pnpm validate` → commit ([Validating](#validating)).
+The JSON under `tiers/` is the **source of truth**; Figma is a peer surface. An LLM (Claude) keeps them in step through the [Figma Console MCP](https://github.com/southleft/figma-console-mcp). Changes flow in **either direction** — pick the one that matches where the change originated. Both end with `pnpm validate` → commit ([Validating](#validating)).
 | Pipeline | Use when | Tools |
 | --------------------------------------------------- | ------------------------------ | --------------------------------------- |
 | [Figma → JSON](#figma--json-designer-changed-figma) | a designer changed Figma | LLM + Figma Console + JS helper scripts |
@@ -51,7 +51,7 @@ node .tmp/scripts/figma-to-semantic.mjs
 node .tmp/scripts/figma-to-components.mjs
 ```
 
-They write `tokens/primitives.json`, `tokens/semantic.json`, and `tokens/components.json`, and are the canonical formatter for each — don't reformat the output. Finish with `pnpm validate` and review `git diff tokens/`: only the tokens you touched should have changed.
+They write `tiers/primitives.json`, `tiers/semantic.json`, and `tiers/components.json`, and are the canonical formatter for each — don't reformat the output. Finish with `pnpm validate` and review `git diff tiers/`: only the tokens you touched should have changed.
 
 ### JSON → Figma (change decided in code)
 
@@ -87,7 +87,7 @@ A new `com.acronis.*` key also needs a context-file owner (a `.md` file under `c
 
 ## Validating
 
-`tokens/package.json` carries a `validate` script that compiles both schemas and checks every JSON file against them:
+The package's `package.json` carries a `validate` script that compiles both schemas and checks every JSON file against them:
 
 ```bash
 pnpm validate

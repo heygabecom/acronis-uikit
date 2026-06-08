@@ -139,7 +139,7 @@ contract, implemented by the `assets-detect` / `assets-build` jobs in
 
 | Changed path                                     | Build invocation                                        |
 | ------------------------------------------------ | ------------------------------------------------------- |
-| `design-tokens/tokens/**` or its schema          | `build` (token build: `pd-dtcg`+`pd-css`+`pd-tailwind`) |
+| `design-tokens/tiers/**` or its schema           | `build` (token build: `pd-dtcg`+`pd-css`+`pd-tailwind`) |
 | `design-assets/packs/<name>.json` or `<name>/**` | `build pd-assets web-assets --pack=<name>`              |
 | `design-assets/rules/**` or `pack.schema.json`   | `build pd-assets web-assets` (all packs — shared input) |
 

@@ -44,9 +44,9 @@ type TokenTree = Record<string, unknown>;
 
 /** The three source token files, addressed via the package's `exports`. */
 const TOKEN_SOURCES = {
-  primitives: '@acronis-platform/design-tokens/tokens/primitives.json',
-  semantic: '@acronis-platform/design-tokens/tokens/semantic.json',
-  components: '@acronis-platform/design-tokens/tokens/components.json',
+  primitives: '@acronis-platform/design-tokens/tiers/primitives.json',
+  semantic: '@acronis-platform/design-tokens/tiers/semantic.json',
+  components: '@acronis-platform/design-tokens/tiers/components.json',
 } as const;
 
 type TokenSourceName = keyof typeof TOKEN_SOURCES;

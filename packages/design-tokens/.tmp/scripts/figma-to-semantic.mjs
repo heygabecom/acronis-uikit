@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Convert the Figma DTCG export into tokens/semantic.json — semantic colors
+// Convert the Figma DTCG export into tiers/semantic.json — semantic colors
 // that alias palette primitives, plus a semantic typography subtree derived
 // from figma/styles-text.json that aliases typography primitives.
 //
@@ -14,7 +14,7 @@
 // `$extensions.com.figma.styleId` instead, as do all typography leaves.
 // Downstream tooling can discriminate by which key is present.
 //
-// Depends on tokens/primitives.json being current — palette VariableID lookup
+// Depends on tiers/primitives.json being current — palette VariableID lookup
 // validates that every Figma alias target maps to a real token in our tree,
 // and typography primitives (font-family, font-size, font-weight, line-height,
 // letter-spacing) feed the value→alias map for the typography subtree.
@@ -30,7 +30,7 @@
 //   { name: "body/body-heading", fontName: {family,style}, fontSize, lineHeight,
 //     letterSpacing, textCase, textDecoration, id: "S:1e65…" }
 //
-// Output (tokens/semantic.json):
+// Output (tiers/semantic.json):
 //   colors.background.surface.primary
 //     → { values: { acronis: "{palette.base}" },
 //         platforms: ["PD"],
@@ -64,8 +64,8 @@ const { path: srcPath, source } = loadDtcg(process.argv);
 const figmaBrandColor = source.brand?.semantic?.colors;
 if (!figmaBrandColor) throw new Error(`source ${srcPath} has no brand.semantic.colors subtree.`);
 
-const OUT = fileURLToPath(new URL('../../tokens/semantic.json', import.meta.url));
-const PRIMITIVES = fileURLToPath(new URL('../../tokens/primitives.json', import.meta.url));
+const OUT = fileURLToPath(new URL('../../tiers/semantic.json', import.meta.url));
+const PRIMITIVES = fileURLToPath(new URL('../../tiers/primitives.json', import.meta.url));
 const primitives = JSON.parse(fs.readFileSync(PRIMITIVES, 'utf8'));
 const metaFor = makeMetaFor(loadMeta());
 
@@ -104,7 +104,7 @@ function translateAlias(figmaAlias) {
   const orphan = figmaAlias.match(/^\{__library:(VariableID:[^}]+)\}$/);
   if (orphan) {
     const ourPath = VARID_TO_PATH.get(orphan[1]);
-    if (!ourPath) throw new Error(`orphan VariableID ${orphan[1]} not found in tokens/primitives.json — refresh primitives first.`);
+    if (!ourPath) throw new Error(`orphan VariableID ${orphan[1]} not found in tiers/primitives.json — refresh primitives first.`);
     return `{${ourPath}}`;
   }
   const m = figmaAlias.match(/^\{([^}]+)\}$/);
@@ -113,7 +113,7 @@ function translateAlias(figmaAlias) {
   return `{palette.${ourParts.join('.')}}`;
 }
 
-// Validate the our-path actually exists in tokens/primitives.json.
+// Validate the our-path actually exists in tiers/primitives.json.
 function paletteHas(ourPath) {
   let cur = primitives.palette;
   for (const k of ourPath.split('.')) {

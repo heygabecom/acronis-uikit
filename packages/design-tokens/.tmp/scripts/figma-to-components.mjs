@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Convert the Figma DTCG export into tokens/components.json — per-component
+// Convert the Figma DTCG export into tiers/components.json — per-component
 // tokens that alias semantic colors (and primitive units), inheriting the
 // Brand mode dimension from semantics (today: acronis; more brands later).
 //
@@ -12,7 +12,7 @@
 // components mix `color` and `dimension`. Every leaf carries
 // `$extensions.com.figma.variableId` (no styleId paths in components).
 //
-// Depends on tokens/primitives.json AND tokens/semantic.json being current —
+// Depends on tiers/primitives.json AND tiers/semantic.json being current —
 // the alias-map validator checks every translated alias target against those
 // trees and fails the build on unknown targets.
 //
@@ -34,7 +34,7 @@
 //     → { $type: "color", $value: "#244467",
 //          $extensions["figma-console-mcp"].lastSyncedValue.Acronis.literal }
 //
-// Output (tokens/components.json):
+// Output (tiers/components.json):
 //   breadcrumb.chevron
 //     → { $type: "color",
 //         values: { acronis: "{colors.glyph.on-surface.neutral}" },
@@ -59,9 +59,9 @@ const { path: srcPath, source } = loadDtcg(process.argv);
 const figmaComponents = source.brand?.component;
 if (!figmaComponents) throw new Error(`source ${srcPath} has no brand.component subtree.`);
 
-const OUT = fileURLToPath(new URL('../../tokens/components.json', import.meta.url));
-const PRIMITIVES = fileURLToPath(new URL('../../tokens/primitives.json', import.meta.url));
-const SEMANTIC = fileURLToPath(new URL('../../tokens/semantic.json', import.meta.url));
+const OUT = fileURLToPath(new URL('../../tiers/components.json', import.meta.url));
+const PRIMITIVES = fileURLToPath(new URL('../../tiers/primitives.json', import.meta.url));
+const SEMANTIC = fileURLToPath(new URL('../../tiers/semantic.json', import.meta.url));
 const primitives = JSON.parse(fs.readFileSync(PRIMITIVES, 'utf8'));
 const semantic = JSON.parse(fs.readFileSync(SEMANTIC, 'utf8'));
 

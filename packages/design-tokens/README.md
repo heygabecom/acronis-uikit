@@ -80,9 +80,9 @@ Note: a token **should use exactly one** of `$value` (typography composites), pe
 
 Three token files, one per Tier:
 
-- **`tokens/primitives.json`** — palette (Theme `light`/`dark`), units, font primitives.
-- **`tokens/semantic.json`** — semantic colors (Brand axis), typography composites.
-- **`tokens/components.json`** — per-component tokens, aliasing semantics.
+- **`tiers/primitives.json`** — palette (Theme `light`/`dark`), units, font primitives.
+- **`tiers/semantic.json`** — semantic colors (Brand axis), typography composites.
+- **`tiers/components.json`** — per-component tokens, aliasing semantics.
 
 ### Token shapes
 
@@ -163,8 +163,8 @@ Depth: [`./context/manifest.md`](./context/manifest.md).
 ## Package structure
 
 ```text
-tokens/
-├── tokens/                The token JSON: primitives.json, semantic.json, components.json.
+design-tokens/
+├── tiers/                 The token JSON: primitives.json, semantic.json, components.json.
 ├── schemas/               JSON Schema (draft 2020-12) for the token files.
 ├── context/               Authoring docs, incl. the vendored DTCG-2025-10 spec snapshot.
 ├── README.md              This file — consumer-facing surface.
@@ -176,7 +176,7 @@ tokens/
 
 ## Setup
 
-The JSON files under `tokens/` are the **source of truth**. You only need this setup if you want to **update tokens from Figma** (change a value, add a token). If you just _consume_ the published JSON, skip it — `pnpm install` is all you need.
+The JSON files under `tiers/` are the **source of truth**. You only need this setup if you want to **update tokens from Figma** (change a value, add a token). If you just _consume_ the published JSON, skip it — `pnpm install` is all you need.
 
 Updates flow from Figma through an AI assistant (Claude) that talks to Figma via the **[Figma Console MCP](https://github.com/southleft/figma-console-mcp)**. Two one-time steps:
 
@@ -214,7 +214,7 @@ Check it worked: `echo $FIGMA_ACCESS_TOKEN_ACRONIS` (macOS/Linux) or `echo %FIGM
 
 ### 3. The Figma Console MCP
 
-The server is already wired up for this package in [`.mcp.json`](./.mcp.json) — it runs via `npx figma-console-mcp@latest`, so you just need [Node](https://nodejs.org) installed plus the token above. Install notes and capabilities: **[figma-console-mcp](https://github.com/southleft/figma-console-mcp)**. Launch Claude from the `tokens/` directory so it loads this `.mcp.json`.
+The server is already wired up for this package in [`.mcp.json`](./.mcp.json) — it runs via `npx figma-console-mcp@latest`, so you just need [Node](https://nodejs.org) installed plus the token above. Install notes and capabilities: **[figma-console-mcp](https://github.com/southleft/figma-console-mcp)**. Launch Claude from the `design-tokens/` directory so it loads this `.mcp.json`.
 
 ### Updating tokens from Figma
 
@@ -226,10 +226,10 @@ See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for day-to-day tasks: updating tokens
 
 ## How to run
 
-| Command         | Does                                                                                                                     |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `pnpm install`  | Installs devDependencies (the ajv toolchain).                                                                            |
-| `pnpm validate` | ajv-compiles the token schema (with `--strict=false`), then validates `tokens/*.json` against it. Run before committing. |
+| Command         | Does                                                                                                                    |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `pnpm install`  | Installs devDependencies (the ajv toolchain).                                                                           |
+| `pnpm validate` | ajv-compiles the token schema (with `--strict=false`), then validates `tiers/*.json` against it. Run before committing. |
 
 The Figma-sync helper scripts under `.tmp/scripts/` (`figma-to-primitives.mjs`, `figma-to-semantic.mjs`, `figma-to-components.mjs`, …) re-emit the token JSON from a Figma snapshot — the LLM triggers them during a [sync](#setup) to keep the shape exact and save tokens. They're repo-only (run with `node .tmp/scripts/<file>.mjs`), documented in [`./context/figma-sync.md`](./context/figma-sync.md); not npm scripts, not part of the published package.
 
@@ -249,7 +249,7 @@ import StyleDictionary from 'style-dictionary';
 
 StyleDictionary.registerParser({
   name: 'acronis-tokens',
-  pattern: /\/tokens\/.*\.json$/,
+  pattern: /\/tiers\/.*\.json$/,
   parser: ({ contents }) => {
     const file = JSON.parse(contents);
 
@@ -285,7 +285,7 @@ StyleDictionary.registerParser({
 });
 
 export default {
-  source: ['node_modules/@acronis-platform/design-tokens/tokens/*.json'],
+  source: ['node_modules/@acronis-platform/design-tokens/tiers/*.json'],
   parsers: ['acronis-tokens'],
   platforms: {
     css: {

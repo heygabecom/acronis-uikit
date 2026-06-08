@@ -135,4 +135,4 @@ DTCG-defined only: `color`, `dimension`, `fontFamily`, `fontWeight`, `number`, `
 
 ### Where the helper scripts enforce this
 
-`.tmp/scripts/figma-to-primitives.mjs` and `.tmp/scripts/figma-to-semantic.mjs` are the canonical emitters AND formatters — they produce the exact shape above. During a Figma sync the LLM runs them to re-emit `tokens/primitives.json` and `tokens/semantic.json` in that canonical shape, so it doesn't have to hand-write the JSON (accuracy, plus fewer LLM tokens). The JSON is the source of truth and may be edited, but reflect a Figma change by running a sync. See [`figma-sync.md`](./figma-sync.md).
+`.tmp/scripts/figma-to-primitives.mjs` and `.tmp/scripts/figma-to-semantic.mjs` are the canonical emitters AND formatters — they produce the exact shape above. During a Figma sync the LLM runs them to re-emit `tiers/primitives.json` and `tiers/semantic.json` in that canonical shape, so it doesn't have to hand-write the JSON (accuracy, plus fewer LLM tokens). The JSON is the source of truth and may be edited, but reflect a Figma change by running a sync. See [`figma-sync.md`](./figma-sync.md).

@@ -4,15 +4,15 @@ The shape of the `@acronis-platform/design-tokens` token files, how their token 
 
 ## The files
 
-Token value files live under `tokens/`; the package root holds only package metadata (`package.json`, `README.md`, `schemas/`).
+Token value files live under `tiers/`; the package root holds only package metadata (`package.json`, `README.md`, `schemas/`).
 
 These files are the source of truth. The `figma-to-*.mjs` helper scripts re-emit them during a Figma sync (see [`figma-sync.md`](./figma-sync.md)) so the canonical shape stays exact; reflect a Figma change by running a sync rather than hand-patching.
 
-| File                     | Re-emitted by (on sync)                |
-| ------------------------ | -------------------------------------- |
-| `tokens/primitives.json` | `.tmp/scripts/figma-to-primitives.mjs` |
-| `tokens/semantic.json`   | `.tmp/scripts/figma-to-semantic.mjs`   |
-| `tokens/components.json` | `.tmp/scripts/figma-to-components.mjs` |
+| File                    | Re-emitted by (on sync)                |
+| ----------------------- | -------------------------------------- |
+| `tiers/primitives.json` | `.tmp/scripts/figma-to-primitives.mjs` |
+| `tiers/semantic.json`   | `.tmp/scripts/figma-to-semantic.mjs`   |
+| `tiers/components.json` | `.tmp/scripts/figma-to-components.mjs` |
 
 ### `primitives.json`
 

@@ -9,7 +9,7 @@
     "provenance": true
   },
   "files": [
-    "tokens/**",
+    "tiers/**",
     "schemas/**",
     "README.md",
     "CONTRIBUTING.md",
@@ -17,9 +17,9 @@
   ],
   "exports": {
     "./package.json": "./package.json",
-    "./tokens/primitives.json": "./tokens/primitives.json",
-    "./tokens/semantic.json": "./tokens/semantic.json",
-    "./tokens/components.json": "./tokens/components.json",
+    "./tiers/primitives.json": "./tiers/primitives.json",
+    "./tiers/semantic.json": "./tiers/semantic.json",
+    "./tiers/components.json": "./tiers/components.json",
     "./schemas/*": "./schemas/*"
   },
   "scripts": {
@@ -31,7 +31,7 @@
     "test": "pnpm run validate",
     "test:watch": "echo \"no watch mode (run test)\" && exit 0",
     "typecheck": "echo \"no typecheck (JSON data package)\" && exit 0",
-    "validate": "ajv compile -s schemas/tokens.schema.json --spec=draft2020 --strict=false && ajv validate -s schemas/tokens.schema.json -d \"tokens/primitives.json\" -d \"tokens/semantic.json\" -d \"tokens/components.json\" --spec=draft2020 --strict=false"
+    "validate": "ajv compile -s schemas/tokens.schema.json --spec=draft2020 --strict=false && ajv validate -s schemas/tokens.schema.json -d \"tiers/primitives.json\" -d \"tiers/semantic.json\" -d \"tiers/components.json\" --spec=draft2020 --strict=false"
   },
   "keywords": [
     "design-tokens",

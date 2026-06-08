@@ -1,6 +1,6 @@
 # Figma sync
 
-The files under `tokens/` are the **source of truth** — what's committed and what downstream consumers read. Figma is the design tool those values originate in, not the published source. When the values change in Figma, an LLM (Claude) **syncs** them into the JSON via the [`figma-console` MCP server](https://github.com/southleft/figma-console-mcp): it reads Figma through the MCP and re-emits the JSON using the helper scripts under `.tmp/scripts/`. The scripts exist to guarantee the exact shape/formatting and to keep the LLM's token usage down — they're the LLM's sync toolkit, not an autonomous pipeline that owns the data. This doc covers the Figma↔code mapping, the pull workflow, those helper scripts, and the after-sync regenerate sequence.
+The files under `tiers/` are the **source of truth** — what's committed and what downstream consumers read. Figma is the design tool those values originate in, not the published source. When the values change in Figma, an LLM (Claude) **syncs** them into the JSON via the [`figma-console` MCP server](https://github.com/southleft/figma-console-mcp): it reads Figma through the MCP and re-emits the JSON using the helper scripts under `.tmp/scripts/`. The scripts exist to guarantee the exact shape/formatting and to keep the LLM's token usage down — they're the LLM's sync toolkit, not an autonomous pipeline that owns the data. This doc covers the Figma↔code mapping, the pull workflow, those helper scripts, and the after-sync regenerate sequence.
 
 Vocabulary used here (Tier, Group, Mode, Theme, Brand, Collection) is defined in [`glossary.md`](./glossary.md).
 
@@ -8,7 +8,7 @@ Vocabulary used here (Tier, Group, Mode, Theme, Brand, Collection) is defined in
 
 The JSON files are the source of truth; Figma is where the values are designed. The only automated direction today is **Figma → repo**: an LLM pulls the latest from Figma and re-emits the JSON. Two notional directions exist:
 
-1. **Sync (Figma → repo)** — the LLM refreshes `.tmp/figma-tokens/` from Figma, then runs the helper scripts to re-emit `tokens/`. This is the supported flow.
+1. **Sync (Figma → repo)** — the LLM refreshes `.tmp/figma-tokens/` from Figma, then runs the helper scripts to re-emit `tiers/`. This is the supported flow.
 2. **Push (repo → Figma)** — changes made in Figma based on decisions in code. Designer-driven; not automated. (A future round-trip isn't ruled out, but isn't supported today.)
 
 ### Snapshots land in `.tmp/figma-tokens/`
@@ -29,18 +29,18 @@ Figma exports drop into `.tmp/figma-tokens/` — a DTCG-shaped export plus Figma
 
 Fresh clones (and anyone who's never synced) won't have `.tmp/figma-tokens/`; the helper scripts fail with "no such file" until it's populated. To populate:
 
-1. Confirm the `figma-console` MCP server is connected (declared in this package's [`.mcp.json`](../.mcp.json), loaded when Claude is launched from `tokens/`; needs `FIGMA_ACCESS_TOKEN_ACRONIS` in the environment).
+1. Confirm the `figma-console` MCP server is connected (declared in this package's [`.mcp.json`](../.mcp.json), loaded when Claude is launched from `design-tokens/`; needs `FIGMA_ACCESS_TOKEN_ACRONIS` in the environment).
 2. `mkdir -p .tmp/figma-tokens`.
 3. Run the [Pull workflow](#pull-workflow) below to export variables, styles, and metadata into that directory.
 4. Run the [helper scripts](#helper-scripts--lib).
 
-If the MCP server is unavailable, ask the user — do **not** fabricate snapshot contents. The JSON under `tokens/` is the source of truth and may be edited directly, but a change that's meant to mirror Figma should go through a sync so the files stay accurate; don't hand-patch them to stand in for a snapshot you couldn't fetch.
+If the MCP server is unavailable, ask the user — do **not** fabricate snapshot contents. The JSON under `tiers/` is the source of truth and may be edited directly, but a change that's meant to mirror Figma should go through a sync so the files stay accurate; don't hand-patch them to stand in for a snapshot you couldn't fetch.
 
 ### When to sync
 
 Sync (pull + re-emit) when:
 
-- The user mentions a token or behavior that doesn't match the current `tokens/` or `.tmp/figma-tokens/`.
+- The user mentions a token or behavior that doesn't match the current `tiers/` or `.tmp/figma-tokens/`.
 - The user explicitly asks for a refresh.
 - A new mode, brand, or token has been added in Figma.
 
@@ -64,8 +64,8 @@ How code Tiers and Groups map to Figma's organization. Use this when translating
 Notes:
 
 - The **Brand** Figma Collection carries both `semantics.colors` and every `components.*` group. They share its mode axis (`acronis` and `brand-b` today; `brand-b` mirrors `acronis` until designers author it — see [`manifest.md`](./manifest.md)).
-- **Semantics/Typography** is not a Variable Collection — it's modeled as Figma Text Styles and emitted to `tokens/semantic.json`. See [`manifest.md`](./manifest.md).
-- **Components** are variables under the Brand collection (`Component/*`) and are emitted to `tokens/components.json`. See [`manifest.md`](./manifest.md).
+- **Semantics/Typography** is not a Variable Collection — it's modeled as Figma Text Styles and emitted to `tiers/semantic.json`. See [`manifest.md`](./manifest.md).
+- **Components** are variables under the Brand collection (`Component/*`) and are emitted to `tiers/components.json`. See [`manifest.md`](./manifest.md).
 
 ### Name canonicalization
 
@@ -105,13 +105,13 @@ A handful of VariableIDs are referenced by the DTCG export but not returned by `
 
 ### Top-level scripts
 
-| Script                        | Role                                                                                                                                                                                                                                                                                                                                                            |
-| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `figma-to-primitives.mjs`     | Reads the DTCG export and emits `tokens/primitives.json` (palette + units + typography primitives). Canonical formatter for that file.                                                                                                                                                                                                                          |
-| `figma-to-semantic.mjs`       | Reads the DTCG export and emits `tokens/semantic.json` (semantic colors + typography). Depends on `tokens/primitives.json` for the palette VariableID → path map and alias-target validation. Canonical formatter for that file.                                                                                                                                |
-| `figma-to-components.mjs`     | Reads the DTCG export and emits `tokens/components.json` (per-component tokens). Depends on both `primitives.json` and `semantic.json` so the alias-map validator can confirm every translated alias target exists. Inlines + warns on raw-value gaps in Figma (same posture as the typography gaps in `figma-to-semantic`). Canonical formatter for that file. |
-| `figma-pull-postprocess.mjs`  | The post-process gate from the [Pull workflow](#pull-workflow): renames `tokens.tokens.json` → `variables.tokens.json` and diffs VariableID coverage. Prints a paste-ready `figma_execute` snippet for missing IDs and exits 1 until coverage is clean. Run after every pull.                                                                                   |
-| `extract-linear-gradient.mjs` | Vendored helper converting a Figma `gradientTransform` into start/end points. Pure math, no I/O. Used when authoring the AI gradient round-trip data.                                                                                                                                                                                                           |
+| Script                        | Role                                                                                                                                                                                                                                                                                                                                                           |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `figma-to-primitives.mjs`     | Reads the DTCG export and emits `tiers/primitives.json` (palette + units + typography primitives). Canonical formatter for that file.                                                                                                                                                                                                                          |
+| `figma-to-semantic.mjs`       | Reads the DTCG export and emits `tiers/semantic.json` (semantic colors + typography). Depends on `tiers/primitives.json` for the palette VariableID → path map and alias-target validation. Canonical formatter for that file.                                                                                                                                 |
+| `figma-to-components.mjs`     | Reads the DTCG export and emits `tiers/components.json` (per-component tokens). Depends on both `primitives.json` and `semantic.json` so the alias-map validator can confirm every translated alias target exists. Inlines + warns on raw-value gaps in Figma (same posture as the typography gaps in `figma-to-semantic`). Canonical formatter for that file. |
+| `figma-pull-postprocess.mjs`  | The post-process gate from the [Pull workflow](#pull-workflow): renames `tokens.tokens.json` → `variables.tokens.json` and diffs VariableID coverage. Prints a paste-ready `figma_execute` snippet for missing IDs and exits 1 until coverage is clean. Run after every pull.                                                                                  |
+| `extract-linear-gradient.mjs` | Vendored helper converting a Figma `gradientTransform` into start/end points. Pure math, no I/O. Used when authoring the AI gradient round-trip data.                                                                                                                                                                                                          |
 
 All three emitters are also the **canonical formatters**: they produce a mixed JSON layout (always-multi-line top-level `values` dict, inline mode values, token `$extensions` broken when long, meta keys hoisted before integer-like keys) that no standard JSON formatter reproduces. `.vscode/settings.json` disables format-on-save for JSON in this workspace.
 
@@ -155,5 +155,5 @@ The emitters default to `.tmp/figma-tokens/variables.tokens.json`; pass an alter
 After a clean pull (post-process gate exits 0), re-emit the JSON, validate, and commit:
 
 1. **Re-emit** — run the three emitters in the [run order](#run-order) above.
-2. **Validate** — `pnpm validate` from `tokens/` (uses ajv with `--strict=false`; see the DTCG spec under [`DTCG-2025-10/`](./DTCG-2025-10/)).
-3. **Commit** — commit the regenerated `tokens/*.json`. The `.tmp/figma-tokens/` snapshot stays gitignored and is not committed.
+2. **Validate** — `pnpm validate` from `design-tokens/` (uses ajv with `--strict=false`; see the DTCG spec under [`DTCG-2025-10/`](./DTCG-2025-10/)).
+3. **Commit** — commit the regenerated `tiers/*.json`. The `.tmp/figma-tokens/` snapshot stays gitignored and is not committed.
