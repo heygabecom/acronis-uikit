@@ -2,8 +2,11 @@ import {
   componentGroups,
   resolveToken,
   semanticContextGroups,
+  statusExtras,
+  statusMatrix,
   type ContextGroup,
   type RoleGroup,
+  type StatusCellKind,
   type TokenGroup,
 } from '@/lib/tokens';
 
@@ -131,6 +134,159 @@ function RoleRow({ group }: { group: RoleGroup }) {
   );
 }
 
+/** A single matrix cell, previewed per what its column paints. */
+function MatrixCell({
+  kind,
+  name,
+}: {
+  kind: StatusCellKind;
+  name: string | null;
+}) {
+  if (!name) {
+    return (
+      <span style={{ opacity: 0.3, color: 'var(--ui-text-on-surface-secondary)' }}>
+        –
+      </span>
+    );
+  }
+  const box = {
+    width: 30,
+    height: 30,
+    borderRadius: 6,
+    border: SWATCH_BORDER,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '0 auto',
+  } as const;
+  if (kind === 'fill') {
+    return <div title={name} style={{ ...box, background: `var(${name})` }} />;
+  }
+  if (kind === 'border') {
+    return <div title={name} style={{ ...box, border: `2px solid var(${name})` }} />;
+  }
+  const fg = {
+    ...box,
+    color: `var(${name})`,
+    background: 'var(--ui-background-surface-secondary)',
+  } as const;
+  return kind === 'text' ? (
+    <div title={name} style={{ ...fg, fontSize: 12, fontWeight: 700 }}>
+      Aa
+    </div>
+  ) : (
+    <div title={name} style={{ ...fg, fontSize: 15 }}>
+      ●
+    </div>
+  );
+}
+
+const matrixTh = {
+  fontSize: 10,
+  fontWeight: 600,
+  textTransform: 'uppercase',
+  letterSpacing: 0.4,
+  color: 'var(--ui-text-on-surface-secondary)',
+  padding: '4px 8px',
+  whiteSpace: 'nowrap',
+} as const;
+
+/** Status rendered as an intent × (role/state) matrix. Hover a cell for its
+ *  full `--ui-*` name. */
+function StatusMatrix() {
+  // Left border between column groups makes the grouping legible.
+  const divider = '1px solid var(--ui-border-on-surface-divider)';
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={{ overflowX: 'auto' }}>
+        <table style={{ borderCollapse: 'collapse', fontSize: 12 }}>
+          <thead>
+            <tr>
+              <th style={{ ...matrixTh, textAlign: 'left' }} rowSpan={2} />
+              {statusMatrix.groups.map((g) => (
+                <th
+                  key={g.label}
+                  colSpan={g.columns.length}
+                  style={{
+                    ...matrixTh,
+                    textAlign: 'center',
+                    borderLeft: divider,
+                    borderBottom: divider,
+                  }}
+                >
+                  {g.label}
+                </th>
+              ))}
+            </tr>
+            <tr>
+              {statusMatrix.groups.flatMap((g) =>
+                g.columns.map((c, ci) => (
+                  <th
+                    key={`${g.label}-${c}`}
+                    style={{
+                      ...matrixTh,
+                      textAlign: 'center',
+                      borderLeft: ci === 0 ? divider : undefined,
+                    }}
+                  >
+                    {c}
+                  </th>
+                ))
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {statusMatrix.intents.map((intent) => (
+              <tr key={intent}>
+                <th
+                  style={{
+                    ...matrixTh,
+                    textAlign: 'left',
+                    color: 'var(--ui-text-on-surface-primary)',
+                  }}
+                >
+                  {intent}
+                </th>
+                {statusMatrix.groups.flatMap((g, gi) =>
+                  g.cells[intent].map((name, ci) => (
+                    <td
+                      key={`${g.label}-${intent}-${ci}`}
+                      style={{
+                        padding: 6,
+                        borderLeft: gi > 0 && ci === 0 ? divider : undefined,
+                      }}
+                    >
+                      <MatrixCell kind={g.kind} name={name} />
+                    </td>
+                  ))
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {statusExtras.length > 0 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div
+            style={{
+              fontSize: 11,
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: 0.4,
+              color: 'var(--ui-text-on-surface-secondary)',
+            }}
+          >
+            Other status tokens
+          </div>
+          {statusExtras.map((role) => (
+            <RoleRow key={role.role} group={role} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 /** A context section (Surface, Brand, Status, …) holding its role rows. */
 function ContextSection({ group }: { group: ContextGroup }) {
   return (
@@ -157,9 +313,11 @@ function ContextSection({ group }: { group: ContextGroup }) {
         {group.context}{' '}
         <span style={{ fontWeight: 400, opacity: 0.6 }}>({group.count})</span>
       </h4>
-      {group.roles.map((role) => (
-        <RoleRow key={role.role} group={role} />
-      ))}
+      {group.context === 'status' ? (
+        <StatusMatrix />
+      ) : (
+        group.roles.map((role) => <RoleRow key={role.role} group={role} />)
+      )}
     </div>
   );
 }

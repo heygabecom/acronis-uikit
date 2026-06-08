@@ -220,6 +220,119 @@ export const semanticContextGroups: ContextGroup[] = (() => {
     });
 })();
 
+// ---- Status matrix --------------------------------------------------------
+// Status is the largest context and follows a regular intent × (role/state)
+// grid (every intent exists for every role), so it reads far better as a
+// matrix than as flat swatch rows. Non-intent status tokens (on/off, link,
+// primary, …) don't fit the grid and are surfaced separately as `statusExtras`.
+
+const STATUS_INTENTS = [
+  'critical',
+  'danger',
+  'info',
+  'success',
+  'warning',
+  'neutral',
+];
+
+/** What a column paints, so the cell can render an apt preview. */
+export type StatusCellKind = 'fill' | 'border' | 'text' | 'glyph';
+
+export interface StatusColumnGroup {
+  label: string;
+  kind: StatusCellKind;
+  /** Column headers within the group (e.g. `idle` / `hover` / `pressed`). */
+  columns: string[];
+  /** intent → token name per column (`null` when that cell has no token). */
+  cells: Record<string, (string | null)[]>;
+}
+
+export interface StatusMatrix {
+  intents: string[];
+  groups: StatusColumnGroup[];
+}
+
+const statusNameSet = new Set(
+  tokenNames(semanticAcronis).filter((n) => parseToken(n).context === 'status')
+);
+const pickStatus = (name: string): string | null =>
+  statusNameSet.has(name) ? name : null;
+
+const STATUS_COLUMN_SPECS: {
+  label: string;
+  kind: StatusCellKind;
+  columns: string[];
+  name: (intent: string, column: string) => string | null;
+}[] = [
+  {
+    label: 'Background',
+    kind: 'fill',
+    columns: ['idle', 'hover', 'pressed'],
+    name: (i, c) =>
+      pickStatus(`--ui-background-status-${i}${c === 'idle' ? '' : `-${c}`}`),
+  },
+  {
+    label: 'Background · inverted',
+    kind: 'fill',
+    columns: ['idle', 'hover', 'pressed'],
+    name: (i, c) =>
+      pickStatus(
+        `--ui-background-status-inverted-${i}${c === 'idle' ? '' : `-${c}`}`
+      ),
+  },
+  {
+    label: 'Border',
+    kind: 'border',
+    columns: ['base', 'dark'],
+    name: (i, c) =>
+      pickStatus(`--ui-border-on-status-${i}${c === 'base' ? '' : `-${c}`}`),
+  },
+  {
+    label: 'Text',
+    kind: 'text',
+    columns: ['base'],
+    name: (i) => pickStatus(`--ui-text-on-status-${i}`),
+  },
+  {
+    label: 'Glyph',
+    kind: 'glyph',
+    columns: ['base'],
+    name: (i) => pickStatus(`--ui-glyph-on-status-${i}`),
+  },
+];
+
+export const statusMatrix: StatusMatrix = {
+  intents: STATUS_INTENTS,
+  groups: STATUS_COLUMN_SPECS.map((spec) => ({
+    label: spec.label,
+    kind: spec.kind,
+    columns: spec.columns,
+    cells: Object.fromEntries(
+      STATUS_INTENTS.map((intent) => [
+        intent,
+        spec.columns.map((c) => spec.name(intent, c)),
+      ])
+    ),
+  })),
+};
+
+/** Status tokens not represented in the matrix (on/off, link, primary, …),
+ *  grouped by role for a normal swatch listing below the matrix. */
+export const statusExtras: RoleGroup[] = (() => {
+  const covered = new Set<string>();
+  for (const g of statusMatrix.groups)
+    for (const names of Object.values(g.cells))
+      for (const n of names) if (n) covered.add(n);
+  const status = semanticContextGroups.find((g) => g.context === 'status');
+  if (!status) return [];
+  return status.roles
+    .map((r) => ({
+      role: r.role,
+      tokens: r.tokens.filter((t) => !covered.has(t.name)),
+    }))
+    .filter((r) => r.tokens.length > 0);
+})();
+
 /** Per-component groups (`--ui-button-*`, `--ui-switch-*`, …). */
 export const componentGroups: TokenGroup[] = COMPONENT_SOURCES.map((s) => ({
   tier: s.tier,
