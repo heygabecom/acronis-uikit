@@ -48,12 +48,6 @@ export type ColorMode = 'light' | 'dark';
 export const BRANDS: Brand[] = ['acronis', 'brand-b'];
 export const DEFAULT_BRAND: Brand = 'acronis';
 
-export interface TokenGroup {
-  /** First path segment after `--ui-` (e.g. `button`, `background`). */
-  tier: string;
-  tokens: { name: string }[];
-}
-
 /** A row of tokens that share a role (paints `bg` / `text` / `border` / …). */
 export interface RoleGroup {
   /** Normalized role: `bg` | `text` | `border` | `glyph` | `focus`. */
@@ -166,14 +160,24 @@ function parseToken(name: string): {
   return { context, role: ROLE_LABEL[role0] ?? role0, leaf };
 }
 
-/** Sort by variant base, then state progression (idle → … → disabled). */
-function byState(a: string, b: string): number {
-  const key = (n: string): [string, number] => {
-    const segs = n.split('-');
+/**
+ * Sort tokens within a group by their `leaf` (the part after the role/context
+ * prefix): named variants first (idle → … → disabled within each), then any
+ * bare context-root state. Operating on the leaf — and ranking a state with no
+ * variant *after* named variants — keeps `primary` ahead of a root-level
+ * `hover`/`active` (whose stripped "base" is the context itself, which would
+ * otherwise sort first as a prefix).
+ */
+function compareLeaf(a: string, b: string): number {
+  const key = (leaf: string): [string, number] => {
+    const segs = leaf.split('-');
     const last = segs[segs.length - 1];
-    return last in STATE_RANK
-      ? [segs.slice(0, -1).join('-'), STATE_RANK[last]]
-      : [n, 0];
+    if (last in STATE_RANK) {
+      const variant = segs.slice(0, -1).join('-');
+      // `￿` sorts after any real variant name → root-level states last.
+      return [variant === '' ? '￿' : variant, STATE_RANK[last]];
+    }
+    return [leaf, 0];
   };
   const [ba, ra] = key(a);
   const [bb, rb] = key(b);
@@ -209,8 +213,8 @@ export const semanticContextGroups: ContextGroup[] = (() => {
         .map(([role, names]) => ({
           role,
           tokens: names
-            .sort(byState)
-            .map((name) => ({ name, leaf: parseToken(name).leaf || name })),
+            .map((name) => ({ name, leaf: parseToken(name).leaf || name }))
+            .sort((x, y) => compareLeaf(x.leaf, y.leaf)),
         }));
       return {
         context,
@@ -220,11 +224,63 @@ export const semanticContextGroups: ContextGroup[] = (() => {
     });
 })();
 
+// ---- Token matrix ---------------------------------------------------------
+// Some token families follow a regular row × (role/state) grid — status by
+// intent, button by variant — and read far better as a matrix than as flat
+// swatch rows. The model below is shared by both.
+
+/** What a column paints, so the cell can render an apt preview. */
+export type MatrixCellKind = 'fill' | 'border' | 'text' | 'glyph';
+
+export interface MatrixColumnGroup {
+  label: string;
+  kind: MatrixCellKind;
+  /** Column headers within the group (e.g. `idle` / `hover` / `pressed`). */
+  columns: string[];
+  /** row key → token name per column (`null` when that cell has no token). */
+  cells: Record<string, (string | null)[]>;
+}
+
+export interface TokenMatrix {
+  /** Row keys (status intents, button variants, …). */
+  rows: string[];
+  groups: MatrixColumnGroup[];
+}
+
+interface MatrixSpec {
+  label: string;
+  kind: MatrixCellKind;
+  columns: string[];
+  name: (row: string, column: string) => string | null;
+}
+
+function buildMatrix(rows: string[], specs: MatrixSpec[]): TokenMatrix {
+  return {
+    rows,
+    groups: specs.map((spec) => ({
+      label: spec.label,
+      kind: spec.kind,
+      columns: spec.columns,
+      cells: Object.fromEntries(
+        rows.map((row) => [row, spec.columns.map((c) => spec.name(row, c))])
+      ),
+    })),
+  };
+}
+
+/** Collect every non-null token name a matrix references. */
+function matrixNames(matrix: TokenMatrix): Set<string> {
+  const names = new Set<string>();
+  for (const g of matrix.groups)
+    for (const row of Object.values(g.cells))
+      for (const n of row) if (n) names.add(n);
+  return names;
+}
+
 // ---- Status matrix --------------------------------------------------------
-// Status is the largest context and follows a regular intent × (role/state)
-// grid (every intent exists for every role), so it reads far better as a
-// matrix than as flat swatch rows. Non-intent status tokens (on/off, link,
-// primary, …) don't fit the grid and are surfaced separately as `statusExtras`.
+// Status is the largest semantic context and every intent exists for every
+// role. Non-intent status tokens (on/off, link, primary, …) don't fit the grid
+// and are surfaced separately as `statusExtras`.
 
 const STATUS_INTENTS = [
   'critical',
@@ -235,35 +291,15 @@ const STATUS_INTENTS = [
   'neutral',
 ];
 
-/** What a column paints, so the cell can render an apt preview. */
-export type StatusCellKind = 'fill' | 'border' | 'text' | 'glyph';
-
-export interface StatusColumnGroup {
-  label: string;
-  kind: StatusCellKind;
-  /** Column headers within the group (e.g. `idle` / `hover` / `pressed`). */
-  columns: string[];
-  /** intent → token name per column (`null` when that cell has no token). */
-  cells: Record<string, (string | null)[]>;
-}
-
-export interface StatusMatrix {
-  intents: string[];
-  groups: StatusColumnGroup[];
-}
-
 const statusNameSet = new Set(
-  tokenNames(semanticAcronis).filter((n) => parseToken(n).context === 'status')
+  (semanticContextGroups.find((g) => g.context === 'status')?.roles ?? [])
+    .flatMap((r) => r.tokens)
+    .map((t) => t.name)
 );
 const pickStatus = (name: string): string | null =>
   statusNameSet.has(name) ? name : null;
 
-const STATUS_COLUMN_SPECS: {
-  label: string;
-  kind: StatusCellKind;
-  columns: string[];
-  name: (intent: string, column: string) => string | null;
-}[] = [
+export const statusMatrix: TokenMatrix = buildMatrix(STATUS_INTENTS, [
   {
     label: 'Background',
     kind: 'fill',
@@ -287,57 +323,129 @@ const STATUS_COLUMN_SPECS: {
     name: (i, c) =>
       pickStatus(`--ui-border-on-status-${i}${c === 'base' ? '' : `-${c}`}`),
   },
-  {
-    label: 'Text',
-    kind: 'text',
-    columns: ['base'],
-    name: (i) => pickStatus(`--ui-text-on-status-${i}`),
-  },
-  {
-    label: 'Glyph',
-    kind: 'glyph',
-    columns: ['base'],
-    name: (i) => pickStatus(`--ui-glyph-on-status-${i}`),
-  },
-];
+  { label: 'Text', kind: 'text', columns: ['base'], name: (i) => pickStatus(`--ui-text-on-status-${i}`) },
+  { label: 'Glyph', kind: 'glyph', columns: ['base'], name: (i) => pickStatus(`--ui-glyph-on-status-${i}`) },
+]);
 
-export const statusMatrix: StatusMatrix = {
-  intents: STATUS_INTENTS,
-  groups: STATUS_COLUMN_SPECS.map((spec) => ({
-    label: spec.label,
-    kind: spec.kind,
-    columns: spec.columns,
-    cells: Object.fromEntries(
-      STATUS_INTENTS.map((intent) => [
-        intent,
-        spec.columns.map((c) => spec.name(intent, c)),
-      ])
-    ),
-  })),
-};
-
-/** Status tokens not represented in the matrix (on/off, link, primary, …),
- *  grouped by role for a normal swatch listing below the matrix. */
-export const statusExtras: RoleGroup[] = (() => {
-  const covered = new Set<string>();
-  for (const g of statusMatrix.groups)
-    for (const names of Object.values(g.cells))
-      for (const n of names) if (n) covered.add(n);
-  const status = semanticContextGroups.find((g) => g.context === 'status');
-  if (!status) return [];
-  return status.roles
+/** Subset a set of role groups to the tokens not covered by a matrix. */
+function extrasFrom(roles: RoleGroup[], matrix: TokenMatrix): RoleGroup[] {
+  const covered = matrixNames(matrix);
+  return roles
     .map((r) => ({
       role: r.role,
       tokens: r.tokens.filter((t) => !covered.has(t.name)),
     }))
     .filter((r) => r.tokens.length > 0);
-})();
+}
+
+/** Status tokens not represented in the matrix (on/off, link, primary, …),
+ *  grouped by role for a normal swatch listing below the matrix. */
+export const statusExtras: RoleGroup[] = extrasFrom(
+  semanticContextGroups.find((g) => g.context === 'status')?.roles ?? [],
+  statusMatrix
+);
+
+// ---- Component tokens -----------------------------------------------------
+// Same idea as the semantic context → role grouping: each component is split
+// into sub-groups (the segment after the component name — a variant like
+// `primary`, a part like `circle`, or a dimension bucket like `global`), each
+// rendered as a state-ordered row. Dimension buckets sort last.
+
+const DIMENSION_SUBGROUPS = ['global', 'units', 'nesting'];
+
+/** Sub-group + leaf for a component token (`--ui-<component>-<sub>-<leaf…>`). */
+function parseComponentToken(
+  tier: string,
+  name: string
+): { subgroup: string; leaf: string } {
+  const rest = name.slice(`--ui-${tier}-`.length).split('-');
+  const subgroup = rest[0] ?? name;
+  const leaf = rest.slice(1).join('-') || rest[0] || name;
+  return { subgroup, leaf };
+}
+
+/** Color/variant sub-groups first (alphabetical), dimension buckets last. */
+function compareSubgroup(a: string, b: string): number {
+  const ia = DIMENSION_SUBGROUPS.indexOf(a);
+  const ib = DIMENSION_SUBGROUPS.indexOf(b);
+  if ((ia < 0) !== (ib < 0)) return ia < 0 ? -1 : 1;
+  if (ia < 0) return a < b ? -1 : a > b ? 1 : 0;
+  return ia - ib;
+}
+
+export interface ComponentTokenGroup {
+  /** Component name / tier, e.g. `button`. */
+  component: string;
+  count: number;
+  subgroups: RoleGroup[];
+}
 
 /** Per-component groups (`--ui-button-*`, `--ui-switch-*`, …). */
-export const componentGroups: TokenGroup[] = COMPONENT_SOURCES.map((s) => ({
-  tier: s.tier,
-  tokens: tokenNames(s.css).map((name) => ({ name })),
-}));
+export const componentGroups: ComponentTokenGroup[] = COMPONENT_SOURCES.map(
+  (s) => {
+    const bySub = new Map<string, { name: string; leaf: string }[]>();
+    for (const name of tokenNames(s.css)) {
+      const { subgroup, leaf } = parseComponentToken(s.tier, name);
+      const list = bySub.get(subgroup) ?? [];
+      list.push({ name, leaf });
+      bySub.set(subgroup, list);
+    }
+    const subgroups = [...bySub.entries()]
+      .sort(([a], [b]) => compareSubgroup(a, b))
+      .map(([role, tokens]) => ({
+        role,
+        tokens: tokens.sort((x, y) => compareLeaf(x.leaf, y.leaf)),
+      }));
+    return {
+      component: s.tier,
+      count: subgroups.reduce((n, r) => n + r.tokens.length, 0),
+      subgroups,
+    };
+  }
+);
+
+// ---- Button matrix --------------------------------------------------------
+// Button is the one component with a fully regular variant × role × state grid
+// (`--ui-button-<variant>-<role>-<state>`), so it gets the matrix treatment.
+// Its non-variant `global-*` dimension tokens fall out as `buttonExtras`.
+
+const BUTTON_VARIANTS = [
+  'primary',
+  'secondary',
+  'ghost',
+  'destructive',
+  'inverted',
+  'icon',
+  'ai',
+];
+const BUTTON_STATES = ['idle', 'hover', 'active', 'disabled'];
+
+const buttonNameSet = new Set(tokenNames(buttonAcronis));
+const pickButton = (name: string): string | null =>
+  buttonNameSet.has(name) ? name : null;
+
+export const buttonMatrix: TokenMatrix = buildMatrix(
+  BUTTON_VARIANTS,
+  (
+    [
+      ['Background', 'fill', 'background'],
+      ['Border', 'border', 'border'],
+      ['Icon', 'glyph', 'icon'],
+      ['Label', 'text', 'label'],
+    ] as const
+  ).map(([label, kind, role]) => ({
+    label,
+    kind,
+    columns: BUTTON_STATES,
+    name: (variant, state) => pickButton(`--ui-button-${variant}-${role}-${state}`),
+  }))
+);
+
+/** Button tokens not in the matrix (`global-*` dimensions). */
+export const buttonExtras: RoleGroup[] = extrasFrom(
+  componentGroups.find((g) => g.component === 'button')?.subgroups ?? [],
+  buttonMatrix
+);
 
 export interface TypographyStyle {
   /** e.g. `ui-typography-body-default`. */

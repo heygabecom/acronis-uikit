@@ -1,10 +1,11 @@
 ---
+'@acronis-platform/kitchen-sink': patch
 ---
 
-Kitchen-sink demo only: regroup the **Colors & tokens** section by semantic
-**context → role**, order tokens by state progression, and render the `status`
-family as an intent × role/state matrix.
+Regroup the **Colors & tokens** section: semantic colors by **context → role**,
+component tokens the same way (sub-group → state-ordered rows), with the regular
+families rendered as a matrix — status by intent, button by variant. Tokens are
+also ordered by state progression (idle → hover → active → pressed → disabled).
 
-`apps/kitchen-sink` is a private, unpublished app, so this change has **no
-release impact** — this is an intentionally empty changeset (no published
-package is bumped).
+`@acronis-platform/kitchen-sink` is a private, unpublished app, so this bump has
+no publish impact.

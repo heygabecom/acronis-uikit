@@ -1,13 +1,16 @@
 import {
+  buttonExtras,
+  buttonMatrix,
   componentGroups,
   resolveToken,
   semanticContextGroups,
   statusExtras,
   statusMatrix,
+  type ComponentTokenGroup,
   type ContextGroup,
+  type MatrixCellKind,
   type RoleGroup,
-  type StatusCellKind,
-  type TokenGroup,
+  type TokenMatrix,
 } from '@/lib/tokens';
 
 const SWATCH_BORDER = '1px solid var(--ui-border-on-surface-border)';
@@ -109,6 +112,24 @@ const cardGrid = {
   gap: 12,
 } as const;
 
+const groupCard = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 16,
+  padding: 16,
+  borderRadius: 8,
+  border: SWATCH_BORDER,
+  background: 'var(--ui-background-surface-primary)',
+} as const;
+
+const groupHeading = {
+  fontSize: 13,
+  fontWeight: 700,
+  textTransform: 'uppercase',
+  letterSpacing: 0.5,
+  margin: 0,
+} as const;
+
 /** A role row within a context — small role label, then its swatches. */
 function RoleRow({ group }: { group: RoleGroup }) {
   return (
@@ -117,6 +138,7 @@ function RoleRow({ group }: { group: RoleGroup }) {
         style={{
           fontSize: 11,
           fontWeight: 600,
+          textTransform: 'capitalize',
           color: 'var(--ui-text-on-surface-secondary)',
         }}
       >
@@ -139,7 +161,7 @@ function MatrixCell({
   kind,
   name,
 }: {
-  kind: StatusCellKind;
+  kind: MatrixCellKind;
   name: string | null;
 }) {
   if (!name) {
@@ -191,9 +213,17 @@ const matrixTh = {
   whiteSpace: 'nowrap',
 } as const;
 
-/** Status rendered as an intent × (role/state) matrix. Hover a cell for its
- *  full `--ui-*` name. */
-function StatusMatrix() {
+/** A row × (role/state) matrix (status intents, button variants, …). Hover a
+ *  cell for its full `--ui-*` name. `extras` lists tokens off the grid. */
+function TokenMatrixView({
+  matrix,
+  extras,
+  extrasLabel,
+}: {
+  matrix: TokenMatrix;
+  extras: RoleGroup[];
+  extrasLabel: string;
+}) {
   // Left border between column groups makes the grouping legible.
   const divider = '1px solid var(--ui-border-on-surface-divider)';
   return (
@@ -203,7 +233,7 @@ function StatusMatrix() {
           <thead>
             <tr>
               <th style={{ ...matrixTh, textAlign: 'left' }} rowSpan={2} />
-              {statusMatrix.groups.map((g) => (
+              {matrix.groups.map((g) => (
                 <th
                   key={g.label}
                   colSpan={g.columns.length}
@@ -219,7 +249,7 @@ function StatusMatrix() {
               ))}
             </tr>
             <tr>
-              {statusMatrix.groups.flatMap((g) =>
+              {matrix.groups.flatMap((g) =>
                 g.columns.map((c, ci) => (
                   <th
                     key={`${g.label}-${c}`}
@@ -236,8 +266,8 @@ function StatusMatrix() {
             </tr>
           </thead>
           <tbody>
-            {statusMatrix.intents.map((intent) => (
-              <tr key={intent}>
+            {matrix.rows.map((row) => (
+              <tr key={row}>
                 <th
                   style={{
                     ...matrixTh,
@@ -245,12 +275,12 @@ function StatusMatrix() {
                     color: 'var(--ui-text-on-surface-primary)',
                   }}
                 >
-                  {intent}
+                  {row}
                 </th>
-                {statusMatrix.groups.flatMap((g, gi) =>
-                  g.cells[intent].map((name, ci) => (
+                {matrix.groups.flatMap((g, gi) =>
+                  g.cells[row].map((name, ci) => (
                     <td
-                      key={`${g.label}-${intent}-${ci}`}
+                      key={`${g.label}-${row}-${ci}`}
                       style={{
                         padding: 6,
                         borderLeft: gi > 0 && ci === 0 ? divider : undefined,
@@ -265,7 +295,7 @@ function StatusMatrix() {
           </tbody>
         </table>
       </div>
-      {statusExtras.length > 0 && (
+      {extras.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div
             style={{
@@ -276,9 +306,9 @@ function StatusMatrix() {
               color: 'var(--ui-text-on-surface-secondary)',
             }}
           >
-            Other status tokens
+            {extrasLabel}
           </div>
-          {statusExtras.map((role) => (
+          {extras.map((role) => (
             <RoleRow key={role.role} group={role} />
           ))}
         </div>
@@ -290,31 +320,17 @@ function StatusMatrix() {
 /** A context section (Surface, Brand, Status, …) holding its role rows. */
 function ContextSection({ group }: { group: ContextGroup }) {
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 16,
-        padding: 16,
-        borderRadius: 8,
-        border: SWATCH_BORDER,
-        background: 'var(--ui-background-surface-primary)',
-      }}
-    >
-      <h4
-        style={{
-          fontSize: 13,
-          fontWeight: 700,
-          textTransform: 'uppercase',
-          letterSpacing: 0.5,
-          margin: 0,
-        }}
-      >
+    <div style={groupCard}>
+      <h4 style={groupHeading}>
         {group.context}{' '}
         <span style={{ fontWeight: 400, opacity: 0.6 }}>({group.count})</span>
       </h4>
       {group.context === 'status' ? (
-        <StatusMatrix />
+        <TokenMatrixView
+          matrix={statusMatrix}
+          extras={statusExtras}
+          extrasLabel="Other status tokens"
+        />
       ) : (
         group.roles.map((role) => <RoleRow key={role.role} group={role} />)
       )}
@@ -322,26 +338,24 @@ function ContextSection({ group }: { group: ContextGroup }) {
   );
 }
 
-/** Per-component token group (`--ui-button-*`, …) — flat grid, grouped by name. */
-function ComponentGroup({ group }: { group: TokenGroup }) {
+/** A component token group, mirroring the semantic context cards: each
+ *  component is a card of sub-group rows. `button` gets the matrix treatment. */
+function ComponentSection({ group }: { group: ComponentTokenGroup }) {
   return (
-    <div>
-      <h3
-        style={{
-          fontSize: 12,
-          textTransform: 'uppercase',
-          letterSpacing: 0.5,
-          opacity: 0.6,
-          marginBottom: 10,
-        }}
-      >
-        {group.tier} <span style={{ fontWeight: 400 }}>({group.tokens.length})</span>
-      </h3>
-      <div style={cardGrid}>
-        {group.tokens.map((token) => (
-          <TokenCard key={token.name} name={token.name} />
-        ))}
-      </div>
+    <div style={groupCard}>
+      <h4 style={groupHeading}>
+        {group.component}{' '}
+        <span style={{ fontWeight: 400, opacity: 0.6 }}>({group.count})</span>
+      </h4>
+      {group.component === 'button' ? (
+        <TokenMatrixView
+          matrix={buttonMatrix}
+          extras={buttonExtras}
+          extrasLabel="Other button tokens"
+        />
+      ) : (
+        group.subgroups.map((sub) => <RoleRow key={sub.role} group={sub} />)
+      )}
     </div>
   );
 }
@@ -352,9 +366,11 @@ export function ColorsSection() {
       <p style={{ fontSize: 13, color: 'var(--ui-text-on-surface-secondary)' }}>
         Generated <code>--ui-*</code> tokens from{' '}
         <code>@acronis-platform/tokens-pd</code>. Values reflect the active brand
-        and light/dark scheme. Semantic colors are grouped by{' '}
-        <strong>context</strong> (the surface/intent a color lives on), then by{' '}
-        <strong>role</strong> (background, text, border, glyph) within.
+        and light/dark scheme. Tokens are grouped by{' '}
+        <strong>context</strong> (the surface/intent a color lives on, or the
+        component), then by <strong>role</strong> (background, text, border,
+        glyph) within. Regular families — status by intent, button by variant —
+        are shown as a matrix.
       </p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -367,7 +383,7 @@ export function ColorsSection() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
         <h3 style={{ fontSize: 14, fontWeight: 600 }}>Component tokens</h3>
         {componentGroups.map((group) => (
-          <ComponentGroup key={group.tier} group={group} />
+          <ComponentSection key={group.component} group={group} />
         ))}
       </div>
     </div>
