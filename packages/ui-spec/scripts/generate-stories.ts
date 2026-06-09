@@ -57,6 +57,22 @@ const RENDER: Record<string, RenderHint> = {
   },
   input: { ariaLabel: 'Email' },
   search: { ariaLabel: 'Search' },
+  select: {
+    extraImports: [
+      "import { SelectTrigger, SelectValue, SelectContent, SelectItem } from '../select';",
+    ],
+    sample: [
+      '',
+      '      <SelectTrigger aria-label="Fruit">',
+      '        <SelectValue placeholder="Select an option" />',
+      '      </SelectTrigger>',
+      '      <SelectContent>',
+      '        <SelectItem value="apple">Apple</SelectItem>',
+      '        <SelectItem value="banana">Banana</SelectItem>',
+      '      </SelectContent>',
+      '    ',
+    ].join('\n'),
+  },
   breadcrumb: {
     ariaLabel: 'breadcrumb',
     extraImports: [
