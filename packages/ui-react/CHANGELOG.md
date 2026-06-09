@@ -1,5 +1,16 @@
 # @acronis-platform/ui-react
 
+## 0.6.1
+
+### Patch Changes
+
+- [#233](https://github.com/acronis/uikit/pull/233) [`13fb696`](https://github.com/acronis/uikit/commit/13fb6960f699288ccb749d383e342a3dae7b62ab) Thanks [@leonid](https://github.com/leonid)! - Fix unstyled components: `src/styles/index.css` only imported the semantic
+  token tier from `@acronis-platform/tokens-pd`, so the per-component token tiers
+  (opt-in) were never loaded and every `--ui-button-*` / `--ui-button-icon-*` /
+  `--ui-switch-*` / `--ui-breadcrumb-*` reference resolved to nothing. Import the
+  `button`, `switch`, and `breadcrumb` component tiers so the shipped library CSS
+  (`@acronis-platform/ui-react/styles`) actually carries the component tokens.
+
 ## 0.6.0
 
 ### Minor Changes
