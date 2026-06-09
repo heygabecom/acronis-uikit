@@ -1,0 +1,27 @@
+# Visual regression baselines
+
+PNG baselines for the Storybook visual regression suite, one per story
+(`<story-id>.png`), captured by `@storybook/test-runner` + `jest-image-snapshot`
+(see `../../.storybook/test-runner.ts`).
+
+**Baselines are committed and must be generated in Docker (Linux)** so they match
+the CI environment — never commit baselines rendered on macOS/Windows, they will
+not match the Linux renderer.
+
+## Generate / update baselines
+
+```bash
+# From the repo root (Docker must be running):
+pnpm --filter @acronis-platform/ui-react storybook:test:visual:docker:update
+```
+
+Review the resulting PNGs, then commit them alongside the component change.
+
+## Check against baselines (what CI runs)
+
+```bash
+pnpm --filter @acronis-platform/ui-react storybook:test:visual:docker
+```
+
+On failure, diff images are written to `__diff_output__/` (gitignored) and, in
+CI, uploaded as the `visual-regression-diffs-ui-react` artifact.

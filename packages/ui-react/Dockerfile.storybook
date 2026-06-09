@@ -1,0 +1,42 @@
+# syntax=docker/dockerfile:1
+# Dockerfile.storybook
+#
+# This image does NOT build Storybook — the static output is built on the host
+# (where the Vite cache already lives) and mounted as a volume at runtime.
+# The image only provides Playwright + pnpm deps + the test-runner config.
+FROM mcr.microsoft.com/playwright:v1.60.0-jammy
+
+WORKDIR /app
+
+RUN npm install -g pnpm@10.27.0
+
+# Copy workspace manifests only — invalidated on lockfile/manifest changes (rare).
+# pnpm install --frozen-lockfile resolves the dependency graph for every importer
+# present on disk, so ui-react's full `workspace:*` closure must be copied:
+#   ui-react → design-assets, icons-react, tokens-pd, shadcn-uikit-demos
+#   icons-react → design-assets
+#   tokens-pd → design-tokens, style-dictionary
+#   style-dictionary → design-assets, design-tokens
+#   shadcn-uikit-demos → ui-legacy (shadcn-uikit)
+COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
+COPY packages/ui-react/package.json ./packages/ui-react/
+COPY packages/design-assets/package.json ./packages/design-assets/
+COPY packages/icons-react/package.json ./packages/icons-react/
+COPY packages/tokens-pd/package.json ./packages/tokens-pd/
+COPY packages/design-tokens/package.json ./packages/design-tokens/
+COPY packages/ui-legacy/package.json ./packages/ui-legacy/
+COPY tools/style-dictionary/package.json ./tools/style-dictionary/
+COPY apps/demos/package.json ./apps/demos/
+
+# Install deps — pnpm content-addressable store is cached between builds
+RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile
+
+# Copy only the Storybook/test-runner config — not the full source tree
+COPY packages/ui-react/.storybook ./packages/ui-react/.storybook
+
+WORKDIR /app/packages/ui-react
+
+# storybook-static/ is mounted as a read-only volume from the host at runtime.
+# See docker-compose.storybook.yml for the volume declaration.
+CMD ["pnpm", "exec", "http-server", "storybook-static", "-p", "6006", "--silent"]

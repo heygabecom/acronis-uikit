@@ -2,3 +2,4 @@ dist
 storybook-static
 node_modules
 *.tsbuildinfo
+test/__snapshots__/__diff_output__/
