@@ -1,5 +1,12 @@
 # @acronis-platform/kitchen-sink
 
+## 0.1.9
+
+### Patch Changes
+
+- Updated dependencies [[`f0f4ab6`](https://github.com/acronis/uikit/commit/f0f4ab676513d1e4ec4d1014ce15a8ae0cf0b8c6)]:
+  - @acronis-platform/ui-react@0.8.0
+
 ## 0.1.8
 
 ### Patch Changes
