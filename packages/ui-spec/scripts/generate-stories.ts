@@ -45,6 +45,7 @@ const RENDER: Record<string, RenderHint> = {
   },
   switch: { ariaLabel: 'Toggle' },
   checkbox: { ariaLabel: 'Accept' },
+  input: { ariaLabel: 'Email' },
   breadcrumb: {
     ariaLabel: 'breadcrumb',
     extraImports: [
