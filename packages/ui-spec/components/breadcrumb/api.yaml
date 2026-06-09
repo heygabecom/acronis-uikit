@@ -1,0 +1,84 @@
+spec_version: '1.0'
+component: Breadcrumb
+
+# Framework-agnostic contract for a *composable* breadcrumb: the trail is
+# assembled from parts (see anatomy.yaml). Property names are neutral; see
+# `adapters` for the per-framework syntax. Native element attributes
+# (href, target, rel, …) pass through on the relevant part.
+contract:
+  properties:
+    - name: render
+      type: 'RenderProp'
+      required: false
+      default: undefined
+      description: >-
+        Base UI composition prop on the root and on the link part — replaces the
+        rendered element with another component (e.g. a router `Link`) while
+        merging props and classes. React-only; other frameworks use their own
+        polymorphism (e.g. Vue `<RouterLink>` in the link slot).
+    - name: href
+      type: string
+      required: false
+      default: undefined
+      description: >-
+        Target URL of the link part. Omit on the current-page part — the last
+        item is plain text, not a link.
+
+  events: []
+
+  content:
+    - name: default
+      description: >-
+        The composed trail. Author it from the parts: a list wrapping items;
+        each non-final item holds a link followed by a separator; the final item
+        holds the current page. An ellipsis part may stand in for collapsed
+        middle items.
+
+  methods: []
+
+adapters:
+  react:
+    component: Breadcrumb
+    status: implemented
+    import: >-
+      import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink,
+      BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from
+      '@acronis-platform/ui-react'
+    example: |
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink render={<Link to="/" />}>Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/products">Products</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Settings</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+  vue:
+    component: AvBreadcrumb
+    status: planned
+    import: "import { AvBreadcrumb, AvBreadcrumbItem } from '@acronis-platform/ui-vue'"
+    example: |
+      <AvBreadcrumb>
+        <AvBreadcrumbItem to="/">Home</AvBreadcrumbItem>
+        <AvBreadcrumbItem to="/products">Products</AvBreadcrumbItem>
+        <AvBreadcrumbItem>Settings</AvBreadcrumbItem>
+      </AvBreadcrumb>
+
+  web-components:
+    element: ui-breadcrumb
+    status: planned
+    import: "import '@acronis-platform/ui-wc/breadcrumb'"
+    example: |
+      <ui-breadcrumb>
+        <ui-breadcrumb-item href="/">Home</ui-breadcrumb-item>
+        <ui-breadcrumb-item href="/products">Products</ui-breadcrumb-item>
+        <ui-breadcrumb-item>Settings</ui-breadcrumb-item>
+      </ui-breadcrumb>

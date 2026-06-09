@@ -44,6 +44,29 @@ const RENDER: Record<string, RenderHint> = {
     ariaLabel: 'Action',
   },
   switch: { ariaLabel: 'Toggle' },
+  breadcrumb: {
+    ariaLabel: 'breadcrumb',
+    extraImports: [
+      "import { BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from '../breadcrumb';",
+    ],
+    sample: [
+      '',
+      '      <BreadcrumbList>',
+      '        <BreadcrumbItem>',
+      '          <BreadcrumbLink href="#">Home</BreadcrumbLink>',
+      '        </BreadcrumbItem>',
+      '        <BreadcrumbSeparator />',
+      '        <BreadcrumbItem>',
+      '          <BreadcrumbLink href="#">Products</BreadcrumbLink>',
+      '        </BreadcrumbItem>',
+      '        <BreadcrumbSeparator />',
+      '        <BreadcrumbItem>',
+      '          <BreadcrumbPage>Settings</BreadcrumbPage>',
+      '        </BreadcrumbItem>',
+      '      </BreadcrumbList>',
+      '    ',
+    ].join('\n'),
+  },
 };
 
 const HEADER =
@@ -137,11 +160,15 @@ export const Disabled: Story = {
   ),
 };`);
   } else {
+    // Only show a disabled instance when the component actually has a
+    // `disabled` prop — composable components (e.g. breadcrumb) do not.
+    const disabledInst = hasProp(api, 'disabled')
+      ? `\n      ${inst(`${label} disabled`)}`
+      : '';
     parts.push(`export const States: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-      ${inst(label)}
-      ${inst(`${label} disabled`)}
+      ${inst(label)}${disabledInst}
     </div>
   ),
 };`);

@@ -1,0 +1,82 @@
+spec_version: '1.0'
+component: Breadcrumb
+
+schematic: |
+  root: <nav aria-label="breadcrumb">
+  +-----------------------------------------------------------------+
+  |  list: <ol>                                                     |
+  |   +-----------+  +-----------+  +-----------+  +--------------+  |
+  |   | item      |  | separator |  | item      |  | item         |  |
+  |   |  [link]   |  |    >      |  | [ellipsis]|  |  [page]      |  |
+  |   +-----------+  +-----------+  +-----------+  +--------------+  |
+  +-----------------------------------------------------------------+
+     link    -> --ui-breadcrumb-link  (interactive, hover/focus underline)
+     page    -> --ui-breadcrumb-value (current page, aria-current="page")
+     separator -> --ui-breadcrumb-chevron (decorative chevron, aria-hidden)
+     ellipsis  -> collapsed-items affordance (aria-hidden + sr-only label)
+
+root:
+  element: nav
+  role: navigation
+  description: >-
+    Navigation landmark (`<nav aria-label="breadcrumb">`) wrapping the trail.
+    Polymorphic via the `render` prop.
+
+parts:
+  - id: list
+    description: >-
+      Ordered list (`<ol>`) that lays the trail out in a horizontal, wrapping
+      flex row. Owns the inter-item gap (`--ui-breadcrumb-gap`) and the 14px /
+      24px type.
+    element: ol
+  - id: item
+    description: A single trail entry (`<li>`) — wraps a link, current page, or ellipsis.
+    element: li
+  - id: link
+    description: >-
+      Interactive link (`<a>` by default, polymorphic via `render`). Uses
+      `--ui-breadcrumb-link`; underlines on hover and focus-visible.
+    element: a
+  - id: page
+    description: >-
+      The current page (`<span role="link" aria-current="page" aria-disabled>`).
+      Non-interactive; uses `--ui-breadcrumb-value`. Always the last item.
+    element: span
+  - id: separator
+    description: >-
+      Decorative divider (`<li role="presentation" aria-hidden>`) between items.
+      Defaults to a 16px chevron-right icon; accepts custom children.
+    element: li
+  - id: ellipsis
+    description: >-
+      Affordance representing collapsed middle items (`<span aria-hidden>` with
+      an ellipsis icon + an `sr-only` "More" label). Optional.
+    element: span
+    optional: true
+    visible_when: the trail is truncated
+
+layout:
+  type: flex
+  direction: row
+  align: center
+  order: [item, separator]
+
+# The trail is a pure function of its composition — no component-owned state.
+# The only visual states are CSS pseudo-classes on the link part. "Current
+# page" is structural (use the page part instead of a link), not a state.
+states:
+  - id: hover
+    trigger: pointer hover over a link
+    kind: pseudo
+    pseudo: ':hover'
+    affects: [link]
+  - id: focus-visible
+    trigger: keyboard focus on a link
+    kind: pseudo
+    pseudo: ':focus-visible'
+    affects: [link]
+  - id: active
+    trigger: pointer or keyboard activation of a link
+    kind: pseudo
+    pseudo: ':active'
+    affects: [link]

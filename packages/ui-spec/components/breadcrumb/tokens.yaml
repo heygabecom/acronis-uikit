@@ -1,0 +1,34 @@
+spec_version: '1.0'
+component: Breadcrumb
+
+# References only. Values live in @acronis-platform/tokens-pd (generated from
+# @acronis-platform/design-tokens) and resolve per brand/theme at paint time.
+# The token schema forbids a value/default key here — never restate values.
+source: '@acronis-platform/tokens-pd'
+
+tokens:
+  - {
+      name: --ui-breadcrumb-link,
+      affects: link,
+      description: Link text color (idle / hover / active / focus),
+    }
+  - {
+      name: --ui-breadcrumb-value,
+      affects: page,
+      description: Current-page text color,
+    }
+  - {
+      name: --ui-breadcrumb-chevron,
+      affects: separator,
+      description: Chevron / separator color,
+    }
+  - {
+      name: --ui-breadcrumb-gap,
+      affects: list,
+      description: Gap between items and separators (4px),
+    }
+  - {
+      name: --ui-focus-brand,
+      affects: link,
+      description: Focus-visible ring color,
+    }

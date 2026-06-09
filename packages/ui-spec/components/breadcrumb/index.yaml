@@ -1,0 +1,18 @@
+spec_version: '1.0'
+component: Breadcrumb
+name: breadcrumb
+status: ready
+category: navigation
+description: >-
+  Displays a hierarchical navigation path showing the user's current location.
+  A set of composable parts (list, item, link, current page, separator,
+  ellipsis) — the last item is a non-link current page; chevron separators sit
+  between items.
+since: 0.6.0
+dependencies:
+  components:
+    - ChevronRightIcon
+    - EllipsisIcon
+figma:
+  node: '1019-1502'
+  codeConnect: packages/ui-react/src/components/ui/breadcrumb/breadcrumb.figma.tsx
