@@ -1,5 +1,16 @@
 # @acronis-platform/ui-react
 
+## 0.11.1
+
+### Patch Changes
+
+- [#246](https://github.com/acronis/uikit/pull/246) [`4520292`](https://github.com/acronis/uikit/commit/4520292e06b6e4f6ca022c30ac96ed843f7e1ed1) Thanks [@leonid](https://github.com/leonid)! - Re-theme `Switch` to the design's `--ui-switch-*` token tier. It now matches the
+  Figma component: a 32×16 track with a 12px circle, green `--ui-switch-background-active`
+  (on) / `--ui-switch-background-inactive` (off) / dedicated disabled tokens
+  (replacing the placeholder shadcn `bg-primary`/`bg-input` colors and
+  `opacity-50` disabled), with a 3px `--ui-focus-primary` focus ring. No API
+  change. Also completes the Figma Code Connect mapping.
+
 ## 0.11.0
 
 ### Minor Changes
