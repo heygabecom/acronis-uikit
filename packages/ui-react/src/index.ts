@@ -4,5 +4,6 @@ export * from './components/ui/button';
 export * from './components/ui/checkbox';
 export * from './components/ui/radio';
 export * from './components/ui/input';
+export * from './components/ui/search';
 export * from './components/ui/button-icon';
 export * from './components/ui/switch';

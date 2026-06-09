@@ -56,6 +56,7 @@ const RENDER: Record<string, RenderHint> = {
     ].join('\n'),
   },
   input: { ariaLabel: 'Email' },
+  search: { ariaLabel: 'Search' },
   breadcrumb: {
     ariaLabel: 'breadcrumb',
     extraImports: [
