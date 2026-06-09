@@ -1,5 +1,31 @@
 # @acronis-platform/ui-react
 
+## 0.8.0
+
+### Minor Changes
+
+- [#237](https://github.com/acronis/uikit/pull/237) [`f0f4ab6`](https://github.com/acronis/uikit/commit/f0f4ab676513d1e4ec4d1014ce15a8ae0cf0b8c6) Thanks [@leonid](https://github.com/leonid)! - Add `Input`: a single-line text input themed by the shared `--ui-form-*` token
+  tier from `@acronis-platform/tokens-pd`. Each state is wired to its own token —
+  idle / hover / focus (active border + a 3px `--ui-focus-primary` ring) /
+  disabled — and the error state is driven by `aria-invalid` (red border, and a
+  `--ui-focus-error` ring on focus) scoped so it wins over the hover/focus border.
+  Includes tests, Storybook stories, visual-regression baselines, and a Figma
+  Code Connect mapping. Label / description / error message are composed by the
+  consumer (a Field component is future work).
+
+## 0.7.0
+
+### Minor Changes
+
+- [#235](https://github.com/acronis/uikit/pull/235) [`4fb8b2f`](https://github.com/acronis/uikit/commit/4fb8b2f3c0df84f49def85fa7cba7ee3d062ef66) Thanks [@leonid](https://github.com/leonid)! - Add `Checkbox`: a Base UI checkbox wrapper supporting checked, unchecked, and
+  indeterminate states (check / minus glyphs). Colors and geometry are wired to
+  the shared `--ui-form-*` token tier from `@acronis-platform/tokens-pd`, with the
+  glyph tinted by `--ui-glyph-on-brand-primary` and the focus ring by
+  `--ui-focus-primary`; the disabled state always wins over the checked /
+  indeterminate fill. Includes tests, Storybook stories, visual-regression
+  baselines, and a Figma Code Connect mapping. The `form` token tier is now
+  imported in `src/styles/index.css`.
+
 ## 0.6.1
 
 ### Patch Changes
