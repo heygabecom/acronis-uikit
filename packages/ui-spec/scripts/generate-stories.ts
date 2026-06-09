@@ -45,6 +45,16 @@ const RENDER: Record<string, RenderHint> = {
   },
   switch: { ariaLabel: 'Toggle' },
   checkbox: { ariaLabel: 'Accept' },
+  radio: {
+    ariaLabel: 'Plan',
+    extraImports: ["import { Radio } from '../radio';"],
+    sample: [
+      '',
+      '      <Radio value="a" aria-label="Option A" />',
+      '      <Radio value="b" aria-label="Option B" />',
+      '    ',
+    ].join('\n'),
+  },
   breadcrumb: {
     ariaLabel: 'breadcrumb',
     extraImports: [
