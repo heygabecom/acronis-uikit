@@ -58,9 +58,10 @@ from the acronis base — keep brands small and maintainable):
 | Primitives (palette, scales)           | `tiers/primitives.json`                                  | **never** (brand-agnostic)     |
 | Typography, spacing, radii, units      | —                                                        | **never**                      |
 
-Today `brand-b` (the proof-of-pipeline second brand) overrides exactly the first
-three groups plus per-component tiers for 11 components — the canonical "accent
-brand" surface.
+`brand-b` (the proof-of-pipeline second brand) overrode exactly the first three
+groups plus per-component tiers for 11 components — the canonical "accent brand"
+surface — before it was removed from Figma on 2026-06-12 (architecture proven;
+Acronis-only focus until real brands land).
 
 ## The matrix
 
@@ -96,12 +97,13 @@ Figma **brand mode** → a `values.<brand>` key → a generated `<brand>.css`.
 | `web`                   | `web`                 | Website           | accent                                                | ✓         | ?                    |
 | `yellow`                | `yellow`              | 1C                | accent                                                | ✓         | ?                    |
 | —                       | `dark`                | —                 | **color mode, not a brand** (every brand's dark half) | —         | —                    |
-| `brand-b`               | —                     | pipeline proof    | accent (placeholder)                                  | ✓         | ✓                    |
+| `brand-b`               | —                     | pipeline proof    | **removed 2026-06-12** (was accent placeholder)       | —         | —                    |
 | _(any new Figma brand)_ | —                     | —                 | data-driven                                           | per Figma | per Figma            |
 
 That is the **24 legacy themes** (the `ui-legacy` set): 22 brand rows + the
 `acronis`/`default` base + the `dark` **mode** (folded into every brand, not its
-own brand). `brand-b` is an extra placeholder proving the override pipeline.
+own brand). `brand-b` was a placeholder that proved the override pipeline; it was
+removed from Figma 2026-06-12 once the architecture was confirmed.
 
 ### Light / dark per brand
 
@@ -129,7 +131,9 @@ each brand resolves as a complete view; the build emits only its diff vs acronis
 
 ## Current state vs target
 
-- **Shipped now:** `acronis` (full) + `brand-b` (override-only placeholder).
+- **Shipped now:** `acronis` (full). The `brand-b` placeholder is removed from
+  Figma and `tiers/semantic.json`; it still lingers in `tiers/components.json`
+  (and the generated `tokens-pd` output) until the next components sync/rebuild.
 - **Target:** the legacy set above, sourced from Figma brand modes.
 - **Gap (data, not code):** the 21 legacy accent brands' token values are **not
   yet in Figma / design-tokens**. The pipeline is ready; populating them is a
@@ -142,4 +146,6 @@ each brand resolves as a complete view; the build emits only its diff vs acronis
   `acronis-default` / `acronis-ocean` / `cyber-chat` / `acronis-white-label` —
   reconcile that with the legacy 22 above).
 - Which brands ship a **dark** variant (vs inheriting acronis dark).
-- Is `brand-b` kept as a fixture or removed once real brands land?
+- ~~Is `brand-b` kept as a fixture or removed once real brands land?~~ Resolved
+  2026-06-12: removed — the architecture is proven, focus is Acronis-only until
+  real brands are authored in Figma.

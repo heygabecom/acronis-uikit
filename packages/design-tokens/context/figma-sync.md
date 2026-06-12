@@ -15,13 +15,13 @@ The JSON files are the source of truth; Figma is where the values are designed. 
 
 Figma exports drop into `.tmp/figma-tokens/` — a DTCG-shaped export plus Figma metadata sidecars used by the generators:
 
-| File                                      | Contents                                                                                                                         |
-| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `.tmp/figma-tokens/variables.tokens.json` | DTCG export of every Variable Collection (Theme, Brand, Units, Typography). Includes Modes, Groups, and aliased values.          |
-| `.tmp/figma-tokens/variables-meta.json`   | Sidecar: `{ [variableId]: { name, scopes, hidden } }`. Holds `scopes` and `hiddenFromPublishing` — fields the DTCG export drops. |
-| `.tmp/figma-tokens/styles-color.json`     | Paint (color) styles. Backs the four `colors.background.ai` gradients today.                                                     |
-| `.tmp/figma-tokens/styles-effect.json`    | Effect styles (shadows, blurs). Not yet consumed by the generators.                                                              |
-| `.tmp/figma-tokens/styles-text.json`      | Text styles. Will back `semantics.typography` once that's built.                                                                 |
+| File                                      | Contents                                                                                                                                                                                                                                                    |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.tmp/figma-tokens/variables.tokens.json` | DTCG export of every Variable Collection (Theme, Brand, Units, Typography). Includes Modes, Groups, and aliased values.                                                                                                                                     |
+| `.tmp/figma-tokens/variables-meta.json`   | Sidecar: `{ [variableId]: { name, scopes, hidden } }`. Holds `scopes` and `hiddenFromPublishing` — fields the DTCG export drops.                                                                                                                            |
+| `.tmp/figma-tokens/styles-color.json`     | Paint (color) styles. Not consumed since 2026-06-12 — the AI gradient paint styles were removed from Figma; the AI gradients now live in the variable system as mocked `string` variables under `Semantic/gradients` (see [Mocked values](#mocked-values)). |
+| `.tmp/figma-tokens/styles-effect.json`    | Effect styles (shadows, blurs). Not yet consumed by the generators.                                                                                                                                                                                         |
+| `.tmp/figma-tokens/styles-text.json`      | Text styles. Will back `semantics.typography` once that's built.                                                                                                                                                                                            |
 
 `.tmp/` is **gitignored** — snapshots are reproducible inputs any contributor can re-fetch from Figma; committing them would just churn the diff. The helper scripts under `.tmp/scripts/` are whitelisted (`.gitignore` carves them back in) as a temporary location until the proper CI/CD sync pipeline lands.
 
@@ -52,38 +52,60 @@ How code Tiers and Groups map to Figma's organization. Use this when translating
 
 ### Tier × Group ↔ Figma Collection × Figma Group
 
-| Code Tier  | Code Group         | Figma Collection                     | Figma Group under Collection |
-| ---------- | ------------------ | ------------------------------------ | ---------------------------- |
-| Primitives | Palette            | Theme                                | (collection root)            |
-| Primitives | Units              | Units                                | (collection root)            |
-| Primitives | Font               | Font                                 | (collection root)            |
-| Semantics  | Colors             | Brand                                | `Semantic/colors`            |
-| Semantics  | Typography         | _(Figma Text Styles, not Variables)_ | —                            |
-| Components | \* (per component) | Brand                                | `Component/*`                |
+| Code Tier  | Code Group         | Figma Collection                     | Figma Group under Collection   |
+| ---------- | ------------------ | ------------------------------------ | ------------------------------ |
+| Primitives | Palette            | Theme                                | (collection root)              |
+| Primitives | Units              | Units                                | (collection root)              |
+| Primitives | Font               | Font                                 | (collection root)              |
+| Semantics  | Colors             | Brand                                | `Semantic/colors`              |
+| Semantics  | Gradients          | Brand                                | `Semantic/gradients`           |
+| Semantics  | Typography         | _(Figma Text Styles, not Variables)_ | —                              |
+| Components | \* (per component) | Brand                                | `Brand/components/<Component>` |
 
 Notes:
 
-- The **Brand** Figma Collection carries both `semantics.colors` and every `components.*` group. They share its mode axis (`acronis` and `brand-b` today; `brand-b` mirrors `acronis` until designers author it — see [`manifest.md`](./manifest.md)).
+- The **Brand** Figma Collection carries `semantics.colors`, `semantics.gradients`, and every `components.*` group. They share its mode axis (`acronis` only today — the `brand-b` pipeline-proof mode was removed 2026-06-12; see [`manifest.md`](./manifest.md)).
+- **Semantics/Gradients** maps to the `gradients.ai.*` root in `tiers/semantic.json`. Figma variables can't store gradient fills, so each is a **mocked `string` variable** holding a CSS `linear-gradient(...)` (see [Mocked values](#mocked-values) below).
 - **Semantics/Typography** is not a Variable Collection — it's modeled as Figma Text Styles and emitted to `tiers/semantic.json`. See [`manifest.md`](./manifest.md).
-- **Components** are variables under the Brand collection (`Component/*`) and are emitted to `tiers/components.json`. See [`manifest.md`](./manifest.md).
+- **Components** are variables under the Brand collection in the `Brand/components` group, one PascalCase subgroup per component (`Brand/components/Button`, `Brand/components/ButtonIcon`, …); they're emitted to `tiers/components.json`. The group already nests interaction states and real `_global` groups, so the emitter writes the tree natively (no flattening/regrouping). Only the four components in the emitter's `COMPONENTS` allowlist are pulled today (`Button`, `ButtonIcon`, `SidebarPrimary`, `SidebarSecondary`); the rest come in via future syncs by extending the allowlist. The old **`Brand/componentLegacy`** group (the previous 10-component structure) is **ignored entirely**. See [`manifest.md`](./manifest.md).
 
 ### Name canonicalization
 
 Code names are simpler and take priority. Figma names are optimized for the Figma UI; the generator translates them on import. Examples:
 
-| Code                             | Figma                    |
-| -------------------------------- | ------------------------ |
-| `palette.blue.7`                 | `Blue/Blue-7-Primary`    |
-| `palette.blue.13`                | `Blue/Blue-13-Brand`     |
-| `palette.transparent.inverted.6` | `Transparent/Inverted-6` |
-| `palette.grayscale.5`            | `Grayscale/Gray-5`       |
-| `units.gap.4`                    | `gap/gap-4`              |
-| `units.size.16`                  | `size/size-16`           |
-| `units.stroke.1-6`               | `stroke/width-1-6`       |
-| `units.radius.4`                 | `radius/radius-4`        |
-| `font.font-size.10`              | `font-size/font-size-10` |
+| Code                                           | Figma                                         |
+| ---------------------------------------------- | --------------------------------------------- |
+| `palette.blue.7`                               | `Blue/Blue-7-Primary`                         |
+| `palette.blue.13`                              | `Blue/Blue-13-Brand`                          |
+| `palette.transparent.inverted.6`               | `Transparent/Inverted-6`                      |
+| `palette.grayscale.5`                          | `Grayscale/Gray-5`                            |
+| `units.gap.4`                                  | `gap/gap-4`                                   |
+| `units.size.16`                                | `size/size-16`                                |
+| `units.stroke.1-6`                             | `stroke/width-1-6`                            |
+| `units.radius.4`                               | `radius/radius-4`                             |
+| `font.font-size.10`                            | `font-size/font-size-10`                      |
+| `button` / `button-icon`                       | `Button` / `ButtonIcon`                       |
+| `sidebar-primary.menu-item`                    | `SidebarPrimary/MenuItem`                     |
+| `button.secondary.container.border-color.idle` | `Button/secondary/container/borderColor/idle` |
+| `…container.padding-x` / `…width-min`          | `…container/paddingX` / `…widthMin`           |
 
-The translation logic for palette names lives in `../.tmp/scripts/lib/palette-map.mjs`. The alias-prefix rules (e.g. `gap.gap-N → units.gap.N`) live in `../.tmp/scripts/lib/alias-map.mjs`. Extend either one — don't bypass them — when a new naming pattern appears in Figma.
+Components canonicalize Figma PascalCase/camelCase to kebab-case: split camel-humps, lower-case, hyphenate (`ButtonIcon` → `button-icon`, `borderColor` → `border-color`, `paddingX` → `padding-x`, `textStyle` → `text-style`). `_global` is preserved verbatim and sorts first.
+
+The translation logic for palette names lives in `../.tmp/scripts/lib/palette-map.mjs`. The alias-prefix rules (e.g. `gap.gap-N → units.gap.N`, `semantic.gradients.* → gradients.*`) live in `../.tmp/scripts/lib/alias-map.mjs`. Extend either one — don't bypass them — when a new naming pattern appears in Figma.
+
+### Mocked values
+
+Some design values can't be expressed as native Figma variables, so designers **mock** them — usually as `string` variables (or sentinel color literals). The emitters decode each mock into the right DTCG `$type` on import. Current conventions:
+
+| Figma form                                                   | Decodes to                                                                 | Where                |
+| ------------------------------------------------------------ | -------------------------------------------------------------------------- | -------------------- |
+| Color literal `#FF00FF00` or `#FFFFFF00`                     | CSS `transparent` — `{ colorSpace:"hsl", components:[0,0,0], alpha:0 }`    | components           |
+| `string` holding `linear-gradient(<angle>, <hex> <pct>%, …)` | `$type: "gradient"` stop array; raw string kept in `com.figma.cssGradient` | `semantic/gradients` |
+| `string` holding `typography.<path>`                         | `$type: "typography"` alias (`{typography.body.strong}`)                   | components           |
+| `string` on a `borderStyle` key                              | `$type: "strokeStyle"` (value `"solid"`)                                   | components           |
+| `string` on a per-state `textDecoration` key                 | `$type: "string"` (value `"none"` / `"underline"`)                         | components           |
+
+The `string` $type is a documented divergence (DTCG has no string type); see [`spec.md`](./spec.md). The `gradient` decode is what makes `semantic/gradients/ai/*` (mocked because Figma variables can't hold gradient fills) emit as proper DTCG gradients — `figma-to-semantic.mjs` parses the CSS stops, `figma-to-components.mjs` aliases the resulting `gradients.*` root.
 
 ## Pull workflow
 
@@ -118,13 +140,13 @@ A handful of VariableIDs are referenced by the DTCG export but not returned by `
 
 ### Top-level scripts
 
-| Script                        | Role                                                                                                                                                                                                                                                                                                                                                           |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `figma-to-primitives.mjs`     | Reads the DTCG export and emits `tiers/primitives.json` (palette + units + typography primitives). Canonical formatter for that file.                                                                                                                                                                                                                          |
-| `figma-to-semantic.mjs`       | Reads the DTCG export and emits `tiers/semantic.json` (semantic colors + typography). Depends on `tiers/primitives.json` for the palette VariableID → path map and alias-target validation. Canonical formatter for that file.                                                                                                                                 |
-| `figma-to-components.mjs`     | Reads the DTCG export and emits `tiers/components.json` (per-component tokens). Depends on both `primitives.json` and `semantic.json` so the alias-map validator can confirm every translated alias target exists. Inlines + warns on raw-value gaps in Figma (same posture as the typography gaps in `figma-to-semantic`). Canonical formatter for that file. |
-| `figma-pull-postprocess.mjs`  | The post-process gate from the [Pull workflow](#pull-workflow): renames `tokens.tokens.json` → `variables.tokens.json` and diffs VariableID coverage. Prints a paste-ready `figma_execute` snippet for missing IDs and exits 1 until coverage is clean. Run after every pull.                                                                                  |
-| `extract-linear-gradient.mjs` | Vendored helper converting a Figma `gradientTransform` into start/end points. Pure math, no I/O. Used when authoring the AI gradient round-trip data.                                                                                                                                                                                                          |
+| Script                        | Role                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `figma-to-primitives.mjs`     | Reads the DTCG export and emits `tiers/primitives.json` (palette + units + typography primitives). Canonical formatter for that file.                                                                                                                                                                                                                                                                                                                                                                                  |
+| `figma-to-semantic.mjs`       | Reads the DTCG export and emits `tiers/semantic.json` (semantic colors + the `gradients` root + typography). Depends on `tiers/primitives.json` for the palette VariableID → path map and alias-target validation. Parses the mocked CSS-gradient `string` variables under `Semantic/gradients` into DTCG `gradient` stops (see [Mocked values](#mocked-values)). Canonical formatter for that file.                                                                                                                   |
+| `figma-to-components.mjs`     | Reads the DTCG export and emits `tiers/components.json` (per-component tokens) for the components in its `COMPONENTS` allowlist. Depends on both `primitives.json` and `semantic.json` so the alias-map validator can confirm every translated alias target exists (now including the `gradients` and `typography` roots). Writes Figma's native `_global`/state structure, kebab-canonicalizes names, and decodes mocked values (transparent / typography / strokeStyle / string). Canonical formatter for that file. |
+| `figma-pull-postprocess.mjs`  | The post-process gate from the [Pull workflow](#pull-workflow): renames `tokens.tokens.json` → `variables.tokens.json` and diffs VariableID coverage. Prints a paste-ready `figma_execute` snippet for missing IDs and exits 1 until coverage is clean. Run after every pull.                                                                                                                                                                                                                                          |
+| `extract-linear-gradient.mjs` | Vendored helper converting a Figma `gradientTransform` into start/end points. Pure math, no I/O. Was used for the old AI gradient _paint-style_ round-trip; the gradients now arrive as mocked CSS strings and `figma-to-semantic` parses them directly, so this helper is currently unused.                                                                                                                                                                                                                           |
 
 All three emitters are also the **canonical formatters**: they produce a mixed JSON layout (always-multi-line top-level `values` dict, inline mode values, token `$extensions` broken when long, meta keys hoisted before integer-like keys) that no standard JSON formatter reproduces. `.vscode/settings.json` disables format-on-save for JSON in this workspace.
 

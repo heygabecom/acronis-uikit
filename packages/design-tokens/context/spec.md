@@ -52,6 +52,7 @@ Additional `com.figma.*` metadata when present:
 - `com.figma.scopes: [...]` — Variable scopes (e.g., `ALL_SCOPES`).
 - `com.figma.hiddenFromPublishing: true` — emitted only when truthy.
 - `com.figma.gradientTransform: [[…],[…]]` — Figma's gradient transform, for paint-style gradients where DTCG `gradient` has no direction field.
+- `com.figma.cssGradient: "linear-gradient(…)"` — the raw CSS gradient string for gradients that originate as **mocked `string` variables** (Figma variables can't hold gradient fills). The emitter parses its stops into the DTCG `gradient` `$value`; this key preserves the original string verbatim — including the `<angle>` (e.g. `90deg`), which DTCG `gradient` has no field for. Carried on the `gradients.ai.*` tokens in `semantic.json`.
 
 A handful of tokens may exist in Figma but be intentionally not linked back (no `variableId` / `styleId`). These are rare; add a `$description` explaining why when introducing one.
 
@@ -131,7 +132,9 @@ These come from DTCG. Use them as defined; do NOT invent new `$`-prefixed keys.
 
 ### `$type` values
 
-DTCG-defined only: `color`, `dimension`, `fontFamily`, `fontWeight`, `number`, `typography`, `shadow`, `border`, `transition`, `gradient`, `cubicBezier`, `strokeStyle`, `duration`. DTCG group-level `$type` inheritance applies: declared at a parent group, descendants inherit unless overridden.
+DTCG-defined: `color`, `dimension`, `fontFamily`, `fontWeight`, `number`, `typography`, `shadow`, `border`, `transition`, `gradient`, `cubicBezier`, `strokeStyle`, `duration`. DTCG group-level `$type` inheritance applies: declared at a parent group, descendants inherit unless overridden.
+
+**One non-DTCG divergence: `string`.** DTCG 2025.10 has no string type, but Figma exports raw `string` variables that don't map onto any DTCG type — currently the four per-state `textDecoration` tokens (`button.ghost.label.text-decoration.{idle,hover,active,disabled}`, values `"none"` / `"underline"`). They're emitted as `$type: "string"`, which is added to the schema's `$type` enum. (Other Figma `string` variables _do_ decode to a DTCG type and are mapped: `borderStyle` → `strokeStyle`, `textStyle` → `typography` alias, and the mocked CSS gradients → `gradient`; see [`figma-sync.md`](./figma-sync.md). Only `textDecoration` has no DTCG home and stays `string`.)
 
 ### Where the helper scripts enforce this
 
