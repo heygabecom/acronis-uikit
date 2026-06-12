@@ -11,7 +11,7 @@ These files are the source of truth. The `figma-to-*.mjs` helper scripts re-emit
 | File                    | Re-emitted by (on sync)                |
 | ----------------------- | -------------------------------------- |
 | `tiers/primitives.json` | `.tmp/scripts/figma-to-primitives.mjs` |
-| `tiers/semantic.json`   | `.tmp/scripts/figma-to-semantic.mjs`   |
+| `tiers/semantics.json`  | `.tmp/scripts/figma-to-semantic.mjs`   |
 | `tiers/components.json` | `.tmp/scripts/figma-to-components.mjs` |
 
 ### `primitives.json`
@@ -22,7 +22,7 @@ Covers all of the Primitives Tier:
 - `units` — `gap`, `size`, `radius`, `stroke`. Single-value (no modes). Stored under `$extensions.com.acronis.units` as `{ value, unit: "px" }`. (`gap` was previously `space`; renamed in Figma 2026-05-27 along with `space-N → gap-N` per-token identifiers.)
 - `font` — `font-family`, `font-weight`, `font-size`, `line-height`, `letter-spacing`. Single-value, stored under `$extensions.com.acronis.units`. `letter-spacing` is derived from `.tmp/figma-tokens/styles-text.json` rather than a Figma Variable (Figma exposes letter-spacing only on Text Styles), so its tokens carry a group-level `$description` instead of `com.figma.variableId`.
 
-### `semantic.json`
+### `semantics.json`
 
 Three roots, no outer `semantic` wrapper:
 
@@ -34,7 +34,7 @@ The `variableId` / `styleId` discriminator split is described in [`spec.md`](./s
 
 ### `components.json`
 
-One root per component, no outer wrapper. `$type` lives on each token because components mix `color`, `dimension`, `gradient`, `typography`, `strokeStyle`, and `string`. Mode dimension is **Brand** — same axis as `semantic.json`'s `colors` (data-driven; single `acronis` key today). **4 components** today — `button` (101), `button-icon` (34), `sidebar-primary` (48), `sidebar-secondary` (55) — **238 tokens total**. `$type` mix: 139 `color` · 79 `dimension` · 9 `typography` · 4 `string` · 4 `gradient` · 3 `strokeStyle`. The file was rebuilt fresh from Figma's new `Brand/components` group on 2026-06-12 (the old 11-component structure was fully replaced; the remaining `Brand/components` children come in via future syncs).
+One root per component, no outer wrapper. `$type` lives on each token because components mix `color`, `dimension`, `gradient`, `typography`, `strokeStyle`, and `string`. Mode dimension is **Brand** — same axis as `semantics.json`'s `colors` (data-driven; single `acronis` key today). **4 components** today — `button` (101), `button-icon` (34), `sidebar-primary` (48), `sidebar-secondary` (55) — **238 tokens total**. `$type` mix: 139 `color` · 79 `dimension` · 9 `typography` · 4 `string` · 4 `gradient` · 3 `strokeStyle`. The file was rebuilt fresh from Figma's new `Brand/components` group on 2026-06-12 (the old 11-component structure was fully replaced; the remaining `Brand/components` children come in via future syncs).
 
 **Native structure.** The Figma source already nests interaction states (`color/idle`, `color/hover`, `color/active`, `color/disabled`) and has real `_global` groups, so the emitter writes the tree as-is — no flattening or `<prefix>-<state>` regrouping. Only the fixed state order (`idle → hover → active → disabled`) is reapplied after the alphabetic sort. Figma PascalCase/camelCase names canonicalize to kebab-case paths (`ButtonIcon` → `button-icon`, `borderColor` → `border-color`, `paddingX` → `padding-x`, …); `_global` is preserved verbatim and sorts first.
 

@@ -52,7 +52,7 @@ Additional `com.figma.*` metadata when present:
 - `com.figma.scopes: [...]` — Variable scopes (e.g., `ALL_SCOPES`).
 - `com.figma.hiddenFromPublishing: true` — emitted only when truthy.
 - `com.figma.gradientTransform: [[…],[…]]` — Figma's gradient transform, for paint-style gradients where DTCG `gradient` has no direction field.
-- `com.figma.cssGradient: "linear-gradient(…)"` — the raw CSS gradient string for gradients that originate as **mocked `string` variables** (Figma variables can't hold gradient fills). The emitter parses its stops into the DTCG `gradient` `$value`; this key preserves the original string verbatim — including the `<angle>` (e.g. `90deg`), which DTCG `gradient` has no field for. Carried on the `gradients.ai.*` tokens in `semantic.json`.
+- `com.figma.cssGradient: "linear-gradient(…)"` — the raw CSS gradient string for gradients that originate as **mocked `string` variables** (Figma variables can't hold gradient fills). The emitter parses its stops into the DTCG `gradient` `$value`; this key preserves the original string verbatim — including the `<angle>` (e.g. `90deg`), which DTCG `gradient` has no field for. Carried on the `gradients.ai.*` tokens in `semantics.json`.
 
 A handful of tokens may exist in Figma but be intentionally not linked back (no `variableId` / `styleId`). These are rare; add a `$description` explaining why when introducing one.
 
@@ -72,9 +72,24 @@ Vendor-specific metadata goes under `$extensions` with a reverse-DNS key. DTCG l
 | `com.acronis.units`          | Dimension carrier (`{unit, value}`) on units primitives.                                                |
 | `com.acronis.textCase`       | Typography hint preserved from Figma Text Styles (non-DTCG field).                                      |
 | `com.acronis.textDecoration` | Typography hint preserved from Figma Text Styles (non-DTCG field).                                      |
+| `com.acronis.tailwindRoles`  | Root-level build-time hint mapping a token path segment to a Tailwind theme namespace (see below).      |
 | `com.acronis.modes`          | NOT USED — modes live at the top-level `values` key on each token (see [`manifest.md`](./manifest.md)). |
 | `com.acronis.platform`       | NOT USED — platform scope lives at the top-level `platforms` key (see [`manifest.md`](./manifest.md)).  |
 | `com.acronis.metadata`       | NOT USED.                                                                                               |
+
+#### `com.acronis.tailwindRoles`
+
+A **root-level (group-level)** extension that maps a token path segment — a
+semantic role (e.g. `background`) or a component part (e.g. `container`) — to the
+Tailwind theme namespace it should route into: one of `backgroundColor`,
+`textColor`, `borderColor`, `fill`, `ringColor`, or `backgroundImage`. It is
+carried at the top of `semantics.json` and `components.json`.
+
+This is a **build-time hint consumed by [`tools/style-dictionary`](../../../tools/style-dictionary/AGENTS.md)** (its `tailwind.ts` reads the
+key to route colors/gradients into the right Tailwind namespace), **not part of
+any token's value** — it carries no design data and never appears on a token's
+`$value`. It is validated by the `AcronisTailwindRoles` `$def` in
+[`../schemas/tokens.schema.json`](../schemas/tokens.schema.json).
 
 ### Adding a new key (3-step rule)
 
@@ -138,4 +153,4 @@ DTCG-defined: `color`, `dimension`, `fontFamily`, `fontWeight`, `number`, `typog
 
 ### Where the helper scripts enforce this
 
-`.tmp/scripts/figma-to-primitives.mjs` and `.tmp/scripts/figma-to-semantic.mjs` are the canonical emitters AND formatters — they produce the exact shape above. During a Figma sync the LLM runs them to re-emit `tiers/primitives.json` and `tiers/semantic.json` in that canonical shape, so it doesn't have to hand-write the JSON (accuracy, plus fewer LLM tokens). The JSON is the source of truth and may be edited, but reflect a Figma change by running a sync. See [`figma-sync.md`](./figma-sync.md).
+`.tmp/scripts/figma-to-primitives.mjs` and `.tmp/scripts/figma-to-semantic.mjs` are the canonical emitters AND formatters — they produce the exact shape above. During a Figma sync the LLM runs them to re-emit `tiers/primitives.json` and `tiers/semantics.json` in that canonical shape, so it doesn't have to hand-write the JSON (accuracy, plus fewer LLM tokens). The JSON is the source of truth and may be edited, but reflect a Figma change by running a sync. See [`figma-sync.md`](./figma-sync.md).

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Convert the Figma DTCG export into tiers/semantic.json — semantic colors
+// Convert the Figma DTCG export into tiers/semantics.json — semantic colors
 // that alias palette primitives, plus a semantic typography subtree derived
 // from figma/styles-text.json that aliases typography primitives.
 //
@@ -35,7 +35,7 @@
 //   { name: "body/body-heading", fontName: {family,style}, fontSize, lineHeight,
 //     letterSpacing, textCase, textDecoration, id: "S:1e65…" }
 //
-// Output (tiers/semantic.json):
+// Output (tiers/semantics.json):
 //   colors.background.surface.primary
 //     → { values: { acronis: "{palette.base}" },
 //         platforms: ["PD"],
@@ -64,7 +64,7 @@ const { path: srcPath, source } = loadDtcg(process.argv);
 const figmaBrandColor = source.brand?.semantic?.colors;
 if (!figmaBrandColor) throw new Error(`source ${srcPath} has no brand.semantic.colors subtree.`);
 
-const OUT = fileURLToPath(new URL('../../tiers/semantic.json', import.meta.url));
+const OUT = fileURLToPath(new URL('../../tiers/semantics.json', import.meta.url));
 const PRIMITIVES = fileURLToPath(new URL('../../tiers/primitives.json', import.meta.url));
 const primitives = JSON.parse(fs.readFileSync(PRIMITIVES, 'utf8'));
 const metaFor = makeMetaFor(loadMeta());

@@ -1,5 +1,15 @@
 {
   "$schema": "../schemas/tokens.schema.json",
+  "$extensions": {
+    "com.acronis.tailwindRoles": {
+      "background": "backgroundColor",
+      "text": "textColor",
+      "border": "borderColor",
+      "glyph": "fill",
+      "focus": "ringColor",
+      "gradients": "backgroundImage"
+    }
+  },
   "colors": {
     "$type": "color",
     "background": {

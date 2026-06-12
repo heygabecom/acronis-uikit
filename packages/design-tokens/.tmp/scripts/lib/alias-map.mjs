@@ -112,7 +112,7 @@ function pathExists(tree, parts) {
 // Build a translator + existence checker over the two emitted trees. The
 // translator throws on unknown prefixes (extend PREFIX_RULES when new ones
 // appear) — `has` answers cleanly true/false for downstream validation.
-// `gradients` and `typography` roots resolve against semantic.json (component
+// `gradients` and `typography` roots resolve against semantics.json (component
 // tokens alias the gradients root and the typography composites).
 export function makeAliasTranslator({ primitives, semantic }) {
   return {

@@ -150,6 +150,9 @@
       },
       "properties": {
         "com.acronis.units": { "$ref": "#/$defs/AcronisUnits" },
+        "com.acronis.tailwindRoles": {
+          "$ref": "#/$defs/AcronisTailwindRoles"
+        },
         "com.acronis.textCase": { "$ref": "#/$defs/AcronisTextCase" },
         "com.acronis.textDecoration": {
           "$ref": "#/$defs/AcronisTextDecoration"
@@ -181,6 +184,20 @@
         { "type": "string", "minLength": 1 },
         { "type": "number" }
       ]
+    },
+    "AcronisTailwindRoles": {
+      "description": "Maps a token path segment (role/part name) to the Tailwind theme namespace the style-dictionary build routes it into. Read at build time; not part of any token's value.",
+      "type": "object",
+      "additionalProperties": {
+        "enum": [
+          "backgroundColor",
+          "textColor",
+          "borderColor",
+          "fill",
+          "ringColor",
+          "backgroundImage"
+        ]
+      }
     },
     "AcronisTextCase": {
       "description": "Figma Text Style case override, when non-default.",

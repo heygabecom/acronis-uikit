@@ -2,7 +2,7 @@
 // Color math: hex parsing, sRGB → HSL, DTCG color-value builder.
 //
 // All angles/percents are rounded to 2 decimal places — matches the precision
-// of the committed primitives.json / semantic.json so the generator output
+// of the committed primitives.json / semantics.json so the generator output
 // stays stable.
 //
 // Examples:

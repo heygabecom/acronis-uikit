@@ -51,7 +51,7 @@ node .tmp/scripts/figma-to-semantic.mjs
 node .tmp/scripts/figma-to-components.mjs
 ```
 
-They write `tiers/primitives.json`, `tiers/semantic.json`, and `tiers/components.json`, and are the canonical formatter for each — don't reformat the output. Finish with `pnpm validate` and review `git diff tiers/`: only the tokens you touched should have changed.
+They write `tiers/primitives.json`, `tiers/semantics.json`, and `tiers/components.json`, and are the canonical formatter for each — don't reformat the output. Finish with `pnpm validate` and review `git diff tiers/`: only the tokens you touched should have changed.
 
 ### JSON → Figma (change decided in code)
 

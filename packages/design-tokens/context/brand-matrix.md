@@ -10,7 +10,7 @@ A brand and a color mode are **separate axes**, and the pipeline treats them
 differently:
 
 - **Brand** (Acronis, Virtuozzo, …) — the `values` dict on each token in
-  `tiers/semantic.json` and `tiers/components.json` is **keyed by brand**. Each
+  `tiers/semantics.json` and `tiers/components.json` is **keyed by brand**. Each
   brand becomes a generated stylesheet (`tokens-pd/css/<brand>.css`).
 - **Color mode** (light / dark) — **not** a brand. `tiers/primitives.json` is
   keyed by `light` / `dark`, and the build zips a token's two theme resolutions
@@ -132,7 +132,7 @@ each brand resolves as a complete view; the build emits only its diff vs acronis
 ## Current state vs target
 
 - **Shipped now:** `acronis` (full). The `brand-b` placeholder is removed from
-  Figma and `tiers/semantic.json`; it still lingers in `tiers/components.json`
+  Figma and `tiers/semantics.json`; it still lingers in `tiers/components.json`
   (and the generated `tokens-pd` output) until the next components sync/rebuild.
 - **Target:** the legacy set above, sourced from Figma brand modes.
 - **Gap (data, not code):** the 21 legacy accent brands' token values are **not

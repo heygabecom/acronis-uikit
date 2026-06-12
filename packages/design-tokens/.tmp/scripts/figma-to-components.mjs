@@ -27,7 +27,7 @@
 // the fixed state ordering (idle → hover → active → disabled) is reapplied
 // after the alphabetic sort.
 //
-// Depends on tiers/primitives.json AND tiers/semantic.json being current —
+// Depends on tiers/primitives.json AND tiers/semantics.json being current —
 // the alias-map validator checks every translated alias target (colors, units,
 // gradients, typography) against those trees and fails on unknown targets. Run
 // figma-to-semantic.mjs first so the gradients root exists when this validates.
@@ -62,7 +62,7 @@ if (!figmaComponents) throw new Error(`source ${srcPath} has no brand.components
 
 const OUT = fileURLToPath(new URL('../../tiers/components.json', import.meta.url));
 const PRIMITIVES = fileURLToPath(new URL('../../tiers/primitives.json', import.meta.url));
-const SEMANTIC = fileURLToPath(new URL('../../tiers/semantic.json', import.meta.url));
+const SEMANTIC = fileURLToPath(new URL('../../tiers/semantics.json', import.meta.url));
 const primitives = JSON.parse(fs.readFileSync(PRIMITIVES, 'utf8'));
 const semantic = JSON.parse(fs.readFileSync(SEMANTIC, 'utf8'));
 

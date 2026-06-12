@@ -81,7 +81,7 @@ Note: a token **should use exactly one** of `$value` (typography composites), pe
 Three token files, one per Tier:
 
 - **`tiers/primitives.json`** — palette (Theme `light`/`dark`), units, font primitives.
-- **`tiers/semantic.json`** — semantic colors (Brand axis), typography composites.
+- **`tiers/semantics.json`** — semantic colors (Brand axis), typography composites.
 - **`tiers/components.json`** — per-component tokens, aliasing semantics.
 
 ### Token shapes
@@ -164,7 +164,7 @@ Depth: [`./context/manifest.md`](./context/manifest.md).
 
 ```text
 design-tokens/
-├── tiers/                 The token JSON: primitives.json, semantic.json, components.json.
+├── tiers/                 The token JSON: primitives.json, semantics.json, components.json.
 ├── schemas/               JSON Schema (draft 2020-12) for the token files.
 ├── context/               Authoring docs, incl. the vendored DTCG-2025-10 spec snapshot.
 ├── README.md              This file — consumer-facing surface.

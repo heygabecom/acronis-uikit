@@ -1,5 +1,21 @@
 {
   "$schema": "../schemas/tokens.schema.json",
+  "$extensions": {
+    "com.acronis.tailwindRoles": {
+      "container": "backgroundColor",
+      "border-color": "borderColor",
+      "icon": "fill",
+      "label": "textColor",
+      "logo": "fill",
+      "external-icon": "fill",
+      "shortcut": "textColor",
+      "icon-separator": "fill",
+      "header-label": "textColor",
+      "label-section": "textColor",
+      "breadcrumb-label": "textColor",
+      "label-current-page": "textColor"
+    }
+  },
   "button": {
     "_global": {
       "container": {
