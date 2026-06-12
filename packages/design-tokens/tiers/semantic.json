@@ -1451,6 +1451,115 @@
       }
     }
   },
+  "gradients": {
+    "$type": "gradient",
+    "ai": {
+      "active": {
+        "values": {
+          "acronis": [
+            {
+              "color": {
+                "colorSpace": "hsl",
+                "components": [234.11, 56.57, 38.82]
+              },
+              "position": 0.2
+            },
+            {
+              "color": {
+                "colorSpace": "hsl",
+                "components": [303.09, 69.78, 27.25]
+              },
+              "position": 1
+            }
+          ]
+        },
+        "platforms": ["PD"],
+        "$extensions": {
+          "com.figma.cssGradient": "linear-gradient(90deg, #2B369B 20%, #761571 100%);",
+          "com.figma.scopes": ["ALL_SCOPES"],
+          "com.figma.variableId": "VariableID:2277:28"
+        }
+      },
+      "disabled": {
+        "values": {
+          "acronis": [
+            {
+              "color": {
+                "colorSpace": "hsl",
+                "components": [234.38, 100, 93.73]
+              },
+              "position": 0.2
+            },
+            {
+              "color": {
+                "colorSpace": "hsl",
+                "components": [303.24, 100, 92.75]
+              },
+              "position": 1
+            }
+          ]
+        },
+        "platforms": ["PD"],
+        "$extensions": {
+          "com.figma.cssGradient": "linear-gradient(90deg, #DFE2FF 20%, #FFDAFD 100%);",
+          "com.figma.scopes": ["ALL_SCOPES"],
+          "com.figma.variableId": "VariableID:2277:29"
+        }
+      },
+      "hover": {
+        "values": {
+          "acronis": [
+            {
+              "color": {
+                "colorSpace": "hsl",
+                "components": [233.75, 58.54, 48.24]
+              },
+              "position": 0.2
+            },
+            {
+              "color": {
+                "colorSpace": "hsl",
+                "components": [303.22, 69.3, 42.16]
+              },
+              "position": 1
+            }
+          ]
+        },
+        "platforms": ["PD"],
+        "$extensions": {
+          "com.figma.cssGradient": "linear-gradient(90deg, #3342C3 20%, #B621AE 100%);",
+          "com.figma.scopes": ["ALL_SCOPES"],
+          "com.figma.variableId": "VariableID:2277:27"
+        }
+      },
+      "idle": {
+        "values": {
+          "acronis": [
+            {
+              "color": {
+                "colorSpace": "hsl",
+                "components": [233.93, 73.04, 54.9]
+              },
+              "position": 0.2
+            },
+            {
+              "color": {
+                "colorSpace": "hsl",
+                "components": [303.19, 97.18, 58.24]
+              },
+              "position": 1
+            }
+          ]
+        },
+        "platforms": ["PD"],
+        "$extensions": {
+          "com.figma.cssGradient": "linear-gradient(90deg, #3849E0 20%, #FC2DF1 100%);",
+          "com.figma.scopes": ["ALL_SCOPES"],
+          "com.figma.variableId": "VariableID:2277:21"
+        }
+      }
+    }
+  },
   "typography": {
     "$type": "typography",
     "headings": {
