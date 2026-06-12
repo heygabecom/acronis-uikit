@@ -16,8 +16,8 @@ describe('discoverBrands', () => {
   it('returns a deduplicated set with the non-default brands sorted', () => {
     const brands = discoverBrands();
     const rest = brands.slice(1);
+    expect(brands[0]).toBe(DEFAULT_BRAND);
     expect(new Set(brands).size).toBe(brands.length);
-    expect(rest).toContain('brand-b');
     expect([...rest].sort()).toEqual(rest);
     expect(rest).not.toContain(DEFAULT_BRAND);
   });
@@ -26,7 +26,7 @@ describe('discoverBrands', () => {
     expect([...BRAND_NAMES]).toEqual(discoverBrands());
     expect(BRANDS.map((b) => b.name)).toEqual([...BRAND_NAMES]);
     for (const brand of BRANDS) {
-      expect(brand.semantic).toBe(`semantic-${brand.name}`);
+      expect(brand.semantics).toBe(`semantics-${brand.name}`);
       expect(brand.components).toBe(`components-${brand.name}`);
     }
   });

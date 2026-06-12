@@ -95,7 +95,7 @@ src/
   index.ts              CLI home: parseArgs/parseKey/main, dispatch to tokens + tailwind + assets.
   platforms.ts          Shared axes: Filter/Output/PlatformKey, FILTERS, OUTPUTS,
                         filtersFor, ALL_FILTERS, FILTER_ENUM; the tokens-pd output
-                        paths (TOKENS_PD, dtcgDir, cssDir, semanticFile, componentFile,
+                        paths (TOKENS_PD, dtcgDir, cssDir, semanticsFile, componentFile,
                         tailwindDir, tailwindTokensPreset, tailwindComponentPreset),
                         DIST/ASSETS_DIST, rel.
   tokens.ts             The two SD stages (buildDtcg, buildCss) + TOKEN_SOURCES, VIEWS,
@@ -163,9 +163,11 @@ tool needs `@acronis-platform/design-assets` as a workspace dependency.
 - **`--ui-*` naming.** The `name/ui` transform drops a leading `colors` tier
   segment and prefixes every token with `ui` (`colors.background.surface.primary`
   → `--ui-background-surface-primary`). Tokens partition into output files by
-  `token.path[0]`: `colors`/`typography` → the semantic root file, every other
-  root → its own component dir. Non-default brands are diffed against the default
-  (`acronis`) and emit override-only files.
+  `token.path[0]`: the **data-driven** semantic roots (`colors`/`gradients`/
+  `typography`) → the semantic root file, every other root → its own component
+  dir. The semantic roots are derived from the top-level keys of `semantics.json`
+  via the shared `semanticRoots()` helper, not a hardcoded set. Non-default brands
+  are diffed against the default (`acronis`) and emit override-only files.
 - **Platform filter** — the `normalizeTree` pass keeps only tokens whose
   `platforms` array includes the build's filter enum value (PD today), then strips
   the (non-DTCG) `platforms` key; `$extensions` is retained for traceability. The
@@ -195,11 +197,13 @@ tool needs `@acronis-platform/design-assets` as a workspace dependency.
   selector. Because the composite's sub-fields carry no `$type`, the transform
   formats them by shape (`formatScalar`), handling both already-px strings and
   inline `{ value, unit }` objects.
-- **Gradients are supported.** The `gradient/css` transform renders
-  `colors.background.ai.*` (color-stop arrays + a Figma transform matrix) into
-  `linear-gradient(...)` strings (angle from `com.figma.gradientTransform`); they
-  emit as plain custom properties (theme-invariant, not zipped into `light-dark()`)
-  and into the Tailwind preset's `backgroundImage`.
+- **Gradients are supported.** The `gradient/css` transform renders the top-level
+  `gradients.*` root (color-stop arrays + a Figma transform matrix) into
+  `linear-gradient(...)` strings (angle from `com.figma.gradientTransform`).
+  `gradients` is a semantic root, so they emit as plain `--ui-gradients-*` custom
+  properties (theme-invariant, not zipped into `light-dark()`) in the root semantic
+  CSS, and route into the base Tailwind preset's `backgroundImage` — the routing is
+  driven by the source `com.acronis.tailwindRoles` extension, not hardcoded.
 - **Assets: lossless resize + currentColor for mono only.** `scale` sets
   width/height and preserves the viewBox; `stroke` sizes to target px via
   `S·viewBoxLonger/renderedLonger`; `currentColor` is applied to mono packs only
