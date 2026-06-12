@@ -108,7 +108,7 @@
       ]
     },
     "TokenType": {
-      "description": "Known DTCG types currently used in this package. Extend as new $types are introduced.",
+      "description": "Known DTCG types currently used in this package. Extend as new $types are introduced. `string` is a documented divergence — DTCG 2025.10 has no string type, but the Figma export carries raw string variables (e.g. per-state text-decoration); see ../context/spec.md.",
       "enum": [
         "color",
         "dimension",
@@ -120,6 +120,7 @@
         "cubicBezier",
         "number",
         "strokeStyle",
+        "string",
         "border",
         "transition",
         "shadow"
