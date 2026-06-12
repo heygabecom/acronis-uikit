@@ -109,20 +109,25 @@ The `string` $type is a documented divergence (DTCG has no string type); see [`s
 
 ## Pull workflow
 
-> **Preferred backend: `tools/figma-token-exporter`.** The repo now ships its
-> own Figma plugin + local receiver that writes the same snapshot files this
-> doc describes — replacing the third-party figma-console Desktop Bridge for the
-> bulk pull. Its `src/convert.ts` is a faithful port of figma-console's
-> variable→DTCG serialization, so the output is a drop-in for the emitters
-> below. To use it: run the receiver
-> (`pnpm --filter @acronis-platform/figma-token-exporter receive`), then run the
-> **Acronis Token Exporter** plugin in Figma Desktop and click
+> **Preferred backend: the figma-console MCP server.** Pull directly through the
+> [`figma-console` MCP](https://github.com/southleft/figma-console-mcp) tools
+> (`figma_export_tokens` / `figma_execute`) — declared in this package's
+> [`.mcp.json`](../.mcp.json), loaded when Claude is launched from
+> `design-tokens/`. The user opens the Desktop Bridge plugin in Figma
+> (Plugins → Development → Figma Desktop Bridge → Run); the steps below then run
+> against it. This is the supported path for syncs.
+>
+> **Alternate backend: `tools/figma-token-exporter`.** The repo also ships its
+> own Figma plugin + local receiver that writes the same snapshot files. Its
+> `src/convert.ts` is a faithful port of figma-console's variable→DTCG
+> serialization, so the output is a drop-in for the emitters below. To use it:
+> run the receiver (`pnpm --filter @acronis-platform/figma-token-exporter receive`),
+> then run the **Acronis Token Exporter** plugin in Figma Desktop and click
 > _Send snapshot to repo_. It also folds resolved orphan IDs into
 > `variables-meta.json`, so the post-process gate (step 4) passes on the first
 > run. See [`tools/figma-token-exporter/README.md`](../../../tools/figma-token-exporter/README.md).
-> The figma-console MCP steps below remain valid as a fallback.
 
-Using the Figma Console MCP tools directly (fallback), then run the post-process gate:
+Using the Figma Console MCP tools (preferred), then run the post-process gate:
 
 1. **DTCG variables export** — `figma_export_tokens` with `format: dtcg`, `scope: file`, `modes: all`, and `outputPath: '.tmp/figma-tokens/'` (must be a **directory** — the tool ignores explicit filenames and always writes `<format>.tokens.json` inside it; the post-process step renames it).
 2. **Variable meta sidecar** — `figma_execute` running `figma.variables.getLocalVariablesAsync()` and returning `{ [id]: { name, scopes, hidden } }`. Save as `.tmp/figma-tokens/variables-meta.json`.
