@@ -7,7 +7,8 @@
 // `{colors.background.surface.primary}`, `{units.gap.4}`, `{palette.blue.7}`.
 // The rules:
 //
-//   semantic.colors.* → colors.*           (Figma nests under the semantic group; ours doesn't)
+//   semantic.colors.*    → colors.*        (Figma nests under the semantic group; ours doesn't)
+//   semantic.gradients.* → gradients.*      (same un-nesting for the gradients root)
 //   gap.gap-N         → units.gap.N        (drop the redundant group prefix)
 //   size.size-N       → units.size.N
 //   stroke.width-N    → units.stroke.N     (Figma uses width-N for stroke widths)
@@ -42,6 +43,11 @@ const PREFIX_RULES = [
     // {semantic.colors.X.Y...} → {colors.X.Y...}
     match: parts => parts[0] === 'semantic' && parts[1] === 'colors' ? 2 : 0,
     emit: () => ['colors'],
+  },
+  {
+    // {semantic.gradients.X.Y...} → {gradients.X.Y...}
+    match: parts => parts[0] === 'semantic' && parts[1] === 'gradients' ? 2 : 0,
+    emit: () => ['gradients'],
   },
   {
     // {gap.gap-N} → {units.gap.N}
@@ -106,6 +112,8 @@ function pathExists(tree, parts) {
 // Build a translator + existence checker over the two emitted trees. The
 // translator throws on unknown prefixes (extend PREFIX_RULES when new ones
 // appear) — `has` answers cleanly true/false for downstream validation.
+// `gradients` and `typography` roots resolve against semantic.json (component
+// tokens alias the gradients root and the typography composites).
 export function makeAliasTranslator({ primitives, semantic }) {
   return {
     translate: translateAliasPath,
@@ -115,10 +123,12 @@ export function makeAliasTranslator({ primitives, semantic }) {
       const parts = m[1].split('.');
       const root = parts[0];
       const rest = parts.slice(1);
-      if (root === 'colors')    return pathExists(semantic.colors,    rest);
-      if (root === 'units')     return pathExists(primitives.units,   rest);
-      if (root === 'palette')   return pathExists(primitives.palette, rest);
-      if (root === 'font')      return pathExists(primitives.font, rest);
+      if (root === 'colors')     return pathExists(semantic.colors,     rest);
+      if (root === 'gradients')  return pathExists(semantic.gradients,  rest);
+      if (root === 'typography') return pathExists(semantic.typography, rest);
+      if (root === 'units')      return pathExists(primitives.units,    rest);
+      if (root === 'palette')    return pathExists(primitives.palette,  rest);
+      if (root === 'font')       return pathExists(primitives.font, rest);
       return false;
     },
   };

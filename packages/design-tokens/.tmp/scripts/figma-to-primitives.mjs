@@ -182,7 +182,7 @@ for (const px of [...lsValues].sort((a, b) => a - b)) {
 
 // ---------- sort + reorder ----------
 const sorted = sortNode(out);
-const PALETTE_ORDER = ['$type', 'base', 'grayscale', 'blue', 'teal', 'green', 'yellow', 'orange', 'red', 'violet', 'transparent'];
+const PALETTE_ORDER = ['$type', 'base', 'grayscale', 'blue', 'teal', 'green', 'yellow', 'orange', 'red', 'violet', 'ink', 'transparent'];
 sorted.palette = reorderByList(sorted.palette, PALETTE_ORDER);
 sorted.units = reorderByList(sorted.units, ['$type', 'gap', 'size', 'radius', 'stroke']);
 sorted.font['font-weight'] = reorderByList(sorted.font['font-weight'], ['$type', 'regular', 'medium', 'semibold', 'bold']);

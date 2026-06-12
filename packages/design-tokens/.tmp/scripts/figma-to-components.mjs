@@ -1,63 +1,64 @@
 #!/usr/bin/env node
 // Convert the Figma DTCG export into tiers/components.json — per-component
-// tokens that alias semantic colors (and primitive units), inheriting the
-// Brand mode dimension from semantics (today: acronis; more brands later).
+// tokens that alias semantic colors/gradients/typography (and primitive units),
+// inheriting the Brand mode dimension from semantics (today: acronis; more
+// brands later).
 //
 // Usage: node .tmp/scripts/figma-to-components.mjs [export-file]
-//   export-file defaults to ./figma/variables.tokens.json
+//   export-file defaults to ./.tmp/figma-tokens/variables.tokens.json
 //   (the path produced by figma-console MCP's figma_export_tokens).
 //
+// Scope: only the components in the COMPONENTS allowlist are emitted. The Figma
+// `brand.components` group also carries components that are out of scope for now
+// (Breadcrumb, Checkbox, Input, MenuItem, Switch, Tag, Tooltip, …); they flow in
+// via future syncs by adding them here. The legacy `brand.componentLegacy` group
+// is ignored entirely.
+//
 // Output has no outer "components" wrapper — components are root groups
-// (breadcrumb, button, chip, ...). $type lives on each leaf because most
-// components mix `color` and `dimension`. Every leaf carries
-// `$extensions.com.figma.variableId` (no styleId paths in components).
+// (button, button-icon, sidebar-primary, …). $type lives on each leaf because
+// components mix `color`, `dimension`, `gradient`, `typography`, `strokeStyle`
+// and `string`. Every leaf carries `$extensions.com.figma.variableId`.
+//
+// Naming: Figma PascalCase/camelCase names canonicalize to kebab-case code
+// paths (Button → button, ButtonIcon → button-icon, borderColor → border-color,
+// paddingX → padding-x, …). `_global` is preserved verbatim (sorts first). The
+// Figma structure already nests interaction states (color/idle, color/hover, …)
+// and has real `_global` groups, so no flattening/regrouping is needed — only
+// the fixed state ordering (idle → hover → active → disabled) is reapplied
+// after the alphabetic sort.
 //
 // Depends on tiers/primitives.json AND tiers/semantic.json being current —
-// the alias-map validator checks every translated alias target against those
-// trees and fails the build on unknown targets.
+// the alias-map validator checks every translated alias target (colors, units,
+// gradients, typography) against those trees and fails on unknown targets. Run
+// figma-to-semantic.mjs first so the gradients root exists when this validates.
 //
-// Mode handling is data-driven: brand mode names come from `lastSyncedValue`
-// keys per leaf and are lowercased for our output. Adding a new brand mode in
-// Figma flows through unchanged — no edits here.
-//
-// Raw values: 66 leaves in Figma today hold raw literals instead of aliases
-// (button: 61 raw hex; tree: 4; tag: 1). Per the alias-chain rule these are
-// gaps in the design system. We inline them (HSL for colors, {value, unit:'px'}
-// for dimensions) and warn — same posture as the typography primitive gaps
-// in figma-to-semantic.mjs.
-//
-// Input  (figma/variables.tokens.json):
-//   brand.component.breadcrumb.chevron
-//     → { $type: "color", $value: "{color.glyph.on surface.neutral}",
-//          $extensions["figma-console-mcp"].lastSyncedValue.Acronis.reference }
-//   brand.component.button.inverted["background-active"]
-//     → { $type: "color", $value: "#244467",
-//          $extensions["figma-console-mcp"].lastSyncedValue.Acronis.literal }
-//
-// Output (tiers/components.json):
-//   breadcrumb.chevron
-//     → { $type: "color",
-//         values: { acronis: "{colors.glyph.on-surface.neutral}" },
-//         platforms: ["PD"],
-//         $extensions: { com.figma.scopes: [...], com.figma.variableId: "VariableID:..." } }
-//   button.inverted["background-active"]
-//     → { $type: "color",
-//         values: { acronis: { colorSpace: "hsl", components: [...] } },
-//         platforms: ["PD"],
-//         $extensions: { com.figma.scopes: [...], com.figma.variableId: "VariableID:..." } }
+// Mocked values (Figma technical limitations, decoded here):
+//   - #FF00FF00 / #FFFFFF00 color literals → CSS `transparent`
+//     ({ colorSpace:'hsl', components:[0,0,0], alpha:0 }).
+//   - `string` variables holding `typography.*` → $type:'typography' aliasing
+//     the semantic composite ({typography.body.strong}, …).
+//   - `string` variables referencing semantic.gradients.* → $type:'gradient'
+//     aliasing the gradients root ({gradients.ai.idle}, …).
+//   - `borderStyle` string variables → $type:'strokeStyle' (value "solid").
+//   - per-state `textDecoration` string variables → $type:'string'
+//     (value "none"/"underline"; the documented schema divergence).
 
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { loadDtcg, loadMeta } from './lib/paths.mjs';
 import { makeMetaFor } from './lib/meta.mjs';
-import { hexToHslValue, round } from './lib/color.mjs';
+import { hexToHslValue } from './lib/color.mjs';
 import { setPath, sortNode, reorderByList } from './lib/tree.mjs';
 import { formatDtcgJson } from './lib/format.mjs';
 import { makeAliasTranslator } from './lib/alias-map.mjs';
 
+// Components emitted by this sync. Out-of-scope Figma components are added here
+// as their own syncs land.
+const COMPONENTS = ['Button', 'ButtonIcon', 'SidebarPrimary', 'SidebarSecondary'];
+
 const { path: srcPath, source } = loadDtcg(process.argv);
-const figmaComponents = source.brand?.component;
-if (!figmaComponents) throw new Error(`source ${srcPath} has no brand.component subtree.`);
+const figmaComponents = source.brand?.components;
+if (!figmaComponents) throw new Error(`source ${srcPath} has no brand.components subtree.`);
 
 const OUT = fileURLToPath(new URL('../../tiers/components.json', import.meta.url));
 const PRIMITIVES = fileURLToPath(new URL('../../tiers/primitives.json', import.meta.url));
@@ -69,73 +70,101 @@ const metaFor = makeMetaFor(loadMeta());
 const aliasMap = makeAliasTranslator({ primitives, semantic });
 
 const fcExt = leaf => leaf?.$extensions?.['figma-console-mcp'] ?? {};
-const normalizeKey = k => k.replace(/\s+/g, '-');
+// Figma names are PascalCase ("ButtonIcon") or camelCase ("borderColor"); split
+// camel-humps then lower-and-hyphenate. `_global` is handled by the caller.
+const kebab = k => k.replace(/([a-z0-9])([A-Z])/g, '$1-$2').replace(/\s+/g, '-').toLowerCase();
 // Mode keys come from Figma as title-case ("Acronis", "Brand B"). Lower-case
 // and hyphenate so they're kebab-stable in our output.
 const normalizeMode = m => m.toLowerCase().replace(/\s+/g, '-');
 
+// #FF00FF00 (magenta-0) and #FFFFFF00 (white-0) are both mocks for `transparent`.
+const TRANSPARENT = { colorSpace: 'hsl', components: [0, 0, 0], alpha: 0 };
+const TRANSPARENT_MOCKS = new Set(['#FF00FF00', '#FFFFFF00']);
+
 const aliasErrors = [];
 const rawValueWarnings = [];
 
-function isLeaf(node) {
-  return node && typeof node === 'object' && '$type' in node && '$value' in node;
+function translateRef(figmaAlias, leafPath) {
+  const codeAlias = aliasMap.translate(figmaAlias);
+  if (!aliasMap.has(codeAlias)) aliasErrors.push(`${leafPath}: unknown alias target ${codeAlias} (from Figma ${figmaAlias})`);
+  return codeAlias;
 }
 
-function inlineRawColor(literal, leafPath) {
-  rawValueWarnings.push(`${leafPath}: raw ${literal} has no matching semantic — inlined as HSL`);
-  return hexToHslValue(literal);
+// textStyle string variables hold a bare our-path literal ("typography.body.strong");
+// wrap it as an alias and validate the target exists in semantic.typography.
+function typographyAlias(literal, leafPath) {
+  const codeAlias = `{${literal}}`;
+  if (!aliasMap.has(codeAlias)) aliasErrors.push(`${leafPath}: unknown typography target ${codeAlias}`);
+  return codeAlias;
 }
 
-function inlineRawDimension(literal, leafPath) {
-  rawValueWarnings.push(`${leafPath}: raw ${literal} has no matching primitive — inlined as px`);
-  return { value: round(Number(literal), 4), unit: 'px' };
-}
-
-function resolveModeValue($type, modeData, leafPath) {
-  if ('reference' in modeData) {
-    const figmaAlias = modeData.reference;
-    const codeAlias = aliasMap.translate(figmaAlias);
-    if (!aliasMap.has(codeAlias)) aliasErrors.push(`${leafPath}: unknown alias target ${codeAlias} (from Figma ${figmaAlias})`);
-    return codeAlias;
-  }
-  if ('literal' in modeData) {
-    if ($type === 'color') return inlineRawColor(modeData.literal, leafPath);
-    if ($type === 'dimension') return inlineRawDimension(modeData.literal, leafPath);
-    throw new Error(`${leafPath}: cannot inline literal for $type=${$type}`);
-  }
-  throw new Error(`${leafPath}: lastSyncedValue mode has neither reference nor literal`);
-}
-
-const out = {
-  $schema: '../schemas/tokens.schema.json',
-};
+const out = { $schema: '../schemas/tokens.schema.json' };
 
 let count = 0;
-(function walk(node, path) {
-  if (!node || typeof node !== 'object') return;
-  if (isLeaf(node)) {
-    const variableId = fcExt(node).variableId;
-    const lastSynced = fcExt(node).lastSyncedValue ?? {};
-    const leafPath = path.join('.');
-    const values = {};
-    for (const [figmaModeKey, modeData] of Object.entries(lastSynced)) {
-      values[normalizeMode(figmaModeKey)] = resolveModeValue(node.$type, modeData, leafPath);
+function emitLeaf(figmaPath, codePath, leaf) {
+  const leafPath = figmaPath.join('.');
+  const figmaKey = figmaPath[figmaPath.length - 1];
+  const variableId = fcExt(leaf).variableId;
+  const lastSynced = fcExt(leaf).lastSyncedValue ?? {};
+  let $type = leaf.$type;
+  const values = {};
+  for (const [figmaModeKey, modeData] of Object.entries(lastSynced)) {
+    const modeKey = normalizeMode(figmaModeKey);
+    if (leaf.$type === 'string') {
+      // Figma `string` variables stand in for several DTCG types Figma can't
+      // represent as native variables — discriminate by payload/position.
+      if ('reference' in modeData && modeData.reference.includes('semantic.gradients')) {
+        $type = 'gradient';
+        values[modeKey] = translateRef(modeData.reference, leafPath);
+      } else if ('literal' in modeData && /^typography\./.test(modeData.literal)) {
+        $type = 'typography';
+        values[modeKey] = typographyAlias(modeData.literal, leafPath);
+      } else if (figmaKey === 'borderStyle') {
+        $type = 'strokeStyle';
+        values[modeKey] = modeData.literal;
+      } else if (figmaPath.includes('textDecoration')) {
+        $type = 'string';
+        values[modeKey] = modeData.literal;
+      } else {
+        throw new Error(`${leafPath}: unrecognized string variable (value ${JSON.stringify(modeData)})`);
+      }
+    } else if ('reference' in modeData) {
+      values[modeKey] = translateRef(modeData.reference, leafPath);
+    } else if ('literal' in modeData) {
+      if (leaf.$type === 'color' && TRANSPARENT_MOCKS.has(modeData.literal.toUpperCase())) {
+        values[modeKey] = TRANSPARENT;
+      } else if (leaf.$type === 'color') {
+        rawValueWarnings.push(`${leafPath}: raw ${modeData.literal} has no matching semantic — inlined as HSL`);
+        values[modeKey] = hexToHslValue(modeData.literal);
+      } else {
+        throw new Error(`${leafPath}: cannot inline literal for $type=${leaf.$type}: ${modeData.literal}`);
+      }
+    } else {
+      throw new Error(`${leafPath}: lastSyncedValue mode has neither reference nor literal`);
     }
-    const meta = metaFor(variableId);
-    const ext = {
-      'com.figma.scopes': meta.scopes,
-      'com.figma.variableId': variableId,
-    };
-    if (meta.hidden) ext['com.figma.hiddenFromPublishing'] = true;
-    setPath(out, path.map(normalizeKey), { $type: node.$type, values, platforms: ['PD'], $extensions: ext });
-    count++;
-    return;
   }
-  for (const [k, v] of Object.entries(node)) {
-    if (k.startsWith('$')) continue;
-    walk(v, [...path, k]);
-  }
-})(figmaComponents, []);
+  const meta = metaFor(variableId);
+  const ext = {
+    'com.figma.scopes': meta.scopes,
+    'com.figma.variableId': variableId,
+  };
+  if (meta.hidden) ext['com.figma.hiddenFromPublishing'] = true;
+  setPath(out, codePath, { $type, values, platforms: ['PD'], $extensions: ext });
+  count++;
+}
+
+for (const comp of COMPONENTS) {
+  const node = figmaComponents[comp];
+  if (!node) throw new Error(`source ${srcPath} has no brand.components.${comp} — check the allowlist.`);
+  (function walk(n, figmaPath, codePath) {
+    if (!n || typeof n !== 'object') return;
+    if ('$value' in n) { emitLeaf(figmaPath, codePath, n); return; }
+    for (const [k, v] of Object.entries(n)) {
+      if (k.startsWith('$')) continue;
+      walk(v, [...figmaPath, k], [...codePath, k === '_global' ? k : kebab(k)]);
+    }
+  })(node, [comp], [kebab(comp)]);
+}
 
 if (aliasErrors.length) {
   console.error('Alias errors:');
@@ -148,102 +177,27 @@ if (rawValueWarnings.length) {
   for (const w of rawValueWarnings) console.warn('  -', w);
 }
 
-// Move direct-leaf children of these components into a `_global` sub-group.
-// The value is an optional $type filter — `null` moves all direct leaves; a
-// string moves only that $type. Tooltip restricts to `dimension` because the
-// designer keeps `background` and `label` at tooltip root; every other listed
-// component moves all of its direct leaves (dimensions describe geometry, and
-// where a direct color leaf exists — tree.border-color — it belongs with the
-// component-wide tokens). `_global` sorts to the front via the leading
-// underscore.
-const GLOBAL_SCOPE = {
-  button:  null,
-  chip:    null,
-  form:    null,
-  menubar: null,
-  sidebar: null,
-  tag:     null,
-  tooltip: 'dimension',
-  tree:    null,
-};
-const isLeafNode = v => v && typeof v === 'object' && '$type' in v && '$extensions' in v;
-for (const [comp, typeFilter] of Object.entries(GLOBAL_SCOPE)) {
-  if (!out[comp]) continue;
-  const globals = {};
-  for (const [k, v] of Object.entries(out[comp])) {
-    if (k.startsWith('$')) continue;
-    if (!isLeafNode(v)) continue;
-    if (typeFilter && v.$type !== typeFilter) continue;
-    globals[k] = v;
-    delete out[comp][k];
-  }
-  if (Object.keys(globals).length > 0) out[comp]._global = globals;
-}
-
-// Regroup `<prefix>-<state>` sibling leaves into nested `<prefix>.<state>`
-// sub-groups across every component. In Figma the four interaction states are
-// flattened into kebab keys (background-idle / background-hover / …); in code
-// we split them so consumers can reach `button.primary.background.hover`
-// directly. State order is fixed (idle → hover → active → disabled) and
-// applied after sortNode below.
-const STATE_ORDER = ['idle', 'hover', 'active', 'disabled'];
-const STATE_RE = new RegExp(`^(.+)-(${STATE_ORDER.join('|')})$`);
-(function regroupStates(node) {
-  if (!node || typeof node !== 'object' || isLeafNode(node)) return;
-  const groups = new Map();
-  for (const k of Object.keys(node)) {
-    if (k.startsWith('$')) continue;
-    if (!isLeafNode(node[k])) continue;
-    const m = k.match(STATE_RE);
-    if (!m) continue;
-    const [, prefix, state] = m;
-    if (!groups.has(prefix)) groups.set(prefix, {});
-    groups.get(prefix)[state] = k;
-  }
-  for (const [prefix, stateMap] of groups) {
-    if (prefix in node) throw new Error(`state regroup conflict: '${prefix}' already exists alongside its state variants`);
-    const group = {};
-    for (const state of STATE_ORDER) {
-      if (stateMap[state]) {
-        group[state] = node[stateMap[state]];
-        delete node[stateMap[state]];
-      }
-    }
-    node[prefix] = group;
-  }
-  for (const k of Object.keys(node)) {
-    if (k.startsWith('$')) continue;
-    regroupStates(node[k]);
-  }
-})(out);
-
 const sorted = sortNode(out);
 
-// sortNode alphabetised the regrouped state keys (active, disabled, hover,
+// sortNode alphabetised the interaction-state keys (active, disabled, hover,
 // idle). Walk every state-only group and reorder to STATE_ORDER in place.
+const STATE_ORDER = ['idle', 'hover', 'active', 'disabled'];
 (function reorderStates(node) {
   if (!node || typeof node !== 'object' || Array.isArray(node)) return;
-  const keys = Object.keys(node);
+  const keys = Object.keys(node).filter(k => !k.startsWith('$'));
   if (keys.length > 0 && keys.every(k => STATE_ORDER.includes(k))) {
-    for (const s of STATE_ORDER) {
-      if (s in node) { const v = node[s]; delete node[s]; node[s] = v; }
-    }
+    for (const s of STATE_ORDER) if (s in node) { const v = node[s]; delete node[s]; node[s] = v; }
   }
-  for (const k of Object.keys(node)) {
-    if (k.startsWith('$')) continue;
-    reorderStates(node[k]);
-  }
+  for (const k of Object.keys(node)) { if (!k.startsWith('$')) reorderStates(node[k]); }
 })(sorted);
 
-// Per-component sub-group ordering follows the design-system structure spec
-// rather than alphabetical. `_global` already sorts to the front via sortNode
-// (leading underscore precedes letters in ASCII) — listing it here is just
-// for clarity. Root-level components stay alphabetical (sortNode default).
-if (sorted.button)  sorted.button  = reorderByList(sorted.button,  ['_global', 'primary', 'secondary', 'ghost', 'destructive', 'inverted', 'ai']);
-if (sorted.form)    sorted.form    = reorderByList(sorted.form,    ['_global', 'input', 'text', 'switch']);
-if (sorted.sidebar) sorted.sidebar = reorderByList(sorted.sidebar, ['_global', 'side-bar', 'menu-item']);
-if (sorted.menubar) sorted.menubar = reorderByList(sorted.menubar, ['_global', 'side-bar', 'menu-item']);
-if (sorted.tree)    sorted.tree    = reorderByList(sorted.tree,    ['_global', 'item', 'title', 'nesting']);
+// Per-component variant ordering follows the design-system structure rather
+// than alphabetical. `_global` already sorts to the front via sortNode.
+if (sorted.button) sorted.button = reorderByList(sorted.button, ['_global', 'primary', 'secondary', 'ghost', 'destructive', 'inverted', 'ai']);
+if (sorted['button-icon']) sorted['button-icon'] = reorderByList(sorted['button-icon'], ['_global', 'primary', 'secondary', 'ghost']);
+for (const sb of ['sidebar-primary', 'sidebar-secondary']) {
+  if (sorted[sb]) sorted[sb] = reorderByList(sorted[sb], ['_global', 'expanded', 'collapsed', 'menu-item', 'menu-item-extras', 'section']);
+}
 
 fs.writeFileSync(OUT, formatDtcgJson(sorted) + '\n');
-console.log(`Wrote ${OUT}: ${count} leaves (${rawValueWarnings.length} raw-value gaps inlined)`);
+console.log(`Wrote ${OUT}: ${count} leaves across ${COMPONENTS.length} components (${rawValueWarnings.length} raw-value gaps inlined)`);

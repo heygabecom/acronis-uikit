@@ -8,11 +8,16 @@
 //   (the path produced by figma-console MCP's figma_export_tokens).
 //
 // The output has no outer "semantic" wrapper — just `colors.{background,text,
-// glyph,border}` and `typography.{headings,body,link,caption,note,fineprint}`.
-// Every variable-backed color leaf carries `$extensions.com.figma.variableId`.
-// The four AI paint-style leaves under `colors.background.ai` carry
-// `$extensions.com.figma.styleId` instead, as do all typography leaves.
-// Downstream tooling can discriminate by which key is present.
+// glyph,border}`, a `gradients.*` root, and `typography.{headings,body,link,
+// caption,note,fineprint}`. Every variable-backed color/gradient leaf carries
+// `$extensions.com.figma.variableId`. Typography leaves carry
+// `$extensions.com.figma.styleId` instead. Downstream tooling can discriminate
+// by which key is present.
+//
+// Gradients: Figma variables can't hold gradient fills, so the four AI gradients
+// are mocked as `string` variables under brand.semantic.gradients, each holding
+// a CSS `linear-gradient(...)`. We parse the stops into DTCG `gradient` arrays
+// and keep the raw CSS string in `$extensions.com.figma.cssGradient`.
 //
 // Depends on tiers/primitives.json being current — palette VariableID lookup
 // validates that every Figma alias target maps to a real token in our tree,
@@ -37,11 +42,6 @@
 //         $extensions: { com.figma.{scopes,variableId} } }
 //   colors.background.inverted.primary
 //     → { values: { acronis: "{palette.transparent.inverted.6}" }, platforms: ["PD"], ... }
-//   colors.background.ai.idle
-//     → { values: { acronis: [{color:{...}, position:0.2}, …] },
-//         platforms: ["PD"],
-//         $extensions: { com.figma.gradientTransform: [[0,1,0],[-1,0,1]],
-//                        com.figma.styleId: "6a29f79..." } }
 //   typography.body.heading
 //     → { $value: { fontFamily:"{…default}", fontSize:"{…14}", fontWeight:"{…semibold}",
 //                   lineHeight:"{…24}", letterSpacing:"{…0-3}" },
@@ -52,7 +52,7 @@ import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { loadDtcg, loadMeta } from './lib/paths.mjs';
 import { makeMetaFor } from './lib/meta.mjs';
-import { round, srgbToHsl } from './lib/color.mjs';
+import { round, hexToHslValue } from './lib/color.mjs';
 import { mapPaletteParts } from './lib/palette-map.mjs';
 import { setPath, collectColorLeaves, sortNode, reorderByList } from './lib/tree.mjs';
 import { formatDtcgJson } from './lib/format.mjs';
@@ -129,6 +129,22 @@ const normalizeKey = k => k.replace(/\s+/g, '-');
 // and hyphenate so they're kebab-stable in our output.
 const normalizeMode = m => m.toLowerCase().replace(/\s+/g, '-');
 
+// Parse a mocked CSS `linear-gradient(<angle>, <hex> <pct>%, …)` into a DTCG
+// gradient stop array. The angle is dropped here (kept verbatim in the raw
+// string under com.figma.cssGradient); only the color stops are structured.
+function parseCssGradient(css) {
+  const m = css.trim().replace(/;$/, '').match(/^linear-gradient\(([^)]+)\)$/);
+  if (!m) throw new Error(`unparseable gradient: ${css}`);
+  const parts = m[1].split(',').map(s => s.trim());
+  const angle = parts.shift();
+  if (!/^\d+deg$/.test(angle)) throw new Error(`unexpected gradient angle: ${angle}`);
+  return parts.map(p => {
+    const sm = p.match(/^(#[0-9A-Fa-f]{6})\s+([\d.]+)%$/);
+    if (!sm) throw new Error(`unparseable gradient stop: ${p}`);
+    return { color: hexToHslValue(sm[1]), position: round(Number(sm[2]) / 100, 4) };
+  });
+}
+
 // ---------- build output ----------
 const out = {
   $schema: '../schemas/tokens.schema.json',
@@ -169,41 +185,46 @@ for (const { path, leaf } of collectColorLeaves(figmaBrandColor)) {
   count++;
 }
 
-// 2. AI paint-style gradients — four Figma fill styles outside the variable
-// system. Each is a linear gradient pulled from Figma via console MCP
-// (figma_execute → getLocalPaintStylesAsync, paints[0].gradientStops +
-// gradientTransform). They live alongside the variable-backed entries under
-// colors.background.ai.
-//
-// DTCG `gradient` $type takes an array of {color, position} stops. The spec
-// has no field for direction, so we keep the Figma gradientTransform in
-// $extensions.com.figma.gradientTransform for round-trip (rendering tools can
-// derive the angle from it).
-const toDtcgStop = s => {
-  const stop = { color: { colorSpace: 'hsl', components: srgbToHsl([s.r, s.g, s.b]) }, position: round(s.position, 2) };
-  if (s.a !== undefined && s.a < 1) stop.color.alpha = round(s.a, 4);
-  return stop;
-};
-const AI_GRADIENT_TRANSFORM = [[0, 1, 0], [-1, 0, 1]]; // Figma returns ~6.12e-17 in place of 0 due to float math; we round to clean ints.
-const AI_GRADIENTS = [
-  { key: 'idle',     styleId: '6a29f79edcb949dfddc3c57804e23ca90e2e3158', stops: [{ r: 0.2196, g: 0.2863, b: 0.8784, a: 1, position: 0.2 }, { r: 0.9882, g: 0.1765, b: 0.9451, a: 1, position: 1 }] },
-  { key: 'hover',    styleId: 'd75824f59afe59907a78feb5c44bcf9d89e32d8d', stops: [{ r: 0.2196, g: 0.2863, b: 0.8784, a: 1, position: 0.2 }, { r: 0.9882, g: 0.1765, b: 0.9451, a: 1, position: 1 }] },
-  { key: 'active',   styleId: 'd3600bd86ce03979f095d043a02a4325e201c3c5', stops: [{ r: 0.2196, g: 0.2863, b: 0.8784, a: 1, position: 0.2 }, { r: 0.9882, g: 0.1765, b: 0.9451, a: 1, position: 1 }] },
-  { key: 'disabled', styleId: 'ff3aef1c0377478a63ccaa33539cec575af8b8c5', stops: [{ r: 0.8588, g: 0.8745, b: 0.8980, a: 1, position: 0.2 }, { r: 0.8328, g: 0.8604, b: 0.9003, a: 1, position: 1 }] },
-];
-if (!out.colors.background) out.colors.background = {};
-out.colors.background.ai = { $type: 'gradient' };
-for (const { key, styleId, stops } of AI_GRADIENTS) {
-  // Paint styles in Figma have no mode dimension, so values is single-keyed
-  // under `acronis` (the brand mode every semantic carries today).
-  out.colors.background.ai[key] = {
-    values: { acronis: stops.map(toDtcgStop) },
-    platforms: ['PD'],
-    $extensions: {
-      'com.figma.gradientTransform': AI_GRADIENT_TRANSFORM,
-      'com.figma.styleId': styleId,
-    },
-  };
+// 2. AI gradients from brand.semantic.gradients — Figma variables can't store
+// gradient fills, so the designer mocks them as `string` variables holding a
+// CSS `linear-gradient(...)`. We parse the stops into DTCG `gradient` arrays
+// (hex → HSL, percent → 0..1 position) and preserve the raw CSS string in
+// $extensions.com.figma.cssGradient (it also carries the angle, which DTCG
+// gradient has no field for). Single-keyed under `acronis` like every semantic.
+const figmaGradients = source.brand?.semantic?.gradients;
+out.gradients = { $type: 'gradient' };
+let gradientCount = 0;
+if (figmaGradients) {
+  for (const [group, tokens] of Object.entries(figmaGradients)) {
+    if (group.startsWith('$')) continue;
+    out.gradients[group] = {};
+    for (const [key, leaf] of Object.entries(tokens)) {
+      if (key.startsWith('$')) continue;
+      const variableId = fcExt(leaf).variableId;
+      const lastSynced = fcExt(leaf).lastSyncedValue ?? {};
+      const values = {};
+      let raw = null;
+      for (const [figmaModeKey, modeData] of Object.entries(lastSynced)) {
+        if (!('literal' in modeData)) {
+          aliasErrors.push(`gradients.${group}.${key} mode ${figmaModeKey}: expected literal CSS gradient, got ${JSON.stringify(modeData)}`);
+          continue;
+        }
+        raw = modeData.literal;
+        values[normalizeMode(figmaModeKey)] = parseCssGradient(modeData.literal);
+      }
+      const meta = metaFor(variableId);
+      out.gradients[group][key] = {
+        values,
+        platforms: ['PD'],
+        $extensions: {
+          'com.figma.scopes': meta.scopes,
+          'com.figma.variableId': variableId,
+          'com.figma.cssGradient': raw,
+        },
+      };
+      gradientCount++;
+    }
+  }
 }
 
 if (aliasErrors.length) {
@@ -275,8 +296,7 @@ if (rawValueWarnings.length) {
 // ---------- sort + reorder ----------
 const sorted = sortNode(out);
 sorted.colors = reorderByList(sorted.colors, ['$type', 'background', 'border', 'glyph', 'text']);
-if (sorted.colors.background) sorted.colors.background = reorderByList(sorted.colors.background, ['surface', 'brand', 'overlay', 'status', 'status-inverted', 'inverted']);
-if (sorted.colors.background?.ai) sorted.colors.background.ai = reorderByList(sorted.colors.background.ai, ['$type', 'idle', 'hover', 'active', 'disabled']);
+if (sorted.colors.background) sorted.colors.background = reorderByList(sorted.colors.background, ['surface', 'brand', 'overlay', 'status', 'status-strong', 'inverted']);
 if (sorted.colors.border) sorted.colors.border = reorderByList(sorted.colors.border, ['on-surface', 'on-brand', 'on-status']);
 for (const role of ['glyph', 'text']) {
   if (sorted.colors[role]) sorted.colors[role] = reorderByList(sorted.colors[role], ['on-surface', 'on-brand', 'on-overlay', 'on-status', 'on-inverted']);
@@ -287,8 +307,8 @@ if (sorted.typography.body)     sorted.typography.body     = reorderByList(sorte
 if (sorted.typography.link)     sorted.typography.link     = reorderByList(sorted.typography.link,     ['primary', 'secondary']);
 if (sorted.typography.caption)  sorted.typography.caption  = reorderByList(sorted.typography.caption,  ['default', 'strong', 'accent']);
 if (sorted.typography.note)     sorted.typography.note     = reorderByList(sorted.typography.note,     ['default', 'heading']);
-const root = reorderByList(sorted, ['$schema', 'colors', 'typography']);
+const root = reorderByList(sorted, ['$schema', 'colors', 'gradients', 'typography']);
 
 fs.writeFileSync(OUT, formatDtcgJson(root) + '\n');
 
-console.log(`Wrote ${OUT}: ${count + AI_GRADIENTS.length + typoCount} leaves (${count} variable-backed colors + ${AI_GRADIENTS.length} paint-style gradient + ${typoCount} typography)`);
+console.log(`Wrote ${OUT}: ${count + gradientCount + typoCount} leaves (${count} variable-backed colors + ${gradientCount} gradients + ${typoCount} typography)`);
