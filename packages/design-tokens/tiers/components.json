@@ -1254,62 +1254,8 @@
     }
   },
   "button-icon": {
-    "secondary": {
+    "_global": {
       "container": {
-        "border-color": {
-          "idle": {
-            "$type": "color",
-            "values": {
-              "acronis": "{colors.border.on-surface.border}"
-            },
-            "platforms": ["PD"],
-            "$extensions": {
-              "com.figma.scopes": ["ALL_SCOPES"],
-              "com.figma.variableId": "VariableID:2236:5668"
-            }
-          },
-          "hover": {
-            "$type": "color",
-            "values": {
-              "acronis": {
-                "alpha": 0,
-                "colorSpace": "hsl",
-                "components": [0, 0, 0]
-              }
-            },
-            "platforms": ["PD"],
-            "$extensions": {
-              "com.figma.scopes": ["ALL_SCOPES"],
-              "com.figma.variableId": "VariableID:2236:5669"
-            }
-          },
-          "active": {
-            "$type": "color",
-            "values": {
-              "acronis": {
-                "alpha": 0,
-                "colorSpace": "hsl",
-                "components": [0, 0, 0]
-              }
-            },
-            "platforms": ["PD"],
-            "$extensions": {
-              "com.figma.scopes": ["ALL_SCOPES"],
-              "com.figma.variableId": "VariableID:2236:5670"
-            }
-          },
-          "disabled": {
-            "$type": "color",
-            "values": {
-              "acronis": "{colors.border.on-surface.border}"
-            },
-            "platforms": ["PD"],
-            "$extensions": {
-              "com.figma.scopes": ["ALL_SCOPES"],
-              "com.figma.variableId": "VariableID:2236:5671"
-            }
-          }
-        },
         "border-radius": {
           "$type": "dimension",
           "values": {
@@ -1321,37 +1267,11 @@
             "com.figma.variableId": "VariableID:2236:5672"
           }
         },
-        "border-style": {
-          "$type": "strokeStyle",
-          "values": {
-            "acronis": "solid"
-          },
-          "platforms": ["PD"],
-          "$extensions": {
-            "com.figma.scopes": ["ALL_SCOPES"],
-            "com.figma.variableId": "VariableID:2236:5666"
-          }
-        },
-        "border-width": {
-          "$type": "dimension",
-          "values": {
-            "acronis": "{units.stroke.1}"
-          },
-          "platforms": ["PD"],
-          "$extensions": {
-            "com.figma.scopes": ["ALL_SCOPES"],
-            "com.figma.variableId": "VariableID:2236:5667"
-          }
-        },
         "color": {
           "idle": {
             "$type": "color",
             "values": {
-              "acronis": {
-                "alpha": 0,
-                "colorSpace": "hsl",
-                "components": [0, 0, 0]
-              }
+              "acronis": "{colors.background.transparent}"
             },
             "platforms": ["PD"],
             "$extensions": {
@@ -1384,11 +1304,7 @@
           "disabled": {
             "$type": "color",
             "values": {
-              "acronis": {
-                "alpha": 0,
-                "colorSpace": "hsl",
-                "components": [0, 0, 0]
-              }
+              "acronis": "{colors.background.transparent}"
             },
             "platforms": ["PD"],
             "$extensions": {
@@ -1417,28 +1333,6 @@
           "$extensions": {
             "com.figma.scopes": ["ALL_SCOPES"],
             "com.figma.variableId": "VariableID:2236:5675"
-          }
-        },
-        "padding-y": {
-          "$type": "dimension",
-          "values": {
-            "acronis": "{units.gap.8}"
-          },
-          "platforms": ["PD"],
-          "$extensions": {
-            "com.figma.scopes": ["ALL_SCOPES"],
-            "com.figma.variableId": "VariableID:2236:5676"
-          }
-        },
-        "width-min": {
-          "$type": "dimension",
-          "values": {
-            "acronis": "{units.size.64}"
-          },
-          "platforms": ["PD"],
-          "$extensions": {
-            "com.figma.scopes": ["ALL_SCOPES"],
-            "com.figma.variableId": "VariableID:2236:5674"
           }
         }
       },
@@ -1502,174 +1396,74 @@
         }
       }
     },
-    "ghost": {
+    "secondary": {
       "container": {
-        "border-radius": {
-          "$type": "dimension",
-          "values": {
-            "acronis": "{units.radius.4}"
-          },
-          "platforms": ["PD"],
-          "$extensions": {
-            "com.figma.scopes": ["ALL_SCOPES"],
-            "com.figma.variableId": "VariableID:2236:5686"
-          }
-        },
-        "color": {
+        "border-color": {
           "idle": {
             "$type": "color",
             "values": {
-              "acronis": {
-                "alpha": 0,
-                "colorSpace": "hsl",
-                "components": [0, 0, 0]
-              }
+              "acronis": "{colors.border.on-surface.border}"
             },
             "platforms": ["PD"],
             "$extensions": {
               "com.figma.scopes": ["ALL_SCOPES"],
-              "com.figma.variableId": "VariableID:2236:5682"
+              "com.figma.variableId": "VariableID:2236:5668"
             }
           },
           "hover": {
             "$type": "color",
             "values": {
-              "acronis": "{colors.background.surface.hover}"
+              "acronis": "{colors.border.transparent}"
             },
             "platforms": ["PD"],
             "$extensions": {
               "com.figma.scopes": ["ALL_SCOPES"],
-              "com.figma.variableId": "VariableID:2236:5683"
+              "com.figma.variableId": "VariableID:2236:5669"
             }
           },
           "active": {
             "$type": "color",
             "values": {
-              "acronis": "{colors.background.surface.active}"
+              "acronis": "{colors.border.transparent}"
             },
             "platforms": ["PD"],
             "$extensions": {
               "com.figma.scopes": ["ALL_SCOPES"],
-              "com.figma.variableId": "VariableID:2236:5684"
+              "com.figma.variableId": "VariableID:2236:5670"
             }
           },
           "disabled": {
             "$type": "color",
             "values": {
-              "acronis": {
-                "alpha": 0,
-                "colorSpace": "hsl",
-                "components": [0, 0, 0]
-              }
+              "acronis": "{colors.border.on-surface.border}"
             },
             "platforms": ["PD"],
             "$extensions": {
               "com.figma.scopes": ["ALL_SCOPES"],
-              "com.figma.variableId": "VariableID:2236:5685"
+              "com.figma.variableId": "VariableID:2236:5671"
             }
           }
         },
-        "height": {
+        "border-style": {
+          "$type": "strokeStyle",
+          "values": {
+            "acronis": "solid"
+          },
+          "platforms": ["PD"],
+          "$extensions": {
+            "com.figma.scopes": [],
+            "com.figma.variableId": "VariableID:2236:5666"
+          }
+        },
+        "border-width": {
           "$type": "dimension",
           "values": {
-            "acronis": "{units.size.32}"
+            "acronis": "{units.stroke.1}"
           },
           "platforms": ["PD"],
           "$extensions": {
             "com.figma.scopes": ["ALL_SCOPES"],
-            "com.figma.variableId": "VariableID:2236:5687"
-          }
-        },
-        "padding-x": {
-          "$type": "dimension",
-          "values": {
-            "acronis": "{units.gap.8}"
-          },
-          "platforms": ["PD"],
-          "$extensions": {
-            "com.figma.scopes": ["ALL_SCOPES"],
-            "com.figma.variableId": "VariableID:2236:5689"
-          }
-        },
-        "padding-y": {
-          "$type": "dimension",
-          "values": {
-            "acronis": "{units.gap.8}"
-          },
-          "platforms": ["PD"],
-          "$extensions": {
-            "com.figma.scopes": ["ALL_SCOPES"],
-            "com.figma.variableId": "VariableID:2236:5690"
-          }
-        },
-        "width-min": {
-          "$type": "dimension",
-          "values": {
-            "acronis": "{units.size.64}"
-          },
-          "platforms": ["PD"],
-          "$extensions": {
-            "com.figma.scopes": ["ALL_SCOPES"],
-            "com.figma.variableId": "VariableID:2236:5688"
-          }
-        }
-      },
-      "icon": {
-        "color": {
-          "idle": {
-            "$type": "color",
-            "values": {
-              "acronis": "{colors.glyph.on-surface.primary}"
-            },
-            "platforms": ["PD"],
-            "$extensions": {
-              "com.figma.scopes": ["ALL_SCOPES"],
-              "com.figma.variableId": "VariableID:2236:5691"
-            }
-          },
-          "hover": {
-            "$type": "color",
-            "values": {
-              "acronis": "{colors.glyph.on-surface.primary}"
-            },
-            "platforms": ["PD"],
-            "$extensions": {
-              "com.figma.scopes": ["ALL_SCOPES"],
-              "com.figma.variableId": "VariableID:2236:5692"
-            }
-          },
-          "active": {
-            "$type": "color",
-            "values": {
-              "acronis": "{colors.glyph.on-surface.primary}"
-            },
-            "platforms": ["PD"],
-            "$extensions": {
-              "com.figma.scopes": ["ALL_SCOPES"],
-              "com.figma.variableId": "VariableID:2236:5693"
-            }
-          },
-          "disabled": {
-            "$type": "color",
-            "values": {
-              "acronis": "{colors.glyph.on-surface.disabled}"
-            },
-            "platforms": ["PD"],
-            "$extensions": {
-              "com.figma.scopes": ["ALL_SCOPES"],
-              "com.figma.variableId": "VariableID:2236:5694"
-            }
-          }
-        },
-        "size": {
-          "$type": "dimension",
-          "values": {
-            "acronis": "{units.size.16}"
-          },
-          "platforms": ["PD"],
-          "$extensions": {
-            "com.figma.scopes": ["ALL_SCOPES"],
-            "com.figma.variableId": "VariableID:2236:5695"
+            "com.figma.variableId": "VariableID:2236:5667"
           }
         }
       }

@@ -146,10 +146,15 @@ function parseCssGradient(css) {
 }
 
 // ---------- build output ----------
+// Preserve hand-authored root-level $extensions (e.g. com.acronis.tailwindRoles,
+// the build-time Tailwind routing hints) — not derived from Figma, so carry them
+// forward from the existing tier file rather than dropping them on re-emit.
+const prevRoot = fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {};
 const out = {
   $schema: '../schemas/tokens.schema.json',
   colors: { $type: 'color' },
 };
+if (prevRoot.$extensions) out.$extensions = prevRoot.$extensions;
 
 // 1. Variable-backed semantic colors from the DTCG export.
 // Mode iteration is data-driven: every brand mode that appears in
@@ -307,7 +312,10 @@ if (sorted.typography.body)     sorted.typography.body     = reorderByList(sorte
 if (sorted.typography.link)     sorted.typography.link     = reorderByList(sorted.typography.link,     ['primary', 'secondary']);
 if (sorted.typography.caption)  sorted.typography.caption  = reorderByList(sorted.typography.caption,  ['default', 'strong', 'accent']);
 if (sorted.typography.note)     sorted.typography.note     = reorderByList(sorted.typography.note,     ['default', 'heading']);
-const root = reorderByList(sorted, ['$schema', 'colors', 'gradients', 'typography']);
+const root = reorderByList(sorted, ['$schema', '$extensions', 'colors', 'gradients', 'typography']);
+// Restore the hand-authored $extensions verbatim — sortNode alphabetised its
+// inner keys; reassigning keeps the post-$schema position but the authored order.
+if (prevRoot.$extensions) root.$extensions = prevRoot.$extensions;
 
 fs.writeFileSync(OUT, formatDtcgJson(root) + '\n');
 

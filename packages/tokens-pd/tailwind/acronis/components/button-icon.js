@@ -6,47 +6,31 @@ export default {
   theme: {
     extend: {
       "backgroundColor": {
-        "button-icon-secondary-container-idle": "light-dark(rgb(0 0 0 / 0), rgb(0 0 0 / 0))",
-        "button-icon-secondary-container-hover": "light-dark(rgb(238 242 247), rgb(0 32 77))",
-        "button-icon-secondary-container-active": "light-dark(rgb(214 228 245), rgb(6 54 121))",
-        "button-icon-secondary-container-disabled": "light-dark(rgb(0 0 0 / 0), rgb(0 0 0 / 0))",
-        "button-icon-ghost-container-idle": "light-dark(rgb(0 0 0 / 0), rgb(0 0 0 / 0))",
-        "button-icon-ghost-container-hover": "light-dark(rgb(238 242 247), rgb(0 32 77))",
-        "button-icon-ghost-container-active": "light-dark(rgb(214 228 245), rgb(6 54 121))",
-        "button-icon-ghost-container-disabled": "light-dark(rgb(0 0 0 / 0), rgb(0 0 0 / 0))"
+        "button-icon-global-container-idle": "light-dark(rgb(255 0 255 / 0), rgb(255 0 255 / 0))",
+        "button-icon-global-container-hover": "light-dark(rgb(238 242 247), rgb(0 32 77))",
+        "button-icon-global-container-active": "light-dark(rgb(214 228 245), rgb(6 54 121))",
+        "button-icon-global-container-disabled": "light-dark(rgb(255 0 255 / 0), rgb(255 0 255 / 0))"
       },
       "borderColor": {
         "button-icon-secondary-container-border-color-idle": "light-dark(rgb(214 228 245), rgb(6 54 121))",
-        "button-icon-secondary-container-border-color-hover": "light-dark(rgb(0 0 0 / 0), rgb(0 0 0 / 0))",
-        "button-icon-secondary-container-border-color-active": "light-dark(rgb(0 0 0 / 0), rgb(0 0 0 / 0))",
+        "button-icon-secondary-container-border-color-hover": "light-dark(rgb(255 0 255 / 0), rgb(255 0 255 / 0))",
+        "button-icon-secondary-container-border-color-active": "light-dark(rgb(255 0 255 / 0), rgb(255 0 255 / 0))",
         "button-icon-secondary-container-border-color-disabled": "light-dark(rgb(214 228 245), rgb(6 54 121))"
       },
       "fill": {
-        "button-icon-secondary-icon-idle": "light-dark(rgb(23 99 207), rgb(48 125 232))",
-        "button-icon-secondary-icon-hover": "light-dark(rgb(23 99 207), rgb(48 125 232))",
-        "button-icon-secondary-icon-active": "light-dark(rgb(23 99 207), rgb(48 125 232))",
-        "button-icon-secondary-icon-disabled": "light-dark(rgb(214 228 245), rgb(6 54 121))",
-        "button-icon-ghost-icon-idle": "light-dark(rgb(23 99 207), rgb(48 125 232))",
-        "button-icon-ghost-icon-hover": "light-dark(rgb(23 99 207), rgb(48 125 232))",
-        "button-icon-ghost-icon-active": "light-dark(rgb(23 99 207), rgb(48 125 232))",
-        "button-icon-ghost-icon-disabled": "light-dark(rgb(214 228 245), rgb(6 54 121))"
+        "button-icon-global-icon-idle": "light-dark(rgb(23 99 207), rgb(48 125 232))",
+        "button-icon-global-icon-hover": "light-dark(rgb(23 99 207), rgb(48 125 232))",
+        "button-icon-global-icon-active": "light-dark(rgb(23 99 207), rgb(48 125 232))",
+        "button-icon-global-icon-disabled": "light-dark(rgb(214 228 245), rgb(6 54 121))"
       },
       "spacing": {
-        "button-icon-secondary-container-border-width": "1px",
-        "button-icon-secondary-container-height": "32px",
-        "button-icon-secondary-container-padding-x": "8px",
-        "button-icon-secondary-container-padding-y": "8px",
-        "button-icon-secondary-container-width-min": "64px",
-        "button-icon-secondary-icon-size": "16px",
-        "button-icon-ghost-container-height": "32px",
-        "button-icon-ghost-container-padding-x": "8px",
-        "button-icon-ghost-container-padding-y": "8px",
-        "button-icon-ghost-container-width-min": "64px",
-        "button-icon-ghost-icon-size": "16px"
+        "button-icon-global-container-height": "32px",
+        "button-icon-global-container-padding-x": "8px",
+        "button-icon-global-icon-size": "16px",
+        "button-icon-secondary-container-border-width": "1px"
       },
       "borderRadius": {
-        "button-icon-secondary-container-border-radius": "4px",
-        "button-icon-ghost-container-border-radius": "4px"
+        "button-icon-global-container-border-radius": "4px"
       }
     },
   },

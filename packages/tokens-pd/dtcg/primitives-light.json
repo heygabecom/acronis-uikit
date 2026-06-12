@@ -2198,6 +2198,22 @@
       }
     },
     "transparent": {
+      "clear": {
+        "$type": "color",
+        "$value": {
+          "alpha": 0,
+          "colorSpace": "hsl",
+          "components": [
+            300,
+            100,
+            50
+          ]
+        },
+        "$extensions": {
+          "com.figma.scopes": [],
+          "com.figma.variableId": "VariableID:2500:145416"
+        }
+      },
       "dark": {
         "10": {
           "$type": "color",

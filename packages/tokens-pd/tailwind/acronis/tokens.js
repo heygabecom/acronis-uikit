@@ -65,7 +65,8 @@ export default {
         "inverted-active": "light-dark(rgb(19 84 174), rgb(48 125 232))",
         "inverted-disabled": "light-dark(rgb(6 54 121), rgb(214 228 245))",
         "inverted-hover": "light-dark(rgb(13 77 165), rgb(117 174 240))",
-        "inverted-primary": "light-dark(rgb(11 66 142), rgb(190 215 244))"
+        "inverted-primary": "light-dark(rgb(11 66 142), rgb(190 215 244))",
+        "transparent": "light-dark(rgb(255 0 255 / 0), rgb(255 0 255 / 0))"
       },
       "textColor": {
         "on-surface-destructive": "light-dark(rgb(226 54 54), rgb(226 54 54))",
@@ -124,7 +125,8 @@ export default {
         "on-status-success": "light-dark(rgb(178 229 187), rgb(26 102 38))",
         "on-status-success-strong": "light-dark(rgb(36 143 54), rgb(6 110 36))",
         "on-status-warning": "light-dark(rgb(255 227 128), rgb(178 128 0))",
-        "on-status-warning-strong": "light-dark(rgb(229 164 0), rgb(255 196 0))"
+        "on-status-warning-strong": "light-dark(rgb(229 164 0), rgb(255 196 0))",
+        "transparent": "light-dark(rgb(255 0 255 / 0), rgb(255 0 255 / 0))"
       },
       "fill": {
         "on-surface-brand": "light-dark(rgb(0 32 77), rgb(238 242 247))",

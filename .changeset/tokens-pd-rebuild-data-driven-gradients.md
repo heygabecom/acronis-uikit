@@ -31,6 +31,26 @@ set is replaced wholesale, mirroring the `components.json` fresh start:
   (`… : solid`), and component typography aliases (`text-style` → the
   `.ui-typography-*` classes / Tailwind `fontFamily`+`fontSize`).
 
+**ButtonIcon restructured (`css/button-icon/`, `tailwind/.../button-icon.js`).**
+Mirrors the corrected `button-icon` shape in the `design-tokens` changeset:
+
+- The shared `_global` group emits `--ui-button-icon-global-*` (container
+  `color-{idle,hover,active,disabled}`, `border-radius`, `height`, `padding-x`;
+  icon `color-*`, `size`) — the props that were previously duplicated under both
+  `secondary` and `ghost`.
+- **`--ui-button-icon-ghost-*` removed** (ghost renders from `_global`).
+- `--ui-button-icon-secondary-*` reduced to the border props only; its former
+  `container-color-*`, `height`, `padding-x`, `border-radius`, `padding-y`, and
+  `width-min` custom properties are **removed** (the first four moved to
+  `-global-`, the last two dropped).
+
+**New transparent custom properties.** `--ui-background-transparent` and
+`--ui-border-transparent` (both `light-dark(rgb(255 0 255 / 0), …)`, the new
+0-alpha `clear` primitive) are emitted in the root semantic CSS and routed into
+the Tailwind `backgroundColor` / `borderColor` namespaces. ButtonIcon's
+transparent container/border states now reference these instead of inlined
+`rgb(0 0 0 / 0)` literals.
+
 **Gradients relocated.** `colors.background.ai.*` is gone; the four AI gradients
 now live under the top-level `gradients.*` root:
 

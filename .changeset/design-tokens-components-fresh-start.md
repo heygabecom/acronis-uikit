@@ -5,12 +5,17 @@
 **BREAKING** components-tier fresh start from the `shadcn-uikit` Figma file
 (`Brand/components` group) on 2026-06-12. `tiers/components.json` is rebuilt from
 scratch against Figma's new component structure: **every one of the 246 existing
-tokens is removed** and **238 new tokens** are emitted. No old→new rename
+tokens is removed** and **222 new tokens** are emitted. No old→new rename
 matching is attempted even where names overlap (e.g. `button._global.gap`) — this
 is a clean replacement, so **every consumer of `tiers/components.json` must
 re-map**. Companion to the semantic-tier sync changeset; together they land a
-consistent `tiers/` tree. Do **not** rebuild `tokens-pd` from this state yet (see
-the note at the end).
+consistent `tiers/` tree.
+
+This changeset folds in a follow-up **ButtonIcon** correction sync (also
+2026-06-12) plus the new primitive + semantic tokens it depends on — see
+**ButtonIcon `_global` refactor + transparent tokens** below. Those are the net
+unreleased `tiers/` delta, so `tokens-pd` **is** rebuilt from this state (its
+companion `@acronis-platform/tokens-pd` changeset).
 
 **Scope.** Only four components are pulled in this sync: **Button, ButtonIcon,
 SidebarPrimary, SidebarSecondary**. The other `Brand/components` children
@@ -42,16 +47,17 @@ unresolved aliases). The old tokens also still carried a `values.brand-b` mode;
 the fresh pull is single-mode `acronis`, completing the `brand-b` removal across
 the whole `tiers/` tree.
 
-**New — pulled from `Brand/components` (238 tokens, 4 components):**
+**New — pulled from `Brand/components` (222 tokens, 4 components, after the
+ButtonIcon correction below):**
 
 | component           | tokens |
 | ------------------- | ------ |
 | `button`            | 101    |
-| `button-icon`       | 34     |
+| `button-icon`       | 18     |
 | `sidebar-primary`   | 48     |
 | `sidebar-secondary` | 55     |
 
-`$type` mix of the new tokens: 139 `color` · 79 `dimension` · 9 `typography` ·
+`$type` mix of the new tokens: 131 `color` · 71 `dimension` · 9 `typography` ·
 4 `string` · 4 `gradient` · 3 `strokeStyle`.
 
 **Native Figma structure.** `Brand/components` now nests interaction states
@@ -67,9 +73,11 @@ names canonicalize to kebab-case code paths (`ButtonIcon` → `button-icon`,
 
 **Mocked values decoded** (Figma technical limitations, resolved on emit):
 
-- **Transparent colors (14):** `#FF00FF00` (8×) and `#FFFFFF00` (6×) both stand
-  in for CSS `transparent`, stored as
-  `{ colorSpace: "hsl", components: [0, 0, 0], alpha: 0 }`.
+- **Transparent colors (8):** the remaining `#FF00FF00` / `#FFFFFF00` mocks (all
+  on `Button`) still stand in for CSS `transparent`, stored as
+  `{ colorSpace: "hsl", components: [0, 0, 0], alpha: 0 }`. ButtonIcon's former
+  inline transparents now alias the real `{colors.background.transparent}` /
+  `{colors.border.transparent}` semantics instead (see below).
 - **Typography (9):** `textStyle` `string` variables alias the semantic
   typography composites — `{typography.body.strong}`, `{typography.body.default}`,
   `{typography.headings.title}` — emitted as `$type: "typography"`.
@@ -94,8 +102,40 @@ permitted by the `com.figma.*` pattern and is documented in `context/spec.md`.
 semantic role. Synced as-is (Figma is the source of truth); a semantic role can
 be introduced in Figma later.
 
-**`tokens-pd` is intentionally not rebuilt.** The `design-tokens` alias chain is
-consistent, but `tools/style-dictionary` has never seen `$type: "string"`,
-`strokeStyle`, gradient aliases, or typography aliases on component tokens — the
-rebuild is a follow-up that likely needs style-dictionary transform work. The
-drift gate runs only on `tokens-pd` changes, so deferring keeps CI green.
+**ButtonIcon `_global` refactor + transparent tokens** (follow-up sync, folded
+in here because the fresh-start shape it corrects never shipped). The first pull
+emitted ButtonIcon as parallel `secondary` and `ghost` variants whose container
+fill, icon color/size, border-radius, height, and padding-x were duplicated
+byte-for-byte, with raw-transparent fills inlined as `#FFFFFF00` mocks. Figma was
+restructured and re-pulled; ButtonIcon drops from 34 → **18** tokens:
+
+- **Shared `_global` group (12 tokens).** The properties that were identical
+  across both variants are promoted to `button-icon._global.{container,icon}.*`
+  (container `color.{idle,hover,active,disabled}`, `border-radius`, `height`,
+  `padding-x`; icon `color.{idle,hover,active,disabled}`, `size`) and shared by
+  every variant.
+- **`secondary` is border-only (6 tokens).** It keeps just its border overrides
+  — `border-color.{idle,hover,active,disabled}`, `border-style`, `border-width`.
+  `border-color.hover` / `border-color.active` now alias
+  `{colors.border.transparent}` (was an inlined raw-transparent literal, same
+  resolved value).
+- **`ghost` removed entirely (was 14 tokens).** Ghost now renders from `_global`
+  with no border override, so it needs no dedicated tokens.
+- **`padding-y` and `width-min` dropped.** ButtonIcon no longer defines either in
+  any group (confirmed absent in Figma).
+- **Container idle/disabled fills** now alias `{colors.background.transparent}`.
+
+**New primitive — `palette.transparent.clear`.** A real 0-alpha "clear" stop
+(`hsl 300 100 50 / 0`, the `#FF00FF00` mock promoted to a first-class primitive),
+light + dark. Palette names are internal plumbing, so this is additive.
+
+**New semantics — `colors.background.transparent`, `colors.border.transparent`.**
+Two new semantic tokens, both aliasing `{palette.transparent.clear}`, that
+replace the old practice of inlining raw `transparent` on component tokens.
+Additive (new `--ui-*` tokens). ButtonIcon is their first consumer.
+
+**`tokens-pd` is rebuilt from this state** (companion
+`@acronis-platform/tokens-pd` changeset). `tools/style-dictionary` now handles
+`$type: "string"`, `strokeStyle`, gradient aliases, and typography aliases on
+component tokens, so the rebuild the original fresh-start deferred is done and the
+generated output reflects the current `tiers/` tree.

@@ -631,6 +631,17 @@
             "com.figma.variableId": "VariableID:305:122"
           }
         }
+      },
+      "transparent": {
+        "$type": "color",
+        "$value": "{palette.transparent.clear}",
+        "$extensions": {
+          "com.figma.scopes": [
+            "FRAME_FILL",
+            "SHAPE_FILL"
+          ],
+          "com.figma.variableId": "VariableID:2500:145417"
+        }
       }
     },
     "border": {
@@ -838,6 +849,16 @@
             ],
             "com.figma.variableId": "VariableID:797:2006"
           }
+        }
+      },
+      "transparent": {
+        "$type": "color",
+        "$value": "{palette.transparent.clear}",
+        "$extensions": {
+          "com.figma.scopes": [
+            "STROKE_COLOR"
+          ],
+          "com.figma.variableId": "VariableID:2500:145418"
         }
       }
     },

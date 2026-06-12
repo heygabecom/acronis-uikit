@@ -98,7 +98,13 @@ function typographyAlias(literal, leafPath) {
   return codeAlias;
 }
 
+// Preserve hand-authored root-level $extensions (e.g. com.acronis.tailwindRoles,
+// the build-time Tailwind routing hints) — these are not derived from Figma, so
+// carry them forward from the existing tier file rather than dropping them on
+// re-emit. sortNode keeps $extensions right after $schema (META_ORDER).
+const prevRoot = fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {};
 const out = { $schema: '../schemas/tokens.schema.json' };
+if (prevRoot.$extensions) out.$extensions = prevRoot.$extensions;
 
 let count = 0;
 function emitLeaf(figmaPath, codePath, leaf) {
@@ -198,6 +204,10 @@ if (sorted['button-icon']) sorted['button-icon'] = reorderByList(sorted['button-
 for (const sb of ['sidebar-primary', 'sidebar-secondary']) {
   if (sorted[sb]) sorted[sb] = reorderByList(sorted[sb], ['_global', 'expanded', 'collapsed', 'menu-item', 'menu-item-extras', 'section']);
 }
+
+// Restore the hand-authored $extensions verbatim — sortNode alphabetised its
+// inner keys; reassigning keeps the post-$schema position but the authored order.
+if (prevRoot.$extensions) sorted.$extensions = prevRoot.$extensions;
 
 fs.writeFileSync(OUT, formatDtcgJson(sorted) + '\n');
 console.log(`Wrote ${OUT}: ${count} leaves across ${COMPONENTS.length} components (${rawValueWarnings.length} raw-value gaps inlined)`);

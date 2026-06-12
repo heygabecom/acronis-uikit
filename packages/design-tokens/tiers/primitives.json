@@ -1651,6 +1651,25 @@
       }
     },
     "transparent": {
+      "clear": {
+        "values": {
+          "dark": {
+            "alpha": 0,
+            "colorSpace": "hsl",
+            "components": [300, 100, 50]
+          },
+          "light": {
+            "alpha": 0,
+            "colorSpace": "hsl",
+            "components": [300, 100, 50]
+          }
+        },
+        "platforms": ["PD"],
+        "$extensions": {
+          "com.figma.scopes": [],
+          "com.figma.variableId": "VariableID:2500:145416"
+        }
+      },
       "dark": {
         "10": {
           "values": {
