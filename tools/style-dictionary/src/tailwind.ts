@@ -78,7 +78,13 @@ type ColorNamespace =
   | 'ringColor'
   | 'backgroundImage';
 
-const ROLE_MAP = tailwindRoleMap();
+// Tier-scoped role maps: a semantic token routes against the semantic roles only;
+// a component token against the merged map (so it can reuse semantic role words and
+// add its own). This keeps a component element name that collides with a semantic
+// *token segment* (e.g. the input `error` message vs the semantic `error` focus
+// variant) from shadowing semantic routing.
+const SEMANTIC_ROLE_MAP = tailwindRoleMap(['semantics']);
+const COMPONENT_ROLE_MAP = tailwindRoleMap();
 
 // The semantic tier prefixes color paths with `colors`, and component color tokens
 // wrap their value in a `color` group (`…container.color.idle`); neither carries
@@ -94,17 +100,20 @@ const normalizeSegment = (segment: string): string => segment.replace(/^_+/, '')
 
 /**
  * Map a token's path to its Tailwind namespace + key (no `ui-`, no `color` wrapper),
- * driven by the authored `com.acronis.tailwindRoles` map. The deepest path segment
- * present in the map wins (so a `border-color` under a `container` routes to the
- * border namespace, not the container's). The matched role word is dropped only for
- * the semantic tier (pure roles); component parts are kept. Throws if no segment is
- * mapped, so an unrouted color/gradient token fails the build loudly.
+ * driven by the authored `com.acronis.tailwindRoles` map (tier-scoped — semantic
+ * tokens route against the semantic roles only, component tokens against the merged
+ * map). The deepest path segment present in the map wins (so a `border-color` under a
+ * `container` routes to the border namespace, not the container's). The matched role
+ * word is dropped only for the semantic tier (pure roles); component parts are kept.
+ * Throws if no segment is mapped, so an unrouted color/gradient token fails the build
+ * loudly.
  */
 export function routeColor(path: string[]): { namespace: ColorNamespace; key: string } {
+  const isSemantic = SEMANTIC_ROOTS.has(path[0]);
+  const roleMap = isSemantic ? SEMANTIC_ROLE_MAP : COMPONENT_ROLE_MAP;
   for (let i = path.length - 1; i >= 0; i--) {
-    const namespace = ROLE_MAP.get(path[i]);
+    const namespace = roleMap.get(path[i]);
     if (namespace) {
-      const isSemantic = SEMANTIC_ROOTS.has(path[0]);
       const key = path
         .filter((seg, j) => {
           if (seg === WRAPPER_SEGMENT) return false;

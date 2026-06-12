@@ -10,9 +10,8 @@
 //
 // Scope: only the components in the COMPONENTS allowlist are emitted. The Figma
 // `brand.components` group also carries components that are out of scope for now
-// (Breadcrumb, Checkbox, Input, MenuItem, Switch, Tag, Tooltip, …); they flow in
-// via future syncs by adding them here. The legacy `brand.componentLegacy` group
-// is ignored entirely.
+// (MenuItem, Tooltip); they flow in via future syncs by adding them here. The
+// legacy `brand.componentLegacy` group is ignored entirely.
 //
 // Output has no outer "components" wrapper — components are root groups
 // (button, button-icon, sidebar-primary, …). $type lives on each leaf because
@@ -54,7 +53,17 @@ import { makeAliasTranslator } from './lib/alias-map.mjs';
 
 // Components emitted by this sync. Out-of-scope Figma components are added here
 // as their own syncs land.
-const COMPONENTS = ['Button', 'ButtonIcon', 'SidebarPrimary', 'SidebarSecondary'];
+const COMPONENTS = [
+  'Breadcrumb',
+  'Button',
+  'ButtonIcon',
+  'Checkbox',
+  'Input',
+  'SidebarPrimary',
+  'SidebarSecondary',
+  'Switch',
+  'Tag',
+];
 
 const { path: srcPath, source } = loadDtcg(process.argv);
 const figmaComponents = source.brand?.components;
