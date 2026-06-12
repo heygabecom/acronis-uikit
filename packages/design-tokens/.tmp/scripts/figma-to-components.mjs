@@ -113,7 +113,7 @@ function emitLeaf(figmaPath, codePath, leaf) {
     if (leaf.$type === 'string') {
       // Figma `string` variables stand in for several DTCG types Figma can't
       // represent as native variables — discriminate by payload/position.
-      if ('reference' in modeData && modeData.reference.includes('semantic.gradients')) {
+      if ('reference' in modeData && modeData.reference.includes('semantics.gradients')) {
         $type = 'gradient';
         values[modeKey] = translateRef(modeData.reference, leafPath);
       } else if ('literal' in modeData && /^typography\./.test(modeData.literal)) {

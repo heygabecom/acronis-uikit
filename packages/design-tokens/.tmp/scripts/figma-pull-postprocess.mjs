@@ -5,7 +5,10 @@
 //   1. Rename `tokens.tokens.json` → `variables.tokens.json` if found.
 //      `figma_export_tokens` ignores the requested filename when `outputPath`
 //      is a directory and always writes `<format>.tokens.json`. Our generators
-//      expect `variables.tokens.json`, so we normalize.
+//      expect `variables.tokens.json`, so we normalize. A fresh export always
+//      lands in `tokens.tokens.json`, so when it is present it WINS — we
+//      overwrite any existing `variables.tokens.json` (a stale rename from a
+//      prior pull) rather than leave the old one shadowing the new export.
 //
 //   2. Diff the VariableID references in the export against the meta sidecar
 //      and report any missing IDs. `figma.variables.getLocalVariablesAsync()`
@@ -31,8 +34,9 @@ const EXPORT_PATH = path.join(DIR, 'variables.tokens.json');
 const ALT_EXPORT_PATH = path.join(DIR, 'tokens.tokens.json');
 const META_PATH = path.join(DIR, 'variables-meta.json');
 
-// 1. Normalize export filename.
-if (!fs.existsSync(EXPORT_PATH) && fs.existsSync(ALT_EXPORT_PATH)) {
+// 1. Normalize export filename. A fresh `tokens.tokens.json` always wins —
+// overwrite any stale `variables.tokens.json` left by a prior pull.
+if (fs.existsSync(ALT_EXPORT_PATH)) {
   fs.renameSync(ALT_EXPORT_PATH, EXPORT_PATH);
   console.log(`Renamed tokens.tokens.json → variables.tokens.json`);
 }

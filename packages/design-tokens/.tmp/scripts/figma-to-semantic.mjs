@@ -15,7 +15,7 @@
 // by which key is present.
 //
 // Gradients: Figma variables can't hold gradient fills, so the four AI gradients
-// are mocked as `string` variables under brand.semantic.gradients, each holding
+// are mocked as `string` variables under brand.semantics.gradients, each holding
 // a CSS `linear-gradient(...)`. We parse the stops into DTCG `gradient` arrays
 // and keep the raw CSS string in `$extensions.com.figma.cssGradient`.
 //
@@ -61,8 +61,8 @@ import { makeTypographyMap, styleToWeight, mapTextStyleName } from './lib/typogr
 const TEXT_STYLES_PATH = fileURLToPath(new URL('../../.tmp/figma-tokens/styles-text.json', import.meta.url));
 
 const { path: srcPath, source } = loadDtcg(process.argv);
-const figmaBrandColor = source.brand?.semantic?.colors;
-if (!figmaBrandColor) throw new Error(`source ${srcPath} has no brand.semantic.colors subtree.`);
+const figmaBrandColor = source.brand?.semantics?.colors;
+if (!figmaBrandColor) throw new Error(`source ${srcPath} has no brand.semantics.colors subtree.`);
 
 const OUT = fileURLToPath(new URL('../../tiers/semantics.json', import.meta.url));
 const PRIMITIVES = fileURLToPath(new URL('../../tiers/primitives.json', import.meta.url));
@@ -185,13 +185,13 @@ for (const { path, leaf } of collectColorLeaves(figmaBrandColor)) {
   count++;
 }
 
-// 2. AI gradients from brand.semantic.gradients — Figma variables can't store
+// 2. AI gradients from brand.semantics.gradients — Figma variables can't store
 // gradient fills, so the designer mocks them as `string` variables holding a
 // CSS `linear-gradient(...)`. We parse the stops into DTCG `gradient` arrays
 // (hex → HSL, percent → 0..1 position) and preserve the raw CSS string in
 // $extensions.com.figma.cssGradient (it also carries the angle, which DTCG
 // gradient has no field for). Single-keyed under `acronis` like every semantic.
-const figmaGradients = source.brand?.semantic?.gradients;
+const figmaGradients = source.brand?.semantics?.gradients;
 out.gradients = { $type: 'gradient' };
 let gradientCount = 0;
 if (figmaGradients) {

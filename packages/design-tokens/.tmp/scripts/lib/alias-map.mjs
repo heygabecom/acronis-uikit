@@ -2,13 +2,13 @@
 // Translate Figma DTCG aliases to our code paths, and validate the target
 // exists in the emitted primitives / semantic trees.
 //
-// Figma writes aliases like `{semantic.colors.background.surface.primary}` or
+// Figma writes aliases like `{semantics.colors.background.surface.primary}` or
 // `{gap.gap-4}` or `{Blue.Blue-7-Primary}`. Our code uses
 // `{colors.background.surface.primary}`, `{units.gap.4}`, `{palette.blue.7}`.
 // The rules:
 //
-//   semantic.colors.*    → colors.*        (Figma nests under the semantic group; ours doesn't)
-//   semantic.gradients.* → gradients.*      (same un-nesting for the gradients root)
+//   semantics.colors.*    → colors.*        (Figma nests under the semantics group; ours doesn't)
+//   semantics.gradients.* → gradients.*      (same un-nesting for the gradients root)
 //   gap.gap-N         → units.gap.N        (drop the redundant group prefix)
 //   size.size-N       → units.size.N
 //   stroke.width-N    → units.stroke.N     (Figma uses width-N for stroke widths)
@@ -21,7 +21,7 @@
 //
 // Example:
 //   const t = makeAliasTranslator({ primitives, semantic });
-//   t.translate("{semantic.colors.glyph.on surface.neutral}")
+//   t.translate("{semantics.colors.glyph.on surface.neutral}")
 //   // → "{colors.glyph.on-surface.neutral}"
 //   t.translate("{gap.gap-4}")
 //   // → "{units.gap.4}"
@@ -40,13 +40,13 @@ const normalizeKey = k => k.replace(/\s+/g, '-');
 //   emit(parts)  — produces the head segments for our path
 const PREFIX_RULES = [
   {
-    // {semantic.colors.X.Y...} → {colors.X.Y...}
-    match: parts => parts[0] === 'semantic' && parts[1] === 'colors' ? 2 : 0,
+    // {semantics.colors.X.Y...} → {colors.X.Y...}
+    match: parts => parts[0] === 'semantics' && parts[1] === 'colors' ? 2 : 0,
     emit: () => ['colors'],
   },
   {
-    // {semantic.gradients.X.Y...} → {gradients.X.Y...}
-    match: parts => parts[0] === 'semantic' && parts[1] === 'gradients' ? 2 : 0,
+    // {semantics.gradients.X.Y...} → {gradients.X.Y...}
+    match: parts => parts[0] === 'semantics' && parts[1] === 'gradients' ? 2 : 0,
     emit: () => ['gradients'],
   },
   {

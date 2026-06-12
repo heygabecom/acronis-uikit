@@ -18,6 +18,8 @@ export function mapPaletteParts(parts) {
   const [group, leaf] = parts;
   if (group === 'Grayscale') return ['grayscale', leaf.replace(/^Gray-/, '')];
   if (group === 'Transparent') {
+    // `Clear` is a standalone 0-alpha token (not a numbered Inverted/Dark ramp stop).
+    if (leaf === 'Clear') return ['transparent', 'clear'];
     const m = leaf.match(/^(Inverted|Dark)-(\d+)$/);
     if (!m) throw new Error(`unrecognized Transparent leaf: ${leaf}`);
     return ['transparent', m[1].toLowerCase(), m[2]];
