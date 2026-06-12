@@ -6,8 +6,7 @@
       "surface": {
         "active": {
           "values": {
-            "acronis": "{palette.blue.3}",
-            "brand-b": "{palette.teal.3}"
+            "acronis": "{palette.blue.3}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -17,8 +16,7 @@
         },
         "hover": {
           "values": {
-            "acronis": "{palette.blue.2}",
-            "brand-b": "{palette.teal.2}"
+            "acronis": "{palette.blue.1}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -28,8 +26,7 @@
         },
         "primary": {
           "values": {
-            "acronis": "{palette.base}",
-            "brand-b": "{palette.base}"
+            "acronis": "{palette.base}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -39,8 +36,7 @@
         },
         "secondary": {
           "values": {
-            "acronis": "{palette.blue.0}",
-            "brand-b": "{palette.teal.0}"
+            "acronis": "{palette.blue.0}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -52,8 +48,7 @@
       "brand": {
         "primary": {
           "values": {
-            "acronis": "{palette.blue.13}",
-            "brand-b": "{palette.teal.13}"
+            "acronis": "{palette.blue.13}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -63,8 +58,7 @@
         },
         "primary-active": {
           "values": {
-            "acronis": "{palette.blue.11}",
-            "brand-b": "{palette.teal.11}"
+            "acronis": "{palette.blue.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -74,8 +68,7 @@
         },
         "primary-disabled": {
           "values": {
-            "acronis": "{palette.blue.5}",
-            "brand-b": "{palette.teal.5}"
+            "acronis": "{palette.blue.5}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -83,10 +76,19 @@
             "com.figma.variableId": "VariableID:383:39"
           }
         },
+        "primary-focus": {
+          "values": {
+            "acronis": "{palette.blue.10}"
+          },
+          "platforms": ["PD"],
+          "$extensions": {
+            "com.figma.scopes": ["FRAME_FILL"],
+            "com.figma.variableId": "VariableID:2277:1436"
+          }
+        },
         "primary-hover": {
           "values": {
-            "acronis": "{palette.blue.12}",
-            "brand-b": "{palette.teal.12}"
+            "acronis": "{palette.blue.12}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -96,8 +98,7 @@
         },
         "secondary": {
           "values": {
-            "acronis": "{palette.blue.7}",
-            "brand-b": "{palette.teal.7}"
+            "acronis": "{palette.blue.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -107,8 +108,7 @@
         },
         "secondary-active": {
           "values": {
-            "acronis": "{palette.blue.9}",
-            "brand-b": "{palette.teal.9}"
+            "acronis": "{palette.blue.9}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -118,8 +118,7 @@
         },
         "secondary-disabled": {
           "values": {
-            "acronis": "{palette.blue.3}",
-            "brand-b": "{palette.teal.3}"
+            "acronis": "{palette.blue.3}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -129,8 +128,7 @@
         },
         "secondary-hover": {
           "values": {
-            "acronis": "{palette.blue.8}",
-            "brand-b": "{palette.teal.8}"
+            "acronis": "{palette.blue.8}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -142,8 +140,7 @@
       "overlay": {
         "inverted": {
           "values": {
-            "acronis": "{palette.transparent.inverted.1}",
-            "brand-b": "{palette.transparent.inverted.1}"
+            "acronis": "{palette.transparent.inverted.1}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -153,8 +150,7 @@
         },
         "primary": {
           "values": {
-            "acronis": "{palette.transparent.dark.11}",
-            "brand-b": "{palette.transparent.dark.11}"
+            "acronis": "{palette.transparent.dark.11}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -164,10 +160,39 @@
         }
       },
       "status": {
+        "ai": {
+          "values": {
+            "acronis": "{palette.violet.1}"
+          },
+          "platforms": ["PD"],
+          "$extensions": {
+            "com.figma.scopes": ["FRAME_FILL"],
+            "com.figma.variableId": "VariableID:2277:406"
+          }
+        },
+        "ai-hover": {
+          "values": {
+            "acronis": "{palette.violet.2}"
+          },
+          "platforms": ["PD"],
+          "$extensions": {
+            "com.figma.scopes": ["FRAME_FILL"],
+            "com.figma.variableId": "VariableID:2277:407"
+          }
+        },
+        "ai-pressed": {
+          "values": {
+            "acronis": "{palette.violet.3}"
+          },
+          "platforms": ["PD"],
+          "$extensions": {
+            "com.figma.scopes": ["FRAME_FILL"],
+            "com.figma.variableId": "VariableID:2277:408"
+          }
+        },
         "critical": {
           "values": {
-            "acronis": "{palette.orange.1}",
-            "brand-b": "{palette.orange.1}"
+            "acronis": "{palette.orange.1}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -177,8 +202,7 @@
         },
         "critical-hover": {
           "values": {
-            "acronis": "{palette.orange.2}",
-            "brand-b": "{palette.orange.2}"
+            "acronis": "{palette.orange.2}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -188,8 +212,7 @@
         },
         "critical-pressed": {
           "values": {
-            "acronis": "{palette.orange.3}",
-            "brand-b": "{palette.orange.3}"
+            "acronis": "{palette.orange.3}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -199,8 +222,7 @@
         },
         "danger": {
           "values": {
-            "acronis": "{palette.red.1}",
-            "brand-b": "{palette.red.1}"
+            "acronis": "{palette.red.1}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -210,8 +232,7 @@
         },
         "danger-hover": {
           "values": {
-            "acronis": "{palette.red.2}",
-            "brand-b": "{palette.red.2}"
+            "acronis": "{palette.red.2}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -221,8 +242,7 @@
         },
         "danger-pressed": {
           "values": {
-            "acronis": "{palette.red.3}",
-            "brand-b": "{palette.red.3}"
+            "acronis": "{palette.red.3}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -232,8 +252,7 @@
         },
         "info": {
           "values": {
-            "acronis": "{palette.blue.1}",
-            "brand-b": "{palette.blue.1}"
+            "acronis": "{palette.blue.1}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -243,8 +262,7 @@
         },
         "info-hover": {
           "values": {
-            "acronis": "{palette.blue.2}",
-            "brand-b": "{palette.blue.2}"
+            "acronis": "{palette.blue.2}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -254,8 +272,7 @@
         },
         "info-pressed": {
           "values": {
-            "acronis": "{palette.blue.3}",
-            "brand-b": "{palette.blue.3}"
+            "acronis": "{palette.blue.3}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -265,8 +282,7 @@
         },
         "neutral": {
           "values": {
-            "acronis": "{palette.base}",
-            "brand-b": "{palette.base}"
+            "acronis": "{palette.base}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -276,8 +292,7 @@
         },
         "neutral-hover": {
           "values": {
-            "acronis": "{palette.grayscale.1}",
-            "brand-b": "{palette.grayscale.1}"
+            "acronis": "{palette.grayscale.1}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -287,8 +302,7 @@
         },
         "neutral-pressed": {
           "values": {
-            "acronis": "{palette.grayscale.2}",
-            "brand-b": "{palette.grayscale.2}"
+            "acronis": "{palette.grayscale.2}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -298,8 +312,7 @@
         },
         "off": {
           "values": {
-            "acronis": "{palette.blue.3}",
-            "brand-b": "{palette.blue.3}"
+            "acronis": "{palette.blue.3}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -309,8 +322,7 @@
         },
         "on": {
           "values": {
-            "acronis": "{palette.green.6}",
-            "brand-b": "{palette.green.6}"
+            "acronis": "{palette.green.6}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -320,8 +332,7 @@
         },
         "success": {
           "values": {
-            "acronis": "{palette.green.1}",
-            "brand-b": "{palette.green.1}"
+            "acronis": "{palette.green.1}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -331,8 +342,7 @@
         },
         "success-hover": {
           "values": {
-            "acronis": "{palette.green.2}",
-            "brand-b": "{palette.green.2}"
+            "acronis": "{palette.green.2}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -342,8 +352,7 @@
         },
         "success-pressed": {
           "values": {
-            "acronis": "{palette.green.3}",
-            "brand-b": "{palette.green.3}"
+            "acronis": "{palette.green.3}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -353,8 +362,7 @@
         },
         "warning": {
           "values": {
-            "acronis": "{palette.yellow.1}",
-            "brand-b": "{palette.yellow.1}"
+            "acronis": "{palette.yellow.1}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -364,8 +372,7 @@
         },
         "warning-hover": {
           "values": {
-            "acronis": "{palette.yellow.2}",
-            "brand-b": "{palette.yellow.2}"
+            "acronis": "{palette.yellow.2}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -375,8 +382,7 @@
         },
         "warning-pressed": {
           "values": {
-            "acronis": "{palette.yellow.3}",
-            "brand-b": "{palette.yellow.3}"
+            "acronis": "{palette.yellow.3}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -385,11 +391,10 @@
           }
         }
       },
-      "status-inverted": {
+      "status-strong": {
         "critical": {
           "values": {
-            "acronis": "{palette.orange.7}",
-            "brand-b": "{palette.orange.7}"
+            "acronis": "{palette.orange.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -399,8 +404,7 @@
         },
         "critical-hover": {
           "values": {
-            "acronis": "{palette.orange.8}",
-            "brand-b": "{palette.orange.8}"
+            "acronis": "{palette.orange.8}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -410,8 +414,7 @@
         },
         "critical-pressed": {
           "values": {
-            "acronis": "{palette.orange.9}",
-            "brand-b": "{palette.orange.9}"
+            "acronis": "{palette.orange.9}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -421,8 +424,7 @@
         },
         "danger": {
           "values": {
-            "acronis": "{palette.red.7}",
-            "brand-b": "{palette.red.7}"
+            "acronis": "{palette.red.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -432,8 +434,7 @@
         },
         "danger-hover": {
           "values": {
-            "acronis": "{palette.red.8}",
-            "brand-b": "{palette.red.8}"
+            "acronis": "{palette.red.9}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -443,8 +444,7 @@
         },
         "danger-pressed": {
           "values": {
-            "acronis": "{palette.red.9}",
-            "brand-b": "{palette.red.9}"
+            "acronis": "{palette.red.10}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -454,8 +454,7 @@
         },
         "info": {
           "values": {
-            "acronis": "{palette.blue.7}",
-            "brand-b": "{palette.blue.7}"
+            "acronis": "{palette.blue.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -465,8 +464,7 @@
         },
         "info-hover": {
           "values": {
-            "acronis": "{palette.blue.8}",
-            "brand-b": "{palette.blue.8}"
+            "acronis": "{palette.blue.8}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -476,8 +474,7 @@
         },
         "info-pressed": {
           "values": {
-            "acronis": "{palette.blue.9}",
-            "brand-b": "{palette.blue.9}"
+            "acronis": "{palette.blue.9}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -487,8 +484,7 @@
         },
         "neutral": {
           "values": {
-            "acronis": "{palette.grayscale.7}",
-            "brand-b": "{palette.grayscale.7}"
+            "acronis": "{palette.grayscale.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -498,8 +494,7 @@
         },
         "neutral-hover": {
           "values": {
-            "acronis": "{palette.grayscale.8}",
-            "brand-b": "{palette.grayscale.8}"
+            "acronis": "{palette.grayscale.8}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -509,8 +504,7 @@
         },
         "neutral-pressed": {
           "values": {
-            "acronis": "{palette.grayscale.9}",
-            "brand-b": "{palette.grayscale.9}"
+            "acronis": "{palette.grayscale.9}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -520,8 +514,7 @@
         },
         "success": {
           "values": {
-            "acronis": "{palette.green.7}",
-            "brand-b": "{palette.green.7}"
+            "acronis": "{palette.green.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -531,8 +524,7 @@
         },
         "success-hover": {
           "values": {
-            "acronis": "{palette.green.8}",
-            "brand-b": "{palette.green.8}"
+            "acronis": "{palette.green.8}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -542,8 +534,7 @@
         },
         "success-pressed": {
           "values": {
-            "acronis": "{palette.green.9}",
-            "brand-b": "{palette.green.9}"
+            "acronis": "{palette.green.9}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -553,8 +544,7 @@
         },
         "warning": {
           "values": {
-            "acronis": "{palette.yellow.7}",
-            "brand-b": "{palette.yellow.7}"
+            "acronis": "{palette.yellow.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -564,8 +554,7 @@
         },
         "warning-hover": {
           "values": {
-            "acronis": "{palette.yellow.8}",
-            "brand-b": "{palette.yellow.8}"
+            "acronis": "{palette.yellow.8}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -575,8 +564,7 @@
         },
         "warning-pressed": {
           "values": {
-            "acronis": "{palette.yellow.9}",
-            "brand-b": "{palette.yellow.9}"
+            "acronis": "{palette.yellow.9}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -588,8 +576,7 @@
       "inverted": {
         "active": {
           "values": {
-            "acronis": "{palette.transparent.inverted.6}",
-            "brand-b": "{palette.transparent.inverted.6}"
+            "acronis": "{palette.blue.8}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -597,10 +584,19 @@
             "com.figma.variableId": "VariableID:305:124"
           }
         },
+        "disabled": {
+          "values": {
+            "acronis": "{palette.blue.11}"
+          },
+          "platforms": ["PD"],
+          "$extensions": {
+            "com.figma.scopes": ["FRAME_FILL"],
+            "com.figma.variableId": "VariableID:2242:1416"
+          }
+        },
         "hover": {
           "values": {
-            "acronis": "{palette.transparent.inverted.7}",
-            "brand-b": "{palette.transparent.inverted.7}"
+            "acronis": "{palette.blue.9}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -610,186 +606,12 @@
         },
         "primary": {
           "values": {
-            "acronis": "{palette.transparent.inverted.8}",
-            "brand-b": "{palette.transparent.inverted.8}"
+            "acronis": "{palette.blue.10}"
           },
           "platforms": ["PD"],
           "$extensions": {
             "com.figma.scopes": ["FRAME_FILL"],
             "com.figma.variableId": "VariableID:305:122"
-          }
-        }
-      },
-      "inverted-surface": {
-        "idle": {
-          "values": {
-            "acronis": {
-              "colorSpace": "hsl",
-              "components": [211.67, 45, 31.37]
-            },
-            "brand-b": {
-              "colorSpace": "hsl",
-              "components": [211.67, 45, 31.37]
-            }
-          },
-          "platforms": ["PD"],
-          "$extensions": { "com.figma.scopes": ["FRAME_FILL"] }
-        },
-        "hover": {
-          "values": {
-            "acronis": {
-              "colorSpace": "hsl",
-              "components": [211.76, 20.48, 48.82]
-            },
-            "brand-b": {
-              "colorSpace": "hsl",
-              "components": [211.76, 20.48, 48.82]
-            }
-          },
-          "platforms": ["PD"],
-          "$extensions": { "com.figma.scopes": ["FRAME_FILL"] }
-        },
-        "active": {
-          "values": {
-            "acronis": {
-              "colorSpace": "hsl",
-              "components": [211.34, 48.2, 27.25]
-            },
-            "brand-b": {
-              "colorSpace": "hsl",
-              "components": [211.34, 48.2, 27.25]
-            }
-          },
-          "platforms": ["PD"],
-          "$extensions": { "com.figma.scopes": ["FRAME_FILL"] }
-        },
-        "disabled": {
-          "values": {
-            "acronis": {
-              "colorSpace": "hsl",
-              "components": [215.84, 100, 15.1]
-            },
-            "brand-b": {
-              "colorSpace": "hsl",
-              "components": [215.84, 100, 15.1]
-            }
-          },
-          "platforms": ["PD"],
-          "$extensions": { "com.figma.scopes": ["FRAME_FILL"] }
-        }
-      },
-      "ai": {
-        "$type": "gradient",
-        "idle": {
-          "values": {
-            "acronis": [
-              {
-                "color": {
-                  "colorSpace": "hsl",
-                  "components": [233.93, 73.04, 54.9]
-                },
-                "position": 0.2
-              },
-              {
-                "color": {
-                  "colorSpace": "hsl",
-                  "components": [303.19, 97.17, 58.23]
-                },
-                "position": 1
-              }
-            ]
-          },
-          "platforms": ["PD"],
-          "$extensions": {
-            "com.figma.gradientTransform": [
-              [1, 0, 0],
-              [0, 1, 0]
-            ],
-            "com.figma.styleId": "6a29f79edcb949dfddc3c57804e23ca90e2e3158"
-          }
-        },
-        "hover": {
-          "values": {
-            "acronis": [
-              {
-                "color": {
-                  "colorSpace": "hsl",
-                  "components": [233.93, 73.04, 54.9]
-                },
-                "position": 0.2
-              },
-              {
-                "color": {
-                  "colorSpace": "hsl",
-                  "components": [303.19, 97.17, 58.23]
-                },
-                "position": 1
-              }
-            ]
-          },
-          "platforms": ["PD"],
-          "$extensions": {
-            "com.figma.gradientTransform": [
-              [1, 0, 0],
-              [0, 1, 0]
-            ],
-            "com.figma.styleId": "d75824f59afe59907a78feb5c44bcf9d89e32d8d"
-          }
-        },
-        "active": {
-          "values": {
-            "acronis": [
-              {
-                "color": {
-                  "colorSpace": "hsl",
-                  "components": [233.93, 73.04, 54.9]
-                },
-                "position": 0.2
-              },
-              {
-                "color": {
-                  "colorSpace": "hsl",
-                  "components": [303.19, 97.17, 58.23]
-                },
-                "position": 1
-              }
-            ]
-          },
-          "platforms": ["PD"],
-          "$extensions": {
-            "com.figma.gradientTransform": [
-              [1, 0, 0],
-              [0, 1, 0]
-            ],
-            "com.figma.styleId": "d3600bd86ce03979f095d043a02a4325e201c3c5"
-          }
-        },
-        "disabled": {
-          "values": {
-            "acronis": [
-              {
-                "color": {
-                  "colorSpace": "hsl",
-                  "components": [215.97, 16.12, 87.84]
-                },
-                "position": 0.2
-              },
-              {
-                "color": {
-                  "colorSpace": "hsl",
-                  "components": [215.47, 25.29, 86.65]
-                },
-                "position": 1
-              }
-            ]
-          },
-          "platforms": ["PD"],
-          "$extensions": {
-            "com.figma.gradientTransform": [
-              [1, 0, 0],
-              [0, 1, 0]
-            ],
-            "com.figma.styleId": "ff3aef1c0377478a63ccaa33539cec575af8b8c5"
           }
         }
       }
@@ -798,8 +620,7 @@
       "on-surface": {
         "border": {
           "values": {
-            "acronis": "{palette.blue.3}",
-            "brand-b": "{palette.teal.3}"
+            "acronis": "{palette.blue.3}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -809,8 +630,7 @@
         },
         "border-active": {
           "values": {
-            "acronis": "{palette.blue.7}",
-            "brand-b": "{palette.blue.7}"
+            "acronis": "{palette.blue.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -820,8 +640,7 @@
         },
         "border-ai": {
           "values": {
-            "acronis": "{palette.blue.7}",
-            "brand-b": "{palette.blue.7}"
+            "acronis": "{palette.blue.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -831,8 +650,7 @@
         },
         "border-error": {
           "values": {
-            "acronis": "{palette.red.7}",
-            "brand-b": "{palette.red.7}"
+            "acronis": "{palette.red.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -842,8 +660,7 @@
         },
         "divider": {
           "values": {
-            "acronis": "{palette.blue.3}",
-            "brand-b": "{palette.teal.3}"
+            "acronis": "{palette.blue.3}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -855,8 +672,7 @@
       "on-brand": {
         "border": {
           "values": {
-            "acronis": "{palette.transparent.inverted.9}",
-            "brand-b": "{palette.transparent.inverted.9}"
+            "acronis": "{palette.transparent.inverted.9}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -866,8 +682,7 @@
         },
         "border-active": {
           "values": {
-            "acronis": "{palette.transparent.inverted.0}",
-            "brand-b": "{palette.transparent.inverted.0}"
+            "acronis": "{palette.transparent.inverted.0}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -877,8 +692,7 @@
         },
         "divider": {
           "values": {
-            "acronis": "{palette.transparent.inverted.9}",
-            "brand-b": "{palette.transparent.inverted.9}"
+            "acronis": "{palette.transparent.inverted.9}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -890,8 +704,7 @@
       "on-status": {
         "critical": {
           "values": {
-            "acronis": "{palette.orange.4}",
-            "brand-b": "{palette.orange.4}"
+            "acronis": "{palette.orange.4}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -899,10 +712,9 @@
             "com.figma.variableId": "VariableID:147:41"
           }
         },
-        "critical-dark": {
+        "critical-strong": {
           "values": {
-            "acronis": "{palette.orange.8}",
-            "brand-b": "{palette.orange.8}"
+            "acronis": "{palette.orange.8}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -912,8 +724,7 @@
         },
         "danger": {
           "values": {
-            "acronis": "{palette.red.4}",
-            "brand-b": "{palette.red.4}"
+            "acronis": "{palette.red.4}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -921,10 +732,9 @@
             "com.figma.variableId": "VariableID:147:42"
           }
         },
-        "danger-dark": {
+        "danger-strong": {
           "values": {
-            "acronis": "{palette.red.8}",
-            "brand-b": "{palette.red.8}"
+            "acronis": "{palette.red.8}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -934,8 +744,7 @@
         },
         "info": {
           "values": {
-            "acronis": "{palette.blue.4}",
-            "brand-b": "{palette.blue.4}"
+            "acronis": "{palette.blue.4}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -943,10 +752,9 @@
             "com.figma.variableId": "VariableID:147:38"
           }
         },
-        "info-dark": {
+        "info-strong": {
           "values": {
-            "acronis": "{palette.blue.8}",
-            "brand-b": "{palette.blue.8}"
+            "acronis": "{palette.blue.8}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -956,8 +764,7 @@
         },
         "neutral": {
           "values": {
-            "acronis": "{palette.grayscale.4}",
-            "brand-b": "{palette.grayscale.4}"
+            "acronis": "{palette.grayscale.4}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -965,10 +772,9 @@
             "com.figma.variableId": "VariableID:911:263463"
           }
         },
-        "neutral-dark": {
+        "neutral-strong": {
           "values": {
-            "acronis": "{palette.grayscale.8}",
-            "brand-b": "{palette.grayscale.8}"
+            "acronis": "{palette.grayscale.8}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -978,8 +784,7 @@
         },
         "success": {
           "values": {
-            "acronis": "{palette.green.4}",
-            "brand-b": "{palette.green.4}"
+            "acronis": "{palette.green.4}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -987,10 +792,9 @@
             "com.figma.variableId": "VariableID:147:39"
           }
         },
-        "success-dark": {
+        "success-strong": {
           "values": {
-            "acronis": "{palette.green.8}",
-            "brand-b": "{palette.green.8}"
+            "acronis": "{palette.green.8}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1000,8 +804,7 @@
         },
         "warning": {
           "values": {
-            "acronis": "{palette.yellow.4}",
-            "brand-b": "{palette.yellow.4}"
+            "acronis": "{palette.yellow.4}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1009,10 +812,9 @@
             "com.figma.variableId": "VariableID:147:40"
           }
         },
-        "warning-dark": {
+        "warning-strong": {
           "values": {
-            "acronis": "{palette.yellow.8}",
-            "brand-b": "{palette.yellow.8}"
+            "acronis": "{palette.yellow.8}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1024,10 +826,19 @@
     },
     "glyph": {
       "on-surface": {
+        "brand": {
+          "values": {
+            "acronis": "{palette.blue.13}"
+          },
+          "platforms": ["PD"],
+          "$extensions": {
+            "com.figma.scopes": ["ALL_SCOPES"],
+            "com.figma.variableId": "VariableID:2463:54749"
+          }
+        },
         "destructive": {
           "values": {
-            "acronis": "{palette.red.7}",
-            "brand-b": "{palette.red.7}"
+            "acronis": "{palette.red.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1037,8 +848,7 @@
         },
         "disabled": {
           "values": {
-            "acronis": "{palette.blue.3}",
-            "brand-b": "{palette.teal.3}"
+            "acronis": "{palette.blue.3}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1048,8 +858,7 @@
         },
         "neutral": {
           "values": {
-            "acronis": "{palette.grayscale.4}",
-            "brand-b": "{palette.grayscale.4}"
+            "acronis": "{palette.grayscale.4}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1059,8 +868,7 @@
         },
         "primary": {
           "values": {
-            "acronis": "{palette.blue.7}",
-            "brand-b": "{palette.teal.7}"
+            "acronis": "{palette.blue.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1072,8 +880,7 @@
       "on-brand": {
         "disabled": {
           "values": {
-            "acronis": "{palette.transparent.inverted.1}",
-            "brand-b": "{palette.transparent.inverted.1}"
+            "acronis": "{palette.transparent.inverted.1}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1083,8 +890,7 @@
         },
         "primary": {
           "values": {
-            "acronis": "{palette.transparent.inverted.0}",
-            "brand-b": "{palette.transparent.inverted.0}"
+            "acronis": "{palette.transparent.inverted.0}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1094,8 +900,7 @@
         },
         "secondary": {
           "values": {
-            "acronis": "{palette.transparent.inverted.4}",
-            "brand-b": "{palette.transparent.inverted.4}"
+            "acronis": "{palette.transparent.inverted.4}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1107,8 +912,7 @@
       "on-overlay": {
         "primary": {
           "values": {
-            "acronis": "{palette.transparent.inverted.0}",
-            "brand-b": "{palette.transparent.inverted.0}"
+            "acronis": "{palette.transparent.inverted.0}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1118,10 +922,19 @@
         }
       },
       "on-status": {
+        "ai": {
+          "values": {
+            "acronis": "{palette.violet.11}"
+          },
+          "platforms": ["PD"],
+          "$extensions": {
+            "com.figma.scopes": ["SHAPE_FILL", "STROKE_COLOR"],
+            "com.figma.variableId": "VariableID:1936:2682"
+          }
+        },
         "critical": {
           "values": {
-            "acronis": "{palette.orange.7}",
-            "brand-b": "{palette.orange.7}"
+            "acronis": "{palette.orange.11}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1131,8 +944,7 @@
         },
         "danger": {
           "values": {
-            "acronis": "{palette.red.7}",
-            "brand-b": "{palette.red.7}"
+            "acronis": "{palette.red.11}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1142,8 +954,7 @@
         },
         "disabled": {
           "values": {
-            "acronis": "{palette.blue.3}",
-            "brand-b": "{palette.blue.3}"
+            "acronis": "{palette.blue.3}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1153,8 +964,7 @@
         },
         "info": {
           "values": {
-            "acronis": "{palette.blue.7}",
-            "brand-b": "{palette.blue.7}"
+            "acronis": "{palette.blue.11}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1164,8 +974,7 @@
         },
         "neutral": {
           "values": {
-            "acronis": "{palette.grayscale.7}",
-            "brand-b": "{palette.grayscale.7}"
+            "acronis": "{palette.grayscale.11}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1173,32 +982,9 @@
             "com.figma.variableId": "VariableID:911:263464"
           }
         },
-        "off": {
-          "values": {
-            "acronis": "{palette.base}",
-            "brand-b": "{palette.base}"
-          },
-          "platforms": ["PD"],
-          "$extensions": {
-            "com.figma.scopes": ["SHAPE_FILL", "STROKE_COLOR"],
-            "com.figma.variableId": "VariableID:1205:724"
-          }
-        },
-        "on": {
-          "values": {
-            "acronis": "{palette.base}",
-            "brand-b": "{palette.base}"
-          },
-          "platforms": ["PD"],
-          "$extensions": {
-            "com.figma.scopes": ["SHAPE_FILL", "STROKE_COLOR"],
-            "com.figma.variableId": "VariableID:1205:723"
-          }
-        },
         "primary": {
           "values": {
-            "acronis": "{palette.blue.11}",
-            "brand-b": "{palette.blue.11}"
+            "acronis": "{palette.blue.11}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1208,8 +994,7 @@
         },
         "success": {
           "values": {
-            "acronis": "{palette.green.7}",
-            "brand-b": "{palette.green.7}"
+            "acronis": "{palette.green.11}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1219,8 +1004,7 @@
         },
         "warning": {
           "values": {
-            "acronis": "{palette.yellow.7}",
-            "brand-b": "{palette.yellow.7}"
+            "acronis": "{palette.yellow.11}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1232,8 +1016,7 @@
       "on-inverted": {
         "disabled": {
           "values": {
-            "acronis": "{palette.transparent.inverted.7}",
-            "brand-b": "{palette.transparent.inverted.7}"
+            "acronis": "{palette.transparent.inverted.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1243,8 +1026,7 @@
         },
         "primary": {
           "values": {
-            "acronis": "{palette.transparent.inverted.0}",
-            "brand-b": "{palette.transparent.inverted.0}"
+            "acronis": "{palette.transparent.inverted.0}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1254,8 +1036,7 @@
         },
         "secondary": {
           "values": {
-            "acronis": "{palette.transparent.inverted.4}",
-            "brand-b": "{palette.transparent.inverted.4}"
+            "acronis": "{palette.transparent.inverted.4}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1269,8 +1050,7 @@
       "on-surface": {
         "destructive": {
           "values": {
-            "acronis": "{palette.red.7}",
-            "brand-b": "{palette.red.7}"
+            "acronis": "{palette.red.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1280,8 +1060,7 @@
         },
         "disabled": {
           "values": {
-            "acronis": "{palette.grayscale.5}",
-            "brand-b": "{palette.grayscale.5}"
+            "acronis": "{palette.grayscale.5}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1291,8 +1070,7 @@
         },
         "link": {
           "values": {
-            "acronis": "{palette.blue.7}",
-            "brand-b": "{palette.teal.7}"
+            "acronis": "{palette.blue.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1302,8 +1080,7 @@
         },
         "link-disabled": {
           "values": {
-            "acronis": "{palette.blue.5}",
-            "brand-b": "{palette.teal.5}"
+            "acronis": "{palette.blue.3}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1313,8 +1090,7 @@
         },
         "link-hover": {
           "values": {
-            "acronis": "{palette.blue.8}",
-            "brand-b": "{palette.teal.8}"
+            "acronis": "{palette.blue.8}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1324,8 +1100,7 @@
         },
         "link-pressed": {
           "values": {
-            "acronis": "{palette.blue.11}",
-            "brand-b": "{palette.teal.11}"
+            "acronis": "{palette.blue.11}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1335,8 +1110,7 @@
         },
         "primary": {
           "values": {
-            "acronis": "{palette.grayscale.14}",
-            "brand-b": "{palette.grayscale.14}"
+            "acronis": "{palette.grayscale.14}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1346,8 +1120,7 @@
         },
         "secondary": {
           "values": {
-            "acronis": "{palette.grayscale.7}",
-            "brand-b": "{palette.grayscale.7}"
+            "acronis": "{palette.grayscale.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1359,8 +1132,7 @@
       "on-brand": {
         "disabled": {
           "values": {
-            "acronis": "{palette.transparent.inverted.1}",
-            "brand-b": "{palette.transparent.inverted.1}"
+            "acronis": "{palette.transparent.inverted.0}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1370,8 +1142,7 @@
         },
         "link": {
           "values": {
-            "acronis": "{palette.blue.7}",
-            "brand-b": "{palette.teal.7}"
+            "acronis": "{palette.blue.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1381,8 +1152,7 @@
         },
         "link-disabled": {
           "values": {
-            "acronis": "{palette.transparent.inverted.1}",
-            "brand-b": "{palette.transparent.inverted.1}"
+            "acronis": "{palette.transparent.inverted.1}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1392,8 +1162,7 @@
         },
         "link-hover": {
           "values": {
-            "acronis": "{palette.blue.5}",
-            "brand-b": "{palette.teal.5}"
+            "acronis": "{palette.blue.5}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1403,8 +1172,7 @@
         },
         "link-pressed": {
           "values": {
-            "acronis": "{palette.blue.3}",
-            "brand-b": "{palette.teal.2}"
+            "acronis": "{palette.blue.3}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1414,8 +1182,7 @@
         },
         "primary": {
           "values": {
-            "acronis": "{palette.transparent.inverted.0}",
-            "brand-b": "{palette.transparent.inverted.0}"
+            "acronis": "{palette.transparent.inverted.0}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1425,8 +1192,7 @@
         },
         "secondary": {
           "values": {
-            "acronis": "{palette.transparent.inverted.4}",
-            "brand-b": "{palette.transparent.inverted.4}"
+            "acronis": "{palette.transparent.inverted.4}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1438,8 +1204,7 @@
       "on-overlay": {
         "link": {
           "values": {
-            "acronis": "{palette.blue.7}",
-            "brand-b": "{palette.teal.7}"
+            "acronis": "{palette.blue.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1449,8 +1214,7 @@
         },
         "link-hover": {
           "values": {
-            "acronis": "{palette.blue.5}",
-            "brand-b": "{palette.teal.5}"
+            "acronis": "{palette.blue.5}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1460,8 +1224,7 @@
         },
         "link-pressed": {
           "values": {
-            "acronis": "{palette.blue.3}",
-            "brand-b": "{palette.teal.3}"
+            "acronis": "{palette.blue.3}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1471,8 +1234,7 @@
         },
         "primary": {
           "values": {
-            "acronis": "{palette.transparent.inverted.0}",
-            "brand-b": "{palette.transparent.inverted.0}"
+            "acronis": "{palette.transparent.inverted.0}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1482,8 +1244,7 @@
         },
         "secondary": {
           "values": {
-            "acronis": "{palette.transparent.inverted.4}",
-            "brand-b": "{palette.transparent.inverted.4}"
+            "acronis": "{palette.transparent.inverted.4}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1495,8 +1256,7 @@
       "on-status": {
         "ai": {
           "values": {
-            "acronis": "{palette.violet.11}",
-            "brand-b": "{palette.violet.11}"
+            "acronis": "{palette.violet.11}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1506,8 +1266,7 @@
         },
         "critical": {
           "values": {
-            "acronis": "{palette.orange.11}",
-            "brand-b": "{palette.orange.11}"
+            "acronis": "{palette.orange.11}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1517,8 +1276,7 @@
         },
         "danger": {
           "values": {
-            "acronis": "{palette.red.11}",
-            "brand-b": "{palette.red.11}"
+            "acronis": "{palette.red.11}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1528,8 +1286,7 @@
         },
         "info": {
           "values": {
-            "acronis": "{palette.blue.11}",
-            "brand-b": "{palette.blue.11}"
+            "acronis": "{palette.blue.11}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1539,8 +1296,7 @@
         },
         "link": {
           "values": {
-            "acronis": "{palette.blue.11}",
-            "brand-b": "{palette.blue.11}"
+            "acronis": "{palette.blue.11}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1550,8 +1306,7 @@
         },
         "link-disabled": {
           "values": {
-            "acronis": "{palette.blue.5}",
-            "brand-b": "{palette.blue.5}"
+            "acronis": "{palette.blue.5}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1561,8 +1316,7 @@
         },
         "link-hover": {
           "values": {
-            "acronis": "{palette.blue.13}",
-            "brand-b": "{palette.blue.13}"
+            "acronis": "{palette.blue.13}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1572,8 +1326,7 @@
         },
         "link-pressed": {
           "values": {
-            "acronis": "{palette.blue.14}",
-            "brand-b": "{palette.blue.14}"
+            "acronis": "{palette.blue.14}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1583,8 +1336,7 @@
         },
         "neutral": {
           "values": {
-            "acronis": "{palette.grayscale.11}",
-            "brand-b": "{palette.grayscale.11}"
+            "acronis": "{palette.grayscale.11}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1594,8 +1346,7 @@
         },
         "primary": {
           "values": {
-            "acronis": "{palette.grayscale.14}",
-            "brand-b": "{palette.grayscale.14}"
+            "acronis": "{palette.grayscale.14}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1605,8 +1356,7 @@
         },
         "secondary": {
           "values": {
-            "acronis": "{palette.grayscale.11}",
-            "brand-b": "{palette.grayscale.11}"
+            "acronis": "{palette.grayscale.11}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1616,8 +1366,7 @@
         },
         "success": {
           "values": {
-            "acronis": "{palette.green.11}",
-            "brand-b": "{palette.green.11}"
+            "acronis": "{palette.green.11}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1627,8 +1376,7 @@
         },
         "warning": {
           "values": {
-            "acronis": "{palette.yellow.11}",
-            "brand-b": "{palette.yellow.11}"
+            "acronis": "{palette.yellow.11}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1640,8 +1388,7 @@
       "on-inverted": {
         "disabled": {
           "values": {
-            "acronis": "{palette.transparent.inverted.7}",
-            "brand-b": "{palette.transparent.inverted.7}"
+            "acronis": "{palette.transparent.inverted.7}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1651,8 +1398,7 @@
         },
         "primary": {
           "values": {
-            "acronis": "{palette.transparent.inverted.0}",
-            "brand-b": "{palette.transparent.inverted.0}"
+            "acronis": "{palette.transparent.inverted.0}"
           },
           "platforms": ["PD"],
           "$extensions": {
@@ -1665,45 +1411,41 @@
     "focus": {
       "brand": {
         "values": {
-          "acronis": "{palette.blue.6}",
-          "brand-b": "{palette.teal.6}"
+          "acronis": "{palette.blue.4}"
         },
         "platforms": ["PD"],
         "$extensions": {
-          "com.figma.scopes": ["EFFECT_COLOR"],
+          "com.figma.scopes": ["STROKE_COLOR", "EFFECT_COLOR"],
           "com.figma.variableId": "VariableID:1838:1394"
         }
       },
       "error": {
         "values": {
-          "acronis": "{palette.red.4}",
-          "brand-b": "{palette.red.4}"
+          "acronis": "{palette.red.4}"
         },
         "platforms": ["PD"],
         "$extensions": {
-          "com.figma.scopes": ["EFFECT_COLOR"],
+          "com.figma.scopes": ["STROKE_COLOR", "EFFECT_COLOR"],
           "com.figma.variableId": "VariableID:1828:1379"
         }
       },
       "primary": {
         "values": {
-          "acronis": "{palette.blue.4}",
-          "brand-b": "{palette.teal.4}"
+          "acronis": "{palette.blue.4}"
         },
         "platforms": ["PD"],
         "$extensions": {
-          "com.figma.scopes": ["EFFECT_COLOR"],
+          "com.figma.scopes": ["STROKE_COLOR", "EFFECT_COLOR"],
           "com.figma.variableId": "VariableID:1828:1378"
         }
       },
       "secondary": {
         "values": {
-          "acronis": "{palette.blue.4}",
-          "brand-b": "{palette.teal.4}"
+          "acronis": "{palette.blue.4}"
         },
         "platforms": ["PD"],
         "$extensions": {
-          "com.figma.scopes": ["EFFECT_COLOR"],
+          "com.figma.scopes": ["STROKE_COLOR", "EFFECT_COLOR"],
           "com.figma.variableId": "VariableID:1838:1393"
         }
       }
@@ -1831,7 +1573,7 @@
         },
         "platforms": ["PD"],
         "$extensions": {
-          "com.figma.styleId": "S:e6708b02f258a60f1349baf2107f23de0b32bd98,"
+          "com.figma.styleId": "S:cbd898a42c818aaa98ea4309a0d5f73f7c9876f7,"
         }
       },
       "default-underline": {
@@ -1845,7 +1587,7 @@
         "platforms": ["PD"],
         "$extensions": {
           "com.acronis.textDecoration": "UNDERLINE",
-          "com.figma.styleId": "S:6060ea27d58a686cd6f949e3aeb969828ce9d0a4,"
+          "com.figma.styleId": "S:792ca5ea9f5e3b65b124435a337e6eacacfa842b,"
         }
       },
       "strong": {
