@@ -1,0 +1,217 @@
+// figma-to-json-plus/helpers/diff-engine.mjs
+// Joins the snapshot variable/style indexes against the tiers indexes and
+// classifies every difference into a typed change record.
+
+import { DtcgWalker } from './utils-dtcg-walker.mjs';
+
+// Change type constants.
+export const ChangeType = Object.freeze({
+  TOKEN_ADDED:              'TOKEN_ADDED',
+  TOKEN_DELETED:            'TOKEN_DELETED',
+  VALUE_CHANGED:            'VALUE_CHANGED',
+  MODE_VALUE_CHANGED:       'MODE_VALUE_CHANGED',
+  TYPE_CHANGED:             'TYPE_CHANGED',
+  SCOPES_CHANGED:           'SCOPES_CHANGED',
+  HIDDEN_CHANGED:           'HIDDEN_CHANGED',
+  EXTENSION_ADDED:          'EXTENSION_ADDED',
+  EXTENSION_REMOVED:        'EXTENSION_REMOVED',
+  EXTENSION_VALUE_CHANGED:  'EXTENSION_VALUE_CHANGED',
+  STYLE_ADDED:              'STYLE_ADDED',
+  STYLE_DELETED:            'STYLE_DELETED',
+  STYLE_CHANGED:            'STYLE_CHANGED',
+  UNCLASSIFIED:             'UNCLASSIFIED',
+  FIGMA_UNTRACKED:          'FIGMA_UNTRACKED',
+});
+
+export class DiffEngine {
+  #snapshot;
+  #tiersReader;
+  #changes = [];
+
+  constructor(snapshot, tiersReader) {
+    this.#snapshot = snapshot;
+    this.#tiersReader = tiersReader;
+  }
+
+  run() {
+    this.#changes = [];
+    this.#diffVariables();
+    this.#diffStyles();
+    return this;
+  }
+
+  get changes() { return this.#changes; }
+
+  // ── Variables ────────────────────────────────────────────────────────────
+
+  #diffVariables() {
+    const snapshotIndex = this.#buildSnapshotVarIndex();
+    const tiersIndex = this.#tiersReader.variableIndex;
+
+    // Tokens in snapshot → check against tiers.
+    for (const [variableId, snEntry] of snapshotIndex) {
+      const tierEntry = tiersIndex.get(variableId);
+      if (!tierEntry) {
+        this.#changes.push({
+          type: ChangeType.TOKEN_ADDED,
+          variableId,
+          figmaPath: snEntry.path,
+          snapshot: snEntry,
+        });
+        continue;
+      }
+      this.#compareToken(variableId, snEntry, tierEntry);
+    }
+
+    // Tokens in tiers but absent from snapshot.
+    for (const [variableId, tierEntry] of tiersIndex) {
+      if (!snapshotIndex.has(variableId)) {
+        this.#changes.push({
+          type: ChangeType.TOKEN_DELETED,
+          variableId,
+          tier: tierEntry.tier,
+          ourPath: tierEntry.path,
+          tiers: tierEntry,
+        });
+      }
+    }
+  }
+
+  #buildSnapshotVarIndex() {
+    const index = new Map();
+    for (const { path, leaf } of DtcgWalker.walk(this.#snapshot.variables)) {
+      const variableId = leaf.$extensions?.['com.figma.variableId'];
+      if (!variableId) continue;
+      index.set(variableId, { path, leaf });
+    }
+    return index;
+  }
+
+  #compareToken(variableId, snEntry, tierEntry) {
+    const { leaf: snLeaf } = snEntry;
+    const { leaf: tierLeaf, tier, path: ourPath } = tierEntry;
+    const base = { variableId, tier, ourPath, figmaPath: snEntry.path };
+    let classified = false;
+
+    // $type change.
+    if (snLeaf.$type && tierLeaf.$type && snLeaf.$type !== tierLeaf.$type) {
+      this.#changes.push({ ...base, type: ChangeType.TYPE_CHANGED, from: tierLeaf.$type, to: snLeaf.$type });
+      classified = true;
+    }
+
+    // $value change (default/light mode).
+    if (snLeaf.$value !== undefined && tierLeaf.$value !== undefined) {
+      const snVal = JSON.stringify(snLeaf.$value);
+      const tierVal = JSON.stringify(tierLeaf.$value);
+      if (snVal !== tierVal) {
+        this.#changes.push({ ...base, type: ChangeType.VALUE_CHANGED, from: tierLeaf.$value, to: snLeaf.$value });
+        classified = true;
+      }
+    }
+
+    // Mode value changes (compare snapshot modes vs tier values).
+    const snModes = snLeaf.$extensions?.modes ?? {};
+    const tierValues = tierLeaf.values ?? {};
+    for (const [modeKey, snModeVal] of Object.entries(snModes)) {
+      const normalizedKey = modeKey.toLowerCase().replace(/\s+/g, '-');
+      const tierModeVal = tierValues[normalizedKey];
+      if (tierModeVal !== undefined && JSON.stringify(snModeVal) !== JSON.stringify(tierModeVal)) {
+        this.#changes.push({ ...base, type: ChangeType.MODE_VALUE_CHANGED, mode: normalizedKey, from: tierModeVal, to: snModeVal });
+        classified = true;
+      }
+    }
+
+    // com.figma.* extension diffs (skip com.acronis.* — hand-authored).
+    const snFigmaExt = this.#figmaExtFields(snLeaf.$extensions ?? {});
+    const tierFigmaExt = this.#figmaExtFields(tierLeaf.$extensions ?? {});
+
+    for (const key of new Set([...Object.keys(snFigmaExt), ...Object.keys(tierFigmaExt)])) {
+      const inSn = key in snFigmaExt;
+      const inTier = key in tierFigmaExt;
+      if (key === 'com.figma.variableId') continue; // always present both sides
+
+      if (inSn && !inTier) {
+        this.#changes.push({ ...base, type: ChangeType.EXTENSION_ADDED, key, value: snFigmaExt[key] });
+        classified = true;
+      } else if (!inSn && inTier) {
+        this.#changes.push({ ...base, type: ChangeType.EXTENSION_REMOVED, key, value: tierFigmaExt[key] });
+        classified = true;
+      } else if (inSn && inTier) {
+        if (key === 'com.figma.scopes') {
+          const snArr = [...(snFigmaExt[key] ?? [])].sort();
+          const tierArr = [...(tierFigmaExt[key] ?? [])].sort();
+          if (JSON.stringify(snArr) !== JSON.stringify(tierArr)) {
+            this.#changes.push({ ...base, type: ChangeType.SCOPES_CHANGED, from: tierFigmaExt[key], to: snFigmaExt[key] });
+            classified = true;
+          }
+        } else if (key === 'com.figma.hiddenFromPublishing') {
+          if (snFigmaExt[key] !== tierFigmaExt[key]) {
+            this.#changes.push({ ...base, type: ChangeType.HIDDEN_CHANGED, from: tierFigmaExt[key], to: snFigmaExt[key] });
+            classified = true;
+          }
+        } else if (JSON.stringify(snFigmaExt[key]) !== JSON.stringify(tierFigmaExt[key])) {
+          this.#changes.push({ ...base, type: ChangeType.EXTENSION_VALUE_CHANGED, key, from: tierFigmaExt[key], to: snFigmaExt[key] });
+          classified = true;
+        }
+      }
+    }
+
+    // If nothing classified but the tokens differ, emit UNCLASSIFIED.
+    if (!classified) {
+      const snSig = JSON.stringify({ $value: snLeaf.$value, $type: snLeaf.$type, ext: snFigmaExt, modes: snModes });
+      const tierSig = JSON.stringify({ $value: tierLeaf.$value, $type: tierLeaf.$type, ext: tierFigmaExt, values: tierValues });
+      if (snSig !== tierSig) {
+        this.#changes.push({ ...base, type: ChangeType.UNCLASSIFIED, snapshot: snLeaf, tiers: tierLeaf });
+      }
+    }
+  }
+
+  #figmaExtFields(ext) {
+    const out = {};
+    for (const [k, v] of Object.entries(ext)) {
+      if (k.startsWith('com.figma.')) out[k] = v;
+    }
+    return out;
+  }
+
+  // ── Styles ────────────────────────────────────────────────────────────────
+
+  #diffStyles() {
+    const snapshotStyles = [
+      ...this.#snapshot.styles.text.map(s => ({ ...s, _category: 'text' })),
+      ...this.#snapshot.styles.color.map(s => ({ ...s, _category: 'color' })),
+      ...this.#snapshot.styles.effect.map(s => ({ ...s, _category: 'effect' })),
+    ];
+    const tiersStyleIndex = this.#tiersReader.styleIndex;
+    const snapshotStyleIndex = new Map(snapshotStyles.map(s => [s.id, s]));
+
+    for (const snStyle of snapshotStyles) {
+      if (!tiersStyleIndex.has(snStyle.id)) {
+        this.#changes.push({ type: ChangeType.STYLE_ADDED, styleId: snStyle.id, style: snStyle });
+      } else {
+        const tierEntry = tiersStyleIndex.get(snStyle.id);
+        // Basic style change detection: compare name and a few key fields.
+        const changed = this.#styleChanged(snStyle, tierEntry.leaf);
+        if (changed) {
+          this.#changes.push({ type: ChangeType.STYLE_CHANGED, styleId: snStyle.id, tier: tierEntry.tier, ourPath: tierEntry.path, changes: changed });
+        }
+      }
+    }
+
+    for (const [styleId, tierEntry] of tiersStyleIndex) {
+      if (!snapshotStyleIndex.has(styleId)) {
+        this.#changes.push({ type: ChangeType.STYLE_DELETED, styleId, tier: tierEntry.tier, ourPath: tierEntry.path });
+      }
+    }
+  }
+
+  #styleChanged(snStyle, tierToken) {
+    const diffs = [];
+    // The tier stores the styleId but the actual style data lives in $value (for typography).
+    // We just report the snapshot style name vs what's in tiers.
+    if (snStyle.name && tierToken._snapshotName && snStyle.name !== tierToken._snapshotName) {
+      diffs.push({ field: 'name', from: tierToken._snapshotName, to: snStyle.name });
+    }
+    return diffs.length > 0 ? diffs : null;
+  }
+}
