@@ -53,7 +53,14 @@ if (!fs.existsSync(META_PATH)) {
 // 2. Coverage diff: every VariableID in the export must exist in the meta sidecar.
 const exportSrc = fs.readFileSync(EXPORT_PATH, 'utf8');
 const exportIds = new Set(exportSrc.match(/VariableID:\d+:\d+/g) ?? []);
-const meta = JSON.parse(fs.readFileSync(META_PATH, 'utf8'));
+let meta = JSON.parse(fs.readFileSync(META_PATH, 'utf8'));
+// figma_execute returns results wrapped in an MCP envelope {_mcp, success, result}.
+// Unwrap automatically and rewrite the file so subsequent runs see clean data.
+if (meta._mcp !== undefined && meta.result !== undefined) {
+  meta = meta.result;
+  fs.writeFileSync(META_PATH, JSON.stringify(meta));
+  console.log('Unwrapped MCP envelope from variables-meta.json.');
+}
 const metaIds = new Set(Object.keys(meta));
 const missing = [...exportIds].filter(id => !metaIds.has(id)).sort();
 
