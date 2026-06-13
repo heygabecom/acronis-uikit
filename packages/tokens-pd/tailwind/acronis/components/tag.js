@@ -62,6 +62,7 @@ export default {
         "tag-global-container-width-max": "256px",
         "tag-global-container-width-min": "32px",
         "tag-global-md-container-height": "24px",
+        "tag-global-md-icon-border-width": "1.6px",
         "tag-global-md-icon-size": "16px",
         "tag-global-sm-container-height": "20px"
       },

@@ -24,6 +24,7 @@
   --ui-tag-global-container-width-max: 256px;
   --ui-tag-global-container-width-min: 32px;
   --ui-tag-global-md-container-height: 24px;
+  --ui-tag-global-md-icon-border-width: 1.6px;
   --ui-tag-global-md-icon-size: 16px;
   --ui-tag-global-sm-container-height: 20px;
   --ui-tag-info-container-border-color: light-dark(rgb(190 215 244), rgb(11 66 142));

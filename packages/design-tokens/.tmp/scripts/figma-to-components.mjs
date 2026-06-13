@@ -58,7 +58,7 @@ const COMPONENTS = [
   'Button',
   'ButtonIcon',
   'Checkbox',
-  'Input',
+  'InputText',
   'SidebarPrimary',
   'SidebarSecondary',
   'Switch',
