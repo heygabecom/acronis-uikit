@@ -1,7 +1,7 @@
 // figma-to-json-plus/helpers/emit-components-builder.mjs
 // Builds tiers/components.json from a normalized figma-snapshot.json.
-// Filters by a COMPONENTS allowlist, translates Figma names to kebab-case,
-// validates alias targets, and preserves hand-authored $extensions.
+// Filters by a COMPONENTS allowlist, maps PascalCase component names to
+// camelCase keys, and preserves hand-authored $extensions.
 
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -23,12 +23,9 @@ const STATE_ORDER = ['idle', 'hover', 'active', 'focus', 'disabled', 'error', 's
 // Color-related leaf key order.
 const COLOR_ORDER = ['color', 'background', 'border', 'fill', 'stroke', 'shadow'];
 
-const toKebab = str => str
-  .replace(/([A-Z])/g, m => `-${m.toLowerCase()}`)
-  .replace(/^-/, '')
-  .replace(/_/g, '-')
-  .replace(/\s+/g, '-')
-  .toLowerCase();
+// No case transformation: Figma segment names are preserved exactly as-is.
+// Components and SubComponents are PascalCase in Figma; everything else is camelCase.
+// The emitter must not change casing at any level.
 
 export class ComponentsEmitter {
   #snapshot;
@@ -59,14 +56,13 @@ export class ComponentsEmitter {
       if (figmaName.startsWith('$')) continue;
       if (!this.#allowlist.has(figmaName)) continue;
 
-      const componentKey = toKebab(figmaName);
-      out[componentKey] = this.#emitComponent(figmaName, subtree);
+      out[figmaName] = this.#emitComponent(figmaName, subtree);
     }
 
     const sorted = TreeUtils.sortNode(out);
     // Re-attach hand-authored $extensions verbatim (sortNode may have reordered internals).
     if (prevOut.$extensions) sorted.$extensions = prevOut.$extensions;
-    const root = TreeUtils.reorderByList(sorted, ['$schema', '$extensions', ...DEFAULT_COMPONENTS.map(toKebab)]);
+    const root = TreeUtils.reorderByList(sorted, ['$schema', '$extensions', ...DEFAULT_COMPONENTS]);
 
     fs.writeFileSync(OUT_PATH, DtcgFormatter.serialize(root));
     return root;
@@ -88,16 +84,14 @@ export class ComponentsEmitter {
       if (!v || typeof v !== 'object') continue;
 
       if ('$value' in v || '$extensions' in v) {
-        // Leaf token.
-        const key = toKebab(k);
-        out[key] = this.#buildLeaf(v);
+        // Leaf token. Figma segment names are already camelCase — use as-is.
+        out[k] = this.#buildLeaf(v);
       } else {
-        // Group.
-        const key = toKebab(k);
-        out[key] = {};
-        this.#walk(v, out[key], depth + 1);
+        // Group. Figma segment names are already camelCase — use as-is.
+        out[k] = {};
+        this.#walk(v, out[k], depth + 1);
         // Reorder interaction states if this group looks like a variant container.
-        out[key] = TreeUtils.reorderByList(out[key], STATE_ORDER);
+        out[k] = TreeUtils.reorderByList(out[k], STATE_ORDER);
       }
     }
   }

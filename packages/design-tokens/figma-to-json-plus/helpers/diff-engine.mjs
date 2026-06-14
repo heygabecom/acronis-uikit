@@ -56,6 +56,7 @@ export class DiffEngine {
           type: ChangeType.TOKEN_ADDED,
           variableId,
           figmaPath: snEntry.path,
+          inferredTier: DiffEngine.#inferTier(snEntry.path),
           snapshot: snEntry,
         });
         continue;
@@ -101,8 +102,8 @@ export class DiffEngine {
 
     // $value change (default/light mode).
     if (snLeaf.$value !== undefined && tierLeaf.$value !== undefined) {
-      const snVal = JSON.stringify(snLeaf.$value);
-      const tierVal = JSON.stringify(tierLeaf.$value);
+      const snVal = JSON.stringify(DiffEngine.#normalizeValue(snLeaf.$value));
+      const tierVal = JSON.stringify(DiffEngine.#normalizeValue(tierLeaf.$value));
       if (snVal !== tierVal) {
         this.#changes.push({ ...base, type: ChangeType.VALUE_CHANGED, from: tierLeaf.$value, to: snLeaf.$value });
         classified = true;
@@ -110,14 +111,21 @@ export class DiffEngine {
     }
 
     // Mode value changes (compare snapshot modes vs tier values).
+    // Snapshot uses Figma's full alias path (e.g. {semantics.colors.text.on surface.primary});
+    // tiers use our normalized short path ({colors.text.on-surface.primary}).
+    // Normalize before comparing so path-format differences don't emit false positives.
     const snModes = snLeaf.$extensions?.modes ?? {};
     const tierValues = tierLeaf.values ?? {};
     for (const [modeKey, snModeVal] of Object.entries(snModes)) {
       const normalizedKey = modeKey.toLowerCase().replace(/\s+/g, '-');
       const tierModeVal = tierValues[normalizedKey];
-      if (tierModeVal !== undefined && JSON.stringify(snModeVal) !== JSON.stringify(tierModeVal)) {
-        this.#changes.push({ ...base, type: ChangeType.MODE_VALUE_CHANGED, mode: normalizedKey, from: tierModeVal, to: snModeVal });
-        classified = true;
+      if (tierModeVal !== undefined) {
+        const normSn = DiffEngine.#normalizeValue(snModeVal);
+        const normTier = DiffEngine.#normalizeValue(tierModeVal);
+        if (JSON.stringify(normSn) !== JSON.stringify(normTier)) {
+          this.#changes.push({ ...base, type: ChangeType.MODE_VALUE_CHANGED, mode: normalizedKey, from: tierModeVal, to: snModeVal });
+          classified = true;
+        }
       }
     }
 
@@ -157,9 +165,31 @@ export class DiffEngine {
     }
 
     // If nothing classified but the tokens differ, emit UNCLASSIFIED.
+    // Flatten snapshot ($value + modes) and tier ($value + values) into a single
+    // "allValues" map so structural format differences don't produce false positives:
+    //   - snapshot uses $extensions.modes; tiers use `values`
+    //   - snapshot always has $value; tiers may omit it (components only store values.acronis)
+    // Include `default` in the comparison only when BOTH sides have $value.
     if (!classified) {
-      const snSig = JSON.stringify({ $value: snLeaf.$value, $type: snLeaf.$type, ext: snFigmaExt, modes: snModes });
-      const tierSig = JSON.stringify({ $value: tierLeaf.$value, $type: tierLeaf.$type, ext: tierFigmaExt, values: tierValues });
+      const sortedObj = o => Object.fromEntries(Object.entries(o).sort(([a], [b]) => a.localeCompare(b)));
+      const includeDefault = snLeaf.$value !== undefined && tierLeaf.$value !== undefined;
+      const toAllValues = ($value, modeOrValues) => sortedObj(Object.fromEntries([
+        ...(includeDefault ? [['default', DiffEngine.#normalizeValue($value)]] : []),
+        ...Object.entries(modeOrValues).map(([k, v]) => [
+          k.toLowerCase().replace(/\s+/g, '-'),
+          DiffEngine.#normalizeValue(v),
+        ]),
+      ]));
+      const snSig = JSON.stringify({
+        allValues: toAllValues(snLeaf.$value, snModes),
+        $type: snLeaf.$type,
+        ext: sortedObj(snFigmaExt),
+      });
+      const tierSig = JSON.stringify({
+        allValues: toAllValues(tierLeaf.$value, tierValues),
+        $type: tierLeaf.$type,
+        ext: sortedObj(tierFigmaExt),
+      });
       if (snSig !== tierSig) {
         this.#changes.push({ ...base, type: ChangeType.UNCLASSIFIED, snapshot: snLeaf, tiers: tierLeaf });
       }
@@ -213,5 +243,28 @@ export class DiffEngine {
       diffs.push({ field: 'name', from: tierToken._snapshotName, to: snStyle.name });
     }
     return diffs.length > 0 ? diffs : null;
+  }
+
+  // Normalize an alias value so snapshot paths match tier paths:
+  //   {semantics.colors.text.on surface.primary} → {colors.text.on-surface.primary}
+  //   {components.button.label.color.idle}        → {button.label.color.idle}
+  // Non-alias values are returned as-is.
+  static #normalizeValue(value) {
+    if (typeof value !== 'string' || !value.startsWith('{')) return value;
+    let inner = value.slice(1, -1);
+    inner = inner.replace(/^(semantics|components)\./, '');
+    inner = inner.replace(/ /g, '-');
+    return `{${inner}}`;
+  }
+
+  // Infer which tier a snapshot token belongs to from its Figma path.
+  //   ['brand', 'components', ...] → 'components'
+  //   ['brand', 'semantics', ...]  → 'semantics'
+  //   ['theme', ...]               → 'primitives'
+  static #inferTier(path) {
+    if (path[0] === 'brand' && path[1] === 'components') return 'components';
+    if (path[0] === 'brand' && path[1] === 'semantics')  return 'semantics';
+    if (path[0] === 'theme')                              return 'primitives';
+    return null;
   }
 }

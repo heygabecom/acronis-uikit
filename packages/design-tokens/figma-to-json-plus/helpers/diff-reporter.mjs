@@ -96,8 +96,10 @@ export class DiffReporter {
     const figmaPath = c.figmaPath?.join('.') ?? '—';
 
     switch (c.type) {
-      case ChangeType.TOKEN_ADDED:
-        return `  + ${figmaPath} (${c.variableId})`;
+      case ChangeType.TOKEN_ADDED: {
+        const hint = c.inferredTier ? ` → ${c.inferredTier}` : '';
+        return `  + ${figmaPath} (${c.variableId})${hint}`;
+      }
       case ChangeType.TOKEN_DELETED:
         return `  - ${tier} ${ourPath} (${c.variableId})`;
       case ChangeType.VALUE_CHANGED:
