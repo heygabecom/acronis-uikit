@@ -65,7 +65,7 @@
         "textStyle": {
           "$type": "typography",
           "values": {
-            "acronis": "{typography.Link.default}"
+            "acronis": "{typography.link.default}"
           },
           "platforms": ["PD"],
           "$extensions": {
