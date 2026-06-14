@@ -96,7 +96,15 @@ const COMPONENT_ROLE_MAP = tailwindRoleMap();
 const TIER_PREFIX = 'colors';
 const WRAPPER_SEGMENT = 'color';
 
-const normalizeSegment = (segment: string): string => segment.replace(/^_+/, '');
+// Strip leading underscores (_global → global) and convert PascalCase/camelCase
+// to kebab-case (Breadcrumb → breadcrumb, borderColor → border-color) so Tailwind
+// utility keys follow industry-standard lowercase-kebab naming regardless of how
+// segments are cased in Figma / the tiers.
+const normalizeSegment = (segment: string): string =>
+  segment
+    .replace(/^_+/, '')
+    .replace(/([A-Z])/g, m => `-${m.toLowerCase()}`)
+    .replace(/^-/, '');
 
 /**
  * Map a token's path to its Tailwind namespace + key (no `ui-`, no `color` wrapper),
