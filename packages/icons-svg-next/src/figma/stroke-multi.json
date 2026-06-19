@@ -1,17 +1,17 @@
 [
-  "circle-check-stroke-multi",
-  "circle-clock-stroke-multi",
-  "circle-info-stroke-multi",
-  "circle-minus-stroke-multi",
-  "circle-times-stroke-multi",
-  "circle-warning-stroke-multi",
-  "circles-stroke-multi",
-  "diamond-warning-stroke-multi",
+  "circle-check-green",
+  "circle-clock-blue",
+  "circle-info-blue",
+  "circle-minus-gray",
+  "circle-times-red",
+  "circle-warning-orange",
+  "circles-multi",
+  "diamond-warning-red",
   "dot-blue",
   "dot-gray",
   "dot-green",
   "dot-orange",
   "dot-red",
   "dot-yellow",
-  "triangle-warning-stroke-multi"
+  "triangle-warning-yellow"
 ]
