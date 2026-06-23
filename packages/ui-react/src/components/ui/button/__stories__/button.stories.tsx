@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+import type { Locale } from '../../../../../.storybook/globals';
+import { t } from '../../../../../.storybook/i18n';
 import { Button } from '../button';
 
 const meta = {
@@ -10,8 +12,32 @@ const meta = {
     variant: {
       control: 'select',
       options: ['default', 'secondary', 'ghost', 'destructive', 'ai', 'inverted'],
+      description: 'Visual style — mirrors the Figma Button `Variant` property.',
+      table: {
+        type: {
+          summary:
+            "'default' | 'secondary' | 'ghost' | 'destructive' | 'ai' | 'inverted'",
+        },
+        defaultValue: { summary: 'default' },
+        category: 'Appearance',
+      },
     },
-    disabled: { control: 'boolean' },
+    children: {
+      control: 'text',
+      description: 'Button label content.',
+      table: { type: { summary: 'ReactNode' }, category: 'Content' },
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disables the button and applies the disabled token set.',
+      table: { type: { summary: 'boolean' }, category: 'State' },
+    },
+    render: {
+      control: false,
+      description:
+        'Base UI render prop — replace the underlying `<button>` (e.g. render as an `<a>`).',
+      table: { type: { summary: 'RenderProp' }, category: 'Composition' },
+    },
   },
   args: {
     children: 'Button',
@@ -68,5 +94,15 @@ export const AsLink: Story = {
     <Button render={<a href="https://www.acronis.com" />} variant="ghost">
       Rendered as an anchor
     </Button>
+  ),
+};
+
+// Reads the active `locale` toolbar global and renders demo-localized text from
+// the shared catalog (.storybook/i18n.ts). Switching the Locale toolbar — incl.
+// ar/he, which also flip the canvas to RTL — re-renders the label in-place.
+export const Localized: Story = {
+  name: 'Localized (locale toolbar)',
+  render: (args, { globals }) => (
+    <Button {...args}>{t((globals.locale as Locale) ?? 'en', 'submit')}</Button>
   ),
 };
