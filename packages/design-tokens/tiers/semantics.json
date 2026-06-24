@@ -2,11 +2,11 @@
   "$extensions": {
     "com.acronis.tailwindRoles": {
       "background": "backgroundColor",
-      "text": "textColor",
       "border": "borderColor",
-      "glyph": "fill",
       "focus": "ringColor",
-      "gradients": "backgroundImage"
+      "glyph": "fill",
+      "gradients": "backgroundImage",
+      "text": "textColor"
     }
   },
   "$schema": "../schemas/tier.schema.json",
