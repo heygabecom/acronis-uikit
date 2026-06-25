@@ -160,6 +160,48 @@ export const Default: Story = {
   ),
 };
 
+// The generic component reference from Figma node 2468-59502: placeholder
+// "Header" / "Section Header" / three identical "Menu Item" rows (no leading
+// icons) and a footer collapse affordance with a leading chevron + a `⌘J`
+// shortcut. Uncontrolled, so clicking the footer toggles the rail to the
+// CollapsedBreadcrumb (carrying the design's collapsed-rail labels).
+export const Reference: Story = {
+  name: 'Reference (Figma anatomy)',
+  render: () => (
+    <Shell>
+      <SidebarSecondary>
+        <SidebarSecondaryHeader label="Header" />
+        <SidebarSecondaryContent>
+          <SidebarSecondarySection>
+            <SidebarSecondarySectionLabel>
+              Section Header
+            </SidebarSecondarySectionLabel>
+            <SidebarSecondaryMenu>
+              <SidebarSecondaryMenuItem href="#">Menu Item</SidebarSecondaryMenuItem>
+              <SidebarSecondaryMenuItem href="#">Menu Item</SidebarSecondaryMenuItem>
+              <SidebarSecondaryMenuItem href="#">Menu Item</SidebarSecondaryMenuItem>
+            </SidebarSecondaryMenu>
+          </SidebarSecondarySection>
+        </SidebarSecondaryContent>
+        <SidebarSecondaryCollapsedBreadcrumb
+          parentLabel="Header"
+          currentLabel="Current Page Name"
+        />
+        <SidebarSecondaryFooter>
+          <SidebarSecondaryMenu>
+            <SidebarSecondaryCollapseTrigger
+              icon={<ChevronLeftIcon />}
+              shortcut="⌘J"
+            >
+              Menu Item
+            </SidebarSecondaryCollapseTrigger>
+          </SidebarSecondaryMenu>
+        </SidebarSecondaryFooter>
+      </SidebarSecondary>
+    </Shell>
+  ),
+};
+
 export const Collapsed: Story = {
   name: 'Collapsed (breadcrumb rail)',
   render: () => (
@@ -181,9 +223,11 @@ export const Collapsed: Story = {
         />
         <SidebarSecondaryFooter>
           <SidebarSecondaryMenu>
-            <SidebarSecondaryMenuItem href="#" icon={<ServerIcon />}>
-              Settings
-            </SidebarSecondaryMenuItem>
+            {/* Chevron-left auto-flips to a right-pointing "expand" chevron in
+                the collapsed rail. */}
+            <SidebarSecondaryCollapseTrigger icon={<ChevronLeftIcon />}>
+              Expand menu
+            </SidebarSecondaryCollapseTrigger>
           </SidebarSecondaryMenu>
         </SidebarSecondaryFooter>
       </SidebarSecondary>
