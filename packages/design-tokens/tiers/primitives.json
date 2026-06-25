@@ -1500,7 +1500,7 @@
           },
           "platforms": ["PD"],
           "values": {
-            "dark": { "colorSpace": "hsl", "components": [0, 0, 100] },
+            "dark": { "colorSpace": "hsl", "components": [228, 16.67, 11.76] },
             "light": { "colorSpace": "hsl", "components": [228, 16.67, 11.76] }
           }
         },
@@ -1583,39 +1583,17 @@
               "components": [228, 16.67, 11.76]
             }
           }
-        }
-      },
-      "fixed": {
-        "dark": {
-          "$extensions": {
-            "com.figma.hiddenFromPublishing": true,
-            "com.figma.scopes": [],
-            "com.figma.variableId": "VariableID:3665:6952"
-          },
-          "platforms": ["PD"],
-          "values": {
-            "dark": {
-              "alpha": 0.898,
-              "colorSpace": "hsl",
-              "components": [228, 16.67, 11.76]
-            },
-            "light": {
-              "alpha": 0.898,
-              "colorSpace": "hsl",
-              "components": [228, 16.67, 11.76]
-            }
-          }
         },
-        "light": {
+        "inverted": {
           "$extensions": {
             "com.figma.hiddenFromPublishing": true,
             "com.figma.scopes": [],
-            "com.figma.variableId": "VariableID:3669:5473"
+            "com.figma.variableId": "VariableID:3748:1157"
           },
           "platforms": ["PD"],
           "values": {
             "dark": { "colorSpace": "hsl", "components": [0, 0, 100] },
-            "light": { "colorSpace": "hsl", "components": [0, 0, 100] }
+            "light": { "colorSpace": "hsl", "components": [228, 16.67, 11.76] }
           }
         }
       },
@@ -1710,6 +1688,20 @@
               "colorSpace": "hsl",
               "components": [0, 0, 100]
             }
+          }
+        }
+      },
+      "light": {
+        "inverted": {
+          "$extensions": {
+            "com.figma.hiddenFromPublishing": true,
+            "com.figma.scopes": [],
+            "com.figma.variableId": "VariableID:3748:1158"
+          },
+          "platforms": ["PD"],
+          "values": {
+            "dark": { "colorSpace": "hsl", "components": [220, 5.88, 10] },
+            "light": { "colorSpace": "hsl", "components": [0, 0, 100] }
           }
         }
       }

@@ -41,7 +41,7 @@
   --ui-button-ghost-label-color-disabled: light-dark(rgb(214 228 245), rgb(48 50 54));
   --ui-button-ghost-label-color-hover: light-dark(rgb(19 84 174), rgb(23 99 207));
   --ui-button-ghost-label-color-idle: light-dark(rgb(23 99 207), rgb(71 152 245));
-  --ui-button-ghost-label-text-decoration-active: underline;
+  --ui-button-ghost-label-text-decoration-active: none;
   --ui-button-ghost-label-text-decoration-disabled: none;
   --ui-button-ghost-label-text-decoration-hover: underline;
   --ui-button-ghost-label-text-decoration-idle: none;
@@ -112,6 +112,38 @@
 
 [data-theme='dark'], :host([data-theme='dark']) {
   color-scheme: dark;
+}
+
+.ui-button-ghost-label-text-style-active {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0px;
+}
+
+.ui-button-ghost-label-text-style-disabled {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0px;
+}
+
+.ui-button-ghost-label-text-style-hover {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0px;
+}
+
+.ui-button-ghost-label-text-style-idle {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0px;
 }
 
 .ui-button-global-label-text-style {

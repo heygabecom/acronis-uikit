@@ -20,7 +20,7 @@ const SEMANTICS_PATH  = fileURLToPath(new URL('../../../../packages/design-token
 // that want to pass an explicit subset. The default is null (= emit everything).
 export const DEFAULT_COMPONENTS = [
   'Avatar', 'Breadcrumb', 'Button', 'ButtonIcon', 'ButtonMenu',
-  'CardFilter', 'Checkbox', 'Icon',
+  'CardFilter', 'Checkbox', 'Icon', 'Link', 'Menu',
   'InputDatePicker', 'InputSearch', 'InputSelect', 'InputText', 'InputTextArea',
   'MenuItem', 'Radio', 'Resizable', 'SearchGlobal',
   'SidebarPrimary', 'SidebarSecondary', 'Switch', 'Table', 'Tag', 'Tooltip',

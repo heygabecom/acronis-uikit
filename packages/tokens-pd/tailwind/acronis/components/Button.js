@@ -86,10 +86,46 @@ export default {
         "button-secondary-icon-idle": "light-dark(rgb(23 99 207), rgb(71 152 245))"
       },
       "fontFamily": {
-        "button-global-label-text-style": "Inter, system-ui, sans-serif"
+        "button-global-label-text-style": "Inter, system-ui, sans-serif",
+        "button-ghost-label-text-style-active": "Inter, system-ui, sans-serif",
+        "button-ghost-label-text-style-disabled": "Inter, system-ui, sans-serif",
+        "button-ghost-label-text-style-hover": "Inter, system-ui, sans-serif",
+        "button-ghost-label-text-style-idle": "Inter, system-ui, sans-serif"
       },
       "fontSize": {
         "button-global-label-text-style": [
+          "14px",
+          {
+            "lineHeight": "24px",
+            "letterSpacing": "0px",
+            "fontWeight": "600"
+          }
+        ],
+        "button-ghost-label-text-style-active": [
+          "14px",
+          {
+            "lineHeight": "24px",
+            "letterSpacing": "0px",
+            "fontWeight": "600"
+          }
+        ],
+        "button-ghost-label-text-style-disabled": [
+          "14px",
+          {
+            "lineHeight": "24px",
+            "letterSpacing": "0px",
+            "fontWeight": "600"
+          }
+        ],
+        "button-ghost-label-text-style-hover": [
+          "14px",
+          {
+            "lineHeight": "24px",
+            "letterSpacing": "0px",
+            "fontWeight": "600"
+          }
+        ],
+        "button-ghost-label-text-style-idle": [
           "14px",
           {
             "lineHeight": "24px",

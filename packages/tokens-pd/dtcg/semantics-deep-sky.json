@@ -200,16 +200,6 @@
         }
       },
       "overlay": {
-        "fixed": {
-          "$extensions": {
-            "com.figma.scopes": [
-              "FRAME_FILL"
-            ],
-            "com.figma.variableId": "VariableID:3665:6953"
-          },
-          "$type": "color",
-          "$value": "{palette.transparent.fixed.dark}"
-        },
         "inverted": {
           "$extensions": {
             "com.figma.scopes": [
@@ -219,6 +209,16 @@
           },
           "$type": "color",
           "$value": "{palette.transparent.inverted.1}"
+        },
+        "inverted-dark": {
+          "$extensions": {
+            "com.figma.scopes": [
+              "FRAME_FILL"
+            ],
+            "com.figma.variableId": "VariableID:3665:6953"
+          },
+          "$type": "color",
+          "$value": "{palette.transparent.dark.inverted}"
         },
         "primary": {
           "$extensions": {
@@ -1391,6 +1391,16 @@
         }
       },
       "onOverlay": {
+        "inverted-light": {
+          "$extensions": {
+            "com.figma.scopes": [
+              "TEXT_FILL"
+            ],
+            "com.figma.variableId": "VariableID:3748:1159"
+          },
+          "$type": "color",
+          "$value": "{palette.transparent.light.inverted}"
+        },
         "link": {
           "$extensions": {
             "com.figma.scopes": [
