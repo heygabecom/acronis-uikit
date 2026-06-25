@@ -1,14 +1,17 @@
 import Link from 'next/link';
-import { Syne } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import { HomeLayout } from 'fumadocs-ui/layouts/home';
 
-const syne = Syne({ subsets: ['latin'], weight: ['700', '800'] });
+// Inter is the family the UIKit itself ships with — using it for the marketing
+// headings keeps the landing page on-brand and reads as a professional product
+// site rather than a futuristic showcase.
+const display = Inter({ subsets: ['latin'], weight: ['600', '700', '800'] });
 
 const features = [
   {
-    title: '40+ Components',
+    title: 'Base UI Components',
     description:
-      'Buttons, forms, tables, dialogs, navigation, and more — ready for production use in enterprise products.',
+      'Buttons, inputs, selects, navigation, and more — built on Base UI primitives for production use in enterprise products.',
     icon: (
       <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden>
         <rect
@@ -51,9 +54,9 @@ const features = [
     ),
   },
   {
-    title: '1500+ Icons',
+    title: 'Acronis Icon Set',
     description:
-      'A comprehensive icon set covering every need in enterprise and product interfaces.',
+      'A tree-shakeable icon set from @acronis-platform/icons-react, covering enterprise and product interfaces.',
     icon: (
       <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden>
         <circle
@@ -83,9 +86,9 @@ const features = [
     ),
   },
   {
-    title: 'Multiple Themes',
+    title: 'Token-Driven Theming',
     description:
-      'Light, dark, and brand-specific themes built on CSS custom properties — trivial to extend.',
+      'Light, dark, and brand themes from generated --ui-* design tokens — switch with a data attribute, no rebuild.',
     icon: (
       <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden>
         <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="1.5" />
@@ -118,7 +121,7 @@ const features = [
   {
     title: 'Accessible',
     description:
-      'Built on Radix UI primitives with WAI-ARIA compliance and full keyboard navigation out of the box.',
+      'Built on Base UI primitives with WAI-ARIA compliance and full keyboard navigation out of the box.',
     icon: (
       <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden>
         <circle
@@ -157,9 +160,9 @@ const features = [
 ];
 
 const stats = [
-  { value: '40+', label: 'Components' },
-  { value: '1500+', label: 'Icons' },
-  { value: '4', label: 'Themes' },
+  { value: '24', label: 'Components' },
+  { value: '470+', label: 'Icons' },
+  { value: '2', label: 'Brands' },
   { value: '100%', label: 'TypeScript' },
 ];
 
@@ -175,8 +178,8 @@ export default function HomePage() {
       links={[
         { type: 'main', text: 'Documentation', url: '/docs' },
         { type: 'main', text: 'Components', url: '/docs/components' },
-        { type: 'main', text: 'Storybook', url: '/storybook' },
-        { type: 'main', text: 'Demo', url: '/demo' },
+        { type: 'main', text: 'Storybook', url: '/storybook-react' },
+        // { type: 'main', text: 'Demo', url: '/demo' },
       ]}
     >
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
@@ -184,35 +187,13 @@ export default function HomePage() {
         className="relative flex flex-col items-center overflow-hidden px-4 text-center"
         style={{ paddingTop: '7rem', paddingBottom: '8rem' }}
       >
-        {/* Ambient glow */}
+        {/* Soft brand tint — subtle, no sci-fi grid */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
-            background: [
-              'radial-gradient(ellipse 65% 45% at 50% -5%, hsl(213 94% 51% / 0.14), transparent 65%)',
-              'radial-gradient(ellipse 40% 30% at 50% 0%, hsl(213 94% 75% / 0.07), transparent 55%)',
-            ].join(', '),
-          }}
-        />
-
-        {/* Perspective grid floor */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute bottom-0 left-1/2 -z-10 -translate-x-1/2"
-          style={{
-            width: '220%',
-            height: '45%',
-            backgroundImage: [
-              'linear-gradient(hsl(213 94% 51% / 0.08) 1px, transparent 1px)',
-              'linear-gradient(90deg, hsl(213 94% 51% / 0.08) 1px, transparent 1px)',
-            ].join(', '),
-            backgroundSize: '64px 64px',
-            transform: 'perspective(480px) rotateX(68deg)',
-            transformOrigin: 'center bottom',
-            maskImage: 'linear-gradient(to bottom, transparent 0%, black 55%)',
-            WebkitMaskImage:
-              'linear-gradient(to bottom, transparent 0%, black 55%)',
+            background:
+              'radial-gradient(ellipse 75% 50% at 50% -12%, hsl(213 94% 51% / 0.06), transparent 72%)',
           }}
         />
 
@@ -233,33 +214,23 @@ export default function HomePage() {
               color: muted,
             }}
           >
-            shadcn/ui · Radix UI · Base UI · Tailwind CSS
+            Base UI · Tailwind CSS · Design Tokens
           </span>
         </div>
 
         {/* Headline */}
         <h1
-          className={`${syne.className} hero-animate hero-animate-2`}
+          className={`${display.className} hero-animate hero-animate-2`}
           style={{
-            fontSize: 'clamp(3.5rem, 10vw, 6rem)',
-            fontWeight: 800,
-            lineHeight: 1.05,
-            letterSpacing: '-0.02em',
-            marginBottom: '1.75rem',
-            maxWidth: '48rem',
+            fontSize: 'clamp(2.75rem, 7vw, 4.5rem)',
+            fontWeight: 700,
+            lineHeight: 1.1,
+            letterSpacing: '-0.03em',
+            marginBottom: '1.5rem',
+            maxWidth: '44rem',
           }}
         >
-          Acronis{' '}
-          <span
-            style={{
-              background: `linear-gradient(140deg, ${primary} 30%, hsl(213 94% 72%) 100%)`,
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
-            UIKit.
-          </span>
+          Acronis <span style={{ color: primary }}>UIKit</span>
         </h1>
 
         {/* Subheadline */}
@@ -281,7 +252,7 @@ export default function HomePage() {
         <div className="hero-animate hero-animate-4 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/docs/getting-started"
-            className="cta-primary inline-flex items-center gap-2 rounded-full font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            className="cta-primary inline-flex items-center gap-2 rounded-lg font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
             style={{
               background: primary,
               color: 'var(--color-fd-primary-foreground)',
@@ -309,7 +280,7 @@ export default function HomePage() {
           </Link>
           <Link
             href="/docs/components"
-            className="inline-flex items-center gap-2 rounded-full border font-semibold transition-colors hover:bg-fd-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fd-ring focus-visible:ring-offset-2"
+            className="inline-flex items-center gap-2 rounded-lg border font-semibold transition-colors hover:bg-fd-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fd-ring focus-visible:ring-offset-2"
             style={{
               height: '2.75rem',
               padding: '0 1.75rem',
@@ -346,7 +317,7 @@ export default function HomePage() {
               }}
             >
               <span
-                className={syne.className}
+                className={display.className}
                 style={{
                   fontSize: '3.5rem',
                   fontWeight: 800,
@@ -393,7 +364,7 @@ export default function HomePage() {
               Capabilities
             </p>
             <h2
-              className={syne.className}
+              className={display.className}
               style={{
                 fontSize: 'clamp(2rem, 5vw, 2.75rem)',
                 fontWeight: 800,
@@ -507,7 +478,7 @@ export default function HomePage() {
             Installation
           </p>
           <h2
-            className={syne.className}
+            className={display.className}
             style={{
               fontSize: 'clamp(2rem, 5vw, 2.75rem)',
               fontWeight: 800,
@@ -560,7 +531,7 @@ export default function HomePage() {
             >
               <code>
                 <span style={{ color: muted, userSelect: 'none' }}>$ </span>
-                {'npm install @acronis-platform/shadcn-uikit tw-animate-css'}
+                {'npm install @acronis-platform/ui-react react react-dom'}
               </code>
             </pre>
           </div>
@@ -594,11 +565,11 @@ export default function HomePage() {
             >
               <code>
                 <span style={{ color: muted }}>{'import '}</span>
-                <span>{"'@acronis-platform/shadcn-uikit/styles';\n"}</span>
+                <span>{"'@acronis-platform/ui-react/styles';\n"}</span>
                 <span style={{ color: muted }}>{'import '}</span>
                 <span>{'{ Button } '}</span>
                 <span style={{ color: muted }}>{'from '}</span>
-                <span>{"'@acronis-platform/shadcn-uikit';\n\n"}</span>
+                <span>{"'@acronis-platform/ui-react';\n\n"}</span>
                 <span style={{ color: muted }}>
                   {'export default function '}
                 </span>
@@ -615,7 +586,7 @@ export default function HomePage() {
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Link
               href="/docs/getting-started"
-              className="cta-primary inline-flex items-center gap-2 rounded-full font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+              className="cta-primary inline-flex items-center gap-2 rounded-lg font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
               style={{
                 background: primary,
                 color: 'var(--color-fd-primary-foreground)',

@@ -18,7 +18,10 @@
   --color-fd-ring: hsl(213, 94%, 51%);
 }
 
-.dark {
+/* `html.dark` (0,1,1) outranks Fumadocs' own `.dark` (0,1,0), which is loaded
+   after globals.css and otherwise resets --color-fd-primary to near-white in
+   dark — dropping the Acronis blue accent everywhere in dark mode. */
+html.dark {
   --color-fd-primary: hsl(213, 94%, 65%);
   --color-fd-primary-foreground: hsl(0, 0%, 9%);
   --color-fd-ring: hsl(213, 94%, 65%);
@@ -71,6 +74,27 @@
   }
 }
 
+/*
+ * Same @layer-ordering hazard as #nd-subnav above. Fumadocs sizes the docs
+ * grid with `--fd-sidebar-width` / `--fd-toc-width`: a `0px` default plus a
+ * responsive `:has(...)` override that bumps them to 268px at md / xl. The
+ * uikit pre-built CSS emits @layer rules that reorder layers, so the 268px
+ * overrides lose to the 0px defaults — collapsing the sidebar and the
+ * "On this page" TOC to zero-width columns (links overflow off-screen).
+ * Re-assert the overrides unlayered (unlayered always beats @layer) at the
+ * same breakpoints + marker selectors Fumadocs uses.
+ */
+@media (width >= 48rem) {
+  #nd-docs-layout:has(.md\:layout\:\[--fd-sidebar-width\:268px\]) {
+    --fd-sidebar-width: 268px;
+  }
+}
+@media (width >= 80rem) {
+  #nd-docs-layout:has(.xl\:layout\:\[--fd-toc-width\:268px\]) {
+    --fd-toc-width: 268px;
+  }
+}
+
 /* ─── Landing page — responsive features grid ─────────────────────────────── */
 .feature-row {
   display: flex;
@@ -100,7 +124,7 @@
     opacity 0.2s ease;
 }
 .cta-primary:hover {
-  box-shadow: 0 4px 24px hsl(213 94% 51% / 0.4);
+  box-shadow: 0 2px 10px hsl(213 94% 51% / 0.22);
   opacity: 0.95;
 }
 
