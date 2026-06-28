@@ -1,38 +1,44 @@
-# Shadcn UIKit
+# Acronis UI Kit
 
-A monorepo containing 40+ custom UI components built on [shadcn/ui](https://ui.shadcn.com/) principles, with multiple themes, pre-built CSS, and interactive demos.
+A pnpm monorepo for the Acronis design system: two React component
+libraries, a design-token pipeline (Figma → JSON → CSS/Tailwind), icon
+packages, design-data packages, and supporting apps and tooling.
 
-**Architecture in brief:** Components are built on [Base UI](https://base-ui.com/) (and partially Radix UI) unstyled primitives. Tailwind CSS is used **internally** to compile styles — consumers receive fully pre-built CSS and can use any styling solution in their own project (CSS Modules, SCSS, a design system token layer, plain CSS, etc.). No Tailwind installation required.
+**Architecture in brief:** The next-generation library (`@acronis-platform/ui-react`)
+is built on [Base UI](https://base-ui.com/) unstyled primitives and themed by
+`@acronis-platform/tokens-pd` (`--ui-*` CSS custom properties generated from
+`@acronis-platform/design-tokens`). The legacy library
+(`@acronis-platform/shadcn-uikit`) follows [shadcn/ui](https://ui.shadcn.com/)
+principles on Base UI + Radix primitives. Tailwind CSS is used **internally** to
+compile styles — consumers receive fully pre-built CSS and can use any styling
+solution in their own project. No Tailwind installation required.
 
-## 📦 Packages
+## 📦 Workspaces
 
-### [@acronis-platform/shadcn-uikit](./packages/ui-legacy) (v0.34.0)
+The repo is organized into four top-level directories: `context/` (shared docs),
+`apps/` (deployed apps, private), `packages/` (published libraries + data), and
+`tools/` (private build tooling).
 
-The core UI component library. Ships pre-built CSS — consumers do **not** need Tailwind CSS installed.
+| Path                          | Package                                  | Published | Role                                                                         |
+| ----------------------------- | ---------------------------------------- | --------- | ---------------------------------------------------------------------------- |
+| `packages/ui-react/`          | `@acronis-platform/ui-react`             | **yes**   | Next-gen React library on **Base UI**, themed by `tokens-pd`. New work here. |
+| `packages/ui-legacy/`         | `@acronis-platform/shadcn-uikit`         | **yes**   | Legacy shadcn-style React library (Base UI + Radix), 4 shipped themes.       |
+| `packages/icons-react/`       | `@acronis-platform/icons-react`          | **yes**   | React icon components generated from `design-assets` (tree-shakeable).       |
+| `packages/icons-sprite/`      | `@acronis-platform/icons-sprite`         | **yes**   | Generated SVG sprites built from `icons-svg`.                                |
+| `packages/icons-svg/`         | `@acronis-platform/icons-svg`            | no        | Raw SVG icon sources fetched from Figma + manifests (source-only).           |
+| `packages/icons-svg-next/`    | `@acronis-platform/icons-svg-next`       | no        | Raw SVG sources for the next-gen icon set (source-only).                     |
+| `packages/design-tokens/`     | `@acronis-platform/design-tokens`        | **yes**   | DTCG-2025.10 design tokens (primitives / semantics / components). Data only. |
+| `packages/design-assets/`     | `@acronis-platform/design-assets`        | **yes**   | Icon/illustration manifests + bundled binaries. Data only.                   |
+| `packages/tokens-pd/`         | `@acronis-platform/tokens-pd`            | **yes**   | Generated per-brand CSS vars, per-component CSS, Tailwind presets, DTCG.     |
+| `apps/demo/`                  | `@acronis-platform/shadcn-uikit-demo`    | no        | Vite SPA showcasing components with live theme switching.                    |
+| `apps/docs/`                  | `@acronis-platform/uikit-docs`           | no        | Next.js 15 + Fumadocs documentation site.                                    |
+| `apps/demos/`                 | `@acronis-platform/shadcn-uikit-demos`   | no        | Shared demo components (source-only, no build).                              |
+| `tools/style-dictionary/`     | `@acronis-platform/style-dictionary`     | no        | Style Dictionary v5 build: `design-tokens` → `tokens-pd` CSS/presets.        |
+| `tools/figma-icons-fetcher/`  | `@acronis-platform/figma-icons-fetcher`  | no        | Fetches + SVGO-optimizes icons from Figma into the `icons-svg*` packages.    |
+| `tools/figma-token-exporter/` | `@acronis-platform/figma-token-exporter` | no        | Self-hosted Figma plugin + receiver that exports variables/styles to tokens. |
 
-**Peer dependencies:**
-
-- `react` ^18.2.0 || ^19.0.0
-- `react-dom` ^18.2.0 || ^19.0.0
-- `tw-animate-css` ^1.4.0
-
-### [@acronis-platform/design-tokens](./packages/design-tokens)
-
-Acronis design tokens — DTCG-2025.10-conformant JSON (primitives, semantic, components). Data only: no build, no runtime API.
-
-### [@acronis-platform/design-assets](./packages/design-assets)
-
-Acronis visual assets — DTCG-divergent JSON manifests for icons and illustrations, plus the bundled binaries they reference. Data only: no build, no runtime API.
-
-### [@acronis-platform/shadcn-uikit-demo](./apps/demo)
-
-Interactive demo application showcasing all components with multiple themes.
-
-**Features:**
-
-- Component playground
-- Live theme switching
-- Responsive design
+See [`AGENTS.md`](./AGENTS.md) for the authoritative workspace map and the
+per-workspace `AGENTS.md` files for area-specific conventions.
 
 ## 🚀 Getting Started
 
@@ -65,45 +71,36 @@ pnpm run dev
 
 The demo will be available at `http://localhost:3000`.
 
-## 📖 Usage
+## 📖 Usage (`@acronis-platform/ui-react`)
+
+`@acronis-platform/ui-react` is the next-generation library and the recommended
+starting point for new work. For the legacy shadcn library see
+[`packages/ui-legacy/README.md`](./packages/ui-legacy/README.md).
 
 ### Installation
 
 ```bash
-npm install @acronis-platform/shadcn-uikit tw-animate-css
-# or
-pnpm add @acronis-platform/shadcn-uikit tw-animate-css
-# or
-yarn add @acronis-platform/shadcn-uikit tw-animate-css
+pnpm add @acronis-platform/ui-react react react-dom
 ```
 
-> **Note:** `tw-animate-css` is a required peer dependency. It replaces the older `tailwindcss-animate` package.
+`react` and `react-dom` (`^18.2.0 || ^19.0.0`) are peer dependencies. The theme
+layer (`@acronis-platform/tokens-pd`) and icons (`@acronis-platform/icons-react`)
+ship as direct dependencies, so no extra install is needed.
 
 ### Import Styles
 
-Import the main stylesheet in your application entry point. This includes the default theme, base styles, components, and utilities — all pre-built:
+Import the pre-built stylesheet once at your application entry point. It bundles
+the `--ui-*` token layer and all component CSS — no Tailwind installation
+required:
 
 ```typescript
 // main.tsx or App.tsx
-import '@acronis-platform/shadcn-uikit/styles';
-```
-
-No Tailwind CSS installation is needed. The package ships fully compiled CSS.
-
-### Initialize Theme System (Optional)
-
-For theme switching, dark mode support, and persistence:
-
-```typescript
-import { initializeThemeSystem } from '@acronis-platform/shadcn-uikit';
-
-// Initialize on app startup
-initializeThemeSystem();
+import '@acronis-platform/ui-react/styles';
 ```
 
 ### Using Components
 
-All components are exported from the main package:
+All components are exported from the package root:
 
 ```tsx
 import {
@@ -119,7 +116,7 @@ import {
   Alert,
   AlertTitle,
   AlertDescription,
-} from '@acronis-platform/shadcn-uikit';
+} from '@acronis-platform/ui-react';
 
 function MyComponent() {
   return (
@@ -146,66 +143,45 @@ function MyComponent() {
 }
 ```
 
+> **Aliases:** `Input`/`Search`/`Textarea` are aliases of the full-field
+> components `InputText`/`InputSearch`/`InputTextArea`, and `Badge` is an alias
+> of the design-system-native `Tag`.
+
 ### Available Components
 
-The library includes 40+ components:
+The library covers layout (`Card`, `AppShell`, `Grid`, `Stack`, `Section`,
+`Separator`, `ScrollArea`, `Resizable`), navigation (`Breadcrumb`, `Tabs`,
+`Pagination`, `SidebarPrimary`, `SidebarSecondary`, `SearchGlobal`), forms
+(`InputText`, `InputSearch`, `InputTextArea`, `InputSelect`, `InputDatePicker`,
+`Combobox`, `Select`, `Checkbox`, `Radio`, `Switch`, `Slider`, `NumberField`,
+`Field`, `Form`, `Label`), buttons (`Button`, `ButtonIcon`, `ButtonMenu`),
+overlays (`Dialog`, `Sheet`, `Popover`, `Tooltip`, `DropdownMenu`), feedback
+(`Alert`, `Tag`/`Badge`, `Chip`, `Progress`, `ProgressCircle`, `Spinner`,
+`Skeleton`, `Toast`, `Empty`), and data display (`Table`, `DataTable`, `Chart`,
+`Avatar`, `DescriptionList`, `Accordion`, `Collapsible`). See the full export
+surface in [`packages/ui-react/src/index.ts`](./packages/ui-react/src/index.ts).
 
-- **Layout**: Card, Separator, Sidebar, ScrollArea, ResizablePanel
-- **Forms**: Input, Textarea, Select, Checkbox, RadioGroup, Switch, Label, Form, PasswordInput
-- **Buttons**: Button, ButtonGroup
-- **Navigation**: NavigationMenu, Breadcrumb, Tabs, Pagination, SecondaryMenu
-- **Overlays**: Dialog, Sheet, Drawer, Popover, Tooltip, AlertDialog
-- **Feedback**: Alert, Badge, Chip, Tag, Progress, Spinner, Toast (Sonner)
-- **Data Display**: Table, DataTable, Tree, Avatar, Calendar, DatePicker
-- **Advanced**: Combobox, Command, Filter, Chart, Empty, Carousel, Collapsible, Accordion
-- **Icons**: 1500+ internal icons via `BaseIcon` + auto-generated components
+Icons are provided by [`@acronis-platform/icons-react`](./packages/icons-react).
 
 ### Package Exports
 
-#### JavaScript
-
 ```typescript
-// Main entry — all components + utilities
-import { Button } from '@acronis-platform/shadcn-uikit';
+// Main entry — all components + the `cn` utility
+import { Button, cn } from '@acronis-platform/ui-react';
 
-// React-only entry (same content)
-import { Button } from '@acronis-platform/shadcn-uikit/react';
+// React-only entry
+import { Button } from '@acronis-platform/ui-react/react';
 
-// Individual components (tree-shakeable)
-import { Button } from '@acronis-platform/shadcn-uikit/components/Button';
-
-// Tailwind preset (for consumers extending Tailwind — requires Tailwind v4)
-import preset from '@acronis-platform/shadcn-uikit/tailwind-preset';
-```
-
-#### CSS
-
-```typescript
-// Default theme + base + components + utilities (most consumers use this)
-import '@acronis-platform/shadcn-uikit/styles';
-
-// Everything including all themes
-import '@acronis-platform/shadcn-uikit/styles/full';
-
-// Granular imports
-import '@acronis-platform/shadcn-uikit/styles/tokens'; // CSS variables only
-import '@acronis-platform/shadcn-uikit/styles/base'; // Reset + base styles
-import '@acronis-platform/shadcn-uikit/styles/components'; // Component styles only
-import '@acronis-platform/shadcn-uikit/styles/utilities'; // Tailwind utility classes
-
-// Individual themes
-import '@acronis-platform/shadcn-uikit/styles/themes/acronis-default';
-import '@acronis-platform/shadcn-uikit/styles/themes/acronis-ocean';
-import '@acronis-platform/shadcn-uikit/styles/themes/cyber-chat';
-import '@acronis-platform/shadcn-uikit/styles/themes/acronis-white-label';
+// Pre-built CSS (token layer + component styles)
+import '@acronis-platform/ui-react/styles';
 ```
 
 ### TypeScript Support
 
-The library is fully typed with TypeScript:
+The library is fully typed:
 
 ```tsx
-import type { ButtonProps, CardProps } from '@acronis-platform/shadcn-uikit';
+import type { ButtonProps, CardProps } from '@acronis-platform/ui-react';
 
 const MyButton: React.FC<ButtonProps> = (props) => {
   return <Button {...props} />;
@@ -215,7 +191,7 @@ const MyButton: React.FC<ButtonProps> = (props) => {
 ### Utility Functions
 
 ```typescript
-import { cn } from '@acronis-platform/shadcn-uikit';
+import { cn } from '@acronis-platform/ui-react';
 
 // Merge class names
 const className = cn(
@@ -225,167 +201,64 @@ const className = cn(
 );
 ```
 
-## ⚡ Tailwind CSS v4 — Notes for Consumers
+## 🎨 Styling & Theming
 
-This package uses **Tailwind CSS v4** as a build-time tool to compile component styles. The output is standard CSS — consumers are free to use any styling solution in their own projects.
+Tailwind CSS is used **internally** as a build-time tool to compile component
+styles. It is **not** part of the public API — both libraries ship standard,
+pre-built CSS, so consumers can use any styling solution (CSS Modules, SCSS,
+plain CSS, Tailwind of any version, etc.). No Tailwind installation is required
+to consume the kit.
 
-### Styling philosophy
+### Tokens (`ui-react`)
 
-Tailwind is **not** part of the public API. The package ships pre-built CSS files. In your application you can use:
+The next-gen library is themed entirely by `--ui-*` CSS custom properties from
+`@acronis-platform/tokens-pd`, which are generated from
+`@acronis-platform/design-tokens` via `@acronis-platform/style-dictionary`. The
+token layer ships inside `@acronis-platform/ui-react/styles`; light/dark and
+per-brand values are driven by CSS variables (zero JavaScript overhead,
+SSR-compatible). Override the `--ui-*` variables to customize.
 
-- CSS Modules or SCSS files with your own design system tokens
-- A dedicated token/theme layer (CSS custom properties)
-- Tailwind CSS (any version), Vanilla Extract, styled-components, or any other solution
-- Plain CSS
+The token pipeline (and the Figma sync used to refresh it) is documented in the
+workspace docs for [`design-tokens`](./packages/design-tokens/AGENTS.md) and
+[`tokens-pd`](./packages/tokens-pd/AGENTS.md).
 
-The component styles, themes, and design tokens are all available as standalone CSS imports — no Tailwind processing needed at your end.
+### Themes (`ui-legacy`)
 
-### Pre-built CSS consumers (the majority)
-
-**Zero impact.** Import `@acronis-platform/shadcn-uikit/styles` as before. No Tailwind installation needed on your side.
-
-### `tw-animate-css` peer dependency (required)
-
-The `tw-animate-css` package replaces the older `tailwindcss-animate` (from Tailwind v3). Install it alongside the UI kit:
-
-```bash
-npm install tw-animate-css
-```
-
-If you previously had `tailwindcss-animate` as a dependency only for this UI kit, you can remove it.
-
-### Tailwind preset users (`./tailwind-preset` export)
-
-If you use the `@acronis-platform/shadcn-uikit/tailwind-preset` export in your own Tailwind build, you must upgrade to **Tailwind CSS v4**:
-
-- Install `@tailwindcss/postcss` and `tailwindcss ^4.x`
-- Update your PostCSS configuration accordingly
-- See the [Tailwind CSS v4 upgrade guide](https://tailwindcss.com/docs/upgrade-guide) for details
-
-### Existing Tailwind v3 consumers using pre-built CSS
-
-No direct conflict. However, the pre-built CSS uses Tailwind v4's `@layer` cascade layers, which may interact with a v3 Tailwind build if both are present in the same page. **Recommended:** avoid running Tailwind v3 over the pre-built CSS output.
-
-## 🎨 Themes
-
-### Built-in Themes
-
-1. **Acronis Default** — standard Acronis brand colors (included by default)
-2. **Acronis Ocean** — alternative blue-focused theme with deeper ocean tones
-3. **Cyber Chat** — theme for the Cyber Chat product
-4. **Acronis White Label** — white-label theme for partner customization
-
-### Theme Features
-
-- ✅ **Light & Dark modes** — all themes support both modes via CSS variables
-- ✅ **CSS-based** — zero JavaScript overhead
-- ✅ **Tree-shakeable** — import only themes you use
-- ✅ **Customizable** — override CSS variables or create custom themes
-- ✅ **SSR-compatible** — works with server-side rendering
-
-### Theme Switching
-
-Switch themes programmatically:
-
-```typescript
-import {
-  applyTheme,
-  applyColorMode,
-  toggleColorMode,
-} from '@acronis-platform/shadcn-uikit';
-
-// Switch to ocean theme
-applyTheme('acronis-ocean');
-
-// Toggle dark mode
-toggleColorMode();
-
-// Or set specific mode
-applyColorMode('dark');
-applyColorMode('light');
-applyColorMode('system'); // Follow system preference
-```
-
-#### Shadow DOM / Embedded Containers
-
-When the app renders inside a shadow root (e.g. via module federation), theme classes must also be applied to the inner container element — not just `document.documentElement` — because CSS inside a shadow root uses `:host` selectors that don't inherit from the document.
-
-Pass additional container elements via the `extraRoots` parameter:
-
-```typescript
-import { applyTheme, applyNavVariant } from '@acronis-platform/shadcn-uikit';
-
-const innerContainer = document.getElementById('app-container');
-applyTheme('acronis-ocean', true, innerContainer ? [innerContainer] : []);
-
-// Same for white-label nav variants
-applyNavVariant('ingram-micro', true, innerContainer ? [innerContainer] : []);
-```
-
-Both `applyTheme` and `applyNavVariant` accept the same optional parameters:
-
-| Parameter           | Type                                 | Default | Description                                           |
-| ------------------- | ------------------------------------ | ------- | ----------------------------------------------------- |
-| `theme` / `variant` | `ThemeName` / `WhiteLabelNavVariant` | —       | The theme or variant to apply                         |
-| `persist`           | `boolean`                            | `true`  | Whether to persist the choice to `localStorage`       |
-| `extraRoots`        | `HTMLElement[]`                      | `[]`    | Additional elements to receive the same theme classes |
-
-### Using Alternative Themes
-
-Import additional theme CSS, then apply:
-
-```typescript
-// Import ocean theme
-import '@acronis-platform/shadcn-uikit/styles/themes/acronis-ocean';
-
-// Then apply it
-import { applyTheme } from '@acronis-platform/shadcn-uikit';
-applyTheme('acronis-ocean');
-```
-
-### Creating Custom Themes
-
-Create custom themes by copying the template file and customizing colors:
-
-```bash
-# See packages/ui-legacy/src/styles/themes/_template.scss for the template
-```
-
-See [Theme Documentation](./apps/docs/THEMES.md) for details.
+The legacy library ships four CSS themes (`acronis-default`, `acronis-ocean`,
+`cyber-chat`, `acronis-white-label`) plus a runtime theme/color-mode API
+(`initializeThemeSystem`, `applyTheme`, `applyColorMode`, `applyNavVariant`) and
+a `tw-animate-css` peer dependency. See
+[`packages/ui-legacy/README.md`](./packages/ui-legacy/README.md) and
+[Theme Documentation](./apps/docs/THEMES.md) for the full theming guide.
 
 ## 🏗️ Project Structure
 
 ```
-shadcn-uikit/
-├── apps/
-│   ├── demo/                  # Vite demo app (@acronis-platform/shadcn-uikit-demo)
-│   ├── demos/                 # Shared demo components (@acronis-platform/shadcn-uikit-demos)
-│   └── docs/                  # Fumadocs documentation site (@acronis-platform/uikit-docs)
-├── packages/
-│   └── legacy/
-│       └── ui/                # Published library (@acronis-platform/shadcn-uikit)
-│           ├── src/           # React components, hooks, lib, styles, types, utils
-│           │   ├── components/    # React components
-│           │   ├── hooks/         # Custom React hooks
-│           │   ├── lib/           # Utility functions
-│           │   ├── styles/        # SCSS source — themes, tokens, base
-│           │   │   ├── themes/    # Theme SCSS files + template
-│           │   │   └── tokens/    # Design tokens (CSS variables)
-│           │   ├── types/         # Shared TypeScript types
-│           │   ├── utils/         # Additional utilities
-│           │   ├── index.ts       # Main entry (all exports)
-│           │   └── react.ts       # React-only entry
-│           ├── docker-compose.storybook.yml      # Storybook visual-regression compose
-│           ├── Dockerfile.storybook              # ... and its image
-│           └── package.json
-├── tools/                     # Private (unpublished) build tooling
-│   └── style-dictionary/      # design-tokens → per-brand CSS (@acronis-platform/style-dictionary)
-├── context/                   # Cross-workspace docs (conventions, commits, releasing)
-├── .changeset/                # Pending changesets (each PR adds one)
-├── .github/workflows/         # ci.yml, release.yml, demo-deploy.yml, visual-regression.yml
-├── .husky/                    # Git hooks (managed by Husky)
-├── package.json               # Workspace root: scripts + shared devDeps
-├── pnpm-workspace.yaml        # pnpm workspaces + dependency catalog
+uikit/
+├── apps/                       # Deployed apps (private)
+│   ├── demo/                   # Vite SPA          (@acronis-platform/shadcn-uikit-demo)
+│   ├── demos/                  # Shared demos      (@acronis-platform/shadcn-uikit-demos)
+│   └── docs/                   # Next.js + Fumadocs (@acronis-platform/uikit-docs)
+├── packages/                   # Published libraries + design data
+│   ├── ui-react/               # Base UI library    (@acronis-platform/ui-react)
+│   ├── ui-legacy/              # shadcn library     (@acronis-platform/shadcn-uikit)
+│   ├── icons-react/            # React icons        (@acronis-platform/icons-react)
+│   ├── icons-sprite/           # SVG sprites        (@acronis-platform/icons-sprite)
+│   ├── icons-svg/              # Raw SVG sources    (@acronis-platform/icons-svg)
+│   ├── icons-svg-next/         # Next-gen SVG sources
+│   ├── design-tokens/          # DTCG tokens (data) (@acronis-platform/design-tokens)
+│   ├── design-assets/          # Asset manifests    (@acronis-platform/design-assets)
+│   └── tokens-pd/              # Generated CSS/Tailwind (@acronis-platform/tokens-pd)
+├── tools/                      # Private build tooling
+│   ├── style-dictionary/       # design-tokens → tokens-pd CSS/presets
+│   ├── figma-icons-fetcher/    # Figma → icons-svg* SVG fetcher
+│   └── figma-token-exporter/   # Figma plugin + receiver → token snapshot
+├── context/                    # Cross-workspace docs (conventions, commits, releasing)
+├── .changeset/                 # Pending changesets (each PR adds one)
+├── .github/workflows/          # ci, release, demo-deploy, visual-regression
+├── AGENTS.md                   # Authoritative workspace map (for AI agents + humans)
+├── package.json                # Workspace root: scripts + shared devDeps
+├── pnpm-workspace.yaml         # pnpm workspaces + dependency catalog
 └── README.md
 ```
 
@@ -410,8 +283,12 @@ To run a single workspace, prefix with `pnpm --filter <package-name>`:
 
 ```bash
 pnpm --filter @acronis-platform/uikit-docs dev
-pnpm --filter @acronis-platform/shadcn-uikit storybook
+pnpm --filter @acronis-platform/ui-react storybook
 ```
+
+The root also exposes token-pipeline shortcuts: `pnpm sd` (build all Style
+Dictionary targets), `pnpm sd:tokens` / `pnpm sd:assets` (subsets), and
+`pnpm tokens:sync` (re-emit `design-tokens` then rebuild `tokens-pd`).
 
 ## 🚢 Releasing
 
@@ -435,10 +312,7 @@ deploy**. See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for the full flow.
 
 ```tsx
 // main.tsx
-import '@acronis-platform/shadcn-uikit/styles';
-import { initializeThemeSystem } from '@acronis-platform/shadcn-uikit';
-
-initializeThemeSystem();
+import '@acronis-platform/ui-react/styles';
 
 // App.tsx
 import {
@@ -447,7 +321,7 @@ import {
   CardHeader,
   CardTitle,
   CardContent,
-} from '@acronis-platform/shadcn-uikit';
+} from '@acronis-platform/ui-react';
 
 export function App() {
   return (
@@ -465,11 +339,11 @@ export function App() {
 
 ## 📚 Documentation
 
-- [Tree-Shaking & Performance](./apps/docs/TREE_SHAKING.md) — bundle optimization guide
-- [Theme System Guide](./apps/docs/THEMES.md) — complete theme usage guide
-- [Theme Build Configuration](./apps/docs/THEME_BUILD.md) — build setup details
-- [Theme Architecture](./apps/demo/docs/THEME_ARCHITECTURE.md) — token system architecture
-- [UI Package Documentation](./packages/ui-legacy/README.md)
+- [`AGENTS.md`](./AGENTS.md) — authoritative workspace map + conventions
+- [ui-react package](./packages/ui-react) — next-gen Base UI component library
+- [ui-legacy package](./packages/ui-legacy/README.md) — legacy shadcn library + theming
+- [design-tokens](./packages/design-tokens/AGENTS.md) / [tokens-pd](./packages/tokens-pd/AGENTS.md) — token pipeline
+- [Theme System Guide](./apps/docs/THEMES.md) — legacy theme usage guide
 - [Demo Package Documentation](./apps/demo/README.md)
 
 ## 📝 License
@@ -484,7 +358,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 🔗 Links
 
-- [shadcn/ui](https://ui.shadcn.com/) — the original inspiration
-- [Base UI](https://base-ui.com/) — unstyled primitives (primary)
-- [Radix UI](https://www.radix-ui.com/) — unstyled primitives (NavigationMenu, Slot)
+- [Base UI](https://base-ui.com/) — unstyled primitives (primary, `ui-react`)
+- [shadcn/ui](https://ui.shadcn.com/) — the original inspiration (`ui-legacy`)
+- [Radix UI](https://www.radix-ui.com/) — unstyled primitives (`ui-legacy`: NavigationMenu, Slot)
 - [Tailwind CSS](https://tailwindcss.com/) — internal build tool
+- [DTCG](https://www.designtokens.org/) — design token format used by `design-tokens`
