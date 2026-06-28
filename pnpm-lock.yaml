@@ -747,9 +747,6 @@ importers:
         specifier: 3.6.0
         version: 3.6.0
     devDependencies:
-      '@acronis-platform/shadcn-uikit-demos':
-        specifier: workspace:*
-        version: link:../../apps/demos
       '@figma/code-connect':
         specifier: 1.4.8
         version: 1.4.8

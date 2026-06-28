@@ -81,7 +81,6 @@
     "tailwind-merge": "3.6.0"
   },
   "devDependencies": {
-    "@acronis-platform/shadcn-uikit-demos": "workspace:*",
     "@figma/code-connect": "1.4.8",
     "@playwright/test": "1.60.0",
     "@tanstack/react-virtual": "catalog:",
