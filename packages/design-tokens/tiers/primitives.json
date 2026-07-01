@@ -2697,6 +2697,10 @@
     },
     "letter-spacing": {
       "0": {
+        "$extensions": {
+          "com.figma.scopes": ["LETTER_SPACING", "FONT_VARIATIONS"],
+          "com.figma.variableId": "VariableID:4275:1498"
+        },
         "$value": { "unit": "px", "value": 0 },
         "platforms": ["PD"]
       },
