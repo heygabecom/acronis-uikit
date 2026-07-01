@@ -46,7 +46,7 @@
           "platforms": ["PD"],
           "values": {
             "acronis": "{palette.blue.13}",
-            "deep-sky-itkontoret": "{palette.branding.deep-sky-itkontoret.sidebarprimary.idle}"
+            "deep-sky-itkontoret": "{branding.deep-sky-itkontoret.sidebarprimary.idle}"
           }
         },
         "primary-active": {
@@ -57,7 +57,7 @@
           "platforms": ["PD"],
           "values": {
             "acronis": "{palette.blue.7}",
-            "deep-sky-itkontoret": "{palette.branding.deep-sky-itkontoret.sidebarprimary.active}"
+            "deep-sky-itkontoret": "{branding.deep-sky-itkontoret.sidebarprimary.active}"
           }
         },
         "primary-disabled": {
@@ -68,7 +68,7 @@
           "platforms": ["PD"],
           "values": {
             "acronis": "{palette.blue.5}",
-            "deep-sky-itkontoret": "{palette.branding.deep-sky-itkontoret.sidebarprimary.disabled}"
+            "deep-sky-itkontoret": "{branding.deep-sky-itkontoret.sidebarprimary.disabled}"
           }
         },
         "primary-hover": {
@@ -79,7 +79,7 @@
           "platforms": ["PD"],
           "values": {
             "acronis": "{palette.blue.12}",
-            "deep-sky-itkontoret": "{palette.branding.deep-sky-itkontoret.sidebarprimary.hover}"
+            "deep-sky-itkontoret": "{branding.deep-sky-itkontoret.sidebarprimary.hover}"
           }
         },
         "secondary": {
@@ -90,7 +90,7 @@
           "platforms": ["PD"],
           "values": {
             "acronis": "{palette.blue.7}",
-            "deep-sky-itkontoret": "{palette.branding.deep-sky-itkontoret.buttonprimary.idle}"
+            "deep-sky-itkontoret": "{branding.deep-sky-itkontoret.buttonprimary.idle}"
           }
         },
         "secondary-active": {
@@ -101,7 +101,7 @@
           "platforms": ["PD"],
           "values": {
             "acronis": "{palette.blue.9}",
-            "deep-sky-itkontoret": "{palette.branding.deep-sky-itkontoret.buttonprimary.active}"
+            "deep-sky-itkontoret": "{branding.deep-sky-itkontoret.buttonprimary.active}"
           }
         },
         "secondary-disabled": {
@@ -112,7 +112,7 @@
           "platforms": ["PD"],
           "values": {
             "acronis": "{palette.blue.3}",
-            "deep-sky-itkontoret": "{palette.branding.deep-sky-itkontoret.buttonprimary.disabled}"
+            "deep-sky-itkontoret": "{branding.deep-sky-itkontoret.buttonprimary.disabled}"
           }
         },
         "secondary-hover": {
@@ -123,7 +123,7 @@
           "platforms": ["PD"],
           "values": {
             "acronis": "{palette.blue.8}",
-            "deep-sky-itkontoret": "{palette.branding.deep-sky-itkontoret.buttonprimary.hover}"
+            "deep-sky-itkontoret": "{branding.deep-sky-itkontoret.buttonprimary.hover}"
           }
         }
       },
