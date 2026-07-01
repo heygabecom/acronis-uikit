@@ -197,7 +197,7 @@ export type Theme = 'light' | 'dark';
 const makeSd = (config: Config): StyleDictionary =>
   new StyleDictionary({
     usesDtcg: true,
-    log: { verbosity: 'silent', warnings: 'disabled' },
+    log: { verbosity: 'verbose', warnings: 'warn' },
     hooks: STATIC_HOOKS,
     ...config,
   });
