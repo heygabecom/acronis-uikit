@@ -6,9 +6,9 @@ export default {
   theme: {
     extend: {
       "backgroundColor": {
-        "input-text-global-box-disabled": "light-dark(rgb(248 250 252), rgb(0 21 51))",
-        "input-text-global-box-hover": "light-dark(rgb(255 255 255), rgb(0 0 0))",
-        "input-text-global-box-idle": "light-dark(rgb(255 255 255), rgb(0 0 0))"
+        "input-text-global-box-disabled": "light-dark(rgb(248 250 252), rgb(24 25 27))",
+        "input-text-global-box-hover": "light-dark(rgb(255 255 255), rgb(31 32 34))",
+        "input-text-global-box-idle": "light-dark(rgb(255 255 255), rgb(31 32 34))"
       },
       "textColor": {
         "input-text-global-label-disabled": "light-dark(rgb(175 178 182), rgb(85 89 94))",
@@ -17,24 +17,24 @@ export default {
         "input-text-global-placeholder-disabled": "light-dark(rgb(175 178 182), rgb(85 89 94))",
         "input-text-global-placeholder-hover": "light-dark(rgb(109 114 120), rgb(109 114 120))",
         "input-text-global-placeholder-idle": "light-dark(rgb(109 114 120), rgb(109 114 120))",
-        "input-text-global-required": "light-dark(rgb(226 54 54), rgb(226 54 54))",
+        "input-text-global-required": "light-dark(rgb(226 54 54), rgb(229 77 77))",
         "input-text-global-value-disabled": "light-dark(rgb(175 178 182), rgb(85 89 94))",
         "input-text-global-value-hover": "light-dark(rgb(24 25 27), rgb(244 245 245))",
         "input-text-global-value-idle": "light-dark(rgb(24 25 27), rgb(244 245 245))",
-        "input-text-error-msg-error": "light-dark(rgb(226 54 54), rgb(226 54 54))",
+        "input-text-error-msg-error": "light-dark(rgb(226 54 54), rgb(229 77 77))",
         "input-text-normal-description-disabled": "light-dark(rgb(175 178 182), rgb(85 89 94))",
         "input-text-normal-description-hover": "light-dark(rgb(109 114 120), rgb(109 114 120))",
         "input-text-normal-description-idle": "light-dark(rgb(109 114 120), rgb(109 114 120))"
       },
       "borderColor": {
-        "input-text-error-msg-box-border-color-hover": "light-dark(rgb(226 54 54), rgb(226 54 54))",
-        "input-text-error-msg-box-border-color-idle": "light-dark(rgb(226 54 54), rgb(226 54 54))",
-        "input-text-normal-box-border-color-disabled": "light-dark(rgb(214 228 245), rgb(6 54 121))",
-        "input-text-normal-box-border-color-hover": "light-dark(rgb(23 99 207), rgb(48 125 232))",
-        "input-text-normal-box-border-color-idle": "light-dark(rgb(214 228 245), rgb(6 54 121))"
+        "input-text-error-msg-box-border-color-hover": "light-dark(rgb(226 54 54), rgb(229 77 77))",
+        "input-text-error-msg-box-border-color-idle": "light-dark(rgb(226 54 54), rgb(229 77 77))",
+        "input-text-normal-box-border-color-disabled": "light-dark(rgb(214 228 245), rgb(48 50 54))",
+        "input-text-normal-box-border-color-hover": "light-dark(rgb(23 99 207), rgb(81 157 246))",
+        "input-text-normal-box-border-color-idle": "light-dark(rgb(214 228 245), rgb(48 50 54))"
       },
       "fill": {
-        "input-text-global-clear-icon": "light-dark(rgb(23 99 207), rgb(48 125 232))"
+        "input-text-global-clear-icon": "light-dark(rgb(23 99 207), rgb(81 157 246))"
       },
       "fontFamily": {
         "input-text-global-label-text-style": "Inter, system-ui, sans-serif",

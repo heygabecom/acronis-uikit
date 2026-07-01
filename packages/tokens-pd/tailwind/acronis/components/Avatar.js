@@ -7,14 +7,14 @@ export default {
     extend: {
       "textColor": {
         "avatar-global-text": "light-dark(rgb(24 25 27), rgb(244 245 245))",
-        "avatar-label-orange": "light-dark(rgb(153 69 0), rgb(190 113 38))",
+        "avatar-label-orange": "light-dark(rgb(153 69 0), rgb(255 222 194))",
         "avatar-label-red": "light-dark(rgb(152 27 27), rgb(251 218 218))",
         "avatar-label-teal": "light-dark(rgb(4 73 67), rgb(209 240 237))",
         "avatar-label-violet": "light-dark(rgb(130 23 130), rgb(250 209 250))",
         "avatar-label-yellow": "light-dark(rgb(138 99 0), rgb(255 238 178))"
       },
       "borderColor": {
-        "avatar-global-avatar-border": "light-dark(rgb(255 255 255), rgb(0 0 0))"
+        "avatar-global-avatar-border": "light-dark(rgb(255 255 255), rgb(31 32 34))"
       },
       "fontFamily": {
         "avatar-global-label-text-style": "Inter, system-ui, sans-serif",
@@ -45,7 +45,7 @@ export default {
         "avatar-global-container-gap": "8px"
       },
       "borderRadius": {
-        "avatar-global-avatar-border-radius": "999px"
+        "avatar-global-avatar-border-border-radius": "50%"
       }
     },
   },
