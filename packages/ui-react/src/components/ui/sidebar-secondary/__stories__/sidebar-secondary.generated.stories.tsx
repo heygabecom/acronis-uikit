@@ -5,7 +5,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { userEvent } from 'storybook/test';
 import { SidebarSecondaryHeader, SidebarSecondaryContent, SidebarSecondaryFooter, SidebarSecondarySection, SidebarSecondarySectionLabel, SidebarSecondaryMenu, SidebarSecondaryMenuItem, SidebarSecondaryMenuItemExtras } from '../sidebar-secondary';
-import { GridIcon, SquareIcon } from '@acronis-platform/icons-react/stroke-mono';
+import { LayoutGridIcon, SquareIcon } from '@acronis-platform/icons-react/stroke-mono';
 import { SidebarSecondary } from '../sidebar-secondary';
 
 const meta = {
@@ -25,7 +25,7 @@ export const States: Story = {
         <SidebarSecondarySection>
           <SidebarSecondarySectionLabel>Overview</SidebarSecondarySectionLabel>
           <SidebarSecondaryMenu>
-            <SidebarSecondaryMenuItem href="#" icon={<GridIcon />} selected extras={<SidebarSecondaryMenuItemExtras variant="externalLink" />}>
+            <SidebarSecondaryMenuItem href="#" icon={<LayoutGridIcon />} selected extras={<SidebarSecondaryMenuItemExtras variant="externalLink" />}>
               Dashboard
             </SidebarSecondaryMenuItem>
             <SidebarSecondaryMenuItem href="#" icon={<SquareIcon />}>
@@ -52,7 +52,7 @@ export const Hover: Story = {
         <SidebarSecondarySection>
           <SidebarSecondarySectionLabel>Overview</SidebarSecondarySectionLabel>
           <SidebarSecondaryMenu>
-            <SidebarSecondaryMenuItem href="#" icon={<GridIcon />} selected extras={<SidebarSecondaryMenuItemExtras variant="externalLink" />}>
+            <SidebarSecondaryMenuItem href="#" icon={<LayoutGridIcon />} selected extras={<SidebarSecondaryMenuItemExtras variant="externalLink" />}>
               Dashboard
             </SidebarSecondaryMenuItem>
             <SidebarSecondaryMenuItem href="#" icon={<SquareIcon />}>
@@ -77,7 +77,7 @@ export const Active: Story = {
         <SidebarSecondarySection>
           <SidebarSecondarySectionLabel>Overview</SidebarSecondarySectionLabel>
           <SidebarSecondaryMenu>
-            <SidebarSecondaryMenuItem href="#" icon={<GridIcon />} selected extras={<SidebarSecondaryMenuItemExtras variant="externalLink" />}>
+            <SidebarSecondaryMenuItem href="#" icon={<LayoutGridIcon />} selected extras={<SidebarSecondaryMenuItemExtras variant="externalLink" />}>
               Dashboard
             </SidebarSecondaryMenuItem>
             <SidebarSecondaryMenuItem href="#" icon={<SquareIcon />}>
@@ -101,7 +101,7 @@ export const FocusVisible: Story = {
         <SidebarSecondarySection>
           <SidebarSecondarySectionLabel>Overview</SidebarSecondarySectionLabel>
           <SidebarSecondaryMenu>
-            <SidebarSecondaryMenuItem href="#" icon={<GridIcon />} selected extras={<SidebarSecondaryMenuItemExtras variant="externalLink" />}>
+            <SidebarSecondaryMenuItem href="#" icon={<LayoutGridIcon />} selected extras={<SidebarSecondaryMenuItemExtras variant="externalLink" />}>
               Dashboard
             </SidebarSecondaryMenuItem>
             <SidebarSecondaryMenuItem href="#" icon={<SquareIcon />}>

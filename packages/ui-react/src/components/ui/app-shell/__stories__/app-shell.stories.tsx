@@ -5,8 +5,8 @@ import {
   BriefcaseIcon,
   BuildingIcon,
   ChartGrowthIcon,
-  ChevronLeftIcon,
   ChevronsLeftIcon,
+  ChevronsRightIcon,
   CircleHelpIcon,
   HeadsetIcon,
   InboxIcon,
@@ -44,16 +44,12 @@ import {
 import {
   SidebarSecondary,
   SidebarSecondaryCollapseTrigger,
-  SidebarSecondaryCollapsedBreadcrumb,
+  SidebarSecondaryMenuItemExtras,
   SidebarSecondaryContent,
   SidebarSecondaryFooter,
   SidebarSecondaryHeader,
   SidebarSecondaryMenu,
   SidebarSecondaryMenuItem,
-  SidebarSecondaryMenuSub,
-  SidebarSecondaryMenuSubContent,
-  SidebarSecondaryMenuSubItem,
-  SidebarSecondaryMenuSubTrigger,
   SidebarSecondarySection,
   SidebarSecondarySectionLabel,
 } from '../../sidebar-secondary';
@@ -170,35 +166,22 @@ function SecondaryNav({ expanded }: { expanded?: boolean }) {
             Configuration
           </SidebarSecondarySectionLabel>
           <SidebarSecondaryMenu>
-            {/* Third level: a collapsible sub-menu of nested items. */}
-            <SidebarSecondaryMenuSub defaultOpen>
-              <SidebarSecondaryMenuSubTrigger icon={<BoxIcon />}>
-                Policies
-              </SidebarSecondaryMenuSubTrigger>
-              <SidebarSecondaryMenuSubContent>
-                <SidebarSecondaryMenuSubItem href="#" selected>
-                  Backup
-                </SidebarSecondaryMenuSubItem>
-                <SidebarSecondaryMenuSubItem href="#">
-                  Antivirus
-                </SidebarSecondaryMenuSubItem>
-                <SidebarSecondaryMenuSubItem href="#">
-                  Vulnerability assessment
-                </SidebarSecondaryMenuSubItem>
-              </SidebarSecondaryMenuSubContent>
-            </SidebarSecondaryMenuSub>
+            <SidebarSecondaryMenuItem href="#" icon={<BoxIcon />}>
+              Backup
+            </SidebarSecondaryMenuItem>
+            <SidebarSecondaryMenuItem href="#" icon={<ShieldCheckIcon />}>
+              Antivirus
+            </SidebarSecondaryMenuItem>
+            <SidebarSecondaryMenuItem href="#">
+              Vulnerability assessment
+            </SidebarSecondaryMenuItem>
           </SidebarSecondaryMenu>
         </SidebarSecondarySection>
       </SidebarSecondaryContent>
-      {/* Shown in place of the section list when the secondary is collapsed. */}
-      <SidebarSecondaryCollapsedBreadcrumb
-        parentLabel="Protection"
-        currentLabel="Dashboard"
-      />
       <SidebarSecondaryFooter>
         <SidebarSecondaryMenu>
-          <SidebarSecondaryCollapseTrigger icon={<ChevronLeftIcon />}>
-            Collapse menu
+          <SidebarSecondaryCollapseTrigger icon={<ChevronsLeftIcon />} expandIcon={<ChevronsRightIcon />} extras={<SidebarSecondaryMenuItemExtras variant="shortcut" shortcut="⌘?" />}>
+            Collapse
           </SidebarSecondaryCollapseTrigger>
         </SidebarSecondaryMenu>
       </SidebarSecondaryFooter>

@@ -141,7 +141,7 @@ const PlaygroundPage: React.FC = () => {
             </section>
           </ResizablePanel>
 
-          <ResizableHandle withHandle />
+          <ResizableHandle />
 
           <ResizablePanel
             id="component-preview"

@@ -13,26 +13,20 @@ import {
   SidebarSecondary,
   SidebarSecondaryHeader,
   SidebarSecondaryContent,
-  SidebarSecondaryCollapsedBreadcrumb,
   SidebarSecondaryFooter,
   SidebarSecondarySection,
   SidebarSecondarySectionLabel,
   SidebarSecondaryMenu,
   SidebarSecondaryMenuItem,
-  SidebarSecondaryMenuSub,
-  SidebarSecondaryMenuSubTrigger,
-  SidebarSecondaryMenuSubContent,
-  SidebarSecondaryMenuSubItem,
   SidebarSecondaryMenuItemExtras,
   SidebarSecondaryCollapseTrigger,
 } from '@acronis-platform/ui-react';
 ```
 
 `SidebarSecondary` is the second-level navigation panel that sits beside
-[`SidebarPrimary`](/components/sidebar-primary). It supports two collapse
-levels — expandable `SidebarSecondarySection`s and per-item submenus
-(`SidebarSecondaryMenuSub`, built on Base UI's `Collapsible`). The panel itself
-owns a controlled/uncontrolled `expanded` width state. `SidebarSecondary` and the
+[`SidebarPrimary`](/components/sidebar-primary). It supports expandable
+`SidebarSecondarySection`s for grouping items. The panel itself owns a
+controlled/uncontrolled `expanded` width state. `SidebarSecondary` and the
 menu-item parts are polymorphic via the `render` prop. Themed by the
 `--ui-sidebar-secondary-*` tokens.
 
@@ -64,17 +58,12 @@ A panel with a section and a sub-menu:
     <SidebarSecondarySection>
       <SidebarSecondarySectionLabel>Resources</SidebarSecondarySectionLabel>
       <SidebarSecondaryMenu>
-        <SidebarSecondaryMenuSub defaultOpen>
-          <SidebarSecondaryMenuSubTrigger icon={<BoxIcon />}>
-            Backups
-          </SidebarSecondaryMenuSubTrigger>
-          <SidebarSecondaryMenuSubContent>
-            <SidebarSecondaryMenuSubItem href="#" selected>
-              All backups
-            </SidebarSecondaryMenuSubItem>
-            <SidebarSecondaryMenuSubItem href="#">Archived</SidebarSecondaryMenuSubItem>
-          </SidebarSecondaryMenuSubContent>
-        </SidebarSecondaryMenuSub>
+        <SidebarSecondaryMenuItem href="#" icon={<BoxIcon />} selected>
+          Backups
+        </SidebarSecondaryMenuItem>
+        <SidebarSecondaryMenuItem href="#">
+          Archived
+        </SidebarSecondaryMenuItem>
       </SidebarSecondaryMenu>
     </SidebarSecondarySection>
   </SidebarSecondaryContent>
@@ -100,16 +89,6 @@ An expandable section (the second collapse level):
 </SidebarSecondarySection>
 ```
 
-Collapsed panel with a breadcrumb:
-
-```tsx
-<SidebarSecondary expanded={false}>
-  <SidebarSecondaryHeader label="Protection" />
-  <SidebarSecondaryCollapsedBreadcrumb label="Protection" current="Dashboard" />
-  {/* … */}
-</SidebarSecondary>
-```
-
 ## API Reference
 
 ### SidebarSecondary
@@ -126,32 +105,11 @@ Collapsed panel with a breadcrumb:
   name="SidebarSecondaryHeaderProps"
 />
 
-### SidebarSecondaryCollapsedBreadcrumb
-
-<AutoTypeTable
-  path="../../packages/ui-react/src/components/ui/sidebar-secondary/sidebar-secondary.tsx"
-  name="SidebarSecondaryCollapsedBreadcrumbProps"
-/>
-
 ### SidebarSecondaryMenuItem
 
 <AutoTypeTable
   path="../../packages/ui-react/src/components/ui/sidebar-secondary/sidebar-secondary.tsx"
   name="SidebarSecondaryMenuItemProps"
-/>
-
-### SidebarSecondaryMenuSubTrigger
-
-<AutoTypeTable
-  path="../../packages/ui-react/src/components/ui/sidebar-secondary/sidebar-secondary.tsx"
-  name="SidebarSecondaryMenuSubTriggerProps"
-/>
-
-### SidebarSecondaryMenuSubItem
-
-<AutoTypeTable
-  path="../../packages/ui-react/src/components/ui/sidebar-secondary/sidebar-secondary.tsx"
-  name="SidebarSecondaryMenuSubItemProps"
 />
 
 ### SidebarSecondaryMenuItemExtras
@@ -169,9 +127,8 @@ Collapsed panel with a breadcrumb:
 />
 
 `SidebarSecondarySection` adds `expandable` plus `open` / `defaultOpen` /
-`onOpenChange` for the expandable-section collapse level;
-`SidebarSecondaryMenuSub` and `SidebarSecondaryMenuSubContent` extend Base UI's
-`Collapsible` props. The remaining structural parts
+`onOpenChange` for the expandable-section collapse level.
+The remaining structural parts
 (`SidebarSecondaryContent`, `SidebarSecondarySectionLabel`,
 `SidebarSecondaryMenu`, `SidebarSecondaryFooter`) accept the standard attributes
 of the element they render.

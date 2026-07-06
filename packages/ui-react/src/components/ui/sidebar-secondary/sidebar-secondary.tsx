@@ -4,7 +4,7 @@ import { useRender } from '@base-ui/react/use-render';
 import { Collapsible } from '@base-ui/react/collapsible';
 import {
   ChevronDownIcon,
-  ArrowSquareUpRightIcon,
+  SquareArrowUpRightIcon,
 } from '@acronis-platform/icons-react/stroke-mono';
 import { cva, type VariantProps } from 'class-variance-authority';
 
@@ -15,10 +15,13 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-/** Document direction (falls back to 'ltr' during SSR). */
-function getDocDir(): 'ltr' | 'rtl' {
-  if (typeof document === 'undefined') return 'ltr';
-  return document.documentElement.dir === 'rtl' ? 'rtl' : 'ltr';
+/** Document direction — SSR-safe (defaults to 'ltr', syncs after mount). */
+function useDocDir(): 'ltr' | 'rtl' {
+  const [dir, setDir] = React.useState<'ltr' | 'rtl'>('ltr');
+  React.useEffect(() => {
+    setDir(document.documentElement.dir === 'rtl' ? 'rtl' : 'ltr');
+  }, []);
+  return dir;
 }
 
 // Resize constraints — mirrors the design-token defaults.
@@ -201,6 +204,7 @@ export interface SidebarSecondaryProps
 function SidebarSecondaryResizeEdge() {
   const ctx = useSidebarSecondaryContext();
   const { expanded, toggleExpanded, resizable } = ctx;
+  const dir = useDocDir();
 
   // Mutable ref so the closure-captured pointermove handler always reads
   // the latest context without re-attaching listeners.
@@ -217,6 +221,13 @@ function SidebarSecondaryResizeEdge() {
 
   // Delay single-click so a double-click can cancel it.
   const clickTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Clear any pending click timer on unmount.
+  React.useEffect(() => {
+    return () => {
+      if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
+    };
+  }, []);
 
   if (!resizable) return null;
 
@@ -323,7 +334,7 @@ function SidebarSecondaryResizeEdge() {
           />
         }
       />
-      <TooltipContent side={getDocDir() === 'rtl' ? 'left' : 'right'} align="center">
+      <TooltipContent side={dir === 'rtl' ? 'left' : 'right'} align="center">
         {expanded ? ctx.resizeTooltipExpanded : ctx.resizeTooltipCollapsed}
       </TooltipContent>
     </Tooltip>
@@ -887,7 +898,7 @@ const SidebarSecondaryMenuItemExtras = React.forwardRef<
         </span>
       )}
       {showExternal && (
-        <ArrowSquareUpRightIcon
+        <SquareArrowUpRightIcon
           size={16}
           className="text-[var(--ui-sidebar-secondary-menu-item-extras-global-external-icon-color)] size-[var(--ui-sidebar-secondary-menu-item-extras-global-external-icon-size)]"
         />
@@ -919,6 +930,7 @@ const SidebarSecondaryCollapseTrigger = React.forwardRef<
   SidebarSecondaryCollapseTriggerProps
 >(({ className, icon, expandIcon, expandTooltip = 'Expand', extras, children, onClick, ...props }, ref) => {
   const { expanded, toggleExpanded } = useSidebarSecondaryContext();
+  const dir = useDocDir();
 
   const activeIcon = expanded ? icon : (expandIcon ?? icon);
 
@@ -957,7 +969,7 @@ const SidebarSecondaryCollapseTrigger = React.forwardRef<
       ) : (
         <Tooltip>
           <TooltipTrigger render={button} />
-          <TooltipContent side={getDocDir() === 'rtl' ? 'left' : 'right'}>{expandTooltip}</TooltipContent>
+          <TooltipContent side={dir === 'rtl' ? 'left' : 'right'}>{expandTooltip}</TooltipContent>
         </Tooltip>
       )}
     </li>

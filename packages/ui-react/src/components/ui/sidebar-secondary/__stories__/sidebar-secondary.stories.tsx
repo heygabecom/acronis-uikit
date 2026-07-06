@@ -5,7 +5,7 @@ import {
   ChevronsLeftIcon,
   ChevronsRightIcon,
   DatabaseIcon,
-  GridIcon,
+  LayoutGridIcon,
   PlusIcon,
   CogIcon,
   SquareIcon,
@@ -140,7 +140,7 @@ export const Default: Story = {
               Overview
             </SidebarSecondarySectionLabel>
             <SidebarSecondaryMenu>
-              <SidebarSecondaryMenuItem href="#" icon={<GridIcon />} selected>
+              <SidebarSecondaryMenuItem href="#" icon={<LayoutGridIcon />} selected>
                 Dashboard
               </SidebarSecondaryMenuItem>
               <SidebarSecondaryMenuItem href="#" icon={<DatabaseIcon />}>
@@ -191,7 +191,7 @@ export const Collapsed: Story = {
         <SidebarSecondaryContent>
           <SidebarSecondarySection>
             <SidebarSecondaryMenu>
-              <SidebarSecondaryMenuItem href="#" icon={<GridIcon />} selected>
+              <SidebarSecondaryMenuItem href="#" icon={<LayoutGridIcon />} selected>
                 Dashboard
               </SidebarSecondaryMenuItem>
             </SidebarSecondaryMenu>
@@ -220,7 +220,7 @@ export const Selected: Story = {
         <SidebarSecondaryContent>
           <SidebarSecondarySection>
             <SidebarSecondaryMenu>
-              <SidebarSecondaryMenuItem href="#" icon={<GridIcon />} selected>
+              <SidebarSecondaryMenuItem href="#" icon={<LayoutGridIcon />} selected>
                 Selected item
               </SidebarSecondaryMenuItem>
               <SidebarSecondaryMenuItem href="#" icon={<DatabaseIcon />}>
@@ -303,7 +303,7 @@ export const WithExtras: Story = {
               </SidebarSecondaryMenuItem>
               <SidebarSecondaryMenuItem
                 href="#"
-                icon={<GridIcon />}
+                icon={<LayoutGridIcon />}
                 extras={
                   <SidebarSecondaryMenuItemExtras
                     variant="tag-externalLink"
@@ -332,7 +332,7 @@ export const Controlled: Story = {
           <SidebarSecondaryContent>
             <SidebarSecondarySection>
               <SidebarSecondaryMenu>
-                <SidebarSecondaryMenuItem href="#" icon={<GridIcon />} selected>
+                <SidebarSecondaryMenuItem href="#" icon={<LayoutGridIcon />} selected>
                   Dashboard
                 </SidebarSecondaryMenuItem>
               </SidebarSecondaryMenu>
@@ -598,7 +598,7 @@ export const Localized: Story = {
               Descripción general
             </SidebarSecondarySectionLabel>
             <SidebarSecondaryMenu>
-              <SidebarSecondaryMenuItem href="#" icon={<GridIcon />} selected>
+              <SidebarSecondaryMenuItem href="#" icon={<LayoutGridIcon />} selected>
                 Panel
               </SidebarSecondaryMenuItem>
               <SidebarSecondaryMenuItem href="#" icon={<DatabaseIcon />}>
@@ -631,7 +631,7 @@ export const NotResizable: Story = {
               Overview
             </SidebarSecondarySectionLabel>
             <SidebarSecondaryMenu>
-              <SidebarSecondaryMenuItem href="#" icon={<GridIcon />} selected>
+              <SidebarSecondaryMenuItem href="#" icon={<LayoutGridIcon />} selected>
                 Dashboard
               </SidebarSecondaryMenuItem>
               <SidebarSecondaryMenuItem href="#" icon={<DatabaseIcon />}>

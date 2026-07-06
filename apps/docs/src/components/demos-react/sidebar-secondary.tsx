@@ -6,10 +6,6 @@ import {
   SidebarSecondaryHeader,
   SidebarSecondaryMenu,
   SidebarSecondaryMenuItem,
-  SidebarSecondaryMenuSub,
-  SidebarSecondaryMenuSubContent,
-  SidebarSecondaryMenuSubItem,
-  SidebarSecondaryMenuSubTrigger,
   SidebarSecondarySection,
   SidebarSecondarySectionLabel,
 } from '@acronis-platform/ui-react';
@@ -39,17 +35,12 @@ export function SidebarSecondaryDemo() {
           <SidebarSecondarySection>
             <SidebarSecondarySectionLabel>Configuration</SidebarSecondarySectionLabel>
             <SidebarSecondaryMenu>
-              <SidebarSecondaryMenuSub defaultOpen>
-                <SidebarSecondaryMenuSubTrigger icon={<BoxIcon />}>
-                  Policies
-                </SidebarSecondaryMenuSubTrigger>
-                <SidebarSecondaryMenuSubContent>
-                  <SidebarSecondaryMenuSubItem href="#" selected>
-                    Backup
-                  </SidebarSecondaryMenuSubItem>
-                  <SidebarSecondaryMenuSubItem href="#">Antivirus</SidebarSecondaryMenuSubItem>
-                </SidebarSecondaryMenuSubContent>
-              </SidebarSecondaryMenuSub>
+              <SidebarSecondaryMenuItem href="#" icon={<BoxIcon />}>
+                Backup
+              </SidebarSecondaryMenuItem>
+              <SidebarSecondaryMenuItem href="#">
+                Antivirus
+              </SidebarSecondaryMenuItem>
             </SidebarSecondaryMenu>
           </SidebarSecondarySection>
         </SidebarSecondaryContent>

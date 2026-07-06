@@ -193,31 +193,35 @@ describe('SidebarSecondary', () => {
     expect(nav).toHaveAttribute('data-state', 'expanded');
   });
 
-  it('collapse trigger renders an optional shortcut hint, sr-only when collapsed', () => {
+  it('collapse trigger renders extras and hides label when collapsed', () => {
     const { rerender } = render(
       <SidebarSecondary defaultExpanded>
         <SidebarSecondaryFooter>
           <SidebarSecondaryMenu>
-            <SidebarSecondaryCollapseTrigger shortcut="⌘J">
+            <SidebarSecondaryCollapseTrigger
+              extras={<SidebarSecondaryMenuItemExtras variant="shortcut" shortcut="⌘J" />}
+            >
               Menu Item
             </SidebarSecondaryCollapseTrigger>
           </SidebarSecondaryMenu>
         </SidebarSecondaryFooter>
       </SidebarSecondary>
     );
-    expect(screen.getByText('⌘J')).not.toHaveClass('sr-only');
+    expect(screen.getByText('Menu Item')).not.toHaveClass('sr-only');
     rerender(
       <SidebarSecondary expanded={false}>
         <SidebarSecondaryFooter>
           <SidebarSecondaryMenu>
-            <SidebarSecondaryCollapseTrigger shortcut="⌘J">
+            <SidebarSecondaryCollapseTrigger
+              extras={<SidebarSecondaryMenuItemExtras variant="shortcut" shortcut="⌘J" />}
+            >
               Menu Item
             </SidebarSecondaryCollapseTrigger>
           </SidebarSecondaryMenu>
         </SidebarSecondaryFooter>
       </SidebarSecondary>
     );
-    expect(screen.getByText('⌘J')).toHaveClass('sr-only');
+    expect(screen.getByText('Menu Item')).toHaveClass('sr-only');
   });
 
   it('controlled: the collapse trigger calls onExpandedChange with the next value and the prop drives state', async () => {

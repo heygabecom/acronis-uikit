@@ -29,7 +29,7 @@ export function ResizableDemo() {
         <ResizablePanel defaultSize={40} minSize={20}>
           <div style={cellStyle}>Sidebar</div>
         </ResizablePanel>
-        <ResizableHandle withHandle />
+        <ResizableHandle />
         <ResizablePanel defaultSize={60}>
           <div style={cellStyle}>Content</div>
         </ResizablePanel>

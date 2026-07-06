@@ -53,13 +53,12 @@ describe('Resizable', () => {
   });
 
   it('uses tokenized divider/grip/focus colors', () => {
-    render(<Group withHandle />);
+    render(<Group />);
     const handle = screen.getByRole('separator');
     expect(handle).toHaveClass(
-      'after:bg-[var(--ui-resizable-border-color-hover)]',
+      'hover:after:bg-[var(--ui-resizable-border-color-hover)]',
       'active:after:bg-[var(--ui-resizable-border-color-active)]',
       'focus-visible:ring-[var(--ui-focus-primary)]'
     );
-    expect(handle.firstElementChild).toHaveClass('bg-[var(--ui-resizable-bar-color)]');
   });
 });
