@@ -2,7 +2,11 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '../resizable';
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from '../resizable';
 
 const Group = ({
   orientation = 'horizontal',
@@ -38,10 +42,16 @@ describe('Resizable', () => {
 
   it('reflects orientation on the separator (vertical group → horizontal divider)', () => {
     const { rerender } = render(<Group orientation="horizontal" />);
-    expect(screen.getByRole('separator')).toHaveAttribute('aria-orientation', 'vertical');
+    expect(screen.getByRole('separator')).toHaveAttribute(
+      'aria-orientation',
+      'vertical'
+    );
 
     rerender(<Group orientation="vertical" />);
-    expect(screen.getByRole('separator')).toHaveAttribute('aria-orientation', 'horizontal');
+    expect(screen.getByRole('separator')).toHaveAttribute(
+      'aria-orientation',
+      'horizontal'
+    );
   });
 
   it('keeps the separator keyboard-focusable', async () => {
@@ -52,7 +62,7 @@ describe('Resizable', () => {
     expect(handle).toHaveAttribute('tabindex', '0');
   });
 
-  it('uses tokenized divider/grip/focus colors', () => {
+  it('uses tokenized divider/focus colors', () => {
     render(<Group />);
     const handle = screen.getByRole('separator');
     expect(handle).toHaveClass(

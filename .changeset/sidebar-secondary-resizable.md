@@ -1,5 +1,5 @@
 ---
-'@acronis-platform/ui-react': minor
+'@acronis-platform/ui-react': major
 ---
 
 SidebarSecondary: resizable sidebar, auto breadcrumb, Resizable handle redesign

@@ -169,10 +169,8 @@ adapters:
     import: >-
       import { SidebarSecondary, SidebarSecondaryHeader, SidebarSecondaryContent,
       SidebarSecondaryFooter, SidebarSecondarySection, SidebarSecondarySectionLabel,
-      SidebarSecondaryMenu, SidebarSecondaryMenuItem, SidebarSecondaryMenuSub,
-      SidebarSecondaryMenuSubTrigger, SidebarSecondaryMenuSubContent,
-      SidebarSecondaryMenuSubItem, SidebarSecondaryMenuItemExtras } from
-      '@acronis-platform/ui-react'
+      SidebarSecondaryMenu, SidebarSecondaryMenuItem, SidebarSecondaryMenuItemExtras,
+      SidebarSecondaryCollapseTrigger } from '@acronis-platform/ui-react'
     example: |
       <SidebarSecondary expanded={expanded} onExpandedChange={setExpanded}>
         <SidebarSecondaryHeader label="Protection" />
@@ -183,13 +181,9 @@ adapters:
               <SidebarSecondaryMenuItem render={<Link to="/dashboard" />} selected>
                 Dashboard
               </SidebarSecondaryMenuItem>
-              <SidebarSecondaryMenuSub defaultOpen>
-                <SidebarSecondaryMenuSubTrigger icon={<BoxIcon />}>Policies</SidebarSecondaryMenuSubTrigger>
-                <SidebarSecondaryMenuSubContent>
-                  <SidebarSecondaryMenuSubItem href="/policies/backup" selected>Backup</SidebarSecondaryMenuSubItem>
-                  <SidebarSecondaryMenuSubItem href="/policies/av">Antivirus</SidebarSecondaryMenuSubItem>
-                </SidebarSecondaryMenuSubContent>
-              </SidebarSecondaryMenuSub>
+              <SidebarSecondaryMenuItem render={<Link to="/policies" />}>
+                Policies
+              </SidebarSecondaryMenuItem>
             </SidebarSecondaryMenu>
           </SidebarSecondarySection>
         </SidebarSecondaryContent>

@@ -156,7 +156,9 @@ describe('SidebarSecondary', () => {
           <SidebarSecondarySection expandable>
             <SidebarSecondarySectionLabel>Config</SidebarSecondarySectionLabel>
             <SidebarSecondaryMenu>
-              <SidebarSecondaryMenuItem href="/p">Policies</SidebarSecondaryMenuItem>
+              <SidebarSecondaryMenuItem href="/p">
+                Policies
+              </SidebarSecondaryMenuItem>
             </SidebarSecondaryMenu>
           </SidebarSecondarySection>
         </SidebarSecondaryContent>
@@ -187,7 +189,9 @@ describe('SidebarSecondary', () => {
     await userEvent.click(trigger);
     expect(nav).toHaveAttribute('data-state', 'collapsed');
     // Re-query: button remounts inside Tooltip wrapper when collapsed.
-    const collapsedTrigger = screen.getByRole('button', { name: 'Collapse menu' });
+    const collapsedTrigger = screen.getByRole('button', {
+      name: 'Collapse menu',
+    });
     expect(collapsedTrigger).toHaveAttribute('aria-expanded', 'false');
     await userEvent.click(collapsedTrigger);
     expect(nav).toHaveAttribute('data-state', 'expanded');
@@ -199,7 +203,12 @@ describe('SidebarSecondary', () => {
         <SidebarSecondaryFooter>
           <SidebarSecondaryMenu>
             <SidebarSecondaryCollapseTrigger
-              extras={<SidebarSecondaryMenuItemExtras variant="shortcut" shortcut="⌘J" />}
+              extras={
+                <SidebarSecondaryMenuItemExtras
+                  variant="shortcut"
+                  shortcut="⌘J"
+                />
+              }
             >
               Menu Item
             </SidebarSecondaryCollapseTrigger>
@@ -213,7 +222,12 @@ describe('SidebarSecondary', () => {
         <SidebarSecondaryFooter>
           <SidebarSecondaryMenu>
             <SidebarSecondaryCollapseTrigger
-              extras={<SidebarSecondaryMenuItemExtras variant="shortcut" shortcut="⌘J" />}
+              extras={
+                <SidebarSecondaryMenuItemExtras
+                  variant="shortcut"
+                  shortcut="⌘J"
+                />
+              }
             >
               Menu Item
             </SidebarSecondaryCollapseTrigger>
@@ -239,7 +253,9 @@ describe('SidebarSecondary', () => {
     );
     const nav = screen.getByRole('navigation', { name: 'Section navigation' });
     expect(nav).toHaveAttribute('data-state', 'expanded');
-    await userEvent.click(screen.getByRole('button', { name: 'Collapse menu' }));
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Collapse menu' })
+    );
     expect(onExpandedChange).toHaveBeenCalledWith(false);
     expect(nav).toHaveAttribute('data-state', 'expanded');
     rerender(
@@ -302,7 +318,12 @@ describe('SidebarSecondary', () => {
           </SidebarSecondaryMenuItem>
           <SidebarSecondaryMenuItem
             href="/b"
-            extras={<SidebarSecondaryMenuItemExtras variant="shortcut" shortcut="⌘F" />}
+            extras={
+              <SidebarSecondaryMenuItemExtras
+                variant="shortcut"
+                shortcut="⌘F"
+              />
+            }
           >
             Search
           </SidebarSecondaryMenuItem>
@@ -357,7 +378,9 @@ describe('SidebarSecondary — expandable section', () => {
 
     await userEvent.click(trigger);
     expect(trigger).toHaveAttribute('aria-expanded', 'false');
-    expect(screen.queryByRole('link', { name: 'Policies' })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('link', { name: 'Policies' })
+    ).not.toBeInTheDocument();
 
     await userEvent.click(trigger);
     expect(trigger).toHaveAttribute('aria-expanded', 'true');
@@ -369,7 +392,9 @@ describe('SidebarSecondary — expandable section', () => {
     render(<ExpandableSection open={false} onOpenChange={onOpenChange} />);
     const trigger = screen.getByRole('button', { name: /Configuration/ });
     expect(trigger).toHaveAttribute('aria-expanded', 'false');
-    expect(screen.queryByRole('link', { name: 'Policies' })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('link', { name: 'Policies' })
+    ).not.toBeInTheDocument();
 
     await userEvent.click(trigger);
     // Base UI calls onOpenChange with (nextOpen, eventDetails); assert the value.
@@ -395,7 +420,9 @@ describe('SidebarSecondary — expandable section', () => {
               Configuration
             </SidebarSecondarySectionLabel>
             <SidebarSecondaryMenu>
-              <SidebarSecondaryMenuItem href="/policies">Policies</SidebarSecondaryMenuItem>
+              <SidebarSecondaryMenuItem href="/policies">
+                Policies
+              </SidebarSecondaryMenuItem>
             </SidebarSecondaryMenu>
           </SidebarSecondarySection>
         </SidebarSecondaryContent>
@@ -416,15 +443,21 @@ describe('SidebarSecondary — expandable section', () => {
       <SidebarSecondary>
         <SidebarSecondaryContent>
           <SidebarSecondarySection>
-            <SidebarSecondarySectionLabel>Overview</SidebarSecondarySectionLabel>
+            <SidebarSecondarySectionLabel>
+              Overview
+            </SidebarSecondarySectionLabel>
             <SidebarSecondaryMenu>
-              <SidebarSecondaryMenuItem href="/d">Dashboard</SidebarSecondaryMenuItem>
+              <SidebarSecondaryMenuItem href="/d">
+                Dashboard
+              </SidebarSecondaryMenuItem>
             </SidebarSecondaryMenu>
           </SidebarSecondarySection>
         </SidebarSecondaryContent>
       </SidebarSecondary>
     );
-    expect(screen.queryByRole('button', { name: /Overview/ })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /Overview/ })
+    ).not.toBeInTheDocument();
     expect(screen.getByText('Overview')).toBeInTheDocument();
   });
 });
@@ -432,12 +465,16 @@ describe('SidebarSecondary — expandable section', () => {
 describe('Resize', () => {
   it('renders resize edge by default (resizable defaults to true)', () => {
     render(<Panel />);
-    expect(screen.getByRole('separator', { name: /resize sidebar/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('separator', { name: /resize sidebar/i })
+    ).toBeInTheDocument();
   });
 
   it('does not render resize edge when resizable is false', () => {
     render(<Panel resizable={false} />);
-    expect(screen.queryByRole('separator', { name: /resize sidebar/i })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('separator', { name: /resize sidebar/i })
+    ).not.toBeInTheDocument();
   });
 
   it('clicking the resize edge toggles expanded state (after debounce)', async () => {
@@ -454,7 +491,9 @@ describe('Resize', () => {
   it('double-clicking the resize edge resets width without toggling', async () => {
     const onWidth = vi.fn();
     const onChange = vi.fn();
-    render(<Panel resizable onWidthChange={onWidth} onExpandedChange={onChange} />);
+    render(
+      <Panel resizable onWidthChange={onWidth} onExpandedChange={onChange} />
+    );
     const edge = screen.getByRole('separator', { name: /resize sidebar/i });
     await userEvent.dblClick(edge);
     // Double-click resets to the token-derived defaultWidth.
@@ -465,11 +504,17 @@ describe('Resize', () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 
-  it('applies inline width when resizable and expanded', () => {
+  it('does not apply inline width at default (CSS token drives width)', () => {
     render(<Panel resizable />);
     const nav = screen.getByRole('navigation');
-    // Width is derived from the expanded-container-width token (or 256 fallback).
-    expect(nav.style.width).not.toBe('');
+    // No inline width — the CSS token --ui-sidebar-secondary-expanded-container-width drives it.
+    expect(nav.style.width).toBe('');
+  });
+
+  it('applies inline width when controlled via width prop', () => {
+    render(<Panel resizable width={400} />);
+    const nav = screen.getByRole('navigation');
+    expect(nav.style.width).toBe('400px');
   });
 
   it('does not apply inline width when not resizable', () => {

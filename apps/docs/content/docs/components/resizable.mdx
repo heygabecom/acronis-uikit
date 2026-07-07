@@ -3,8 +3,8 @@ title: Resizable
 description: Draggable split panels with a resize handle.
 ---
 
-import { DemoReact } from "@/components/DemoReact";
-import { ResizableDemo } from "@/components/demos-react/resizable";
+import { DemoReact } from '@/components/DemoReact';
+import { ResizableDemo } from '@/components/demos-react/resizable';
 
 ## Usage
 
@@ -19,11 +19,9 @@ import {
 `Resizable` wraps [`react-resizable-panels`](https://github.com/bvaughn/react-resizable-panels).
 `ResizablePanelGroup` lays out `ResizablePanel` children along an `orientation`
 (`horizontal` or `vertical`), separated by a `ResizableHandle` the user drags.
-The handle is themed by the `--ui-resizable-*` tokens; pass `withHandle` to show
-a grab-bar pill.
+The handle is themed by the `--ui-resizable-*` tokens.
 
 ## Examples
-
 
 <DemoReact>
   <ResizableDemo />
@@ -36,7 +34,7 @@ A horizontal split (sidebar + content):
   <ResizablePanel defaultSize={40} minSize={20}>
     Sidebar
   </ResizablePanel>
-  <ResizableHandle withHandle />
+  <ResizableHandle />
   <ResizablePanel defaultSize={60}>Content</ResizablePanel>
 </ResizablePanelGroup>
 ```
@@ -46,18 +44,8 @@ A vertical split (editor + preview):
 ```tsx
 <ResizablePanelGroup orientation="vertical">
   <ResizablePanel defaultSize={60}>Editor</ResizablePanel>
-  <ResizableHandle withHandle />
-  <ResizablePanel defaultSize={40}>Preview</ResizablePanel>
-</ResizablePanelGroup>
-```
-
-A plain handle without the grab-bar pill:
-
-```tsx
-<ResizablePanelGroup orientation="horizontal">
-  <ResizablePanel defaultSize={50}>One</ResizablePanel>
   <ResizableHandle />
-  <ResizablePanel defaultSize={50}>Two</ResizablePanel>
+  <ResizablePanel defaultSize={40}>Preview</ResizablePanel>
 </ResizablePanelGroup>
 ```
 

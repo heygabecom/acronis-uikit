@@ -58,35 +58,22 @@
 
 ---
 
-## Disclosure (expandable Level-1 rows)
+## Disclosure (expandable sections)
 
-### Toggles a child list
+### Toggles a section's menu
 
-**Given** a SidebarSecondaryMenuSub with a trigger and content
-**When** the panel renders
-**Then** the trigger (a `<button>`) has `aria-expanded="false"` and `aria-controls`
-**When** the user clicks (or presses Enter/Space on) the trigger
-**Then** `aria-expanded` becomes `true` and the Level-2 child list is shown
-**And** the trailing chevron rotates
+**Given** a `SidebarSecondarySection` with `expandable`
+**When** the user activates the section-label header
+**Then** `aria-expanded` flips and the section's menu collapses/expands
+**And** the header chevron rotates
 
 ### Opens initially / is controllable
 
-**Given** a SidebarSecondaryMenuSub with `defaultOpen`
+**Given** an expandable section with `defaultOpen`
 **When** it renders
 **Then** the disclosure is open initially
 **And** `open` / `onOpenChange` allow controlled use (Base UI Collapsible)
-**And** each expandable row has independent open state
-
----
-
-## Level-2 sub-items
-
-### Indented child rows
-
-**Given** a SidebarSecondaryMenuSubItem inside a sub-content panel
-**When** it renders
-**Then** it is left-indented by the level-2 padding token
-**And** it has no leading icon
+**And** each expandable section has independent open state
 
 ---
 
@@ -126,8 +113,8 @@ sibling of the toggle, never nested in it)
 **When** the section is collapsed
 **Then** the rollup badge shows in the header; it hides again when expanded
 
-### Submenus nest inside sections
+### Items inside expandable sections are indented
 
-**Given** a `SidebarSecondaryMenuSub` inside an expandable section's menu
+**Given** a `SidebarSecondaryMenuItem` inside an expandable section
 **When** the section is open
-**Then** the submenu disclosure toggles independently of the section's open state
+**Then** items are left-indented so their label aligns with the section header text
