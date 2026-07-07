@@ -1,0 +1,20 @@
+spec_version: '1.0'
+component: FilterSearch
+name: filter-search
+status: ready
+category: layout
+description: >-
+  A composable toolbar for data tables: arranges a search field, optional
+  filters button, optional tenant/scope switcher, and trailing action buttons
+  in a single horizontal row. Pure layout — no dedicated token tier; child
+  components (Search, ButtonMenu, Select) bring their own tokens.
+since: 0.26.0
+dependencies:
+  components:
+    - Search
+    - ButtonMenu
+    - Select
+    - Button
+figma:
+  node: '3897-7681'
+  codeConnect: packages/ui-react/src/components/ui/filter-search/filter-search.figma.tsx

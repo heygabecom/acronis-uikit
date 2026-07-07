@@ -1,0 +1,9 @@
+spec_version: '1.0'
+component: FilterSearch
+
+# No dedicated token tier — FilterSearch is a pure layout wrapper. Its only
+# styling is a 16px gap between children. Child components (Search,
+# ButtonMenu, Select) each bring their own --ui-* token tiers.
+source: '@acronis-platform/tokens-pd'
+
+tokens: []

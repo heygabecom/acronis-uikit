@@ -1,0 +1,37 @@
+spec_version: '1.0'
+component: FilterSearch
+
+schematic: |
+  root: <div> (flex row, gap-16)
+  +-----------------------------------------------------------+
+  |  [tenant]  |  [search]  |  [filters]  |      actions      |
+  |  Select    |  Search    |  ButtonMenu  | right-aligned slot|
+  +-----------------------------------------------------------+
+    root    -> flex container, 16px gap, center-aligned
+    actions -> flex-1, content pushed to trailing edge
+
+root:
+  element: div
+  description: >-
+    Flex container that arranges the toolbar children in a horizontal row
+    with 16px gap (`gap-4` in Tailwind v4). No semantic role — the
+    component is a layout wrapper, not a landmark.
+
+parts:
+  - id: actions
+    description: >-
+      Right-aligned area for action buttons (export, create, etc.). Uses
+      `flex-1` to push its content to the trailing edge of the toolbar.
+    element: div
+    optional: true
+    visible_when: the consumer adds trailing action buttons
+
+layout:
+  type: flex
+  direction: row
+  align: center
+  order: [search, actions]
+
+# Pure layout — no component-owned interaction states. Child components
+# (Search, ButtonMenu, Select) manage their own states.
+states: []

@@ -1,0 +1,60 @@
+spec_version: '1.0'
+component: FilterSearch
+
+# Framework-agnostic contract for a composable table toolbar. The toolbar
+# is assembled from parts — the consumer places Search, Select, ButtonMenu
+# etc. as direct children. FilterSearchActions pushes its content right.
+contract:
+  properties:
+    - name: className
+      type: string
+      required: false
+      default: undefined
+      description: Additional CSS classes for the root container.
+
+  events: []
+
+  content:
+    - name: default
+      description: >-
+        The composed toolbar. Place Search, Select, ButtonMenu, and
+        FilterSearchActions as direct children. The order of children
+        determines the visual order.
+
+  methods: []
+
+adapters:
+  react:
+    component: FilterSearch
+    status: implemented
+    import: >-
+      import { FilterSearch, FilterSearchActions } from
+      '@acronis-platform/ui-react'
+    example: |
+      <FilterSearch>
+        <Search placeholder="Search table" aria-label="Search" className="w-56" />
+        <ButtonMenu variant="secondary">Table filters</ButtonMenu>
+        <FilterSearchActions>
+          <Button>Export</Button>
+        </FilterSearchActions>
+      </FilterSearch>
+
+  vue:
+    component: AvFilterSearch
+    status: planned
+    import: "import { AvFilterSearch } from '@acronis-platform/ui-vue'"
+    example: |
+      <AvFilterSearch>
+        <AvSearch placeholder="Search table" />
+        <AvButtonMenu variant="secondary">Table filters</AvButtonMenu>
+      </AvFilterSearch>
+
+  web-components:
+    element: ui-filter-search
+    status: planned
+    import: "import '@acronis-platform/ui-wc/filter-search'"
+    example: |
+      <ui-filter-search>
+        <ui-search placeholder="Search table"></ui-search>
+        <ui-button-menu variant="secondary">Table filters</ui-button-menu>
+      </ui-filter-search>
