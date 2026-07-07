@@ -93,7 +93,7 @@ const InputText = React.forwardRef<HTMLInputElement, InputTextProps>(
             aria-invalid={hasError || undefined}
             aria-required={required || undefined}
             aria-describedby={hasMessage ? messageId : undefined}
-            className={cn(showClear && 'pr-9', className)}
+            className={cn(showClear && 'pe-9', className)}
             {...props}
           />
           {showClear && (
@@ -101,7 +101,7 @@ const InputText = React.forwardRef<HTMLInputElement, InputTextProps>(
               type="button"
               onClick={onClear}
               aria-label="Clear"
-              className="absolute right-[var(--ui-input-text-global-box-padding-x)] top-1/2 flex size-4 -translate-y-1/2 items-center justify-center rounded-[var(--ui-input-text-global-box-border-radius)] text-[var(--ui-input-text-global-clear-icon-color)] outline-none focus-visible:ring-[3px] focus-visible:ring-[var(--ui-focus-primary)] [&_svg]:size-4 [&_svg]:shrink-0"
+              className="absolute end-[var(--ui-input-text-global-box-padding-x)] top-1/2 flex size-4 -translate-y-1/2 items-center justify-center rounded-[var(--ui-input-text-global-box-border-radius)] text-[var(--ui-input-text-global-clear-icon-color)] outline-none focus-visible:ring-[3px] focus-visible:ring-[var(--ui-focus-primary)] [&_svg]:size-4 [&_svg]:shrink-0"
             >
               <TimesIcon />
             </button>

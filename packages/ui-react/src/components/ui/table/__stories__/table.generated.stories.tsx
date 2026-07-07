@@ -33,19 +33,19 @@ export const States: Story = {
               Invoice
             </TableHead>
             <TableHead>Status</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
+            <TableHead className="text-end">Amount</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           <TableRow>
             <TableCell>INV001</TableCell>
             <TableCell>Paid</TableCell>
-            <TableCell className="text-right">$250.00</TableCell>
+            <TableCell className="text-end">$250.00</TableCell>
           </TableRow>
           <TableRow selected>
             <TableCell>INV002</TableCell>
             <TableCell>Pending</TableCell>
-            <TableCell className="text-right">$150.00</TableCell>
+            <TableCell className="text-end">$150.00</TableCell>
           </TableRow>
         </TableBody>
       </Table>
@@ -64,19 +64,19 @@ export const Hover: Story = {
             Invoice
           </TableHead>
           <TableHead>Status</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
+          <TableHead className="text-end">Amount</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         <TableRow>
           <TableCell>INV001</TableCell>
           <TableCell>Paid</TableCell>
-          <TableCell className="text-right">$250.00</TableCell>
+          <TableCell className="text-end">$250.00</TableCell>
         </TableRow>
         <TableRow selected>
           <TableCell>INV002</TableCell>
           <TableCell>Pending</TableCell>
-          <TableCell className="text-right">$150.00</TableCell>
+          <TableCell className="text-end">$150.00</TableCell>
         </TableRow>
       </TableBody>
     </Table>
@@ -93,19 +93,19 @@ export const FocusVisible: Story = {
             Invoice
           </TableHead>
           <TableHead>Status</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
+          <TableHead className="text-end">Amount</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         <TableRow>
           <TableCell>INV001</TableCell>
           <TableCell>Paid</TableCell>
-          <TableCell className="text-right">$250.00</TableCell>
+          <TableCell className="text-end">$250.00</TableCell>
         </TableRow>
         <TableRow selected>
           <TableCell>INV002</TableCell>
           <TableCell>Pending</TableCell>
-          <TableCell className="text-right">$150.00</TableCell>
+          <TableCell className="text-end">$150.00</TableCell>
         </TableRow>
       </TableBody>
     </Table>

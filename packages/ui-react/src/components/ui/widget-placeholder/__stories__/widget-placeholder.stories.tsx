@@ -62,7 +62,7 @@ export const WithFooter: Story = {
         </WidgetPlaceholderImage>
         <WidgetPlaceholderText>No devices protected</WidgetPlaceholderText>
         <WidgetPlaceholderAction>
-          <PlusIcon className="mr-1 inline size-3" />
+          <PlusIcon className="me-1 inline size-3" />
           Add device
         </WidgetPlaceholderAction>
       </WidgetPlaceholderContent>

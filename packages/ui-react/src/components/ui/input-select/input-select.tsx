@@ -116,7 +116,7 @@ const InputSelectValue = React.forwardRef<
   <SelectPrimitive.Value
     ref={ref}
     className={cn(
-      'min-w-0 flex-1 truncate text-left text-[var(--ui-input-select-global-value-color-idle)] data-[placeholder]:text-[var(--ui-input-select-global-placeholder-color-idle)]',
+      'min-w-0 flex-1 truncate text-start text-[var(--ui-input-select-global-value-color-idle)] data-[placeholder]:text-[var(--ui-input-select-global-placeholder-color-idle)]',
       'group-data-[disabled]:!text-[var(--ui-input-select-global-value-color-disabled)] group-data-[disabled]:data-[placeholder]:!text-[var(--ui-input-select-global-placeholder-color-disabled)]',
       className
     )}

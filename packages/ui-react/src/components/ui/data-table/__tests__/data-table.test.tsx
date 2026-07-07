@@ -112,7 +112,7 @@ describe('DataTable presentational features', () => {
       <DataTable columns={columns} data={data.slice(0, 2)} bordered />
     );
     const wrapper = container.querySelector('div.rounded-md') as HTMLElement;
-    expect(wrapper.className).toContain('[&_td:not(:last-child)]:border-r');
+    expect(wrapper.className).toContain('[&_td:not(:last-child)]:border-e');
   });
 
   it('renders skeleton placeholder rows instead of data', () => {

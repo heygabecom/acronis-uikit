@@ -150,7 +150,7 @@ function Toaster({ timeout, limit, portalContainer }: ToasterProps) {
       limit={limit}
     >
       <ToastPrimitive.Portal container={portalContainer}>
-        <ToastPrimitive.Viewport className="fixed bottom-4 right-4 z-[100] flex w-[384px] max-w-[calc(100vw-2rem)] flex-col gap-3 outline-none">
+        <ToastPrimitive.Viewport className="fixed bottom-4 end-4 z-[100] flex w-[384px] max-w-[calc(100vw-2rem)] flex-col gap-3 outline-none">
           <ToastList />
         </ToastPrimitive.Viewport>
       </ToastPrimitive.Portal>

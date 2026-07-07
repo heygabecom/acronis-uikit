@@ -131,4 +131,11 @@ describe('Breadcrumb', () => {
     expect(listRef.current).toBeInstanceOf(HTMLOListElement);
     expect(linkRef.current).toBeInstanceOf(HTMLAnchorElement);
   });
+
+  it('separator chevron carries rtl:rotate-180 for RTL support', () => {
+    render(<Trail />);
+    const list = screen.getByRole('list');
+    const separatorSvg = list.querySelector('[aria-hidden="true"] svg');
+    expect(separatorSvg).toHaveClass('rtl:rotate-180');
+  });
 });

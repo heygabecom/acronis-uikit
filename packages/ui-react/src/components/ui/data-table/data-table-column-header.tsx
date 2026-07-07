@@ -39,9 +39,9 @@ export function DataTableColumnHeader<TData, TValue>({
       onClick={() => column.toggleSorting()}
       aria-label={`Sort by ${title}`}
       className={cn(
-        // -ml-2 px-2 keeps the label flush at the cell padding while giving the
+        // -ms-2 px-2 keeps the label flush at the cell padding while giving the
         // toggle a comfortable click/hover target.
-        '-ml-2 inline-flex h-8 select-none items-center gap-2 rounded px-2 text-sm font-semibold transition-colors hover:bg-[var(--ui-table-header-cell-color-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ui-focus-primary)] [&_svg]:size-[var(--ui-table-header-sort-icon-size)] [&_svg]:shrink-0',
+        '-ms-2 inline-flex h-8 select-none items-center gap-2 rounded px-2 text-sm font-semibold transition-colors hover:bg-[var(--ui-table-header-cell-color-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ui-focus-primary)] [&_svg]:size-[var(--ui-table-header-sort-icon-size)] [&_svg]:shrink-0',
         className
       )}
       {...props}

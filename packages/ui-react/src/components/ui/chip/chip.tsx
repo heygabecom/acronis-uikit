@@ -94,7 +94,7 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(
             type="button"
             aria-label={removeLabel}
             onClick={onRemove}
-            className="-mr-1 flex shrink-0 items-center justify-center rounded-full outline-none focus-visible:outline-none"
+            className="-me-1 flex shrink-0 items-center justify-center rounded-full outline-none focus-visible:outline-none"
           >
             <TimesIcon />
           </button>

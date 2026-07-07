@@ -100,7 +100,7 @@ export function DataTable<TData, TValue>({
   // Vertical borders are opt-in; a trailing border on the last cell would
   // double up with the wrapper, so suppress it.
   const borderedClass = bordered
-    ? '[&_th:not(:last-child)]:border-r [&_td:not(:last-child)]:border-r [&_th]:border-[var(--ui-table-global-cell-border-color)] [&_td]:border-[var(--ui-table-global-cell-border-color)]'
+    ? '[&_th:not(:last-child)]:border-e [&_td:not(:last-child)]:border-e [&_th]:border-[var(--ui-table-global-cell-border-color)] [&_td]:border-[var(--ui-table-global-cell-border-color)]'
     : undefined;
 
   return (

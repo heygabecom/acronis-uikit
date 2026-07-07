@@ -45,7 +45,7 @@ export const Default: Story = {
           <TableHead>Invoice</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Method</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
+          <TableHead className="text-end">Amount</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -53,25 +53,25 @@ export const Default: Story = {
           <TableCell className="font-medium">INV001</TableCell>
           <TableCell>Paid</TableCell>
           <TableCell>Credit Card</TableCell>
-          <TableCell className="text-right">$250.00</TableCell>
+          <TableCell className="text-end">$250.00</TableCell>
         </TableRow>
         <TableRow>
           <TableCell className="font-medium">INV002</TableCell>
           <TableCell>Pending</TableCell>
           <TableCell>PayPal</TableCell>
-          <TableCell className="text-right">$150.00</TableCell>
+          <TableCell className="text-end">$150.00</TableCell>
         </TableRow>
         <TableRow>
           <TableCell className="font-medium">INV003</TableCell>
           <TableCell>Unpaid</TableCell>
           <TableCell>Bank Transfer</TableCell>
-          <TableCell className="text-right">$350.00</TableCell>
+          <TableCell className="text-end">$350.00</TableCell>
         </TableRow>
       </TableBody>
       <TableFooter>
         <TableRow>
           <TableCell colSpan={3}>Total</TableCell>
-          <TableCell className="text-right">$750.00</TableCell>
+          <TableCell className="text-end">$750.00</TableCell>
         </TableRow>
       </TableFooter>
     </Table>
@@ -90,7 +90,7 @@ export const SortableHeaders: Story = {
             Name
           </TableHead>
           <TableHead sortable>Created</TableHead>
-          <TableHead sortable sortDirection="desc" className="text-right">
+          <TableHead sortable sortDirection="desc" className="text-end">
             Size
           </TableHead>
         </TableRow>
@@ -99,12 +99,12 @@ export const SortableHeaders: Story = {
         <TableRow>
           <TableCell>Backup archive</TableCell>
           <TableCell>26 Jan, 2026</TableCell>
-          <TableCell className="text-right">4 567 890</TableCell>
+          <TableCell className="text-end">4 567 890</TableCell>
         </TableRow>
         <TableRow>
           <TableCell>Disk image</TableCell>
           <TableCell>24 Jan, 2026</TableCell>
-          <TableCell className="text-right">1 204 050</TableCell>
+          <TableCell className="text-end">1 204 050</TableCell>
         </TableRow>
       </TableBody>
     </Table>
