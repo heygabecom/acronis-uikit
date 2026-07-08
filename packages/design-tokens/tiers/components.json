@@ -1,29 +1,29 @@
 {
   "$extensions": {
     "com.acronis.tailwindRoles": {
-      "container": "backgroundColor",
       "borderColor": "borderColor",
-      "icon": "fill",
-      "label": "textColor",
-      "logo": "fill",
-      "externalIcon": "fill",
-      "shortcut": "textColor",
-      "iconSeparator": "fill",
-      "headerLabel": "textColor",
-      "labelSection": "textColor",
-      "breadcrumbLabel": "textColor",
-      "labelCurrentPage": "textColor",
       "box": "backgroundColor",
-      "tick": "backgroundColor",
-      "description": "textColor",
-      "required": "textColor",
-      "placeholder": "textColor",
-      "value": "textColor",
-      "error": "textColor",
+      "breadcrumbLabel": "textColor",
       "clearIcon": "fill",
       "color": "textColor",
+      "container": "backgroundColor",
+      "description": "textColor",
+      "error": "textColor",
+      "externalIcon": "fill",
+      "headerLabel": "textColor",
+      "icon": "fill",
       "iconArrow": "fill",
-      "iconSearch": "fill"
+      "iconSearch": "fill",
+      "iconSeparator": "fill",
+      "label": "textColor",
+      "labelCurrentPage": "textColor",
+      "labelSection": "textColor",
+      "logo": "fill",
+      "placeholder": "textColor",
+      "required": "textColor",
+      "shortcut": "textColor",
+      "tick": "backgroundColor",
+      "value": "textColor"
     }
   },
   "$schema": "../schemas/tier.schema.json",
@@ -9122,15 +9122,7 @@
         "borderWidth": {
           "$extensions": {
             "com.figma.hiddenFromPublishing": true,
-            "com.figma.scopes": [
-              "CORNER_RADIUS",
-              "WIDTH_HEIGHT",
-              "GAP",
-              "STROKE_FLOAT",
-              "EFFECT_FLOAT",
-              "OPACITY",
-              "FONT_VARIATIONS"
-            ],
+            "com.figma.scopes": ["CORNER_RADIUS", "WIDTH_HEIGHT", "GAP", "STROKE_FLOAT", "EFFECT_FLOAT", "OPACITY", "FONT_VARIATIONS"],
             "com.figma.variableId": "VariableID:2468:67775"
           },
           "$type": "dimension",
@@ -10853,15 +10845,7 @@
         "paddingY": {
           "$extensions": {
             "com.figma.hiddenFromPublishing": true,
-            "com.figma.scopes": [
-              "CORNER_RADIUS",
-              "WIDTH_HEIGHT",
-              "GAP",
-              "STROKE_FLOAT",
-              "EFFECT_FLOAT",
-              "OPACITY",
-              "FONT_VARIATIONS"
-            ],
+            "com.figma.scopes": ["CORNER_RADIUS", "WIDTH_HEIGHT", "GAP", "STROKE_FLOAT", "EFFECT_FLOAT", "OPACITY", "FONT_VARIATIONS"],
             "com.figma.variableId": "VariableID:2313:42563"
           },
           "$type": "dimension",
@@ -10946,15 +10930,7 @@
           "size": {
             "$extensions": {
               "com.figma.hiddenFromPublishing": true,
-              "com.figma.scopes": [
-                "CORNER_RADIUS",
-                "WIDTH_HEIGHT",
-                "GAP",
-                "STROKE_FLOAT",
-                "EFFECT_FLOAT",
-                "OPACITY",
-                "FONT_VARIATIONS"
-              ],
+              "com.figma.scopes": ["CORNER_RADIUS", "WIDTH_HEIGHT", "GAP", "STROKE_FLOAT", "EFFECT_FLOAT", "OPACITY", "FONT_VARIATIONS"],
               "com.figma.variableId": "VariableID:2265:264"
             },
             "$type": "dimension",
