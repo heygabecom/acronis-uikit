@@ -31,6 +31,19 @@
     "_global": {
       "avatar": {
         "border": {
+          "borderRadius": {
+            "$extensions": {
+              "com.figma.hiddenFromPublishing": true,
+              "com.figma.scopes": ["CORNER_RADIUS"],
+              "com.figma.variableId": "VariableID:3111:188"
+            },
+            "$type": "dimension",
+            "platforms": ["PD"],
+            "values": {
+              "deep_sky_itkontoret": "{palette.units.radius.radius-full}",
+              "default": "{palette.units.radius.radius-full}"
+            }
+          },
           "borderStyle": {
             "$extensions": {
               "com.figma.hiddenFromPublishing": true,
@@ -3870,7 +3883,7 @@
             "default": "{units.stroke.1}"
           }
         },
-        "marginX": {
+        "marginY": {
           "$extensions": {
             "com.figma.hiddenFromPublishing": true,
             "com.figma.scopes": [
@@ -9789,7 +9802,7 @@
             "default": "{units.stroke.1}"
           }
         },
-        "marginX": {
+        "marginY": {
           "$extensions": {
             "com.figma.hiddenFromPublishing": true,
             "com.figma.scopes": [
