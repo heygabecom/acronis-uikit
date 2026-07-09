@@ -55,6 +55,43 @@
   - Interactive controls wired to Default story
   - `resizable` prop exposed in argTypes; `width`/`onWidthChange` hidden
 
+  **Migration:**
+  1. **`SidebarSecondaryCollapsedBreadcrumb` removed from public API** — the collapsed breadcrumb is now rendered automatically by `SidebarSecondary`. Remove any manual `<SidebarSecondaryCollapsedBreadcrumb />` placement:
+
+  ```diff
+  -import { SidebarSecondary, SidebarSecondaryContent, SidebarSecondaryCollapsedBreadcrumb } from '@acronis-platform/ui-react';
+  +import { SidebarSecondary, SidebarSecondaryContent } from '@acronis-platform/ui-react';
+
+   <SidebarSecondaryContent>
+  -  <SidebarSecondaryCollapsedBreadcrumb />
+     {children}
+   </SidebarSecondaryContent>
+  ```
+
+  2. **`SidebarSecondaryMenuSub*` components removed** — `SidebarSecondaryMenuSub`, `SidebarSecondaryMenuSubTrigger`, `SidebarSecondaryMenuSubContent`, and `SidebarSecondaryMenuSubItem` have been removed from the public API. Use `SidebarSecondarySection` with `expandable` instead for collapsible groups of items.
+
+  3. **`SidebarSecondaryCollapseTrigger` now takes an `extras` prop** — if you were passing `SidebarSecondaryMenuItemExtras` (or a raw shortcut/tag node) as a second child alongside the label — commonly with the label wrapped in `<span style={{ flex: 1 }}>...</span>` to push the extras to the row's edge — move it to the new `extras` prop and drop the manual flex wrapper:
+
+  ```diff
+  -<SidebarSecondaryCollapseTrigger icon={<PanelLeftCloseIcon />}>
+  -  <span style={{ flex: 1 }}>Collapse menu</span>
+  -  <SidebarSecondaryMenuItemExtras variant="shortcut" shortcut="⌘[" />
+  -</SidebarSecondaryCollapseTrigger>
+  +<SidebarSecondaryCollapseTrigger
+  +  icon={<PanelLeftCloseIcon />}
+  +  extras={<SidebarSecondaryMenuItemExtras variant="shortcut" shortcut="⌘[" />}
+  +>
+  +  Collapse menu
+  +</SidebarSecondaryCollapseTrigger>
+  ```
+
+  4. **`Resizable` `withHandle` prop dropped** — the grab-bar pill is replaced by a border-line affordance. Remove any `withHandle` usage:
+
+  ```diff
+  -<Resizable withHandle>
+  +<Resizable>
+  ```
+
 ### Patch Changes
 
 - [#494](https://github.com/acronis/uikit/pull/494) [`b783b3d`](https://github.com/acronis/uikit/commit/b783b3dd53a8bfa021daef9d4ec1c1d2b7a4525e) Thanks [@marta-sampedro](https://github.com/marta-sampedro)! - Apply font-smoothing reset (`-webkit-font-smoothing: antialiased`,
