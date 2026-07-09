@@ -81,12 +81,12 @@
       ]
     },
     "Modes": {
-      "description": "Per-mode value dictionary. One or many keys. Theme modes (light/dark) live on palette; brand modes (acronis, brand-b, …) live on semantic colors and components. Brand modes are kebab-case lowercase. See ../context/manifest.md.",
+      "description": "Per-mode value dictionary. One or many keys. Theme modes (light/dark) live on palette; brand modes (default, deep_sky_itkontoret, …) live on semantic colors and components. Brand mode keys are lowercase with hyphens or underscores. See ../context/manifest.md.",
       "type": "object",
       "minProperties": 1,
       "additionalProperties": false,
       "patternProperties": {
-        "^[a-z][a-z0-9-]*$": {}
+        "^[a-z][a-z0-9_-]*$": {}
       }
     },
     "Platforms": {
