@@ -4,8 +4,8 @@ import { resolve } from 'node:path';
 /**
  * A scannable reference of every `--ui-*` custom property
  * `@acronis-platform/tokens-pd` ships, read at build time. The semantic tier
- * lives in `css/acronis.css`; each component tier lives in
- * `css/<Component>/acronis.css`. Values are shown as authored (e.g. they may be
+ * lives in `css/default.css`; each component tier lives in
+ * `css/<Component>/default.css`. Values are shown as authored (e.g. they may be
  * `light-dark(...)`); when a value looks like a single color, a swatch is shown.
  */
 
@@ -47,7 +47,7 @@ function swatchColor(value: string): string | null {
 function buildGroups(): TokenGroup[] {
   const groups: TokenGroup[] = [];
 
-  const semantic = parseTokens(readFileSync(resolve(CSS_DIR, 'acronis.css'), 'utf-8'));
+  const semantic = parseTokens(readFileSync(resolve(CSS_DIR, 'default.css'), 'utf-8'));
   if (semantic.length) groups.push({ label: 'Semantic', tokens: semantic });
 
   // Component tiers are the subdirectories of css/ (discovered, not hardcoded).
@@ -56,7 +56,7 @@ function buildGroups(): TokenGroup[] {
     .sort();
 
   for (const dir of componentDirs) {
-    const file = resolve(CSS_DIR, dir, 'acronis.css');
+    const file = resolve(CSS_DIR, dir, 'default.css');
     let css: string;
     try {
       css = readFileSync(file, 'utf-8');

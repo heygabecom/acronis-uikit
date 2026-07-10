@@ -10,12 +10,12 @@ Acronis UIKit uses generated `--ui-*` CSS custom properties from
 theme values — they are generated from the design system and resolved at paint
 time, so brand and light/dark switches need no rebuild.
 
-Load the default `acronis` base, then (optionally) layer another brand override
+Load the default base, then (optionally) layer another brand override
 on top:
 
 ```tsx
-import '@acronis-platform/ui-react/styles'; // includes tokens-pd/css/acronis.css
-import '@acronis-platform/tokens-pd/css/deep-sky.css'; // optional brand override
+import '@acronis-platform/ui-react/styles'; // includes tokens-pd/css/default.css
+import '@acronis-platform/tokens-pd/css/deep_sky_itkontoret.css'; // optional brand override
 ```
 
 ## Dark mode
@@ -32,8 +32,8 @@ the active scheme with `data-theme`:
 Brand switching is import-order based (last import wins), not a class toggle:
 
 ```css
-@import '@acronis-platform/tokens-pd/css/acronis.css';
-@import '@acronis-platform/tokens-pd/css/deep-sky.css';
+@import '@acronis-platform/tokens-pd/css/default.css';
+@import '@acronis-platform/tokens-pd/css/deep_sky_itkontoret.css';
 ```
 
 ## Design tokens

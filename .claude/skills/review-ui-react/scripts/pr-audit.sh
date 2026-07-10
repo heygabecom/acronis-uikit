@@ -175,10 +175,10 @@ if [ -s "$TIER_A_FILE" ]; then
   miss_imp=""
   while IFS= read -r t; do
     [ -z "$t" ] && continue
-    tier="$(grep -rl -- "$t:" "$TOKENS_DIR"/*/acronis.css 2>/dev/null | head -1 \
-            | sed -E "s|$TOKENS_DIR/([^/]+)/acronis.css|\1|")"
+    tier="$(grep -rl -- "$t:" "$TOKENS_DIR"/*/default.css 2>/dev/null | head -1 \
+            | sed -E "s|$TOKENS_DIR/([^/]+)/default.css|\1|")"
     [ -z "$tier" ] && continue
-    printf '%s' "$styles_at_head" | grep -qF "css/$tier/acronis.css" || miss_imp="$miss_imp $tier"
+    printf '%s' "$styles_at_head" | grep -qF "css/$tier/default.css" || miss_imp="$miss_imp $tier"
   done < "$REFS_FILE"
   miss_imp="$(printf '%s' "$miss_imp" | tr ' ' '\n' | sort -u | tr '\n' ' ' | sed 's/^ *//;s/ *$//')"
   if [ -z "$miss_imp" ]; then echo "MISSING_TIER_IMPORTS: none"; else

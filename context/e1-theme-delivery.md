@@ -38,7 +38,7 @@ roadmap and in issues #172/#173:
   diffs (today `brand-b`). Brand discovery is **data-driven** — a new
   `values.<brand>` key → a generated `<brand>.css`, no code change (PR #258).
 - **Consumption:** `ui-react/src/styles/index.css` imports `tokens-pd`'s
-  `acronis.css` + opt-in per-component tiers, and bridges `--ui-*` onto Tailwind
+  `default.css` + opt-in per-component tiers, and bridges `--ui-*` onto Tailwind
   names via `@theme inline`.
 
 So #172 ("generate per-brand CSS") and #173 ("data-driven generation") are
@@ -67,7 +67,7 @@ Pipeline already emits `css/<brand>.css` + `css/<component>/<brand>.css`. Gap is
 
 - Confirm/declare the per-brand **entry points** as public (see
   [token-contract](../packages/design-tokens/context/token-contract.md#tokens-pd--the-real-consumer-facing-contract)).
-- Document the consumption recipe in `ui-react`: load `acronis.css` base, layer
+- Document the consumption recipe in `ui-react`: load `default.css` base, layer
   `<brand>.css`, flip `[data-theme]`. Add a Storybook toolbar/decorator that
   switches `[data-theme]` so every story renders under each brand (extends the
   existing light/dark check).
@@ -134,7 +134,7 @@ that defined it.
 
 ### Plain app (light DOM)
 
-Import `acronis.css` (+ an optional `<brand>.css`) once at the document; set
+Import `default.css` (+ an optional `<brand>.css`) once at the document; set
 `[data-theme]` on `<html>` (e.g. via `next-themes`). The Tailwind `dark:` variant
 is already wired to `[data-theme='dark']` in `ui-react/src/styles/index.css`.
 Toggling the attribute flips `color-scheme`, which flips every token's

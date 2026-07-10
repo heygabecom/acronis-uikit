@@ -159,7 +159,7 @@ prefix) and **never** hand-author hex/hsl. Pick the token tier in this order:
 
    ```bash
    ls packages/tokens-pd/css/<ComponentName>/ 2>/dev/null && \
-     grep -rn "<component>" "packages/tokens-pd/css/<ComponentName>/acronis.css" | head
+     grep -rn "<component>" "packages/tokens-pd/css/<ComponentName>/default.css" | head
    ```
 
    If a `--ui-<name>-*` tier exists (e.g. a token sync already shipped it),
@@ -209,7 +209,7 @@ prefix) and **never** hand-author hex/hsl. Pick the token tier in this order:
    a danger fill → `--ui-background-status-danger`), don't invent a value:
 
    ```bash
-   grep -oE '\-\-ui-[a-z-]+' packages/tokens-pd/css/acronis.css | sort -u   # semantic vocabulary
+   grep -oE '\-\-ui-[a-z-]+' packages/tokens-pd/css/default.css | sort -u   # semantic vocabulary
    ```
 
    If a shared color you need isn't bridged yet, add it to the `@theme inline`
@@ -229,7 +229,7 @@ Wire **each interaction state to its own token** (`hover:` → `*-hover`,
 honor the referenced token.
 
 > **tokens-pd component tiers are opt-in.** If you do use an existing
-> `--ui-<name>-*` tier, add one `@import '@acronis-platform/tokens-pd/css/<Name>/acronis.css';`
+> `--ui-<name>-*` tier, add one `@import '@acronis-platform/tokens-pd/css/<Name>/default.css';`
 > to `src/styles/index.css` or the component renders unstyled. A component built
 > on semantic tokens only needs no new import (the semantic tier is always loaded).
 

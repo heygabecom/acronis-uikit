@@ -11,7 +11,7 @@
 //   2. buildCss (`<filter>-css`) — resolve those views per brand, then emit
 //      tier-partitioned CSS into the package: the semantic tier at the root
 //      (`<brand>.css`), each component tier in its own dir
-//      (`<component>/<brand>.css`). The default brand (acronis) gets full files;
+//      (`<component>/<brand>.css`). The default brand gets full files;
 //      every other brand gets override-only files diffed against the default.
 
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -103,11 +103,11 @@ export function tailwindRoleMap(
 // ── Shared design data ─────────────────────────────────────────────────────────
 
 /** The brand emitted in full; every other brand is a diff against it. */
-export const DEFAULT_BRAND = 'acronis';
+export const DEFAULT_BRAND = 'default';
 
 /**
  * Stage-1 outputs. `primitives` carries the Theme axis (light/dark); `semantic`
- * and `components` carry the Brand axis (acronis/brand-b). `mode` is the key to
+ * and `components` carry the Brand axis (default/brand-b). `mode` is the key to
  * pick out of each token's `values` dict; single-value tokens (units, font,
  * typography composites) are mode-invariant and emitted into every view of their
  * source file unchanged.

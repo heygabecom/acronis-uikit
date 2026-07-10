@@ -7,7 +7,7 @@ DTCG token data) by the
 
 The raw tokens are a Figma-exported, multi-dimensional DTCG variant that no app
 can use directly — primitives carry per-scheme (`light`/`dark`) values and
-semantic/component tokens carry per-brand (`acronis`/`brand-b`) aliases back into
+semantic/component tokens carry per-brand (`default`/`deep_sky_itkontoret`) aliases back into
 the primitives. This package ships the resolved output. **The generated files are
 committed** (and published); do not edit them by hand — change the upstream tokens
 and rebuild.
@@ -18,10 +18,10 @@ Output is grouped into three top-level directories — `css/`, `tailwind/`, `dtc
 
 | Path                                         | Tier      | Contents                                                                      |
 | -------------------------------------------- | --------- | ----------------------------------------------------------------------------- |
-| `css/acronis.css`                            | semantic  | Default brand — every semantic token (`--ui-*`) + `.ui-typography-*`          |
-| `css/brand-b.css`                            | semantic  | Non-default brand — only the tokens that differ from `acronis`                |
-| `css/<component>/acronis.css`                | component | Default brand — that component's tokens (`button/`, `tooltip/`, …)            |
-| `css/<component>/brand-b.css`                | component | Non-default brand — only the component tokens that differ                     |
+| `css/default.css`                            | semantic  | Default brand — every semantic token (`--ui-*`) + `.ui-typography-*`          |
+| `css/deep_sky_itkontoret.css`                | semantic  | Non-default brand — only the tokens that differ from `default`                |
+| `css/<component>/default.css`                | component | Default brand — that component's tokens (`button/`, `tooltip/`, …)            |
+| `css/<component>/deep_sky_itkontoret.css`    | component | Non-default brand — only the component tokens that differ                     |
 | `tailwind/<brand>/tokens.js`                 | semantic  | Tailwind preset of the shared semantic vocabulary (**baked** values)          |
 | `tailwind/<brand>/components/<component>.js` | component | One preset per component — opt-in, so its utilities aren't suggested globally |
 | `dtcg/*.json`                                | —         | The 100%-DTCG intermediate (per-mode), for generic DTCG tooling               |
@@ -34,18 +34,18 @@ token is prefixed with `ui`): `colors.background.surface.primary` →
 
 ```css
 /* Default brand */
-@import '@acronis-platform/tokens-pd/css/acronis.css';
+@import '@acronis-platform/tokens-pd/css/default.css';
 
 /* …or a single brand per app: base + override (last import wins) */
-@import '@acronis-platform/tokens-pd/css/acronis.css';
-@import '@acronis-platform/tokens-pd/css/brand-b.css';
+@import '@acronis-platform/tokens-pd/css/default.css';
+@import '@acronis-platform/tokens-pd/css/deep_sky_itkontoret.css';
 
 /* Component tier is opt-in, per component */
-@import '@acronis-platform/tokens-pd/css/button/acronis.css';
+@import '@acronis-platform/tokens-pd/css/button/default.css';
 ```
 
 Light/dark is built in via `light-dark()` + `color-scheme`; switch with the
-`[data-theme]` attribute (`<html data-theme="dark">`). The base (`acronis`) files
+`[data-theme]` attribute (`<html data-theme="dark">`). The base (`default`) files
 declare the `color-scheme` shell; override files restate only the changed
 properties on top.
 
@@ -57,8 +57,8 @@ loaded — not globally:
 ```css
 @import 'tailwindcss';
 /* presets: [
-     require('@acronis-platform/tokens-pd/tailwind/acronis/tokens.js'),       // shared vocabulary
-     require('@acronis-platform/tokens-pd/tailwind/acronis/components/button.js'), // opt-in per component
+     require('@acronis-platform/tokens-pd/tailwind/default/tokens.js'),       // shared vocabulary
+     require('@acronis-platform/tokens-pd/tailwind/default/components/button.js'), // opt-in per component
    ] */
 @config '../tailwind.config.js';
 ```
@@ -78,4 +78,4 @@ package — it is a published home for the tool's token output.
 - Colors (incl. `light-dark()` theming and gradients as `linear-gradient(...)`),
   typography utility classes, and component dimensions.
 - Non-default brands are emitted as **override-only** files: a token appears in
-  `brand-b.css` only when its value differs from `acronis` or is new in `brand-b`.
+  `deep_sky_itkontoret.css` only when its value differs from `default` or is new in that brand.

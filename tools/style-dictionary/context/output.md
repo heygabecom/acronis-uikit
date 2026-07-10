@@ -4,11 +4,11 @@ The token build writes into the published `packages/tokens-pd/` package (committ
 not gitignored), grouped into `css/`, `tailwind/`, and `dtcg/` dirs. The CSS
 (`tokens-pd/css/`) is partitioned by tier and brand:
 
-- `css/acronis.css` — semantic tier, default brand (full): every `--ui-*` color +
+- `css/default.css` — semantic tier, default brand (full): every `--ui-*` color +
   dimension custom property (colors in both light and dark), followed by the
   `.ui-typography-*` utility classes.
 - `css/brand-b.css` — semantic tier, non-default brand: **override-only** (below).
-- `css/<component>/acronis.css` — component tier, default brand (full), one dir per
+- `css/<component>/default.css` — component tier, default brand (full), one dir per
   component (`button/`, `breadcrumb/`, …).
 - `css/<component>/brand-b.css` — component tier, non-default brand: override-only.
 

@@ -27,7 +27,7 @@ them in dependency order. The **token** outputs are written into the published
 this tool's gitignored `dist/assets/`:
 
 1. `pd-dtcg` → `tokens-pd/dtcg/` — six per-mode, 100%-DTCG JSON files.
-2. `pd-css` → `tokens-pd/css/` — semantic tier at the css root (`acronis.css`
+2. `pd-css` → `tokens-pd/css/` — semantic tier at the css root (`default.css`
    full, `brand-b.css` override-only) + one dir per component
    (`css/<component>/<brand>.css`). Names use the `--ui-*` convention.
 3. `pd-tailwind` → `tokens-pd/tailwind/<brand>/tokens.js` (semantic) +

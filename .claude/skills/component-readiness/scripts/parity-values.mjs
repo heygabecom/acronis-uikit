@@ -124,7 +124,7 @@ function loadFigma(path) {
   return Object.entries(j).map(([name, value]) => ({ name, value }));
 }
 
-const brand = rest.includes('--brand') ? rest[rest.indexOf('--brand') + 1] : 'acronis';
+const brand = rest.includes('--brand') ? rest[rest.indexOf('--brand') + 1] : 'default';
 const tokenVals = loadTokenValues(brand);
 const refd = referencedTokens();
 const figma = loadFigma(figmaJsonPath);
