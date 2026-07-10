@@ -19,8 +19,8 @@ const preview: Preview = {
         title: 'Brand',
         icon: 'paintbrush',
         items: [
-          { value: 'acronis', title: 'Acronis' },
-          { value: 'deep-sky', title: 'Deep Sky' },
+          { value: 'default', title: 'Default' },
+          { value: 'deep_sky_itkontoret', title: 'Deep Sky (ITkontoret)' },
         ],
         dynamicTitle: true,
       },
@@ -68,14 +68,14 @@ const preview: Preview = {
     },
   },
   initialGlobals: {
-    brand: 'acronis',
+    brand: 'default',
     colorMode: 'light',
     direction: 'auto',
     locale: 'en',
   },
   decorators: [
     (Story, context) => {
-      applyBrand((context.globals.brand as Brand) || 'acronis');
+      applyBrand((context.globals.brand as Brand) || 'default');
       applyColorMode((context.globals.colorMode as ColorMode) || 'light');
       applyLocaleAndDirection(
         (context.globals.locale as Locale) || 'en',

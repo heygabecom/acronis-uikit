@@ -37,7 +37,7 @@ theme at runtime:
 @import '@acronis-platform/ui-react/styles';
 
 /* optional: layer another brand override on top */
-@import '@acronis-platform/tokens-pd/css/deep-sky.css';
+@import '@acronis-platform/tokens-pd/css/deep_sky_itkontoret.css';
 ```
 
 ```html

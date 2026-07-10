@@ -12,7 +12,7 @@ The source tokens carry two independent mode axes (see
 [`design-tokens/context/manifest.md`](../../../packages/design-tokens/context/manifest.md)):
 
 - **Theme** (`light` / `dark`) lives on `primitives.palette`.
-- **Brand** (`acronis` / `brand-b`) lives on `semantics.colors` and `components.*`.
+- **Brand** (`default` / `brand-b`) lives on `semantics.colors` and `components.*`.
 
 So stage 1 splits **primitives by theme** but **semantics/components by brand**.
 The semantics tier carries `colors`, `gradients`, and `typography`:
@@ -21,9 +21,9 @@ The semantics tier carries `colors`, `gradients`, and `typography`:
 | -------------------------- | ----------------- | ----------------------------- |
 | `primitives-light.json`    | `primitives.json` | `light`                       |
 | `primitives-dark.json`     | `primitives.json` | `dark`                        |
-| `semantics-acronis.json`   | `semantics.json`  | `acronis`                     |
+| `semantics-default.json`   | `semantics.json`  | `default`                     |
 | `semantics-brand-b.json`   | `semantics.json`  | `brand-b`                     |
-| `components-acronis.json`  | `components.json` | `acronis`                     |
+| `components-default.json`  | `components.json` | `default`                     |
 | `components-brand-b.json`  | `components.json` | `brand-b`                     |
 
 Because semantics/component files are **not** split by theme, their values **keep
@@ -87,6 +87,6 @@ output contract.
   `isEmittableToken` (the `semantic-only` predicate); they are resolution inputs
   only, so only the `semantics` + `component` tiers are emitted.
 - Emitted tokens partition by `token.path[0]` into the semantics root file vs a
-  per-component file; non-default brands are diffed against `acronis` and written
+  per-component file; non-default brands are diffed against `default` and written
   as override-only files. `pd-tailwind` (`tailwind.ts`) reuses the same resolve to
   emit baked per-brand Tailwind presets.

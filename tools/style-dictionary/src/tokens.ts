@@ -103,7 +103,7 @@ export function tailwindRoleMap(
 // ── Shared design data ─────────────────────────────────────────────────────────
 
 /** The brand emitted in full; every other brand is a diff against it. */
-export const DEFAULT_BRAND = 'acronis';
+export const DEFAULT_BRAND = 'default';
 
 /**
  * Stage-1 outputs. `primitives` carries the Theme axis (light/dark); `semantic`

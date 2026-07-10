@@ -97,10 +97,10 @@ for c in $comps; do
   miss_imp=""
   while read -r t; do
     [ -z "$t" ] && continue
-    tier="$(grep -rl -- "$t:" "$TOKENS"/*/acronis.css 2>/dev/null | head -1 \
-            | sed -E "s|$TOKENS/([^/]+)/acronis.css|\1|")"
-    [ -z "$tier" ] && continue   # base/shared token (css/acronis.css) — always imported
-    grep -qF "css/$tier/acronis.css" "$STYLES" || miss_imp="$miss_imp $tier"
+    tier="$(grep -rl -- "$t:" "$TOKENS"/*/default.css 2>/dev/null | head -1 \
+            | sed -E "s|$TOKENS/([^/]+)/default.css|\1|")"
+    [ -z "$tier" ] && continue   # base/shared token (css/default.css) — always imported
+    grep -qF "css/$tier/default.css" "$STYLES" || miss_imp="$miss_imp $tier"
   done < "$refs"
   miss_imp="$(printf '%s' "$miss_imp" | tr ' ' '\n' | sort -u | tr '\n' ' ' | sed 's/^ *//;s/ *$//')"
   if [ -z "$miss_imp" ]; then imp=PASS; else imp=FAIL; fi

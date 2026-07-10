@@ -21,7 +21,7 @@ top of this file.
 - **Theming via generated tokens.** Color comes from
   `@acronis-platform/tokens-pd` (`--ui-*` CSS custom properties; light/dark via
   `light-dark()` + the `[data-theme]` attribute). `src/styles/index.css` imports
-  `@acronis-platform/tokens-pd/acronis.css` and bridges those onto Tailwind color
+  `@acronis-platform/tokens-pd/css/default.css` and bridges those onto Tailwind color
   names via `@theme inline`. Don't hand-author theme values here — change them in
   `@acronis-platform/design-tokens` and rebuild `@acronis-platform/tokens-pd`.
 

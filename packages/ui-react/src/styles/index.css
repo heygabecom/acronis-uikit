@@ -3,34 +3,34 @@
    Base UI's data-[open] / data-[closed] state attributes — same library legacy
    uses. Registers them as Tailwind v4 utilities so variants can prefix them. */
 @import 'tw-animate-css';
-@import '@acronis-platform/tokens-pd/css/acronis.css';
+@import '@acronis-platform/tokens-pd/css/default.css';
 
 /* Component token tiers are opt-in (per @acronis-platform/tokens-pd): import the
    tier for every component this library ships, so its `--ui-<component>-*` tokens
    are defined. Add a line here whenever a new component with its own tier lands. */
-@import '@acronis-platform/tokens-pd/css/Avatar/acronis.css';
-@import '@acronis-platform/tokens-pd/css/Button/acronis.css';
-@import '@acronis-platform/tokens-pd/css/ButtonMenu/acronis.css';
-@import '@acronis-platform/tokens-pd/css/ButtonIcon/acronis.css';
-@import '@acronis-platform/tokens-pd/css/CardFilter/acronis.css';
-@import '@acronis-platform/tokens-pd/css/Switch/acronis.css';
-@import '@acronis-platform/tokens-pd/css/Checkbox/acronis.css';
-@import '@acronis-platform/tokens-pd/css/Chips/acronis.css';
-@import '@acronis-platform/tokens-pd/css/InputText/acronis.css';
-@import '@acronis-platform/tokens-pd/css/InputTextArea/acronis.css';
-@import '@acronis-platform/tokens-pd/css/InputSearch/acronis.css';
-@import '@acronis-platform/tokens-pd/css/InputSelect/acronis.css';
-@import '@acronis-platform/tokens-pd/css/InputDatePicker/acronis.css';
-@import '@acronis-platform/tokens-pd/css/Link/acronis.css';
-@import '@acronis-platform/tokens-pd/css/SearchGlobal/acronis.css';
-@import '@acronis-platform/tokens-pd/css/Radio/acronis.css';
-@import '@acronis-platform/tokens-pd/css/Breadcrumb/acronis.css';
-@import '@acronis-platform/tokens-pd/css/Resizable/acronis.css';
-@import '@acronis-platform/tokens-pd/css/Tag/acronis.css';
-@import '@acronis-platform/tokens-pd/css/Tooltip/acronis.css';
-@import '@acronis-platform/tokens-pd/css/SidebarPrimary/acronis.css';
-@import '@acronis-platform/tokens-pd/css/SidebarSecondary/acronis.css';
-@import '@acronis-platform/tokens-pd/css/Table/acronis.css';
+@import '@acronis-platform/tokens-pd/css/Avatar/default.css';
+@import '@acronis-platform/tokens-pd/css/Button/default.css';
+@import '@acronis-platform/tokens-pd/css/ButtonMenu/default.css';
+@import '@acronis-platform/tokens-pd/css/ButtonIcon/default.css';
+@import '@acronis-platform/tokens-pd/css/CardFilter/default.css';
+@import '@acronis-platform/tokens-pd/css/Switch/default.css';
+@import '@acronis-platform/tokens-pd/css/Checkbox/default.css';
+@import '@acronis-platform/tokens-pd/css/Chips/default.css';
+@import '@acronis-platform/tokens-pd/css/InputText/default.css';
+@import '@acronis-platform/tokens-pd/css/InputTextArea/default.css';
+@import '@acronis-platform/tokens-pd/css/InputSearch/default.css';
+@import '@acronis-platform/tokens-pd/css/InputSelect/default.css';
+@import '@acronis-platform/tokens-pd/css/InputDatePicker/default.css';
+@import '@acronis-platform/tokens-pd/css/Link/default.css';
+@import '@acronis-platform/tokens-pd/css/SearchGlobal/default.css';
+@import '@acronis-platform/tokens-pd/css/Radio/default.css';
+@import '@acronis-platform/tokens-pd/css/Breadcrumb/default.css';
+@import '@acronis-platform/tokens-pd/css/Resizable/default.css';
+@import '@acronis-platform/tokens-pd/css/Tag/default.css';
+@import '@acronis-platform/tokens-pd/css/Tooltip/default.css';
+@import '@acronis-platform/tokens-pd/css/SidebarPrimary/default.css';
+@import '@acronis-platform/tokens-pd/css/SidebarSecondary/default.css';
+@import '@acronis-platform/tokens-pd/css/Table/default.css';
 
 @layer base {
   *,

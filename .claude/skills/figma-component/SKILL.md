@@ -133,7 +133,7 @@ overrides only honor the referenced token.
 > the build, typecheck, or lint. A token-sync (e.g. the `/sync-tokens` flow) can
 > rename tokens out from under a shipped component, leaving it referencing dead
 > names. So when updating, grep each ref and confirm it still resolves:
-> `for t in $(grep -oE 'ui-[a-z-]+' src/components/ui/<name>/<name>.tsx | sort -u); do grep -qF -- "--$t" packages/tokens-pd/css/<Tier>/acronis.css && echo "OK $t" || echo "MISS $t"; done`
+> `for t in $(grep -oE 'ui-[a-z-]+' src/components/ui/<name>/<name>.tsx | sort -u); do grep -qF -- "--$t" packages/tokens-pd/css/<Tier>/default.css && echo "OK $t" || echo "MISS $t"; done`
 > Don't forget the **spec** (`ui-spec/components/<name>/tokens.yaml` +
 > `anatomy.yaml`) and the **tests** — both pin token names and drift the same way.
 > (Worked example: the 2025-06 next-gen sync renamed `--ui-breadcrumb-link` →
@@ -141,10 +141,10 @@ overrides only honor the referenced token.
 > rendered links uncolored until re-themed.)
 
 > **tokens-pd component tiers are opt-in.** `src/styles/index.css` imports the
-> semantic tier (`css/acronis.css`) plus one `@import '…/css/<component>/acronis.css'`
+> semantic tier (`css/default.css`) plus one `@import '…/css/<component>/default.css'`
 > per shipped component. A new component with its own tier (`--ui-<name>-*`) will
 > render **unstyled** until you add its tier import there. Verify the token is
-> defined: `grep -rn "<name>" packages/tokens-pd/css/<name>/acronis.css`.
+> defined: `grep -rn "<name>" packages/tokens-pd/css/<name>/default.css`.
 
 **Primitive.** Prefer a `@base-ui/react` primitive when one exists (check
 `node_modules/@base-ui/react/`). For anything stateful/interactive (dialog,
@@ -273,7 +273,7 @@ exemplar in `button.stories.tsx` / `input.stories.tsx` / `switch.stories.tsx`:
   default unless you intend a baseline regen.
 
 **Preview toolbars** (`.storybook/preview.ts` + `.storybook/globals.ts`) already
-provide brand (acronis / deep-sky), light/dark, direction (auto/ltr/rtl), and
+provide brand (default / deep_sky_itkontoret), light/dark, direction (auto/ltr/rtl), and
 locale globals — stories get them for free, no per-story wiring. For **localized
 demo content**, read the locale global in `render` and pull sample text from
 `.storybook/i18n.ts` (the demo-only catalog — ui-react ships no strings). See the

@@ -14,12 +14,12 @@ It ships three kinds of artifact under `css/`, `tailwind/`, and `dtcg/`.
 
 ## Semantic tier
 
-`css/acronis.css` is the default brand at full strength: every `--ui-*` custom
+`css/default.css` is the default brand at full strength: every `--ui-*` custom
 property plus the `.ui-typography-*` utility classes. This is the file you load
 first.
 
 ```css
-@import '@acronis-platform/tokens-pd/css/acronis.css';
+@import '@acronis-platform/tokens-pd/css/default.css';
 ```
 
 `@acronis-platform/ui-react` already pulls this in for you when you import its
@@ -27,28 +27,28 @@ styles entry, so most apps never import it directly.
 
 ## Per-component tiers
 
-Each component has its own CSS under `css/<Component>/acronis.css` (e.g.
-`css/Button/acronis.css`, `css/Breadcrumb/acronis.css`). These hold the
+Each component has its own CSS under `css/<Component>/default.css` (e.g.
+`css/Button/default.css`, `css/Breadcrumb/default.css`). These hold the
 component-scoped `--ui-*` tokens (such as `--ui-button-global-radius`) and are
 **opt-in** — load only the components a build needs.
 
 ```css
-@import '@acronis-platform/tokens-pd/css/Button/acronis.css';
+@import '@acronis-platform/tokens-pd/css/Button/default.css';
 ```
 
 ## Brand overrides
 
-Non-default brands ship as **override-only** files. `css/deep-sky.css` contains
-a token only when its value differs from `acronis` or is new in that brand.
+Non-default brands ship as **override-only** files. `css/deep_sky_itkontoret.css` contains
+a token only when its value differs from `default` or is new in that brand.
 Brand selection is import-order based — **last import wins** — not a class
 toggle:
 
 ```css
-@import '@acronis-platform/tokens-pd/css/acronis.css';
-@import '@acronis-platform/tokens-pd/css/deep-sky.css'; /* layers on top */
+@import '@acronis-platform/tokens-pd/css/default.css';
+@import '@acronis-platform/tokens-pd/css/deep_sky_itkontoret.css'; /* layers on top */
 ```
 
-The base (`acronis`) files carry the `color-scheme` shell; override files are
+The base (`default`) files carry the `color-scheme` shell; override files are
 bare `:root {}` blocks layered over it.
 
 ## Dark mode
@@ -76,8 +76,8 @@ utilities stay opt-in.
 
 ```ts
 // tailwind.config.ts
-import tokens from '@acronis-platform/tokens-pd/tailwind/acronis/tokens.js';
-import buttonTokens from '@acronis-platform/tokens-pd/tailwind/acronis/components/Button.js';
+import tokens from '@acronis-platform/tokens-pd/tailwind/default/tokens.js';
+import buttonTokens from '@acronis-platform/tokens-pd/tailwind/default/components/Button.js';
 
 export default {
   presets: [tokens, buttonTokens],
@@ -103,8 +103,8 @@ hyphens. The `colors` tier root is dropped:
 ## DTCG intermediate
 
 `dtcg/*.json` holds the per-mode, 100%-DTCG intermediate the CSS and presets are
-generated from (e.g. `primitives-light.json`, `semantics-acronis.json`,
-`components-acronis.json`). It is rarely consumed directly but is published for
+generated from (e.g. `primitives-light.json`, `semantics-default.json`,
+`components-default.json`). It is rarely consumed directly but is published for
 tools that prefer DTCG over CSS.
 
 <Callout type="warn">

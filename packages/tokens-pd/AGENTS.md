@@ -28,7 +28,7 @@ header). `dev`/`clean`/`lint`/`typecheck` are no-ops; `test` re-runs the build.
 
 Three top-level dirs — `css/`, `tailwind/`, `dtcg/`:
 
-- `css/acronis.css` — semantic tier, default brand (full): `--ui-*` custom
+- `css/default.css` — semantic tier, default brand (full): `--ui-*` custom
   properties + `.ui-typography-*` utility classes.
 - `css/brand-b.css` — semantic tier, non-default brand: **override-only**.
 - `css/<component>/<brand>.css` — component tier, one dir per component

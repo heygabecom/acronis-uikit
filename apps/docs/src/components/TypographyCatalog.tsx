@@ -3,7 +3,7 @@ import { resolve } from 'node:path';
 
 /**
  * Typography tokens are emitted by `@acronis-platform/tokens-pd` as
- * `.ui-typography-*` utility classes (in `css/acronis.css`), not as custom
+ * `.ui-typography-*` utility classes (in `css/default.css`), not as custom
  * properties. This RSC reads that CSS at build time, parses each class rule and
  * its declarations, and renders a live sample per style with the parsed
  * declarations applied inline as `style` — so the sample renders correctly
@@ -25,11 +25,11 @@ interface TypographyStyle {
 }
 
 /** `process.cwd()` is `apps/docs/` at build time; tokens-pd lives at the root. */
-const ACRONIS_CSS = resolve(
+const DEFAULT_CSS = resolve(
   process.cwd(),
   '..',
   '..',
-  'packages/tokens-pd/css/acronis.css'
+  'packages/tokens-pd/css/default.css'
 );
 
 /** Preferred display order; any unlisted groups are appended after these. */
@@ -74,7 +74,7 @@ function sampleStyle(style: TypographyStyle): React.CSSProperties {
 }
 
 export function TypographyCatalog() {
-  const css = readFileSync(ACRONIS_CSS, 'utf-8');
+  const css = readFileSync(DEFAULT_CSS, 'utf-8');
   const styles = parseTypography(css);
 
   const seen = new Set<string>();

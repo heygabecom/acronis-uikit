@@ -19,12 +19,12 @@ dist/
 │   ├── pd-dtcg/                  # stage 1: 100%-DTCG JSON, one file per mode
 │   │   ├── primitives-light.json #   (Theme axis)
 │   │   ├── primitives-dark.json
-│   │   ├── semantic-acronis.json #   (Brand axis; aliases kept, not flattened)
+│   │   ├── semantic-default.json #   (Brand axis; aliases kept, not flattened)
 │   │   ├── semantic-brand-b.json
-│   │   ├── components-acronis.json
+│   │   ├── components-default.json
 │   │   └── components-brand-b.json
 │   └── pd-css/                   # stage 2: per-brand CSS custom properties
-│       ├── acronis.css
+│       ├── default.css
 │       └── brand-b.css
 └── assets/                       # design-assets → optimized SVG + React, one dir per deliverable
     ├── pd-concept-pack-svg/      #   <asset>-<size>.svg            + manifest.json
