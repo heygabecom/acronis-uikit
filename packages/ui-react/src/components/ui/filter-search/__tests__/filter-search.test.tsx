@@ -1,7 +1,15 @@
+import { useState } from 'react';
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
 
-import { FilterSearch, FilterSearchActions } from '../filter-search';
+import {
+  FilterSearch,
+  FilterSearchActions,
+  FilterSearchAppliedFilters,
+  FilterSearchFilters,
+  useFilterSearchFilters,
+} from '../filter-search';
 
 describe('FilterSearch', () => {
   it('renders a div with default flex layout', () => {
@@ -83,5 +91,178 @@ describe('FilterSearch composition', () => {
     expect(screen.getByPlaceholderText('Search')).toBeInTheDocument();
     expect(screen.getByText('Table filters')).toBeInTheDocument();
     expect(screen.getByText('Export')).toBeInTheDocument();
+  });
+});
+
+// A field child wired to the draft via the context hook, exactly as a consumer
+// would wire a real field (InputSelect, Search, …) inside the popover.
+function StatusField() {
+  const { filters, setFilter } = useFilterSearchFilters();
+  return (
+    <div>
+      <span data-testid="draft-status">{String(filters.status ?? '')}</span>
+      <button type="button" onClick={() => setFilter('status', 'active')}>
+        Set status
+      </button>
+    </div>
+  );
+}
+
+function FiltersHarness({
+  initial,
+  onValueChange,
+  onApply,
+}: {
+  initial?: Record<string, unknown>;
+  onValueChange?: (next: Record<string, unknown>) => void;
+  onApply?: (filters: Record<string, unknown>) => void;
+}) {
+  const [value, setValue] = useState<Record<string, unknown>>(initial ?? {});
+  return (
+    <FilterSearchFilters
+      value={value}
+      onValueChange={(next) => {
+        setValue(next);
+        onValueChange?.(next);
+      }}
+      onApply={onApply}
+    >
+      <StatusField />
+    </FilterSearchFilters>
+  );
+}
+
+describe('FilterSearchFilters', () => {
+  it('renders the filter trigger', () => {
+    render(<FiltersHarness />);
+    expect(screen.getByRole('button', { name: 'Filters' })).toBeInTheDocument();
+  });
+
+  it('opens the popover from the trigger', async () => {
+    const user = userEvent.setup();
+    render(<FiltersHarness />);
+    expect(screen.queryByText('Set status')).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Filters' }));
+    expect(screen.getByText('Set status')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Apply' })).toBeInTheDocument();
+  });
+
+  it('applies the drafted filters on Apply', async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    const onApply = vi.fn();
+    render(<FiltersHarness onValueChange={onValueChange} onApply={onApply} />);
+
+    await user.click(screen.getByRole('button', { name: 'Filters' }));
+    await user.click(screen.getByRole('button', { name: 'Set status' }));
+    expect(screen.getByTestId('draft-status')).toHaveTextContent('active');
+
+    await user.click(screen.getByRole('button', { name: 'Apply' }));
+    expect(onValueChange).toHaveBeenCalledWith({ status: 'active' });
+    expect(onApply).toHaveBeenCalledWith({ status: 'active' });
+    expect(screen.queryByText('Set status')).not.toBeInTheDocument();
+  });
+
+  it('reverts the draft on Cancel without applying', async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(<FiltersHarness onValueChange={onValueChange} />);
+
+    await user.click(screen.getByRole('button', { name: 'Filters' }));
+    await user.click(screen.getByRole('button', { name: 'Set status' }));
+    await user.click(screen.getByRole('button', { name: 'Cancel' }));
+    expect(onValueChange).not.toHaveBeenCalled();
+
+    await user.click(screen.getByRole('button', { name: 'Filters' }));
+    expect(screen.getByTestId('draft-status')).toHaveTextContent('');
+  });
+
+  it('disables Reset filters when nothing is drafted and clears when pressed', async () => {
+    const user = userEvent.setup();
+    render(<FiltersHarness initial={{ status: 'active' }} />);
+
+    await user.click(screen.getByRole('button', { name: 'Filters' }));
+    const reset = screen.getByRole('button', { name: 'Reset filters' });
+    expect(reset).toBeEnabled();
+    await user.click(reset);
+    expect(screen.getByTestId('draft-status')).toHaveTextContent('');
+  });
+
+  it('disables Apply until the draft actually changes', async () => {
+    const user = userEvent.setup();
+    render(<FiltersHarness initial={{ status: 'active' }} />);
+
+    await user.click(screen.getByRole('button', { name: 'Filters' }));
+    expect(screen.getByRole('button', { name: 'Apply' })).toBeDisabled();
+
+    await user.click(screen.getByRole('button', { name: 'Set status' }));
+    expect(screen.getByRole('button', { name: 'Apply' })).toBeDisabled();
+
+    await user.click(screen.getByRole('button', { name: 'Reset filters' }));
+    expect(screen.getByRole('button', { name: 'Apply' })).toBeEnabled();
+  });
+});
+
+describe('FilterSearchAppliedFilters', () => {
+  it('renders nothing when there are no applied filters', () => {
+    render(
+      <FilterSearchAppliedFilters
+        data-testid="applied"
+        filters={{}}
+        onValueChange={() => {}}
+      />
+    );
+    expect(screen.queryByTestId('applied')).not.toBeInTheDocument();
+  });
+
+  it('renders one removable chip per applied filter plus a Reset filters action', () => {
+    render(
+      <FilterSearchAppliedFilters
+        filters={{ status: 'active', type: 'server' }}
+        onValueChange={() => {}}
+      />
+    );
+    expect(screen.getByText('status: active')).toBeInTheDocument();
+    expect(screen.getByText('type: server')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Reset filters' })).toBeInTheDocument();
+  });
+
+  it('removes a single filter when its chip is removed', async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(
+      <FilterSearchAppliedFilters
+        filters={{ status: 'active', type: 'server' }}
+        onValueChange={onValueChange}
+      />
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Remove status filter' }));
+    expect(onValueChange).toHaveBeenCalledWith({ type: 'server' });
+  });
+
+  it('clears all filters when Reset filters is pressed', async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(
+      <FilterSearchAppliedFilters
+        filters={{ status: 'active', type: 'server' }}
+        onValueChange={onValueChange}
+      />
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Reset filters' }));
+    expect(onValueChange).toHaveBeenCalledWith({});
+  });
+
+  it('supports a custom chip label formatter', () => {
+    render(
+      <FilterSearchAppliedFilters
+        filters={{ status: 'active' }}
+        onValueChange={() => {}}
+        getFilterChipLabel={(key, value) => `${key.toUpperCase()}=${value}`}
+      />
+    );
+    expect(screen.getByText('STATUS=active')).toBeInTheDocument();
   });
 });

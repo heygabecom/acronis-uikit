@@ -52,6 +52,7 @@
     "resizable",
     "scroll-area",
     "separator",
+    "filter-search",
     "---Overlays---",
     "dialog",
     "dropdown-menu",
