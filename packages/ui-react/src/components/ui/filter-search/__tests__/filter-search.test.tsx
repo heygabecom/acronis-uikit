@@ -315,6 +315,16 @@ describe('FilterSearchAppliedFilters', () => {
     ).toBeInTheDocument();
   });
 
+  it('formats an array filter value as a comma-separated list', () => {
+    render(
+      <FilterSearchAppliedFilters
+        filters={{ status: ['active', 'pending'] }}
+        onValueChange={() => {}}
+      />
+    );
+    expect(screen.getByText('status: active, pending')).toBeInTheDocument();
+  });
+
   it('supports a custom chip label formatter', () => {
     render(
       <FilterSearchAppliedFilters

@@ -51,4 +51,35 @@ describe('deepEqual', () => {
     expect(deepEqual([{ a: 1 }], [{ a: 1 }])).toBe(true);
     expect(deepEqual([{ a: 1 }], [{ a: 2 }])).toBe(false);
   });
+
+  it('compares Dates by time value, not identity', () => {
+    expect(deepEqual(new Date(2024, 0, 1), new Date(2024, 0, 1))).toBe(true);
+    expect(deepEqual(new Date(2024, 0, 1), new Date(2024, 0, 2))).toBe(false);
+    expect(deepEqual(new Date(2024, 0, 1), {})).toBe(false);
+  });
+
+  it('compares Sets by member value, regardless of insertion order', () => {
+    expect(deepEqual(new Set([1, 2]), new Set([2, 1]))).toBe(true);
+    expect(deepEqual(new Set([1, 2]), new Set([1, 3]))).toBe(false);
+    expect(deepEqual(new Set([1, 2]), new Set([1]))).toBe(false);
+    expect(deepEqual(new Set(), {})).toBe(false);
+  });
+
+  it('compares Maps by key/value pairs, regardless of insertion order', () => {
+    expect(
+      deepEqual(
+        new Map([
+          ['a', 1],
+          ['b', 2],
+        ]),
+        new Map([
+          ['b', 2],
+          ['a', 1],
+        ]),
+      ),
+    ).toBe(true);
+    expect(deepEqual(new Map([['a', 1]]), new Map([['a', 2]]))).toBe(false);
+    expect(deepEqual(new Map([['a', 1]]), new Map([['b', 1]]))).toBe(false);
+    expect(deepEqual(new Map(), {})).toBe(false);
+  });
 });
