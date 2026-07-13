@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ChevronDownIcon } from '@acronis-platform/icons-react/stroke-mono';
 
 import { cn } from '@/lib/utils';
+import { deepEqual } from '@/lib/deep-equal';
 import { Button } from '../button';
 import { Chip } from '../chip';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover';
@@ -25,30 +26,6 @@ import { Popover, PopoverContent, PopoverTrigger } from '../popover';
 // `<FilterSearchAppliedFilters>` as a sibling row below it. Reconcile against
 // the real design with `/figma-component FilterSearchFilters <url> --update`
 // once a mockup lands.
-
-function shallowDeepEqual(a: unknown, b: unknown): boolean {
-  if (Object.is(a, b)) return true;
-  if (
-    typeof a !== 'object' ||
-    typeof b !== 'object' ||
-    a === null ||
-    b === null
-  ) {
-    return false;
-  }
-  if (Array.isArray(a) || Array.isArray(b)) {
-    if (!Array.isArray(a) || !Array.isArray(b) || a.length !== b.length) {
-      return false;
-    }
-    return a.every((entry, index) => shallowDeepEqual(entry, b[index]));
-  }
-  const aRecord = a as Record<string, unknown>;
-  const bRecord = b as Record<string, unknown>;
-  const aKeys = Object.keys(aRecord);
-  const bKeys = Object.keys(bRecord);
-  if (aKeys.length !== bKeys.length) return false;
-  return aKeys.every((key) => shallowDeepEqual(aRecord[key], bRecord[key]));
-}
 
 export type FilterSearchProps = React.ComponentPropsWithoutRef<'div'>;
 
@@ -137,7 +114,15 @@ const FilterSearchFilters = React.forwardRef<
   };
 
   const setFilter = React.useCallback((key: string, filterValue: unknown) => {
-    setDraft((previous) => ({ ...previous, [key]: filterValue }));
+    setDraft((previous) => {
+      if (filterValue === undefined) {
+        if (!(key in previous)) return previous;
+        const next = { ...previous };
+        delete next[key];
+        return next;
+      }
+      return { ...previous, [key]: filterValue };
+    });
   }, []);
 
   const filterContext = React.useMemo<FilterSearchFiltersContextValue>(
@@ -159,7 +144,7 @@ const FilterSearchFilters = React.forwardRef<
   };
 
   const resetDisabled = Object.keys(draft).length === 0;
-  const applyDisabled = shallowDeepEqual(draft, value);
+  const applyDisabled = deepEqual(draft, value);
 
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>

@@ -104,6 +104,9 @@ function StatusField() {
       <button type="button" onClick={() => setFilter('status', 'active')}>
         Set status
       </button>
+      <button type="button" onClick={() => setFilter('status', undefined)}>
+        Clear status
+      </button>
     </div>
   );
 }
@@ -163,6 +166,21 @@ describe('FilterSearchFilters', () => {
     expect(screen.queryByText('Set status')).not.toBeInTheDocument();
   });
 
+  it('deletes the draft key instead of committing undefined', async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(
+      <FiltersHarness initial={{ status: 'active' }} onValueChange={onValueChange} />
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Filters' }));
+    await user.click(screen.getByRole('button', { name: 'Clear status' }));
+    expect(screen.getByTestId('draft-status')).toHaveTextContent('');
+
+    await user.click(screen.getByRole('button', { name: 'Apply' }));
+    expect(onValueChange).toHaveBeenCalledWith({});
+  });
+
   it('reverts the draft on Cancel without applying', async () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();
@@ -172,6 +190,36 @@ describe('FilterSearchFilters', () => {
     await user.click(screen.getByRole('button', { name: 'Set status' }));
     await user.click(screen.getByRole('button', { name: 'Cancel' }));
     expect(onValueChange).not.toHaveBeenCalled();
+
+    await user.click(screen.getByRole('button', { name: 'Filters' }));
+    expect(screen.getByTestId('draft-status')).toHaveTextContent('');
+  });
+
+  it('reverts the draft on Escape without applying', async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(<FiltersHarness onValueChange={onValueChange} />);
+
+    await user.click(screen.getByRole('button', { name: 'Filters' }));
+    await user.click(screen.getByRole('button', { name: 'Set status' }));
+    await user.keyboard('{Escape}');
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(screen.queryByText('Set status')).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Filters' }));
+    expect(screen.getByTestId('draft-status')).toHaveTextContent('');
+  });
+
+  it('reverts the draft on an outside press without applying', async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(<FiltersHarness onValueChange={onValueChange} />);
+
+    await user.click(screen.getByRole('button', { name: 'Filters' }));
+    await user.click(screen.getByRole('button', { name: 'Set status' }));
+    await user.click(document.body);
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(screen.queryByText('Set status')).not.toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Filters' }));
     expect(screen.getByTestId('draft-status')).toHaveTextContent('');

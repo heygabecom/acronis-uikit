@@ -50,7 +50,7 @@ function SelectField({
     <InputSelect
       items={items}
       value={value}
-      onValueChange={(next) => setFilter(filterKey, next)}
+      onValueChange={(next) => setFilter(filterKey, next === 'all' ? undefined : next)}
     >
       <InputSelectField>
         <InputSelectLabel>{label}</InputSelectLabel>
