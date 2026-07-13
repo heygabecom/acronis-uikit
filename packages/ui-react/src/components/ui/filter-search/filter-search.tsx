@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { ChevronDownIcon } from '@acronis-platform/icons-react/stroke-mono';
-
 import { cn } from '@/lib/utils';
 import { deepEqual } from '@/lib/deep-equal';
 import { Button } from '../button';

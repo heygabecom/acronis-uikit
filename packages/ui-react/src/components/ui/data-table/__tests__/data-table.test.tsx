@@ -7,13 +7,15 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 
+import { useFilterSearchFilters } from '../../filter-search';
 import {
   DataTable,
   DataTableColumnHeader,
+  DataTableExpandTrigger,
   DataTablePagination,
   DataTableToolbar,
 } from '../index';
@@ -94,6 +96,126 @@ describe('DataTable', () => {
   });
 });
 
+describe('DataTable column resizing', () => {
+  it('renders a resize handle on resizable headers when enabled', () => {
+    render(
+      <DataTable
+        columns={columns}
+        data={data.slice(0, 2)}
+        enableColumnResizing
+      />
+    );
+    expect(
+      screen.getAllByRole('separator', { name: 'Resize column' })
+    ).toHaveLength(columns.length);
+  });
+
+  it('renders no resize handles by default', () => {
+    render(<DataTable columns={columns} data={data.slice(0, 2)} />);
+    expect(
+      screen.queryByRole('separator', { name: 'Resize column' })
+    ).not.toBeInTheDocument();
+  });
+});
+
+describe('DataTable sticky (pinned) columns', () => {
+  it('applies position:sticky to a column pinned via meta', async () => {
+    const pinned: ColumnDef<Row>[] = [
+      { accessorKey: 'email', header: 'Email', meta: { pin: 'left' } },
+      { accessorKey: 'amount', header: 'Amount' },
+    ];
+    render(<DataTable columns={pinned} data={data.slice(0, 2)} />);
+    await waitFor(() => {
+      const header = screen.getByText('Email').closest('th')!;
+      expect(header.style.position).toBe('sticky');
+      expect(header.style.left).toBe('0px');
+    });
+    // The unpinned column stays static.
+    expect(screen.getByText('Amount').closest('th')!.style.position).toBe('');
+  });
+});
+
+describe('DataTable wrapping (meta.wrap) columns', () => {
+  it('wraps a column flagged meta.wrap and drops the fixed row height', () => {
+    const wrapped: ColumnDef<Row>[] = [
+      { accessorKey: 'email', header: 'Email' },
+      {
+        accessorKey: 'amount',
+        header: 'Amount',
+        meta: { wrap: true },
+        cell: ({ row }) => <span>{row.original.amount}</span>,
+      },
+    ];
+    render(<DataTable columns={wrapped} data={data.slice(0, 1)} />);
+
+    // The wrap-flagged cell + header get `whitespace-normal` and lose `h-10`.
+    const wrapCell = screen.getByText('100').closest('td')!;
+    expect(wrapCell).toHaveClass('whitespace-normal');
+    expect(wrapCell).not.toHaveClass('h-10');
+    const wrapHeader = screen.getByText('Amount').closest('th')!;
+    expect(wrapHeader).toHaveClass('whitespace-normal');
+    expect(wrapHeader).not.toHaveClass('h-10');
+
+    // The unflagged column keeps the default fixed height / no-wrap.
+    const plainCell = screen
+      .getByText('user1@example.com')
+      .closest('td')!;
+    expect(plainCell).toHaveClass('h-10');
+    expect(plainCell).not.toHaveClass('whitespace-normal');
+  });
+});
+
+describe('DataTableExpandTrigger', () => {
+  it('toggles row expansion from a column cell', async () => {
+    const expandable: ColumnDef<Row>[] = [
+      {
+        id: 'expand',
+        header: () => null,
+        cell: ({ row }) => <DataTableExpandTrigger row={row} />,
+      },
+      { accessorKey: 'email', header: 'Email' },
+    ];
+    render(
+      <DataTable
+        columns={expandable}
+        data={data.slice(0, 2)}
+        getRowCanExpand={() => true}
+        renderExpandedRow={(row) => <span>Details for {row.original.id}</span>}
+      />
+    );
+    expect(screen.queryByText('Details for r1')).not.toBeInTheDocument();
+    const trigger = screen.getAllByRole('button', { name: 'Expand row' })[0];
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    await userEvent.click(trigger);
+    expect(screen.getByText('Details for r1')).toBeInTheDocument();
+    expect(
+      screen.getAllByRole('button', { name: 'Collapse row' })[0]
+    ).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  it('renders nothing when the row cannot expand', () => {
+    const expandable: ColumnDef<Row>[] = [
+      {
+        id: 'expand',
+        header: () => null,
+        cell: ({ row }) => <DataTableExpandTrigger row={row} />,
+      },
+      { accessorKey: 'email', header: 'Email' },
+    ];
+    render(
+      <DataTable
+        columns={expandable}
+        data={data.slice(0, 2)}
+        getRowCanExpand={() => false}
+        renderExpandedRow={() => null}
+      />
+    );
+    expect(
+      screen.queryByRole('button', { name: 'Expand row' })
+    ).not.toBeInTheDocument();
+  });
+});
+
 describe('DataTable presentational features', () => {
   it('stripes alternating rows', () => {
     render(<DataTable columns={columns} data={data.slice(0, 4)} striped />);
@@ -165,6 +287,28 @@ function Harness() {
 }
 
 describe('DataTableToolbar + DataTablePagination', () => {
+  it('renders `leading` before the search box', () => {
+    function LeadingHarness() {
+      const table = useReactTable({
+        data,
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+      });
+      return (
+        <DataTableToolbar
+          table={table}
+          leading={<button>Acme Corp</button>}
+          searchKey="email"
+          searchPlaceholder="Filter emails…"
+        />
+      );
+    }
+    render(<LeadingHarness />);
+    expect(
+      screen.getByRole('button', { name: 'Acme Corp' })
+    ).toBeInTheDocument();
+  });
+
   it('filters rows via the search box', async () => {
     render(<Harness />);
     const search = screen.getByPlaceholderText('Filter emails…');
@@ -181,5 +325,70 @@ describe('DataTableToolbar + DataTablePagination', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Go to next page' }));
     expect(rows().queryByText('user1@example.com')).not.toBeInTheDocument();
     expect(rows().getByText('user6@example.com')).toBeInTheDocument();
+  });
+});
+
+const filterColumns: ColumnDef<Row>[] = [
+  { accessorKey: 'email', header: 'Email' },
+  { accessorKey: 'amount', header: 'Amount', filterFn: 'weakEquals' },
+];
+
+function AmountFilterField() {
+  const { filters, setFilter } = useFilterSearchFilters();
+  return (
+    <input
+      aria-label="Amount filter"
+      value={(filters.amount as string) ?? ''}
+      onChange={(event) =>
+        setFilter('amount', event.target.value || undefined)
+      }
+    />
+  );
+}
+
+function FilterHarness() {
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const table = useReactTable({
+    data,
+    columns: filterColumns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    state: { columnFilters },
+  });
+  return (
+    <div>
+      <DataTableToolbar table={table}>
+        <AmountFilterField />
+      </DataTableToolbar>
+      <div data-testid="page-rows">
+        {table.getRowModel().rows.map((r) => (
+          <span key={r.id}>{r.original.email}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+describe('DataTableToolbar per-column filtering', () => {
+  it('applies a column filter through the FilterSearchFilters popover', async () => {
+    render(<FilterHarness />);
+    const rows = () => within(screen.getByTestId('page-rows'));
+    expect(rows().getByText('user1@example.com')).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('button', { name: 'Filters' }));
+    await userEvent.type(
+      screen.getByLabelText('Amount filter'),
+      '300'
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'Apply' }));
+
+    expect(rows().getByText('user3@example.com')).toBeInTheDocument();
+    expect(rows().queryByText('user1@example.com')).not.toBeInTheDocument();
+    // The applied filter surfaces as a removable chip.
+    expect(
+      screen.getByRole('button', { name: 'Remove amount filter' })
+    ).toBeInTheDocument();
   });
 });

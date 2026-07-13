@@ -12,7 +12,17 @@ source: '@acronis-platform/tokens-pd'
 tokens:
   - name: --ui-table-global-cell-border-color
     affects: table
-    description: Wrapper border — matches the Table cell borders.
+    description: >-
+      Wrapper border — matches the Table cell borders; also the column resize
+      handle bar when enableColumnResizing is set.
+  - name: --ui-table-global-row-color-idle
+    affects: row
+    description: >-
+      Default row background; also the opaque background applied to pinned
+      (sticky) cells so scrolled cells don't show through.
+  - name: --ui-table-data-value-color-idle
+    affects: expand-trigger
+    description: Chevron color of the in-cell DataTableExpandTrigger.
   - name: --ui-table-data-value-color-disabled
     affects: empty-state
     description: Muted "No results." text — matches disabled table values.
@@ -27,7 +37,9 @@ tokens:
     description: Current (last-clicked) row highlight — the active-row color.
   - name: --ui-table-header-cell-color-hover
     affects: column-header
-    description: Hover background of the single-click sort toggle.
+    description: >-
+      Hover background of the single-click sort toggle; also the hover
+      background of the in-cell expand trigger.
   - name: --ui-table-header-sort-icon-size
     affects: column-header
     description: Size of the sort-direction arrow in the column header.
@@ -39,4 +51,6 @@ tokens:
     description: Muted up/down arrow shown when the column is unsorted.
   - name: --ui-focus-primary
     affects: column-header
-    description: Focus ring of the keyboard-focused sort toggle.
+    description: >-
+      Focus ring of the keyboard-focused sort toggle; also the in-cell expand
+      trigger's focus ring.

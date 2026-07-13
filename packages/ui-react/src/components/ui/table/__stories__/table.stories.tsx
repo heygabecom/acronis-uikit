@@ -1,7 +1,7 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Checkbox } from '../../checkbox';
-import { Tag } from '../../tag';
 import {
   Table,
   TableBody,
@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from '../table';
+import { TablePagination } from '../table-pagination';
 
 const meta = {
   title: 'UI/Table',
@@ -111,39 +112,140 @@ export const SortableHeaders: Story = {
   ),
 };
 
-// Selection: a leading checkbox column and a `selected` row (active token).
-export const Selectable: Story = {
-  render: () => (
+const SELECTION_ROWS = [
+  { id: 'r1', name: 'web-server-01' },
+  { id: 'r2', name: 'db-primary' },
+  { id: 'r3', name: 'mail-relay' },
+];
+
+// Tri-state "select all" header checkbox driven by per-row selection state:
+// unchecked when no rows are selected, `indeterminate` when some (but not all)
+// are, checked when every row is. Toggling the header checks/unchecks all rows.
+function RowSelectionStatesDemo() {
+  const [selected, setSelected] = useState<Record<string, boolean>>({});
+  const selectedCount = SELECTION_ROWS.filter((row) => selected[row.id]).length;
+  const allSelected = selectedCount === SELECTION_ROWS.length;
+  const someSelected = selectedCount > 0 && !allSelected;
+
+  const toggleAll = () =>
+    setSelected(
+      allSelected
+        ? {}
+        : Object.fromEntries(SELECTION_ROWS.map((row) => [row.id, true]))
+    );
+
+  return (
     <Table className="w-[520px]">
       <TableHeader>
         <TableRow>
           <TableHead>
-            <Checkbox aria-label="Select all" />
+            <Checkbox
+              aria-label="Select all"
+              checked={allSelected}
+              indeterminate={someSelected}
+              onCheckedChange={toggleAll}
+            />
           </TableHead>
           <TableHead>Workload</TableHead>
-          <TableHead>Status</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow selected>
-          <TableCell>
-            <Checkbox defaultChecked aria-label="Select row" />
-          </TableCell>
-          <TableCell>web-server-01</TableCell>
-          <TableCell>
-            <Tag>Protected</Tag>
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell>
-            <Checkbox aria-label="Select row" />
-          </TableCell>
-          <TableCell>db-primary</TableCell>
-          <TableCell>
-            <Tag>Protected</Tag>
-          </TableCell>
-        </TableRow>
+        {SELECTION_ROWS.map((row) => (
+          <TableRow key={row.id} selected={!!selected[row.id]}>
+            <TableCell>
+              <Checkbox
+                aria-label={`Select ${row.name}`}
+                checked={!!selected[row.id]}
+                onCheckedChange={(value) =>
+                  setSelected((previous) => ({ ...previous, [row.id]: !!value }))
+                }
+              />
+            </TableCell>
+            <TableCell>{row.name}</TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
-  ),
+  );
+}
+
+export const RowSelectionStates: Story = {
+  render: () => <RowSelectionStatesDemo />,
+};
+
+/* --------------------------------------------------------- Scrollable body */
+
+interface ScrollRow {
+  id: string;
+  name: string;
+  size: number;
+}
+
+const TOTAL_ROWS = 60;
+// A page deliberately holds more rows than the scroll viewport can show at
+// once, so scrolling within the page is actually necessary (not just a
+// pagination-sized coincidence).
+const PAGE_SIZE = 20;
+const SCROLL_ROWS: ScrollRow[] = Array.from({ length: TOTAL_ROWS }, (_, i) => ({
+  id: `row-${i + 1}`,
+  name: `Workload ${i + 1}`,
+  size: ((i * 37) % 100) + 1,
+}));
+
+// A fixed-height, vertically scrolling table body — the header and pagination
+// stay put while the rows scroll underneath. `Table` already renders its own
+// `overflow-auto` wrapper (for horizontal scroll); nesting a SECOND
+// `overflow-auto`/`overflow-y-auto` div around it would give `position: sticky`
+// two candidate scrolling ancestors, and it locks onto the nearest one — that
+// inner, Table-owned wrapper, which never itself scrolls (it's sized to fit its
+// content) — so the header wouldn't stick. Instead, size and scroll Table's OWN
+// wrapper directly via a child-selector utility (`[&>div]:...`), so there's
+// only one scrolling ancestor. `sticky top-0` goes on each header CELL, not the
+// `<tr>` — browsers don't reliably support `position: sticky` on table rows.
+function ScrollableBodyDemo() {
+  const [pageIndex, setPageIndex] = useState(0);
+  const pageCount = Math.ceil(SCROLL_ROWS.length / PAGE_SIZE);
+  const pageRows = SCROLL_ROWS.slice(
+    pageIndex * PAGE_SIZE,
+    pageIndex * PAGE_SIZE + PAGE_SIZE
+  );
+
+  return (
+    <div className="w-[420px] space-y-4">
+      <div className="rounded-md border border-(--ui-table-global-cell-border-color) [&>div]:max-h-[220px] [&>div]:overflow-y-auto">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="sticky top-0 z-10 bg-background">
+                Name
+              </TableHead>
+              <TableHead className="sticky top-0 z-10 bg-background text-end">
+                Size
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {pageRows.map((row) => (
+              <TableRow key={row.id}>
+                <TableCell>{row.name}</TableCell>
+                <TableCell className="text-end">{row.size}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+      <TablePagination
+        pageIndex={pageIndex}
+        pageCount={pageCount}
+        pageSize={PAGE_SIZE}
+        totalRows={SCROLL_ROWS.length}
+        onPageIndexChange={setPageIndex}
+        onPageSizeChange={() => {}}
+      />
+    </div>
+  );
+}
+
+export const ScrollableBody: Story = {
+  render: () => <ScrollableBodyDemo />,
 };

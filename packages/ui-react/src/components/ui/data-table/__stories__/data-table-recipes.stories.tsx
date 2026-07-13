@@ -241,7 +241,17 @@ const virtualColumns: ColumnDef<Payment>[] = [
 
 export const VirtualScrolling: Story = {
   render: () => {
-    const parentRef = useRef<HTMLDivElement>(null);
+    // `Table` already renders its own `overflow-auto` wrapper (for horizontal
+    // scroll); nesting a SECOND `overflow-auto` div around it — the more
+    // obvious-looking approach — would give `position: sticky` two candidate
+    // scrolling ancestors. It locks onto the nearest one, the inner,
+    // Table-owned wrapper, which never scrolls itself (sized to fit its
+    // content), so the header wouldn't stick. Instead, get a ref to the
+    // `<table>` itself and reach one level up to ITS wrapper — the outer div
+    // below sizes/scrolls THAT wrapper directly via a child-selector utility
+    // (`[&>div]:...`), so there's only one scrolling ancestor, and the
+    // virtualizer measures/listens on that same element.
+    const tableRef = useRef<HTMLTableElement>(null);
     const table = useReactTable({
       data: manyRows,
       columns: virtualColumns,
@@ -250,7 +260,7 @@ export const VirtualScrolling: Story = {
     const rows = table.getRowModel().rows;
     const virtualizer = useVirtualizer({
       count: rows.length,
-      getScrollElement: () => parentRef.current,
+      getScrollElement: () => tableRef.current?.parentElement ?? null,
       estimateSize: () => 41,
       overscan: 8,
     });
@@ -262,13 +272,24 @@ export const VirtualScrolling: Story = {
       ? virtualizer.getTotalSize() - items[items.length - 1].end
       : 0;
     return (
-      <div ref={parentRef} className={`${wrapperClass} h-[360px] overflow-auto`}>
-        <Table>
+      <div
+        className={`${wrapperClass} [&>div]:h-[360px] [&>div]:overflow-auto`}
+      >
+        <Table ref={tableRef}>
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (
               <TableRow key={hg.id}>
                 {hg.headers.map((h) => (
-                  <TableHead key={h.id}>
+                  // `sticky top-0` on each header CELL (not the `<tr>`) keeps it
+                  // pinned to the scroll container (this div, not the page)
+                  // while the virtualized body scrolls underneath — browsers
+                  // don't reliably support `position: sticky` on `<tr>`/`<thead>`
+                  // itself, only on the cells (the same reason `DataTable`'s
+                  // horizontal column pinning targets `<th>`/`<td>`, not `<tr>`).
+                  // `bg-background` makes it opaque — the row's own idle
+                  // background token is transparent by design, so an unfilled
+                  // sticky header would let scrolling rows show through it.
+                  <TableHead key={h.id} className="sticky top-0 z-10 bg-background">
                     {flexRender(h.column.columnDef.header, h.getContext())}
                   </TableHead>
                 ))}
