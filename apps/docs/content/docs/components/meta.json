@@ -14,6 +14,8 @@
     "input-select",
     "combobox",
     "input-date-picker",
+    "calendar",
+    "date-range-picker",
     "checkbox",
     "radio",
     "switch",

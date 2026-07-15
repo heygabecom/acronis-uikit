@@ -10,6 +10,10 @@ import {
   FilterSearchFilters,
   useFilterSearchFilters,
 } from '../filter-search';
+import {
+  DateRangePicker,
+  type DateRange,
+} from '../../date-range-picker/date-range-picker';
 
 describe('FilterSearch', () => {
   it('renders a div with default flex layout', () => {
@@ -248,6 +252,131 @@ describe('FilterSearchFilters', () => {
 
     await user.click(screen.getByRole('button', { name: 'Reset filters' }));
     expect(screen.getByRole('button', { name: 'Apply' })).toBeEnabled();
+  });
+});
+
+// A DateRangePicker wired as a filter field inside FilterSearchFilters — the
+// real-world composition that produces a popover-over-popover: the Filters popup
+// is open, and opening the date-range calendar stacks a second Popover on top.
+function DateRangeField() {
+  const { filters, setFilter } = useFilterSearchFilters();
+  return (
+    <DateRangePicker
+      label="Period"
+      placeholder="Select a range"
+      value={(filters.period as DateRange | undefined) ?? {}}
+      onValueChange={(range) =>
+        setFilter('period', range.from ? range : undefined)
+      }
+    />
+  );
+}
+
+function NestedPopoverHarness() {
+  const [value, setValue] = useState<Record<string, unknown>>({});
+  return (
+    <FilterSearchFilters value={value} onValueChange={setValue}>
+      <DateRangeField />
+    </FilterSearchFilters>
+  );
+}
+
+// Open the outer Filters popup, then the inner DateRangePicker calendar.
+async function openBothPopovers(user: ReturnType<typeof userEvent.setup>) {
+  await user.click(screen.getByRole('button', { name: 'Filters' }));
+  await user.click(screen.getByRole('button', { name: 'Period' }));
+}
+
+// The outer popup is identified by its Cancel button (unique to
+// FilterSearchFilters); the inner popup by the calendar grids + date fields
+// (unique to DateRangePicker). "Apply" is intentionally never queried while both
+// are open — both popups render an Apply button.
+const outerOpen = () => screen.queryByRole('button', { name: 'Cancel' }) !== null;
+const innerOpen = () => screen.queryByLabelText('Start date') !== null;
+
+describe('FilterSearchFilters nested popover (DateRangePicker field)', () => {
+  it('keeps the outer Filters popup open while the inner calendar is open', async () => {
+    const user = userEvent.setup();
+    render(<NestedPopoverHarness />);
+
+    await user.click(screen.getByRole('button', { name: 'Filters' }));
+    expect(outerOpen()).toBe(true);
+    expect(innerOpen()).toBe(false);
+
+    await user.click(screen.getByRole('button', { name: 'Period' }));
+    // The outer popup stays mounted/visible once the inner one opens on top.
+    expect(outerOpen()).toBe(true);
+    expect(innerOpen()).toBe(true);
+    expect(screen.getAllByRole('grid')).toHaveLength(2);
+  });
+
+  it('paints the inner calendar on top of the outer popup (later in document order at equal z-index)', async () => {
+    const user = userEvent.setup();
+    render(<NestedPopoverHarness />);
+    await openBothPopovers(user);
+
+    // Both popups portal to document.body appended in open order; the inner
+    // (opened second) is a later sibling, so at equal z-index it paints above.
+    const outerMarker = screen.getByRole('button', { name: 'Cancel' });
+    const innerMarker = screen.getAllByRole('grid')[0];
+    expect(
+      outerMarker.compareDocumentPosition(innerMarker) &
+        Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy();
+  });
+
+  it('closes only the inner calendar on the first Escape and returns focus to its trigger', async () => {
+    const user = userEvent.setup();
+    render(<NestedPopoverHarness />);
+    await openBothPopovers(user);
+
+    await user.keyboard('{Escape}');
+    // Inner closed, outer still open.
+    expect(innerOpen()).toBe(false);
+    expect(outerOpen()).toBe(true);
+    // Focus returns to the DateRangePicker trigger inside the outer popup.
+    expect(screen.getByRole('button', { name: 'Period' })).toHaveFocus();
+
+    // A second Escape closes the outer popup.
+    await user.keyboard('{Escape}');
+    expect(outerOpen()).toBe(false);
+  });
+
+  it('does not dismiss the outer popup when a day is clicked in the inner calendar', async () => {
+    const user = userEvent.setup();
+    render(<NestedPopoverHarness />);
+    await openBothPopovers(user);
+
+    await user.click(screen.getAllByText('15')[0]);
+    // Clicking calendar content is not an outside press for either popup.
+    expect(innerOpen()).toBe(true);
+    expect(outerOpen()).toBe(true);
+  });
+
+  it('does not dismiss the outer popup when the inner Apply is pressed', async () => {
+    const user = userEvent.setup();
+    render(<NestedPopoverHarness />);
+    await openBothPopovers(user);
+
+    await user.click(screen.getAllByText('15')[0]);
+    // With the inner open, the enabled Apply is the calendar's (the outer's is
+    // disabled until its draft changes). Applying commits the range and closes
+    // only the inner popup; the outer Filters popup stays open.
+    const applyButtons = screen.getAllByRole('button', { name: 'Apply' });
+    const innerApply = applyButtons.find((button) => !button.hasAttribute('disabled'));
+    await user.click(innerApply!);
+
+    expect(innerOpen()).toBe(false);
+    expect(outerOpen()).toBe(true);
+  });
+
+  it('closes the inner calendar on an outside press', async () => {
+    const user = userEvent.setup();
+    render(<NestedPopoverHarness />);
+    await openBothPopovers(user);
+
+    await user.click(document.body);
+    expect(innerOpen()).toBe(false);
   });
 });
 

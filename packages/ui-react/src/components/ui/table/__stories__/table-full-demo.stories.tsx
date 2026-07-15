@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, within } from 'storybook/test';
+import { expect, userEvent, within } from 'storybook/test';
 import { BuildingIcon } from '@acronis-platform/icons-react/stroke-mono';
 
 import {
@@ -17,6 +17,7 @@ import {
   useFilterSearchFilters,
 } from '../../filter-search';
 import { InputSearch } from '../../input-search';
+import { DateRangePicker, type DateRange } from '../../date-range-picker';
 import {
   InputSelect,
   InputSelectContent,
@@ -256,6 +257,24 @@ function SeverityFilterField() {
   );
 }
 
+// A date-range filter field, wired to the FilterSearchFilters draft via the
+// context hook — opening its calendar renders a second Popover on top of the
+// already-open Filters popup (popover-over-popover).
+function PeriodFilterField() {
+  const { filters, setFilter } = useFilterSearchFilters();
+  return (
+    <DateRangePicker
+      label="Period"
+      placeholder="Select a date range"
+      value={(filters.period as DateRange | undefined) ?? {}}
+      onValueChange={(range) =>
+        setFilter('period', range.from ? range : undefined)
+      }
+      className="w-64"
+    />
+  );
+}
+
 function FullDemo() {
   useSyncUrlToParentFrame();
   const { state, setPagination, setSorting, setColumnFilters } =
@@ -448,6 +467,80 @@ function FullDemo() {
   );
 }
 
+// The "Alerts screen" toolbar composition: a scope switcher, a free-text search,
+// and a Filters popup (Filters button → popover) holding a Type select and a
+// DateRangePicker period field — mirroring the real design where the date-range
+// filter lives as one field inside the filters popup, not standalone in the
+// toolbar row. Opening the period calendar stacks a second Popover on top of the
+// open Filters popup. The table's own data/columns are unchanged from `FullDemo`'s
+// `workloads`; the search narrows by name and the applied Type filter narrows by
+// type.
+function ToolbarWithDateRangeDemo() {
+  const [query, setQuery] = useState('');
+  const [filters, setFilters] = useState<Record<string, unknown>>({
+    period: {
+      from: new Date(2026, 6, 1),
+      to: new Date(2026, 6, 15),
+    } satisfies DateRange,
+  });
+
+  const type = filters.type as string | undefined;
+  const rows = workloads.filter(
+    (row) =>
+      row.name.toLowerCase().includes(query.toLowerCase()) &&
+      (!type || row.type === type)
+  );
+
+  return (
+    <div className="w-[720px] space-y-4">
+      <FilterSearch>
+        <TenantSwitcher />
+        <InputSearch
+          placeholder="Filter by name…"
+          aria-label="Filter by name"
+          className="w-56"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+        />
+        <FilterSearchFilters value={filters} onValueChange={setFilters}>
+          <TypeFilterField />
+          <PeriodFilterField />
+        </FilterSearchFilters>
+      </FilterSearch>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Name</TableHead>
+            <TableHead>Type</TableHead>
+            <TableHead>Severity</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {rows.length ? (
+            rows.slice(0, PAGE_SIZE).map((row) => (
+              <TableRow key={row.name}>
+                <TableCell className="font-medium">{row.name}</TableCell>
+                <TableCell>{row.type}</TableCell>
+                <TableCell>
+                  <Tag variant={SEVERITY_VARIANT[row.severity]}>
+                    {row.severity}
+                  </Tag>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={3} className="h-24 text-center">
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}
+
 const meta = {
   title: 'UI/Table/Full Demo',
   parameters: {
@@ -510,5 +603,27 @@ export const RestoreFromExampleUrl: Story = {
     // Only Servers are shown (Workload 2 is a Workstation and is filtered out).
     await expect(canvas.getByText('Workload 9')).toBeInTheDocument();
     await expect(canvas.queryByText('Workload 2')).not.toBeInTheDocument();
+  },
+};
+
+export const WithDateRangeFilter: Story = {
+  name: 'With date-range filter',
+  render: () => <ToolbarWithDateRangeDemo />,
+};
+
+// Same composition as above, but the `play` opens the Filters popover AND the
+// Period field's calendar so the popover-over-popover state is captured for VR —
+// the initial (closed) render above never exercises the nested overlay. `fullPage`
+// is required because both popovers portal outside `#storybook-root`.
+export const WithDateRangeFilterOpen: Story = {
+  name: 'With date-range filter (open)',
+  parameters: { snapshot: { fullPage: true, animationDelay: 400 } },
+  render: () => <ToolbarWithDateRangeDemo />,
+  play: async () => {
+    const body = within(document.body);
+    await userEvent.click(await body.findByRole('button', { name: 'Filters' }));
+    await userEvent.click(await body.findByRole('button', { name: 'Period' }));
+    // Wait for the dual-month calendar (two grids) to paint inside the nested popover.
+    await body.findAllByRole('grid');
   },
 };

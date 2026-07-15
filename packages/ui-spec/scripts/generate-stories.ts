@@ -294,7 +294,9 @@ const RENDER: Record<string, RenderHint> = {
     ].join('\n'),
   },
   'input-text': { props: 'label="Email" placeholder="you@example.com"' },
-  'input-text-area': { props: 'label="Bio" placeholder="Tell us about yourself"' },
+  'input-text-area': {
+    props: 'label="Bio" placeholder="Tell us about yourself"',
+  },
   link: { sample: 'Link', props: 'href="#"' },
   search: { ariaLabel: 'Search' },
   tooltip: {
@@ -498,7 +500,9 @@ const RENDER: Record<string, RenderHint> = {
   resizable: {
     root: 'ResizablePanelGroup',
     ariaLabel: 'Resizable example',
-    extraImports: ["import { ResizablePanel, ResizableHandle } from '../resizable';"],
+    extraImports: [
+      "import { ResizablePanel, ResizableHandle } from '../resizable';",
+    ],
     sample: [
       '',
       '      <ResizablePanel defaultSize={50}>One</ResizablePanel>',

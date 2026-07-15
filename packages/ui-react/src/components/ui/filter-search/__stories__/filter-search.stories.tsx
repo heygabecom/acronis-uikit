@@ -1,5 +1,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { userEvent, within } from 'storybook/test';
+import { format, parseISO } from 'date-fns';
 import { BuildingIcon } from '@acronis-platform/icons-react/stroke-mono';
 
 import {
@@ -13,6 +15,10 @@ import { InputSearch as Search } from '../../input-search/input-search';
 import { ButtonMenu } from '../../button-menu/button-menu';
 import { Button } from '../../button/button';
 import { InputDatePicker } from '../../input-date-picker/input-date-picker';
+import {
+  DateRangePicker,
+  type DateRange,
+} from '../../date-range-picker/date-range-picker';
 import { Separator } from '../../separator/separator';
 import {
   InputSelect,
@@ -87,7 +93,10 @@ export const WithTenantSwitcher: Story = {
     <FilterSearch>
       <Select items={tenantItems} defaultValue="all">
         <SelectTrigger className="w-56">
-          <BuildingIcon size={16} className="shrink-0 text-[var(--ui-input-select-normal-icon-expand-color-idle)]" />
+          <BuildingIcon
+            size={16}
+            className="shrink-0 text-[var(--ui-input-select-normal-icon-expand-color-idle)]"
+          />
           <SelectValue placeholder="All customers" />
         </SelectTrigger>
         <SelectContent>
@@ -107,7 +116,11 @@ export const WithTenantSwitcher: Story = {
 const TYPE_ITEMS = { all: 'All', device: 'Device', workload: 'Workload' };
 const PRICING_ITEMS = { all: 'All', trial: 'Trial', paid: 'Paid' };
 const STATUS_ITEMS = { all: 'All', active: 'Active', disabled: 'Disabled' };
-const MANAGEMENT_ITEMS = { all: 'All', managed: 'Managed', unmanaged: 'Unmanaged' };
+const MANAGEMENT_ITEMS = {
+  all: 'All',
+  managed: 'Managed',
+  unmanaged: 'Unmanaged',
+};
 const BILLING_ITEMS = { all: 'All', monthly: 'Monthly', annual: 'Annual' };
 
 function SelectField({
@@ -160,17 +173,32 @@ function DeviceFilterFields() {
   return (
     <>
       <SelectField filterKey="type" label="Type" items={TYPE_ITEMS} />
-      <SelectField filterKey="pricingMode" label="Pricing mode" items={PRICING_ITEMS} />
+      <SelectField
+        filterKey="pricingMode"
+        label="Pricing mode"
+        items={PRICING_ITEMS}
+      />
       <SelectField filterKey="status" label="Status" items={STATUS_ITEMS} />
-      <SelectField filterKey="management" label="Management" items={MANAGEMENT_ITEMS} />
-      <SelectField filterKey="billingMode" label="Billing mode" items={BILLING_ITEMS} />
+      <SelectField
+        filterKey="management"
+        label="Management"
+        items={MANAGEMENT_ITEMS}
+      />
+      <SelectField
+        filterKey="billingMode"
+        label="Billing mode"
+        items={BILLING_ITEMS}
+      />
       <Separator />
       <CeoBirthdayField />
     </>
   );
 }
 
-function getDeviceFilterChipLabel(key: string, value: unknown): React.ReactNode {
+function getDeviceFilterChipLabel(
+  key: string,
+  value: unknown
+): React.ReactNode {
   const labelByKey: Record<string, string> = {
     type: 'Type',
     pricingMode: 'Pricing mode',
@@ -198,7 +226,10 @@ function FilterSearchWithFiltersExample({
       <FilterSearch>
         <Select items={tenantItems} defaultValue="acme">
           <SelectTrigger className="w-56">
-            <BuildingIcon size={16} className="shrink-0 text-[var(--ui-input-select-normal-icon-expand-color-idle)]" />
+            <BuildingIcon
+              size={16}
+              className="shrink-0 text-[var(--ui-input-select-normal-icon-expand-color-idle)]"
+            />
             <SelectValue placeholder="All customers" />
           </SelectTrigger>
           <SelectContent>
@@ -207,8 +238,16 @@ function FilterSearchWithFiltersExample({
             <SelectItem value="globex">Globex Inc</SelectItem>
           </SelectContent>
         </Select>
-        <Search placeholder="Enter text to filter" aria-label="Search" className="w-56" />
-        <FilterSearchFilters value={filters} onValueChange={setFilters} label="Table filters">
+        <Search
+          placeholder="Enter text to filter"
+          aria-label="Search"
+          className="w-56"
+        />
+        <FilterSearchFilters
+          value={filters}
+          onValueChange={setFilters}
+          label="Table filters"
+        >
           <DeviceFilterFields />
         </FilterSearchFilters>
       </FilterSearch>
@@ -228,12 +267,145 @@ export const WithFiltersAndChips: Story = {
   ),
 };
 
+// A date-range filter field bound to the draft via the context hook — the
+// primary real-world composition the DateRangePicker was designed for (a
+// date-range filter living inside a filter-search flyout).
+function PeriodFilterField() {
+  const { filters, setFilter } = useFilterSearchFilters();
+  return (
+    <DateRangePicker
+      label="Period"
+      placeholder="Select a date range"
+      value={(filters.period as DateRange | undefined) ?? {}}
+      onValueChange={(range) =>
+        setFilter('period', range.from ? range : undefined)
+      }
+    />
+  );
+}
+
+function AlertsFilterFields() {
+  return (
+    <>
+      <SelectField filterKey="status" label="Status" items={STATUS_ITEMS} />
+      <Separator />
+      <PeriodFilterField />
+    </>
+  );
+}
+
+function getAlertsFilterChipLabel(
+  key: string,
+  value: unknown
+): React.ReactNode {
+  if (key === 'period') {
+    const range = value as DateRange;
+    const from = range.from?.toLocaleDateString();
+    const to = range.to?.toLocaleDateString();
+    return `Period: ${from ?? '…'} – ${to ?? '…'}`;
+  }
+  return `${key === 'status' ? 'Status' : key}: ${String(value)}`;
+}
+
+const ISO_DAY = 'yyyy-MM-dd';
+
+// Serialize the applied filter set to a URL query string, round-tripping the
+// `period` date-range as `from`/`to` ISO params — the realistic reason a
+// date-range filter exists inside FilterSearch: its state syncs to the address
+// bar so a filtered view is shareable/bookmarkable.
+function filtersToQuery(filters: Record<string, unknown>): string {
+  const params = new URLSearchParams();
+  if (typeof filters.status === 'string') params.set('status', filters.status);
+  const period = filters.period as DateRange | undefined;
+  if (period?.from) params.set('from', format(period.from, ISO_DAY));
+  if (period?.to) params.set('to', format(period.to, ISO_DAY));
+  return params.toString();
+}
+
+function queryToFilters(query: string): Record<string, unknown> {
+  const params = new URLSearchParams(query);
+  const next: Record<string, unknown> = {};
+  const status = params.get('status');
+  if (status) next.status = status;
+  const from = params.get('from');
+  const to = params.get('to');
+  if (from || to) {
+    next.period = {
+      from: from ? parseISO(from) : undefined,
+      to: to ? parseISO(to) : undefined,
+    } satisfies DateRange;
+  }
+  return next;
+}
+
+function FilterSearchWithDateRangeExample() {
+  // The URL query string is the source of truth; filters derive from it and
+  // every change writes back to it (shown below — no real navigation).
+  const [query, setQuery] = React.useState('from=2026-07-01&to=2026-07-15');
+  const filters = React.useMemo(() => queryToFilters(query), [query]);
+  const setFilters = (next: Record<string, unknown>) =>
+    setQuery(filtersToQuery(next));
+  return (
+    <div className="flex flex-col gap-3">
+      <FilterSearch>
+        <Search
+          placeholder="Enter text to filter"
+          aria-label="Search"
+          className="w-56"
+        />
+        <FilterSearchFilters
+          value={filters}
+          onValueChange={setFilters}
+          label="Table filters"
+        >
+          <AlertsFilterFields />
+        </FilterSearchFilters>
+      </FilterSearch>
+      <FilterSearchAppliedFilters
+        filters={filters}
+        onValueChange={setFilters}
+        getFilterChipLabel={getAlertsFilterChipLabel}
+      />
+      <code className="text-xs text-muted-foreground">
+        ?{query || '(empty)'}
+      </code>
+    </div>
+  );
+}
+
+export const WithDateRangeFilter: Story = {
+  name: 'With date-range filter field',
+  render: () => <FilterSearchWithDateRangeExample />,
+};
+
+// Same composition as above, but the `play` opens the Filters popover AND the
+// Period field's calendar so the popover-over-popover state is captured for VR —
+// the initial (closed) render above never exercises the nested overlay. `fullPage`
+// is required because both popovers portal outside `#storybook-root`.
+export const WithDateRangeFilterOpen: Story = {
+  name: 'With date-range filter field (open)',
+  parameters: { snapshot: { fullPage: true, animationDelay: 400 } },
+  render: () => <FilterSearchWithDateRangeExample />,
+  play: async () => {
+    const body = within(document.body);
+    await userEvent.click(
+      await body.findByRole('button', { name: 'Table filters' })
+    );
+    await userEvent.click(await body.findByRole('button', { name: 'Period' }));
+    // Wait for the dual-month calendar (two grids) to paint inside the nested popover.
+    await body.findAllByRole('grid');
+  },
+};
+
 export const WithButtons: Story = {
   render: () => (
     <FilterSearch>
       <Select items={tenantItems} defaultValue="all">
         <SelectTrigger className="w-56">
-          <BuildingIcon size={16} className="shrink-0 text-[var(--ui-input-select-normal-icon-expand-color-idle)]" />
+          <BuildingIcon
+            size={16}
+            className="shrink-0 text-[var(--ui-input-select-normal-icon-expand-color-idle)]"
+          />
           <SelectValue placeholder="All customers" />
         </SelectTrigger>
         <SelectContent>
