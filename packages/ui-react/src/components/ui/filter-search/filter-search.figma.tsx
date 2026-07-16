@@ -23,13 +23,8 @@ figma.connect(
   'https://www.figma.com/design/lrU3ydIyvPYQNE6ixdsKtJ/ui-react?node-id=3897-7681',
   {
     props: {
-      hasTenants: figma.boolean('hasTenants'),
-      hasFilters: figma.boolean('hasFilters'),
-      actions: figma.children('ListActions'),
-    },
-    example: ({ hasTenants, hasFilters, actions }: { hasTenants: boolean; hasFilters: boolean; actions: React.ReactNode }) => (
-      <FilterSearch>
-        {hasTenants && (
+      tenantSelect: figma.boolean('hasTenants', {
+        true: (
           <Select defaultValue="all">
             <SelectTrigger className="w-56">
               <SelectValue placeholder="All customers" />
@@ -38,14 +33,25 @@ figma.connect(
               <SelectItem value="all">All customers</SelectItem>
             </SelectContent>
           </Select>
-        )}
-        <Search placeholder="Placeholder" aria-label="Search" className="w-56" />
-        {hasFilters && (
+        ),
+        false: undefined,
+      }),
+      filters: figma.boolean('hasFilters', {
+        true: (
           <FilterSearchFilters value={{}} onValueChange={() => {}} label="Table filters">
             {/* consumer-supplied filter fields, wired via useFilterSearchFilters */}
           </FilterSearchFilters>
-        )}
-        {actions && <FilterSearchActions>{actions}</FilterSearchActions>}
+        ),
+        false: undefined,
+      }),
+      actions: figma.children('ListActions'),
+    },
+    example: ({ tenantSelect, filters, actions }: { tenantSelect: React.ReactNode; filters: React.ReactNode; actions: React.ReactNode }) => (
+      <FilterSearch>
+        {tenantSelect}
+        <Search placeholder="Placeholder" aria-label="Search" className="w-56" />
+        {filters}
+        <FilterSearchActions>{actions}</FilterSearchActions>
       </FilterSearch>
     ),
   }
