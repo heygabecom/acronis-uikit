@@ -1,0 +1,109 @@
+spec_version: '1.0'
+component: AppShellChat
+
+schematic: |
+  root: <div data-slot="app-shell-chat">
+        full-height flex row (logical order — RTL-safe)
+
+  app-shell-chat-sidebar  (<aside> shrink-0)
+    SidebarPrimary [+ SidebarSecondary]
+
+  app-shell-chat-content  (<div> flex-1 min-w-0 — can shrink to 0, never unmounts)
+    app-shell-chat-content-header  (<div> bottom divider)
+    app-shell-chat-content-body    (<div> scrolling)
+
+  app-shell-chat-chat  (<aside> explicit pixel width, shrink-0)
+    resize-edge  (role="separator" on the start border)
+    app-shell-chat-chat-header  (<div> title, or icon-only rail at the min width)
+    app-shell-chat-chat-body    (<div> scrolling; hidden at the min width)
+
+  Content/Chat seam: --ui-border-on-surface-divider (chat border-s). Dragging the
+  resize edge toward the row's start grows Chat and shrinks Content down to 0
+  (the resize ceiling is the row's actual available width, not a fixed cap), so
+  Chat alone can reach full width — there is no separate full-width mode.
+
+root:
+  element: div
+  description: >-
+    The page scaffold — a full-height flex row (logical, so it mirrors in RTL
+    without a JS branch). Surface uses the bridged `bg-background`.
+
+parts:
+  - id: app-shell-chat-sidebar
+    element: aside
+    description: >-
+      Left rail slot for the reused SidebarPrimary (and optionally
+      SidebarSecondary), placed as siblings. `shrink-0`.
+  - id: app-shell-chat-content
+    element: div
+    description: >-
+      The page column (`flex-1 min-w-0`) — it absorbs every width change from
+      the sidebars and from Chat's resize, down to 0 width. Sidebar
+      interactions never affect Chat's width. Always mounted. Its canvas uses
+      the bridged `bg-muted`, matching SidebarSecondary's container color
+      (not the root/Chat's white `bg-background`).
+  - id: app-shell-chat-content-header
+    element: div
+    description: Page header row with a bottom divider (`border-b`).
+  - id: app-shell-chat-content-body
+    element: div
+    description: The scrolling page body.
+  - id: app-shell-chat-chat
+    element: aside
+    description: >-
+      The resizable chat panel. Has an explicit pixel width (fixed by default,
+      or an inline override once dragged); `shrink-0` always. Its start border
+      is the Content/Chat seam.
+  - id: resize-edge
+    element: div
+    description: >-
+      Internal drag/keyboard handle (`role="separator"`) on Chat's start
+      border — the shared boundary with Content. Drag resizes continuously
+      between the min width (48px, icon-only rail) and the available row
+      width (Content down to 0); double-click resets to the default width;
+      arrow keys resize by 16px, Home resets. There is no click-to-collapse —
+      resize is the only interaction. Not exported.
+    optional: true
+  - id: app-shell-chat-chat-header
+    element: div
+    description: >-
+      Chat header with a bottom divider. At the min width: only the Acronis
+      mark, with the label shown on hover (tooltip). Above the min width: a
+      title + optional `actions`. Both states render at the same height.
+  - id: app-shell-chat-chat-body
+    element: div
+    description: The scrolling chat body; hidden at the min width.
+
+layout:
+  type: flex
+  direction: row
+  align: stretch
+  order: [app-shell-chat-sidebar, app-shell-chat-content, app-shell-chat-chat]
+
+states:
+  - id: chat-collapsed
+    trigger: the chat panel's width is at its resize floor (48px)
+    kind: prop
+    prop: width
+    affects:
+      [
+        app-shell-chat-chat,
+        app-shell-chat-chat-header,
+        app-shell-chat-chat-body,
+        resize-edge,
+      ]
+  - id: hover
+    trigger: pointer hover over the resize edge
+    kind: pseudo
+    pseudo: ':hover'
+    affects: [resize-edge, app-shell-chat-chat]
+  - id: active
+    trigger: pointer drag on the resize edge
+    kind: pseudo
+    pseudo: ':active'
+    affects: [resize-edge, app-shell-chat-chat]
+  - id: focus-visible
+    trigger: keyboard focus on the resize edge
+    kind: pseudo
+    pseudo: ':focus-visible'
+    affects: [resize-edge, app-shell-chat-chat]

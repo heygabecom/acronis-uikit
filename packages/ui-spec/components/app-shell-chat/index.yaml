@@ -1,0 +1,22 @@
+spec_version: '1.0'
+component: AppShellChat
+name: app-shell-chat
+status: ready
+category: layout
+description: >-
+  A 3-section, horizontally resizable application scaffold: a sidebar rail
+  (SidebarPrimary, optionally SidebarSecondary) beside a Content page column and
+  a Chat panel. Content and Chat resize against each other by dragging Chat's
+  start border; the sidebars resize Content only (Chat keeps its explicit pixel
+  width). Chat is resize-only: dragging down to its floor width shows an
+  icon-only rail, and dragging up can take it to full width (Content shrinks to
+  0) since the resize ceiling is measured from the actual available row space.
+  Distinct from AppShell (a simpler sidebar + sticky-header + main shell).
+since: 0.57.0
+dependencies:
+  components:
+    - AcronisIcon
+    - Tooltip
+figma:
+  node: 'https://www.figma.com/design/lrU3ydIyvPYQNE6ixdsKtJ/ui-react?node-id=3484-2105'
+  codeConnect: packages/ui-react/src/components/ui/app-shell-chat/app-shell-chat.figma.tsx

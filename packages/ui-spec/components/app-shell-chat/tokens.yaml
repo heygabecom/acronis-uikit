@@ -1,0 +1,50 @@
+spec_version: '1.0'
+component: AppShellChat
+
+# References only. Values live in @acronis-platform/tokens-pd (generated from
+# @acronis-platform/design-tokens) and resolve per brand/theme at paint time.
+# The token schema forbids a value/default key here — never restate values.
+#
+# AppShellChat is a pure layout composition: it defines NO component-specific
+# (`--ui-app-shell-chat-*`) tokens — none exist and none are needed. It consumes
+# only shared surface/divider/text tokens plus the shared resizable-handle and
+# focus tokens (the latter reused verbatim from the SidebarSecondary resize edge
+# it mirrors). The rich sidebars dropped into its slot bring their own tokens.
+source: '@acronis-platform/tokens-pd'
+
+tokens:
+  - name: --ui-background-surface-primary
+    affects: root
+    description: >-
+      Root row and the Chat panel surface (bridged `bg-background`, white).
+  - name: --ui-background-surface-secondary
+    affects: app-shell-chat-content
+    description: >-
+      Content's canvas (bridged `bg-muted`) — the same token
+      SidebarSecondary's container uses, so Content reads as the same page
+      surface as the secondary sidebar rather than a separate white card.
+  - name: --ui-border-on-surface-divider
+    affects: app-shell-chat-chat
+    description: >-
+      The Content/Chat seam (chat `border-s`) and the content/chat header bottom
+      dividers. NOT `--ui-border-on-surface-border` (a different token).
+  - name: --ui-text-on-surface-primary
+    affects: app-shell-chat-chat-header
+    description: >-
+      Chat header title color, paired with the shared `ui-typography-headings-title`
+      text style (24px/32px, regular, Inter).
+  - name: --ui-resizable-cursor
+    affects: resize-edge
+    description: Resize cursor (fallback ew-resize).
+  - name: --ui-resizable-border-width
+    affects: resize-edge
+    description: Focus-line width on the resize edge (fallback 1px).
+  - name: --ui-resizable-border-color-hover
+    affects: app-shell-chat-chat
+    description: Content/Chat seam color while the resize edge is hovered.
+  - name: --ui-resizable-border-color-active
+    affects: app-shell-chat-chat
+    description: Content/Chat seam + focus line color while dragging / focused.
+  - name: --ui-focus-primary
+    affects: resize-edge
+    description: Focus ring around the resize edge (shared resizable focus token).

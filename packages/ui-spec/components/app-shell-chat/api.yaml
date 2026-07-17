@@ -1,0 +1,102 @@
+spec_version: '1.0'
+component: AppShellChat
+
+# Framework-agnostic contract for a *composable* 3-section resizable scaffold:
+# assembled from parts (see anatomy.yaml). Property names are neutral; see
+# `adapters` for per-framework syntax. Native element attributes pass through on
+# the relevant part.
+contract:
+  properties:
+    - name: width
+      type: number
+      required: false
+      default: undefined
+      description: >-
+        Controlled Chat width in px. Clamped during drag/keyboard resize to
+        [48, available] — the ceiling is the actual available row width (so
+        Content can shrink to 0 and Chat can reach full width), not a fixed
+        constant.
+    - name: resizeAriaLabel
+      type: string
+      required: false
+      default: "'Resize chat'"
+      description: >-
+        Accessible label for the Chat resize edge (`role="separator"`). Consumers
+        should localize this string for i18n.
+    - name: resizeTooltip
+      type: ReactNode
+      required: false
+      default: '(English tooltip: Resize/Reset)'
+      description: >-
+        Tooltip content shown on the resize edge. Pass `null` to hide the
+        tooltip entirely. Localize for i18n.
+    - name: label
+      type: ReactNode
+      required: false
+      default: undefined
+      description: >-
+        Chat header title (or pass as children). Also serves as the icon-only
+        rail's hover tooltip and (when a string) the Acronis mark's accessible
+        name.
+    - name: actions
+      type: ReactNode
+      required: false
+      default: undefined
+      description: >-
+        Trailing chat-header actions. Hidden while the chat is at its min
+        width (icon-only rail).
+
+  events:
+    - name: width-change
+      payload: number
+      description: >-
+        Fires when the Chat width changes via drag/keyboard. React:
+        `onWidthChange` on AppShellChatChat.
+
+  content:
+    - name: default
+      description: >-
+        The composed scaffold. Author it from the parts: a sidebar rail slot, a
+        Content column (header + body), and a Chat panel (header + body). The
+        resize edge is rendered automatically inside the Chat panel.
+
+  methods: []
+
+adapters:
+  react:
+    component: AppShellChat
+    status: implemented
+    import: >-
+      import { AppShellChat, AppShellChatSidebar, AppShellChatContent,
+      AppShellChatContentHeader, AppShellChatContentBody, AppShellChatChat,
+      AppShellChatChatHeader, AppShellChatChatBody }
+      from '@acronis-platform/ui-react'
+    example: |
+      <AppShellChat>
+        <AppShellChatSidebar>
+          <SidebarPrimary>…</SidebarPrimary>
+          <SidebarSecondary>…</SidebarSecondary>
+        </AppShellChatSidebar>
+        <AppShellChatContent>
+          <AppShellChatContentHeader>Page header</AppShellChatContentHeader>
+          <AppShellChatContentBody>{children}</AppShellChatContentBody>
+        </AppShellChatContent>
+        <AppShellChatChat>
+          <AppShellChatChatHeader label="Acronis AI" />
+          <AppShellChatChatBody>{chat}</AppShellChatChatBody>
+        </AppShellChatChat>
+      </AppShellChat>
+
+  vue:
+    component: AvAppShellChat
+    status: planned
+    import: "import { AvAppShellChat } from '@acronis-platform/ui-vue'"
+    example: |
+      <AvAppShellChat />
+
+  web-components:
+    element: ui-app-shell-chat
+    status: planned
+    import: "import '@acronis-platform/ui-wc/app-shell-chat'"
+    example: |
+      <ui-app-shell-chat></ui-app-shell-chat>
