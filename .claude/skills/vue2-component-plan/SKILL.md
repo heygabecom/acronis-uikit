@@ -3,14 +3,14 @@ name: vue2-component-plan
 description: >
   Produce a plan-only artifact set — PRD, vue2→React API mapping, and demo/UX
   notes — for a **future** ui-react component whose baseline is a component
-  from the external Acronis Vue 2 UI Kit fork
-  (`/Users/Mladen.Tsvetkov/projects/ui-kit/catalog/vue-2x/ui-kit-fork-q1-2026`),
-  cross-referenced against a live demo screen that shows the target look/UX.
+  from the external Acronis Vue 2 UI Kit fork (path from the `VUE2_FORK_ROOT`
+  env var — ask the user if unset), cross-referenced against a live demo
+  screen that shows the target look/UX.
   Writes no source code and no `packages/ui-spec` files (those require a real
   implementation to validate against); the output is meant to be handed to a
   fresh Claude session (or `/legacy-component`-style build) as its Phase 1
   input. Invoke with `/vue2-component-plan <ComponentName> <vue2-package...>
-  [demo-url-or-screenshot-path]`.
+  [demo-ref]`.
 ---
 
 # Vue 2 → ui-react component plan (research + PRD, no code)
@@ -70,11 +70,13 @@ Read first — they override anything here on conflict:
 | `vue2-package...` | One or more kebab package names under the vue2 fork's `packages/` (e.g. `table table-column table-actions`). The **first** is the primary baseline; the rest are satellites folded into the same plan as parts/patterns, not separate components. |
 | `demo-ref`        | Optional. A URL (best-effort fetch, see Phase 2) and/or a path to screenshot(s)/exported HTML the user already saved locally. If omitted, ask the user for it before Phase 2.                                                                     |
 
-Vue2 fork root (fixed for this environment, not a repo constant — confirm it
-still exists before reading):
+Vue2 fork root: read from the `VUE2_FORK_ROOT` env var (not a repo constant —
+it's a path on the operator's machine, outside this repo). If the env var
+isn't set, ask the user for the path before Phase 0 step 0. Referred to below
+as `$VUE2_FORK_ROOT`:
 
 ```
-/Users/Mladen.Tsvetkov/projects/ui-kit/catalog/vue-2x/ui-kit-fork-q1-2026/packages/<vue2-package>/
+$VUE2_FORK_ROOT/packages/<vue2-package>/
 ```
 
 **Before invoking Phase 1, evaluate feasibility and ask for what's missing.**
@@ -112,20 +114,22 @@ those primitives.
 
 ## Phase 0 — Confirm inputs, don't guess scope
 
-0. **Mandatory prerequisite: the vue2 fork must be an added working
-   directory in the current session, not just present on disk.** Reading it
-   as a bare filesystem path outside the session's working directories is
-   unreliable (tool sandboxing, path allowlists) — the user must add
-   `/Users/Mladen.Tsvetkov/projects/ui-kit/catalog/vue-2x/ui-kit-fork-q1-2026`
-   as an additional working directory before this skill can inventory it.
-   Check the environment context for it; if it's absent, **stop immediately**
-   and tell the user to add it (e.g. via their client's "add folder"/working
-   directory mechanism), then re-invoke. Do not fall back to reading it as an
-   unlisted path — confirm existence via `ls` only _after_ it's a working
-   directory, as a sanity check, not as a substitute for the check itself.
+0. **Mandatory prerequisite: resolve `$VUE2_FORK_ROOT`, and it must be an
+   added working directory in the current session, not just present on
+   disk.** If the `VUE2_FORK_ROOT` env var isn't set, ask the user for the
+   fork root path now rather than guessing or reusing a value from a prior
+   session. Reading it as a bare filesystem path outside the session's
+   working directories is unreliable (tool sandboxing, path allowlists) —
+   the user must add that path as an additional working directory before
+   this skill can inventory it. Check the environment context for it; if
+   it's absent, **stop immediately** and tell the user to add it (e.g. via
+   their client's "add folder"/working directory mechanism), then
+   re-invoke. Do not fall back to reading it as an unlisted path — confirm
+   existence via `ls` only _after_ it's a working directory, as a sanity
+   check, not as a substitute for the check itself.
 1. Verify the vue2 package(s) exist:
    ```bash
-   ls /Users/Mladen.Tsvetkov/projects/ui-kit/catalog/vue-2x/ui-kit-fork-q1-2026/packages/<pkg>/src
+   ls $VUE2_FORK_ROOT/packages/<pkg>/src
    ```
 2. Check whether `ComponentName` already exists in ui-react or has a plan
    already:
@@ -244,8 +248,8 @@ Before proposing a React API, confirm what you'd actually be building on:
 
 ```bash
 ls packages/ui-react/src/components/ui/                       # existing components to reuse as parts
-ls node_modules/@base-ui/react/                                # candidate primitive for the new component
-grep -oE '\-\-ui-[a-z-]+' packages/tokens-pd/css/acronis.css | sort -u   # semantic tokens available
+ls packages/ui-react/node_modules/@base-ui/react/              # candidate primitive for the new component
+grep -oE '\-\-ui-[a-z-]+' packages/tokens-pd/css/default.css | sort -u   # semantic tokens available
 ls packages/tokens-pd/css/ | grep -i <name>                    # existing component-specific tier, if any
 ```
 
