@@ -11,12 +11,14 @@ contract:
   properties:
     - name: columns
       type: 'ColumnDef<TData, TValue>[]'
-      required: true
-      description: TanStack column definitions (header / cell renderers, accessors).
+      required: false
+      description: >-
+        TanStack column definitions (header / cell renderers, accessors).
+        Required unless `table` (an externally-built instance) is passed.
     - name: data
       type: 'TData[]'
-      required: true
-      description: The row data.
+      required: false
+      description: The row data. Required unless `table` is passed.
     - name: table
       type: 'Table<TData>'
       required: false
@@ -27,6 +29,8 @@ contract:
         columnVisibility, onColumnVisibilityChange, onColumnSizingChange,
         enableColumnResizing, getRowCanExpand, manualSorting, sorting,
         onSortingChange, paginationMode, onLoadMore, hasNextPage, isLoadingMore.
+        meta.pin-driven column pinning is also skipped — pin/unpin the
+        external instance directly via TanStack's `column.pin()`.
     - name: getRowCanExpand
       type: '(row: Row<TData>) => boolean'
       required: false
@@ -126,7 +130,10 @@ contract:
         memoizable row component — the caller owns the row's markup and
         equality semantics. Reuse the exported `getCellStyle` /
         `getPinnedStyle` / `getColumnWidth` helpers to match DataTable's
-        default cell styling if desired.
+        default cell styling if desired. Also bypasses `renderExpandedRow` —
+        a row rendered via `renderRow` never gets an expanded-content row
+        appended; read `row.getIsExpanded()` and render it yourself if
+        needed.
     - name: renderEmptyState
       type: '(context: { hasFilters: boolean }) => ReactNode'
       required: false

@@ -35,6 +35,8 @@ Scenario: Render from an external table instance
   And columnVisibility/onColumnVisibilityChange, onColumnSizingChange,
       enableColumnResizing, getRowCanExpand, manualSorting, sorting,
       onSortingChange, and paginationMode-related props are no-ops
+  And DataTable does not drive column pinning from meta.pin on that instance —
+      the caller pins/unpins its own columns via TanStack's column.pin()
 ```
 
 ```gherkin
@@ -50,6 +52,8 @@ Scenario: Custom row rendering
   Given renderRow is provided
   Then each row is rendered by calling renderRow(row, rowIndex)
   And DataTable's own per-cell flexRender/pinning/styling path is skipped for that row
+  And no expanded-content row is appended even if getRowCanExpand returns true for it —
+      the caller must read row.getIsExpanded() and render it themselves inside renderRow
 ```
 
 ```gherkin

@@ -9,7 +9,10 @@ description: >-
   selection, pagination, optional row expansion (row-level or an in-cell expand
   trigger), column resizing, and sticky (pinned) columns. Ships with companion
   parts (column header, toolbar, pagination, view options, expand trigger).
-  Ported from the legacy shadcn-uikit `data-table`.
+  Also supports server-driven usage: rendering from an externally-built
+  TanStack `table` instance, manual (server-driven) sorting, infinite-scroll
+  pagination, and custom row/empty-state rendering. Ported from the legacy
+  shadcn-uikit `data-table`.
 since: 0.42.0
 dependencies:
   components:

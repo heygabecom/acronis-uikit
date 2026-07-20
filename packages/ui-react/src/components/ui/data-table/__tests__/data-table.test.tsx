@@ -62,7 +62,9 @@ describe('DataTable', () => {
     expect(cellsBefore).toEqual(['100', '200', '300']);
 
     // One click sorts ascending (already ascending → flips to descending here).
-    await userEvent.click(screen.getByRole('button', { name: 'Sort by Amount' }));
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Sort by Amount' })
+    );
     const cellsAfter = screen.getAllByRole('cell').map((c) => c.textContent);
     expect(cellsAfter).not.toEqual(cellsBefore);
   });
@@ -92,7 +94,9 @@ describe('DataTable', () => {
       />
     );
     expect(screen.queryByText('Details for r1')).not.toBeInTheDocument();
-    await userEvent.click(screen.getAllByRole('button', { name: 'Expand row' })[0]);
+    await userEvent.click(
+      screen.getAllByRole('button', { name: 'Expand row' })[0]
+    );
     expect(screen.getByText('Details for r1')).toBeInTheDocument();
   });
 });
@@ -138,7 +142,9 @@ describe('DataTable manualSorting', () => {
     );
     const cellsBefore = screen.getAllByRole('cell').map((c) => c.textContent);
 
-    await userEvent.click(screen.getByRole('button', { name: 'Sort by Amount' }));
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Sort by Amount' })
+    );
 
     // Controlled `sorting` never changed, so DataTable's own comparator (which
     // manualSorting disables anyway) never runs — the row order is untouched.
@@ -165,10 +171,14 @@ describe('DataTable renderRow', () => {
     // The pinning effect re-renders once after mount (pre-existing behavior,
     // unrelated to renderRow), so assert pairing rather than call count.
     expect(
-      renderRow.mock.calls.some(([row, rowIndex]) => row.id === 'r1' && rowIndex === 0)
+      renderRow.mock.calls.some(
+        ([row, rowIndex]) => row.id === 'r1' && rowIndex === 0
+      )
     ).toBe(true);
     expect(
-      renderRow.mock.calls.some(([row, rowIndex]) => row.id === 'r2' && rowIndex === 1)
+      renderRow.mock.calls.some(
+        ([row, rowIndex]) => row.id === 'r2' && rowIndex === 1
+      )
     ).toBe(true);
     expect(screen.getByTestId('custom-row-0')).toHaveTextContent(
       'user1@example.com'
@@ -179,6 +189,30 @@ describe('DataTable renderRow', () => {
     // The default per-cell `flexRender` path (which would render the amount
     // column's value) is bypassed entirely.
     expect(screen.queryByText('100')).not.toBeInTheDocument();
+  });
+
+  it('does not append an expanded-content row when combined with getRowCanExpand/renderExpandedRow', async () => {
+    // Documents an intentional limitation (see the prop's tsdoc): `renderRow`
+    // takes over a row's entire markup, so DataTable's own expanded-row
+    // insertion is skipped too — the caller must read `row.getIsExpanded()`
+    // and render any expanded content itself inside `renderRow`.
+    render(
+      <DataTable
+        columns={columns}
+        data={data.slice(0, 2)}
+        getRowCanExpand={() => true}
+        renderExpandedRow={(row) => <span>Details for {row.original.id}</span>}
+        renderRow={(row, rowIndex) => (
+          <tr key={row.id} data-testid={`custom-row-${rowIndex}`}>
+            <td>
+              <button onClick={row.getToggleExpandedHandler()}>toggle</button>
+            </td>
+          </tr>
+        )}
+      />
+    );
+    await userEvent.click(screen.getAllByRole('button', { name: 'toggle' })[0]);
+    expect(screen.queryByText('Details for r1')).not.toBeInTheDocument();
   });
 });
 
@@ -337,7 +371,11 @@ describe('DataTable column resizing', () => {
   it('resizes the column when the handle is focused and used', async () => {
     const user = userEvent.setup();
     render(
-      <DataTable columns={columns} data={data.slice(0, 2)} enableColumnResizing />
+      <DataTable
+        columns={columns}
+        data={data.slice(0, 2)}
+        enableColumnResizing
+      />
     );
     const handle = screen.getAllByRole('separator', {
       name: 'Resize column',
@@ -358,7 +396,11 @@ describe('DataTable column resizing', () => {
   it('ignores Arrow keys held with Ctrl/Alt/Meta so it does not hijack browser shortcuts', async () => {
     const user = userEvent.setup();
     render(
-      <DataTable columns={columns} data={data.slice(0, 2)} enableColumnResizing />
+      <DataTable
+        columns={columns}
+        data={data.slice(0, 2)}
+        enableColumnResizing
+      />
     );
     const handle = screen.getAllByRole('separator', {
       name: 'Resize column',
@@ -456,6 +498,34 @@ describe('DataTable sticky (pinned) columns', () => {
     });
   });
 
+  it("leaves an external table instance's own pinning alone", async () => {
+    // Regression guard: the pinning effect used to run against `table =
+    // externalTable ?? internalTable` unconditionally, forcing every leaf
+    // column's pin state to `meta.pin ?? false` — silently un-pinning a
+    // column the caller pinned outside of `meta.pin` (here, via TanStack's
+    // own `initialState.columnPinning` — the table manages this state
+    // internally since neither `state.columnPinning` nor
+    // `onColumnPinningChange` is passed, so `column.pin()` calls actually
+    // mutate it, unlike a fully controlled state with no `onChange`).
+    function ExternalPinningHarness() {
+      const table = useReactTable({
+        data: data.slice(0, 2),
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+        initialState: { columnPinning: { left: ['email'] } },
+      });
+      return (
+        <DataTable columns={columns} data={data.slice(0, 2)} table={table} />
+      );
+    }
+    render(<ExternalPinningHarness />);
+    await waitFor(() => {
+      expect(screen.getByText('Email').closest('th')!.style.position).toBe(
+        'sticky'
+      );
+    });
+  });
+
   it('hides a column when columnVisibility is controlled externally', () => {
     const { rerender } = render(
       <DataTable
@@ -505,9 +575,7 @@ describe('DataTable wrapping (meta.wrap) columns', () => {
     expect(wrapHeader).not.toHaveClass('h-10');
 
     // The unflagged column keeps the default fixed height / no-wrap.
-    const plainCell = screen
-      .getByText('user1@example.com')
-      .closest('td')!;
+    const plainCell = screen.getByText('user1@example.com').closest('td')!;
     expect(plainCell).toHaveClass('h-10');
     expect(plainCell).not.toHaveClass('whitespace-normal');
   });
@@ -627,7 +695,11 @@ describe('DataTable presentational features', () => {
 
   it('highlights the clicked row when highlightCurrentRow', async () => {
     render(
-      <DataTable columns={columns} data={data.slice(0, 3)} highlightCurrentRow />
+      <DataTable
+        columns={columns}
+        data={data.slice(0, 3)}
+        highlightCurrentRow
+      />
     );
     const row = screen.getByText('user2@example.com').closest('tr')!;
     // Exact class token — the primitive carries `active:bg-[…row-color-active]`
@@ -654,7 +726,11 @@ function Harness() {
   });
   return (
     <div>
-      <DataTableToolbar table={table} searchKey="email" searchPlaceholder="Filter emails…" />
+      <DataTableToolbar
+        table={table}
+        searchKey="email"
+        searchPlaceholder="Filter emails…"
+      />
       <div data-testid="page-rows">
         {table.getRowModel().rows.map((r) => (
           <span key={r.id}>{r.original.email}</span>
@@ -701,7 +777,9 @@ describe('DataTableToolbar + DataTablePagination', () => {
     render(<Harness />);
     const rows = () => within(screen.getByTestId('page-rows'));
     expect(rows().getByText('user1@example.com')).toBeInTheDocument();
-    await userEvent.click(screen.getByRole('button', { name: 'Go to next page' }));
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Go to next page' })
+    );
     expect(rows().queryByText('user1@example.com')).not.toBeInTheDocument();
     expect(rows().getByText('user6@example.com')).toBeInTheDocument();
   });
@@ -718,9 +796,7 @@ function AmountFilterField() {
     <input
       aria-label="Amount filter"
       value={(filters.amount as string) ?? ''}
-      onChange={(event) =>
-        setFilter('amount', event.target.value || undefined)
-      }
+      onChange={(event) => setFilter('amount', event.target.value || undefined)}
     />
   );
 }
@@ -757,10 +833,7 @@ describe('DataTableToolbar per-column filtering', () => {
     expect(rows().getByText('user1@example.com')).toBeInTheDocument();
 
     await userEvent.click(screen.getByRole('button', { name: 'Filters' }));
-    await userEvent.type(
-      screen.getByLabelText('Amount filter'),
-      '300'
-    );
+    await userEvent.type(screen.getByLabelText('Amount filter'), '300');
     await userEvent.click(screen.getByRole('button', { name: 'Apply' }));
 
     expect(rows().getByText('user3@example.com')).toBeInTheDocument();

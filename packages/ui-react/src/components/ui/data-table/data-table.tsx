@@ -156,23 +156,31 @@ export function getResizeKeyboardStep(
   { shiftKey, min, max }: { shiftKey: boolean; min: number; max: number }
 ): number | undefined {
   const step = shiftKey ? 50 : 10;
-  if (key === 'ArrowLeft') return Math.min(max, Math.max(min, currentSize - step));
-  if (key === 'ArrowRight') return Math.max(min, Math.min(max, currentSize + step));
+  if (key === 'ArrowLeft')
+    return Math.min(max, Math.max(min, currentSize - step));
+  if (key === 'ArrowRight')
+    return Math.max(min, Math.min(max, currentSize + step));
   return undefined;
 }
 
-export interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+export interface DataTableProps<TData, TValue = unknown> {
+  /** Required unless `table` (an externally-built instance) is passed. */
+  columns?: ColumnDef<TData, TValue>[];
+  /** Required unless `table` (an externally-built instance) is passed. */
+  data?: TData[];
   /**
    * Render from an externally-built TanStack `table` instance instead of
    * DataTable's own — DataTable then owns no state and renders the caller's
    * instance as-is (sorting, filtering, pagination, row models, etc. are all
-   * configured on that instance). Makes the following props no-ops (configure
-   * the equivalent directly on the external instance instead): `columnVisibility`,
-   * `onColumnVisibilityChange`, `onColumnSizingChange`, `enableColumnResizing`,
-   * `getRowCanExpand`, `manualSorting`, `sorting`, `onSortingChange`,
-   * `paginationMode`, `onLoadMore`, `hasNextPage`, `isLoadingMore`.
+   * configured on that instance). Makes `columns`/`data` unnecessary (they're
+   * only used to build DataTable's own instance) and the following props
+   * no-ops (configure the equivalent directly on the external instance
+   * instead): `columnVisibility`, `onColumnVisibilityChange`,
+   * `onColumnSizingChange`, `enableColumnResizing`, `getRowCanExpand`,
+   * `manualSorting`, `sorting`, `onSortingChange`, `paginationMode`,
+   * `onLoadMore`, `hasNextPage`, `isLoadingMore`. `meta.pin`-driven column
+   * pinning is also skipped — pin/unpin the caller's own instance via
+   * TanStack's `column.pin()` directly.
    */
   table?: TanstackTable<TData>;
   /** Enables row expansion for rows that return true. Pair with `renderExpandedRow`. */
@@ -229,6 +237,11 @@ export interface DataTableProps<TData, TValue> {
    * caller owns the row's markup and equality semantics — reuse the exported
    * `getCellStyle`/`getPinnedStyle`/`getColumnWidth` helpers to match
    * DataTable's default cell styling if desired.
+   *
+   * Also bypasses DataTable's `renderExpandedRow` handling — a row rendered
+   * via `renderRow` never gets an expanded-content row appended, even when
+   * `getRowCanExpand` returns true for it. Read `row.getIsExpanded()` and
+   * render the expanded content yourself if you need both.
    */
   renderRow?: (row: Row<TData>, rowIndex: number) => ReactNode;
   /**
@@ -262,9 +275,9 @@ export interface DataTableProps<TData, TValue> {
   isLoadingMore?: boolean;
 }
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
+export function DataTable<TData, TValue = unknown>({
+  columns = [],
+  data = [],
   table: externalTable,
   getRowCanExpand,
   renderExpandedRow,
@@ -292,7 +305,8 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [internalColumnVisibility, setInternalColumnVisibility] =
     useState<VisibilityState>({});
-  const columnVisibility = controlledColumnVisibility ?? internalColumnVisibility;
+  const columnVisibility =
+    controlledColumnVisibility ?? internalColumnVisibility;
   const [rowSelection, setRowSelection] = useState({});
   const [expanded, setExpanded] = useState<ExpandedState>({});
   const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({});
@@ -303,7 +317,9 @@ export function DataTable<TData, TValue>({
     onColumnSizingChange?.(updater);
   };
 
-  const handleColumnVisibilityChange: OnChangeFn<VisibilityState> = (updater) => {
+  const handleColumnVisibilityChange: OnChangeFn<VisibilityState> = (
+    updater
+  ) => {
     setInternalColumnVisibility(updater);
     onColumnVisibilityChange?.(updater);
   };
@@ -375,12 +391,15 @@ export function DataTable<TData, TValue>({
 
   // Read each column's `meta.pin` and drive TanStack's native pinning state.
   // Always calls `pin()` (rather than only when truthy) so a column whose
-  // `meta.pin` is removed dynamically actually un-pins.
+  // `meta.pin` is removed dynamically actually un-pins. Skipped for an
+  // external `table` — DataTable owns no state in that mode (see the `table`
+  // prop's tsdoc), so the caller's own pinning setup is left alone.
   useEffect(() => {
+    if (externalTable) return;
     table.getAllLeafColumns().forEach((column) => {
       column.pin(column.columnDef.meta?.pin ?? false);
     });
-  }, [table, columns]);
+  }, [table, columns, externalTable]);
 
   const rows = table.getRowModel().rows;
   // Vertical borders are opt-in; a trailing border on the last cell would
@@ -442,15 +461,19 @@ export function DataTable<TData, TValue>({
                         aria-label="Resize column"
                         aria-valuenow={header.column.getSize()}
                         aria-valuemin={
-                          header.column.columnDef.minSize ?? DEFAULT_MIN_COLUMN_SIZE
+                          header.column.columnDef.minSize ??
+                          DEFAULT_MIN_COLUMN_SIZE
                         }
                         aria-valuemax={
-                          header.column.columnDef.maxSize ?? DEFAULT_MAX_COLUMN_SIZE
+                          header.column.columnDef.maxSize ??
+                          DEFAULT_MAX_COLUMN_SIZE
                         }
                         tabIndex={0}
                         onMouseDown={header.getResizeHandler()}
                         onTouchStart={header.getResizeHandler()}
-                        onKeyDown={(event) => handleResizeKeyDown(event, header)}
+                        onKeyDown={(event) =>
+                          handleResizeKeyDown(event, header)
+                        }
                         className={cn(
                           'absolute end-0 top-0 h-full w-1 cursor-(--ui-resizable-cursor) touch-none select-none bg-[var(--ui-table-global-cell-border-color)] opacity-0 transition-opacity hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-(--ui-focus-primary)',
                           header.column.getIsResizing() && 'opacity-100'
@@ -466,7 +489,10 @@ export function DataTable<TData, TValue>({
         <TableBody>
           {skeleton ? (
             Array.from({ length: skeletonRows }).map((_, rowIndex) => (
-              <TableRow key={`skeleton-${rowIndex}`} className="hover:bg-transparent">
+              <TableRow
+                key={`skeleton-${rowIndex}`}
+                className="hover:bg-transparent"
+              >
                 {table.getVisibleLeafColumns().map((column) => (
                   <TableCell key={column.id}>
                     <div className="h-4 w-full animate-pulse rounded bg-[var(--ui-background-surface-secondary)]" />
@@ -477,7 +503,9 @@ export function DataTable<TData, TValue>({
           ) : rows?.length ? (
             rows.map((row, rowIndex) => {
               if (renderRow) {
-                return <Fragment key={row.id}>{renderRow(row, rowIndex)}</Fragment>;
+                return (
+                  <Fragment key={row.id}>{renderRow(row, rowIndex)}</Fragment>
+                );
               }
               const isSelected = row.getIsSelected();
               const isCurrent = highlightCurrentRow && currentRowId === row.id;
@@ -566,26 +594,33 @@ export function DataTable<TData, TValue>({
             </TableRow>
           )}
           {isInfiniteScroll && !skeleton && rows.length > 0 && hasNextPage && (
-            <TableRow ref={sentinelRef} aria-hidden className="hover:bg-transparent">
+            <TableRow
+              ref={sentinelRef}
+              aria-hidden
+              className="hover:bg-transparent"
+            >
               <TableCell
                 colSpan={table.getVisibleLeafColumns().length}
                 className="h-1 p-0"
               />
             </TableRow>
           )}
-          {isInfiniteScroll && !skeleton && rows.length > 0 && isLoadingMore && (
-            <TableRow className="hover:bg-transparent">
-              <TableCell colSpan={table.getVisibleLeafColumns().length}>
-                <div
-                  role="status"
-                  aria-live="polite"
-                  className="h-4 w-full animate-pulse rounded bg-[var(--ui-background-surface-secondary)]"
-                >
-                  <span className="sr-only">Loading more rows…</span>
-                </div>
-              </TableCell>
-            </TableRow>
-          )}
+          {isInfiniteScroll &&
+            !skeleton &&
+            rows.length > 0 &&
+            isLoadingMore && (
+              <TableRow className="hover:bg-transparent">
+                <TableCell colSpan={table.getVisibleLeafColumns().length}>
+                  <div
+                    role="status"
+                    aria-live="polite"
+                    className="h-4 w-full animate-pulse rounded bg-[var(--ui-background-surface-secondary)]"
+                  >
+                    <span className="sr-only">Loading more rows…</span>
+                  </div>
+                </TableCell>
+              </TableRow>
+            )}
         </TableBody>
       </Table>
     </div>
