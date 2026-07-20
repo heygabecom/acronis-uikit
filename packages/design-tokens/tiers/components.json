@@ -3658,8 +3658,8 @@
           "$type": "dimension",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{palette.units.radius.12}",
-            "default": "{palette.units.radius.12}"
+            "deep_sky_itkontoret": "{units.radius.12}",
+            "default": "{units.radius.12}"
           }
         },
         "style": {
@@ -3684,8 +3684,8 @@
           "$type": "dimension",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{palette.units.stroke.1}",
-            "default": "{palette.units.stroke.1}"
+            "deep_sky_itkontoret": "{units.stroke.1}",
+            "default": "{units.stroke.1}"
           }
         }
       },
@@ -3740,8 +3740,8 @@
           "$type": "dimension",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{palette.units.gap.4}",
-            "default": "{palette.units.gap.4}"
+            "deep_sky_itkontoret": "{units.gap.4}",
+            "default": "{units.gap.4}"
           }
         },
         "height": {
@@ -3753,8 +3753,8 @@
           "$type": "dimension",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{palette.units.size.24}",
-            "default": "{palette.units.size.24}"
+            "deep_sky_itkontoret": "{units.size.24}",
+            "default": "{units.size.24}"
           }
         },
         "marginY": {
@@ -3766,8 +3766,8 @@
           "$type": "dimension",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{palette.units.gap.4}",
-            "default": "{palette.units.gap.4}"
+            "deep_sky_itkontoret": "{units.gap.4}",
+            "default": "{units.gap.4}"
           }
         },
         "paddingX": {
@@ -3779,8 +3779,8 @@
           "$type": "dimension",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{palette.units.gap.8}",
-            "default": "{palette.units.gap.8}"
+            "deep_sky_itkontoret": "{units.gap.8}",
+            "default": "{units.gap.8}"
           }
         },
         "widthMin": {
@@ -3792,8 +3792,8 @@
           "$type": "dimension",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{palette.units.size.48}",
-            "default": "{palette.units.size.48}"
+            "deep_sky_itkontoret": "{units.size.48}",
+            "default": "{units.size.48}"
           }
         }
       },
