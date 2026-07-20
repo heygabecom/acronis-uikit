@@ -117,6 +117,38 @@ describe('DataTable external table instance', () => {
     expect(screen.getByText('user1@example.com')).toBeInTheDocument();
     expect(screen.getByText('user3@example.com')).toBeInTheDocument();
   });
+
+  it('treats enableColumnResizing as a no-op when an external table is passed', () => {
+    // Regression guard: ColumnSizing is a built-in TanStack feature present on
+    // any table instance, so reading the raw `enableColumnResizing` prop
+    // against the merged `table` (rather than gating on `externalTable`)
+    // would still render live resize handles that mutate the caller's own
+    // external instance — contradicting the `table` prop's own no-op list.
+    function ExternalResizableHarness() {
+      const table = useReactTable({
+        data: data.slice(0, 2),
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+        enableColumnResizing: true,
+        columnResizeMode: 'onChange',
+      });
+      return (
+        <DataTable
+          columns={columns}
+          data={data.slice(0, 2)}
+          table={table}
+          enableColumnResizing
+        />
+      );
+    }
+    render(<ExternalResizableHarness />);
+    expect(
+      screen.queryByRole('separator', { name: 'Resize column' })
+    ).not.toBeInTheDocument();
+    // No fixed total-size width style either (only applied when resizing is
+    // actually enabled).
+    expect(screen.getByRole('table').style.width).toBe('');
+  });
 });
 
 describe('DataTable manualSorting', () => {
@@ -284,7 +316,10 @@ class MockIntersectionObserver implements IntersectionObserver {
   disconnect = vi.fn();
   takeRecords = vi.fn(() => []);
 
-  constructor(private readonly callback: IntersectionObserverCallback) {
+  constructor(
+    private readonly callback: IntersectionObserverCallback,
+    readonly options?: IntersectionObserverInit
+  ) {
     MockIntersectionObserver.instances.push(this);
   }
 
@@ -329,6 +364,21 @@ describe('DataTable infinite scroll (paginationMode="infinite")', () => {
       />
     );
     expect(MockIntersectionObserver.instances).toHaveLength(0);
+  });
+
+  it('passes loadMoreRootMargin through to the observer', () => {
+    render(
+      <DataTable
+        columns={columns}
+        data={data.slice(0, 3)}
+        paginationMode="infinite"
+        hasNextPage
+        onLoadMore={() => {}}
+        loadMoreRootMargin="400px"
+      />
+    );
+    const [observer] = MockIntersectionObserver.instances;
+    expect(observer.options?.rootMargin).toBe('400px');
   });
 
   it('does not observe while isLoadingMore, and renders a loading row', () => {

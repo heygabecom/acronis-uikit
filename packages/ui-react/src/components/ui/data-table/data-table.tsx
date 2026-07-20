@@ -263,9 +263,23 @@ export interface DataTableProps<TData, TValue = unknown> {
   /**
    * Called when the infinite-scroll sentinel intersects the viewport.
    * `paginationMode="infinite"` only. The fetch-more call, cursor/offset
-   * tracking, dedup, and accumulating `data` stay the caller's job.
+   * tracking, dedup, and accumulating `data` stay the caller's job. Requires
+   * at least one row already rendered — an empty table with `data={[]}`
+   * cannot use the sentinel to drive its very first fetch; seed the first
+   * page yourself (e.g. on mount) and use `onLoadMore` for subsequent pages.
    */
   onLoadMore?: () => void;
+  /**
+   * Expands the sentinel's `IntersectionObserver` root margin (native CSS
+   * margin syntax, e.g. `'400px'`) so `onLoadMore` fires before the sentinel
+   * is literally visible — the closer the caller's fetch is to finishing by
+   * the time the user actually scrolls there, the less often the trailing
+   * loading row is seen. `paginationMode="infinite"` only; no-op when `table`
+   * is passed. How far this actually prefetches also depends on page size —
+   * a large margin with small pages can trigger several `onLoadMore` calls
+   * back-to-back as the user scrolls normally, which is expected.
+   */
+  loadMoreRootMargin?: string;
   /** Whether more rows are available to load. `paginationMode="infinite"` only. */
   hasNextPage?: boolean;
   /**
@@ -297,6 +311,7 @@ export function DataTable<TData, TValue = unknown>({
   renderEmptyState,
   paginationMode = 'page',
   onLoadMore,
+  loadMoreRootMargin,
   hasNextPage = false,
   isLoadingMore = false,
 }: DataTableProps<TData, TValue>) {
@@ -366,9 +381,16 @@ export function DataTable<TData, TValue = unknown>({
   // configures its own row models/state, so DataTable just renders from it.
   const table = externalTable ?? internalTable;
   const isInfiniteScroll = !externalTable && paginationMode === 'infinite';
+  // `enableColumnResizing` is documented as a no-op with an external `table`
+  // (the caller owns that instance's ColumnSizing state), but ColumnSizing is
+  // a built-in TanStack feature present on any instance — reading the raw
+  // prop below would still render live resize handles that mutate the
+  // caller's own instance. Gate it the same way as `isInfiniteScroll`.
+  const resizingEnabled = enableColumnResizing && !externalTable;
   const sentinelRef = useIntersectionObserver<HTMLTableRowElement>({
     onIntersect: () => onLoadMore?.(),
     disabled: !isInfiniteScroll || !hasNextPage || isLoadingMore,
+    rootMargin: loadMoreRootMargin,
   });
 
   // Arrow-key resize on the drag handle (see `canResize` below). Ignores any
@@ -426,9 +448,7 @@ export function DataTable<TData, TValue = unknown>({
     >
       <Table
         style={
-          enableColumnResizing
-            ? { width: table.getCenterTotalSize() }
-            : undefined
+          resizingEnabled ? { width: table.getCenterTotalSize() } : undefined
         }
       >
         <TableHeader>
@@ -437,12 +457,12 @@ export function DataTable<TData, TValue = unknown>({
               {headerGroup.headers.map((header) => {
                 const isPinned = header.column.getIsPinned();
                 const canResize =
-                  enableColumnResizing && header.column.getCanResize();
+                  resizingEnabled && header.column.getCanResize();
                 return (
                   <TableHead
                     key={header.id}
                     wrap={header.column.columnDef.meta?.wrap}
-                    style={getHeaderStyle(header, enableColumnResizing)}
+                    style={getHeaderStyle(header, resizingEnabled)}
                     className={cn(
                       canResize && 'relative',
                       isPinned && headerPinnedBg
@@ -548,7 +568,7 @@ export function DataTable<TData, TValue = unknown>({
                         <TableCell
                           key={cell.id}
                           wrap={cell.column.columnDef.meta?.wrap}
-                          style={getCellStyle(cell, enableColumnResizing)}
+                          style={getCellStyle(cell, resizingEnabled)}
                           className={cn(isPinned && rowBg)}
                         >
                           {flexRender(

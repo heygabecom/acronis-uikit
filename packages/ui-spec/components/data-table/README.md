@@ -53,8 +53,15 @@ from it too (see **Server-driven usage** below).
   accumulated `data`, `hasNextPage`, `isLoadingMore`, and an `onLoadMore`
   callback. DataTable renders a sentinel row that calls `onLoadMore` once it
   scrolls into view, and a trailing loading row while `isLoadingMore` is true.
-  Does not compose with virtualization — for a very large accumulated list use
-  the `VirtualScrolling` recipe over the raw `Table` primitives instead.
+  The sentinel needs at least one row already rendered — it can't drive an
+  empty table's very first fetch, so seed the first page yourself (e.g. on
+  mount). Pass `loadMoreRootMargin` (e.g. `'400px'`) to fire `onLoadMore`
+  before the sentinel is literally visible, so the fetch has a head start on
+  the user's scroll — tune it relative to your page size, since a large
+  margin with small pages can trigger several `onLoadMore` calls back-to-back
+  as the user scrolls normally. Does not compose with virtualization — for a
+  very large accumulated list use the `VirtualScrolling` recipe over the raw
+  `Table` primitives instead.
 - **Custom rows** — `renderRow` swaps in a fully custom row, bypassing
   DataTable's per-cell `flexRender` path (and, as a result, its own row
   expansion — a row rendered via `renderRow` must implement any expanded

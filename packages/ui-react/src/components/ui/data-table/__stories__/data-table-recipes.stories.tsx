@@ -651,7 +651,10 @@ const ALL_POLICY_ROWS = makePolicyRows(POLICY_TOTAL);
 // one page. A real consumer maps `sorting` to query params and refetches
 // instead — DataTable itself never touches this, it only reports the sort the
 // user asked for via `onSortingChange`.
-function fetchPolicyPage(sorting: SortingState, pageIndex: number): PolicyRow[] {
+function fetchPolicyPage(
+  sorting: SortingState,
+  pageIndex: number
+): PolicyRow[] {
   const [sort] = sorting;
   const sorted = sort
     ? [...ALL_POLICY_ROWS].sort((a, b) => {
@@ -668,15 +671,21 @@ function fetchPolicyPage(sorting: SortingState, pageIndex: number): PolicyRow[] 
 const policyColumns: ColumnDef<PolicyRow>[] = [
   {
     accessorKey: 'name',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Policy" />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Policy" />
+    ),
   },
   {
     accessorKey: 'status',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
   },
   {
     accessorKey: 'lastRun',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Last run" />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Last run" />
+    ),
   },
   // Illustrates the memoization `renderRow` unlocks — irrelevant to a real
   // policy table, kept only so this recipe can show it isn't re-rendering.
@@ -761,6 +770,10 @@ function ServerDrivenDemo() {
         renderRow={(row) => <PolicyRowView key={row.id} row={row} />}
         paginationMode="infinite"
         onLoadMore={handleLoadMore}
+        // Fires the next fetch before the sentinel is literally scrolled
+        // into view, so the 400ms simulated network delay above has a head
+        // start on the user reaching the bottom.
+        loadMoreRootMargin="200px"
         hasNextPage={hasNextPage}
         isLoadingMore={isLoadingMore}
       />

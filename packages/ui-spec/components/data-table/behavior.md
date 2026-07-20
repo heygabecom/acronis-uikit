@@ -59,12 +59,32 @@ Scenario: Custom row rendering
 ```gherkin
 Scenario: Infinite scroll
   Given paginationMode="infinite" and hasNextPage is true
+  And at least one row is already rendered
   Then a sentinel row renders as the last row of the body
   When the sentinel scrolls into view and isLoadingMore is false
   Then onLoadMore fires
   And no further onLoadMore calls fire while isLoadingMore is true
   When isLoadingMore is true
   Then a trailing loading row renders below the sentinel
+```
+
+```gherkin
+Scenario: Infinite scroll cannot drive the very first fetch
+  Given paginationMode="infinite", data=[], and hasNextPage is true
+  Then no sentinel renders (rows.length is 0) — the default "No results." row renders instead
+  And onLoadMore never fires
+  # The caller must seed the first page itself (e.g. on mount); the sentinel
+  # only drives subsequent pages once at least one row exists.
+```
+
+```gherkin
+Scenario: Prefetching ahead of the literal scroll position
+  Given paginationMode="infinite" and loadMoreRootMargin="400px"
+  Then the sentinel's IntersectionObserver root margin is expanded by that amount
+  And onLoadMore can fire before the sentinel is literally visible in the viewport
+  # How far ahead this effectively prefetches also depends on page size — a
+  # large margin with small pages can trigger several onLoadMore calls
+  # back-to-back as the user scrolls normally; that is expected.
 ```
 
 ```gherkin

@@ -28,9 +28,10 @@ contract:
         no-ops (configure the equivalent on the external instance instead):
         columnVisibility, onColumnVisibilityChange, onColumnSizingChange,
         enableColumnResizing, getRowCanExpand, manualSorting, sorting,
-        onSortingChange, paginationMode, onLoadMore, hasNextPage, isLoadingMore.
-        meta.pin-driven column pinning is also skipped — pin/unpin the
-        external instance directly via TanStack's `column.pin()`.
+        onSortingChange, paginationMode, onLoadMore, loadMoreRootMargin,
+        hasNextPage, isLoadingMore. meta.pin-driven column pinning is also
+        skipped — pin/unpin the external instance directly via TanStack's
+        `column.pin()`.
     - name: getRowCanExpand
       type: '(row: Row<TData>) => boolean'
       required: false
@@ -150,10 +151,25 @@ contract:
         `'page'` keeps today's client-paginated behavior. `'infinite'` omits
         the paginated row model — `data` is the full accumulated array the
         caller appends to on each `onLoadMore` — and renders a sentinel row
-        that calls `onLoadMore` once it scrolls into view. No-op when `table`
-        is passed. Does not compose with virtualization; for a large
+        that calls `onLoadMore` once it scrolls into view. The sentinel
+        requires at least one row already rendered, so it cannot drive an
+        empty table's very first fetch — seed the first page yourself (e.g.
+        on mount) and use `onLoadMore` for subsequent pages. No-op when
+        `table` is passed. Does not compose with virtualization; for a large
         accumulated list, use the `VirtualScrolling` recipe over the raw
         `Table` primitives instead.
+    - name: loadMoreRootMargin
+      type: string
+      required: false
+      description: >-
+        Expands the sentinel's `IntersectionObserver` root margin (native CSS
+        margin syntax, e.g. "400px") so `onLoadMore` fires before the
+        sentinel is literally visible, reducing how often the trailing
+        loading row is seen. `paginationMode="infinite"` only; no-op when
+        `table` is passed. How far this actually prefetches also depends on
+        page size — a large margin with small pages can trigger several
+        `onLoadMore` calls back-to-back as the user scrolls normally, which
+        is expected; tune it relative to page size.
     - name: hasNextPage
       type: boolean
       required: false
@@ -182,8 +198,10 @@ contract:
     - name: onLoadMore
       description: >-
         Called when the infinite-scroll sentinel intersects the viewport.
-        `paginationMode="infinite"` only. The fetch-more call, cursor/offset
-        tracking, dedup, and accumulating `data` stay the caller's job.
+        `paginationMode="infinite"` only. Requires at least one row already
+        rendered — never fires from an empty table. The fetch-more call,
+        cursor/offset tracking, dedup, and accumulating `data` stay the
+        caller's job.
   methods: []
 
 adapters:
