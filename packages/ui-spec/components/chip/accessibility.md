@@ -30,5 +30,5 @@
 
 ## Contrast
 
-- Label, border, and icon colors come from `--ui-chips-*` tokens that meet the
+- Label, border, and icon colors come from `--ui-chip-*` tokens that meet the
   contrast bar per theme; do not override them with ad-hoc colors.

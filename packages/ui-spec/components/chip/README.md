@@ -47,5 +47,5 @@ import { CircleInfoIcon } from '@acronis-platform/icons-react/stroke-mono';
 
 - Selection and removal are **controlled** — Chip renders the visual state and
   emits intent; the consumer owns the data.
-- Theming is driven entirely by the `--ui-chips-*` token tier; the focus ring
+- Theming is driven entirely by the `--ui-chip-*` token tier; the focus ring
   reuses `--ui-focus-primary`.

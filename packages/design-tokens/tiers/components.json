@@ -4672,8 +4672,8 @@
               "PD"
             ],
             "values": {
-              "deep_sky_itkontoret": "{colors.border.onSurface.border-active}}",
-              "default": "{colors.border.onSurface.border-active}}"
+              "deep_sky_itkontoret": "{colors.border.onSurface.border-active}",
+              "default": "{colors.border.onSurface.border-active}"
             }
           },
           "hover": {

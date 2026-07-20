@@ -13,7 +13,7 @@ contract:
       description: >-
         `removable` renders a trailing × button; `selectable` is a toggle
         (`role="button"` + `aria-pressed`) that applies the active style when
-        `selected`. Both share the `--ui-chips-*` container/border/label tokens.
+        `selected`. Both share the `--ui-chip-*` box/border/label tokens.
     - name: selected
       type: boolean
       required: false
