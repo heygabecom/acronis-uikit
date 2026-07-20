@@ -17,6 +17,10 @@
   vertical and an "Resize column" label (`enableColumnResizing`).
 - Per-column filter fields live in a keyboard-navigable `FilterSearchFilters`
   popover; each applied-filter chip below the toolbar removes its own filter.
+- The infinite-scroll loading row (`paginationMode="infinite"`, `isLoadingMore`)
+  carries `role="status"`/`aria-live="polite"` with an `sr-only` "Loading more
+  rows…" text, so a screen-reader user is told a fetch is in flight without
+  having to notice the animated placeholder.
 
 ## Contrast
 

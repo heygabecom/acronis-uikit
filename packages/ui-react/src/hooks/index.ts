@@ -7,6 +7,10 @@ export {
   type UseSortStateResult,
 } from './use-sort-state';
 export {
+  useIntersectionObserver,
+  type UseIntersectionObserverOptions,
+} from './use-intersection-observer';
+export {
   useTableUrlState,
   parseTableUrlState,
   serializeTableUrlState,

@@ -23,18 +23,51 @@ optional row expansion, column resizing, and sticky (pinned) columns.
 
 ## Parts
 
-| Export                   | Purpose                                                                                             |
-| ------------------------ | --------------------------------------------------------------------------------------------------- |
-| `DataTable`              | The grid. Owns table state; takes `columns` / `data`. Supports resizing + pinned columns.           |
-| `DataTableColumnHeader`  | A sortable column header — single-click toggle (↑/↓/↕). Use in a column's `header`.                 |
-| `DataTableToolbar`       | Search box + per-column filters + applied-filter chips + view options. Takes a `table` instance.    |
-| `DataTablePagination`    | Selection count, rows-per-page, page controls. Takes a `table`.                                     |
-| `DataTableViewOptions`   | Column-visibility menu (a thin TanStack adapter over the `TableViewOptions` primitive).             |
-| `DataTableExpandTrigger` | A chevron toggle wired to a row's expansion state, placed inside a column's `cell` render function. |
+| Export                   | Purpose                                                                                                                                                                                                            |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `DataTable`              | The grid. Owns table state by default (`columns` / `data`), or renders a caller-built `table` instance. Supports resizing, pinned columns, server-driven sorting/pagination, and custom row/empty-state rendering. |
+| `DataTableColumnHeader`  | A sortable column header — single-click toggle (↑/↓/↕). Use in a column's `header`.                                                                                                                                |
+| `DataTableToolbar`       | Search box + per-column filters + applied-filter chips + view options. Takes a `table` instance.                                                                                                                   |
+| `DataTablePagination`    | Selection count, rows-per-page, page controls. Takes a `table`.                                                                                                                                                    |
+| `DataTableViewOptions`   | Column-visibility menu (a thin TanStack adapter over the `TableViewOptions` primitive).                                                                                                                            |
+| `DataTableExpandTrigger` | A chevron toggle wired to a row's expansion state, placed inside a column's `cell` render function.                                                                                                                |
 
-`DataTable` manages its own table state. The companion parts operate on a
-TanStack `table` instance you build with `useReactTable` — render them around a
-`DataTable` (or your own `<Table>`), passing the same instance.
+`DataTable` manages its own table state by default. The companion parts
+operate on a TanStack `table` instance you build with `useReactTable` — render
+them around a `DataTable` (or your own `<Table>`), passing the same instance.
+Pass that same instance to `DataTable`'s own `table` prop to have it render
+from it too (see **Server-driven usage** below).
+
+## Server-driven usage
+
+- **External `table`** — pass an externally-built TanStack `table` instance
+  via the `table` prop and DataTable renders from it as-is, owning no state of
+  its own. Use this to share one instance across `DataTable` and its companion
+  parts, or when the caller needs full control (e.g. a table already wired to
+  a URL/query-state hook). Several props become no-ops when `table` is passed
+  — see `table`'s own description in `api.yaml`.
+- **Manual sorting** — set `manualSorting` and drive `sorting` /
+  `onSortingChange` yourself; DataTable skips its own comparator so already
+  server-sorted `data` isn't re-sorted client-side.
+- **Infinite scroll** — set `paginationMode="infinite"` and pass the full
+  accumulated `data`, `hasNextPage`, `isLoadingMore`, and an `onLoadMore`
+  callback. DataTable renders a sentinel row that calls `onLoadMore` once it
+  scrolls into view, and a trailing loading row while `isLoadingMore` is true.
+  The sentinel needs at least one row already rendered — it can't drive an
+  empty table's very first fetch, so seed the first page yourself (e.g. on
+  mount). Pass `loadMoreRootMargin` (e.g. `'400px'`) to fire `onLoadMore`
+  before the sentinel is literally visible, so the fetch has a head start on
+  the user's scroll — tune it relative to your page size, since a large
+  margin with small pages can trigger several `onLoadMore` calls back-to-back
+  as the user scrolls normally. Does not compose with virtualization — for a
+  very large accumulated list use the `VirtualScrolling` recipe over the raw
+  `Table` primitives instead.
+- **Custom rows** — `renderRow` swaps in a fully custom row, bypassing
+  DataTable's per-cell `flexRender` path (and, as a result, its own row
+  expansion — a row rendered via `renderRow` must implement any expanded
+  content itself). `renderEmptyState` swaps in a custom "no data" row,
+  receiving `hasFilters` so the caller can distinguish "no data at all" from
+  "no matches".
 
 ## Advanced columns
 

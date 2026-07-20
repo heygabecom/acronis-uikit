@@ -1,10 +1,13 @@
-import { useMemo, useRef, useState } from 'react';
+import { memo, useMemo, useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { userEvent, within } from 'storybook/test';
 import {
   type ColumnDef,
   type ColumnOrderState,
   type GroupingState,
+  type OnChangeFn,
+  type Row,
+  type SortingState,
   flexRender,
   getCoreRowModel,
   getExpandedRowModel,
@@ -38,12 +41,16 @@ import {
   InputSelectValue,
 } from '../../input-select';
 import { DateRangePicker, type DateRange } from '../../date-range-picker';
+import { DataTableColumnHeader } from '../data-table-column-header';
 import { DataTable, type DataTableProps } from '../data-table';
 
-// Advanced TanStack recipes that compose the Table primitives directly (the
-// self-contained DataTable owns its own state, so these build their own table
-// instance). Each is a copy-paste example for a capability that's intentionally
-// NOT a DataTable prop — keeping the published component lean.
+// Most of these are advanced TanStack recipes that compose the Table
+// primitives directly (the self-contained DataTable owns its own state, so
+// these build their own table instance) — each a copy-paste example for a
+// capability that's intentionally NOT a DataTable prop, keeping the published
+// component lean. `ServerDriven` (below) is the exception: it exercises
+// DataTable's own `manualSorting`/`renderRow`/`paginationMode` props, since
+// that server-driven shape is now a supported configuration, not a bypass.
 const meta = {
   title: 'UI/DataTable/Recipes',
   component: DataTable,
@@ -608,4 +615,173 @@ export const WithDateRangeFilterOpen: Story = {
     // Wait for the dual-month calendar (two grids) to paint inside the nested popover.
     await body.findAllByRole('grid');
   },
+};
+
+/* ------------------------------------------------------------ Server-driven */
+
+// The policy-management-fork shape this plan was written for: manual
+// (server-side) sorting, infinite scroll driven by polling, and memoized rows
+// that survive frequent no-op re-renders — all through DataTable's own props,
+// no external `table` instance required (see `manualSorting`/`renderRow`/
+// `paginationMode` on `DataTableProps`).
+
+type PolicyRow = {
+  id: string;
+  name: string;
+  status: 'active' | 'paused' | 'error';
+  lastRun: string;
+};
+
+const POLICY_PAGE_SIZE = 20;
+const POLICY_TOTAL = 62;
+
+function makePolicyRows(count: number): PolicyRow[] {
+  const statuses: PolicyRow['status'][] = ['active', 'paused', 'error'];
+  return Array.from({ length: count }, (_, i) => ({
+    id: `policy-${i + 1}`,
+    name: `Backup policy ${i + 1}`,
+    status: statuses[i % statuses.length],
+    lastRun: `${(i % 12) + 1}h ago`,
+  }));
+}
+
+const ALL_POLICY_ROWS = makePolicyRows(POLICY_TOTAL);
+
+// Stands in for a server request: applies the requested sort, then returns
+// one page. A real consumer maps `sorting` to query params and refetches
+// instead — DataTable itself never touches this, it only reports the sort the
+// user asked for via `onSortingChange`.
+function fetchPolicyPage(
+  sorting: SortingState,
+  pageIndex: number
+): PolicyRow[] {
+  const [sort] = sorting;
+  const sorted = sort
+    ? [...ALL_POLICY_ROWS].sort((a, b) => {
+        const factor = sort.desc ? -1 : 1;
+        return a[sort.id as keyof PolicyRow] < b[sort.id as keyof PolicyRow]
+          ? -factor
+          : factor;
+      })
+    : ALL_POLICY_ROWS;
+  const start = pageIndex * POLICY_PAGE_SIZE;
+  return sorted.slice(start, start + POLICY_PAGE_SIZE);
+}
+
+const policyColumns: ColumnDef<PolicyRow>[] = [
+  {
+    accessorKey: 'name',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Policy" />
+    ),
+  },
+  {
+    accessorKey: 'status',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
+  },
+  {
+    accessorKey: 'lastRun',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Last run" />
+    ),
+  },
+  // Illustrates the memoization `renderRow` unlocks — irrelevant to a real
+  // policy table, kept only so this recipe can show it isn't re-rendering.
+  { id: 'renders', header: 'Renders (this row)' },
+];
+
+// A `React.memo`'d row with its own equality function — exactly the escape
+// hatch `renderRow` exists for (DataTable can't generalize this; see the
+// component's tsdoc). Only re-renders when ITS row's underlying data changes
+// identity, so it survives a parent re-render triggered by something
+// unrelated (here, "Simulate status poll").
+const PolicyRowView = memo(
+  function PolicyRowView({ row }: { row: Row<PolicyRow> }) {
+    const renderCount = useRef(0);
+    renderCount.current += 1;
+    return (
+      <TableRow>
+        <TableCell>{row.original.name}</TableCell>
+        <TableCell className="capitalize">{row.original.status}</TableCell>
+        <TableCell>{row.original.lastRun}</TableCell>
+        <TableCell className="text-end text-[var(--ui-table-data-value-color-disabled)]">
+          {renderCount.current}
+        </TableCell>
+      </TableRow>
+    );
+  },
+  (prev, next) => prev.row.original === next.row.original
+);
+
+function ServerDrivenDemo() {
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [loadedRows, setLoadedRows] = useState<PolicyRow[]>(() =>
+    fetchPolicyPage([], 0)
+  );
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [pollCount, setPollCount] = useState(0);
+  const hasNextPage = loadedRows.length < ALL_POLICY_ROWS.length;
+
+  const handleSortingChange: OnChangeFn<SortingState> = (updater) => {
+    const next = typeof updater === 'function' ? updater(sorting) : updater;
+    setSorting(next);
+    setPageIndex(0);
+    setLoadedRows(fetchPolicyPage(next, 0));
+  };
+
+  const handleLoadMore = () => {
+    if (isLoadingMore || !hasNextPage) return;
+    setIsLoadingMore(true);
+    window.setTimeout(() => {
+      const nextPageIndex = pageIndex + 1;
+      setLoadedRows((current) => [
+        ...current,
+        ...fetchPolicyPage(sorting, nextPageIndex),
+      ]);
+      setPageIndex(nextPageIndex);
+      setIsLoadingMore(false);
+    }, 400);
+  };
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between gap-4">
+        <p className="text-sm text-[var(--ui-table-data-value-color-disabled)]">
+          {loadedRows.length} of {ALL_POLICY_ROWS.length} policies loaded —
+          scroll to load more.
+        </p>
+        <button
+          type="button"
+          className="cursor-pointer text-sm underline"
+          onClick={() => setPollCount((count) => count + 1)}
+        >
+          Simulate status poll ({pollCount})
+        </button>
+      </div>
+      <DataTable
+        columns={policyColumns}
+        data={loadedRows}
+        manualSorting
+        sorting={sorting}
+        onSortingChange={handleSortingChange}
+        renderRow={(row) => <PolicyRowView key={row.id} row={row} />}
+        paginationMode="infinite"
+        onLoadMore={handleLoadMore}
+        // Fires the next fetch before the sentinel is literally scrolled
+        // into view, so the 400ms simulated network delay above has a head
+        // start on the user reaching the bottom.
+        loadMoreRootMargin="200px"
+        hasNextPage={hasNextPage}
+        isLoadingMore={isLoadingMore}
+      />
+    </div>
+  );
+}
+
+export const ServerDriven: Story = {
+  name: 'Server-driven (manual sort + infinite scroll + memoized rows)',
+  render: () => <ServerDrivenDemo />,
 };

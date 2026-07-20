@@ -12,6 +12,8 @@ schematic: |
     expand-trigger: chevron toggle inside a cell → toggles the row's expansion
     expanded-row:  optional detail row under an expanded row
     empty-state:   "No results." row when there is no data
+    sentinel:      aria-hidden row that triggers onLoadMore on scroll (infinite mode)
+    loading-row:   trailing "loading more" row (role=status) while isLoadingMore
   pagination: "N of M selected"   [Rows per page ▾]  Page X of Y   ⏮ ◀ ▶ ⏭
 
 root:
@@ -62,6 +64,20 @@ parts:
   - id: empty-state
     element: tr
     description: A single "No results." row shown when there is no data.
+  - id: sentinel
+    element: tr
+    description: >-
+      An `aria-hidden` zero-height row (`paginationMode="infinite"`) whose
+      intersection with the viewport calls `onLoadMore`. Rendered only once
+      there is at least one row and `hasNextPage` is true.
+    optional: true
+  - id: loading-row
+    element: tr
+    description: >-
+      A trailing animated-placeholder row shown while `isLoadingMore` is true
+      (`paginationMode="infinite"`); carries `role="status"`/`aria-live="polite"`
+      with an `sr-only` text so the in-flight fetch is announced.
+    optional: true
   - id: toolbar
     element: div
     description: >-
@@ -146,3 +162,34 @@ states:
     kind: prop
     prop: meta.wrap
     affects: [row, column-header]
+  - id: external-table
+    trigger: >-
+      table is provided — DataTable renders from a caller-built TanStack
+      instance instead of its own; several other props become no-ops, and
+      meta.pin-driven pinning is skipped (see api.yaml's `table` description)
+    kind: prop
+    prop: table
+    affects: [table]
+  - id: manual-sorting
+    trigger: >-
+      manualSorting is set — the sort-toggle button still fires, but
+      DataTable stops reordering rows itself; the caller maps
+      sorting/onSortingChange to a query and supplies already-sorted data
+    kind: prop
+    prop: manualSorting
+    affects: [column-header]
+  - id: infinite-scroll
+    trigger: paginationMode is 'infinite' and hasNextPage is true
+    kind: prop
+    prop: paginationMode
+    affects: [sentinel]
+  - id: loading-more
+    trigger: isLoadingMore is set (paginationMode="infinite")
+    kind: prop
+    prop: isLoadingMore
+    affects: [loading-row]
+  - id: custom-empty-state
+    trigger: renderEmptyState is provided and there are no rows
+    kind: prop
+    prop: renderEmptyState
+    affects: [empty-state]
