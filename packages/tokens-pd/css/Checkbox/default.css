@@ -18,7 +18,7 @@
   --ui-checkbox-checked-icon-color-idle: light-dark(rgb(255 255 255), rgb(255 255 255));
   --ui-checkbox-global-box-border-radius: 2px;
   --ui-checkbox-global-box-border-width: 1px;
-  --ui-checkbox-global-box-margin-x: 4px;
+  --ui-checkbox-global-box-margin-y: 4px;
   --ui-checkbox-global-box-size: 16px;
   --ui-checkbox-global-container-content-gap: 0px;
   --ui-checkbox-global-container-content-width-max: 632px;

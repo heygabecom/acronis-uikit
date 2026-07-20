@@ -71,7 +71,7 @@ export default {
       },
       "spacing": {
         "checkbox-global-box-border-width": "1px",
-        "checkbox-global-box-margin-x": "4px",
+        "checkbox-global-box-margin-y": "4px",
         "checkbox-global-box-size": "16px",
         "checkbox-global-container-gap": "8px",
         "checkbox-global-container-width-max": "632px",

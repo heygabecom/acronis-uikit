@@ -18,7 +18,7 @@
   --ui-radio-checked-icon-color-idle: light-dark(rgb(255 255 255), rgb(255 255 255));
   --ui-radio-global-box-border-radius: 999px;
   --ui-radio-global-box-border-width: 1px;
-  --ui-radio-global-box-margin-x: 4px;
+  --ui-radio-global-box-margin-y: 4px;
   --ui-radio-global-box-size: 16px;
   --ui-radio-global-container-content-gap: 0px;
   --ui-radio-global-container-content-width-max: 632px;

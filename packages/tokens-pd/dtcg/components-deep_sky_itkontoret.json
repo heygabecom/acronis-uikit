@@ -3,6 +3,17 @@
     "_global": {
       "avatar": {
         "border": {
+          "borderRadius": {
+            "$extensions": {
+              "com.figma.hiddenFromPublishing": true,
+              "com.figma.scopes": [
+                "CORNER_RADIUS"
+              ],
+              "com.figma.variableId": "VariableID:3111:188"
+            },
+            "$type": "dimension",
+            "$value": "{units.radius.full}"
+          },
           "borderStyle": {
             "$extensions": {
               "com.figma.hiddenFromPublishing": true,
@@ -36,17 +47,6 @@
             "$type": "color",
             "$value": "{palette.base}"
           }
-        },
-        "borderRadius": {
-          "$extensions": {
-            "com.figma.hiddenFromPublishing": true,
-            "com.figma.scopes": [
-              "CORNER_RADIUS"
-            ],
-            "com.figma.variableId": "VariableID:3111:188"
-          },
-          "$type": "dimension",
-          "$value": "{units.radius.full}"
         },
         "group": {
           "gap": {
@@ -2576,7 +2576,7 @@
           "$type": "dimension",
           "$value": "{units.stroke.1}"
         },
-        "marginX": {
+        "marginY": {
           "$extensions": {
             "com.figma.hiddenFromPublishing": true,
             "com.figma.scopes": [
@@ -6533,7 +6533,7 @@
           "$type": "dimension",
           "$value": "{units.stroke.1}"
         },
-        "marginX": {
+        "marginY": {
           "$extensions": {
             "com.figma.hiddenFromPublishing": true,
             "com.figma.scopes": [

@@ -13,7 +13,7 @@ tokens:
   # ── Shared geometry / border (root) ──
   - name: --ui-avatar-global-avatar-size
     affects: root
-  - name: --ui-avatar-global-avatar-border-radius
+  - name: --ui-avatar-global-avatar-border-border-radius
     affects: root
   - name: --ui-avatar-global-avatar-border-border-width
     affects: root
