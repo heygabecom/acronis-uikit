@@ -102,11 +102,12 @@ describe('Toolbar', () => {
 });
 
 describe('ToolbarActions', () => {
-  it('renders a div with flex-1 and right-aligned layout', () => {
+  it('renders a div that grows but never shrinks, right-aligned', () => {
     render(<ToolbarActions data-testid="actions" />);
     const el = screen.getByTestId('actions');
     expect(el.tagName).toBe('DIV');
-    expect(el.className).toContain('flex-1');
+    expect(el.className).toContain('grow');
+    expect(el.className).toContain('shrink-0');
     expect(el.className).toContain('justify-end');
   });
 

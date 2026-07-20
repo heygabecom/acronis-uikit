@@ -26,6 +26,14 @@ import {
 // flex row) so every nested `Button`/`ButtonMenu` disables via the platform's
 // own fieldset-disables-descendants behavior — no prop-drilling into
 // arbitrary children required.
+//
+// `min-w-0` is required, not cosmetic: browsers give `<fieldset>` an
+// intrinsic `min-width: min-content` that Tailwind's reset doesn't touch, so
+// without it the fieldset refuses to shrink below its content's natural
+// width. `ToolbarActionList`'s collapse math reads this fieldset's own
+// `clientWidth` as "available space" — without `min-w-0` the fieldset
+// balloons to fit every action before that measurement ever runs, so it
+// always measures "everything fits" and the row never collapses.
 
 export type ToolbarProps = React.ComponentPropsWithoutRef<'fieldset'>;
 
@@ -33,7 +41,10 @@ const Toolbar = React.forwardRef<HTMLFieldSetElement, ToolbarProps>(
   ({ className, ...props }, ref) => (
     <fieldset
       ref={ref}
-      className={cn('m-0 flex items-center gap-4 border-0 p-0', className)}
+      className={cn(
+        'm-0 flex min-w-0 items-center gap-4 border-0 p-0',
+        className
+      )}
       {...props}
     />
   )
@@ -42,7 +53,20 @@ Toolbar.displayName = 'Toolbar';
 
 // Trailing, right-aligned area — a status text (e.g. "25 of 1250 items
 // loaded") or a selection counter + action (e.g. "6 items selected: Deselect").
-// 8px inter-child gap matches the Figma Counter part's own gap.
+// 8px inter-child gap matches the Figma Counter part's own gap. `whitespace-nowrap`
+// is required, not cosmetic: the Figma "Counter" part is always single-line, but a
+// plain-text child (e.g. a `<span>`) defaults to `white-space: normal` — without
+// this, the text wraps mid-phrase once the row shrinks below its content's natural
+// width (`white-space` is inherited, so it cascades to children without them
+// needing their own override).
+//
+// `grow shrink-0` (not `flex-1`, which also shrinks): this area must grow to fill
+// leftover space so `justify-end` can right-align it, but must never shrink below
+// its own content's natural width. `ToolbarActionList`'s auto-collapse math reads
+// this element's *rendered* width as the space it needs to reserve — if it could
+// shrink, that measurement would be a moving target (less room reserved than the
+// content actually needs), so the actions row would under-collapse and this area's
+// (nowrap, unshrinkable) content would overflow past its own box instead.
 export type ToolbarActionsProps = React.ComponentPropsWithoutRef<'div'>;
 
 const ToolbarActions = React.forwardRef<HTMLDivElement, ToolbarActionsProps>(
@@ -50,7 +74,7 @@ const ToolbarActions = React.forwardRef<HTMLDivElement, ToolbarActionsProps>(
     <div
       ref={ref}
       className={cn(
-        'flex min-w-px flex-1 items-center justify-end gap-2',
+        'flex grow shrink-0 items-center justify-end gap-2 whitespace-nowrap',
         className
       )}
       {...props}
