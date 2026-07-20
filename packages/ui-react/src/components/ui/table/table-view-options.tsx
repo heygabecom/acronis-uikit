@@ -26,8 +26,6 @@ export interface TableViewOptionsProps {
   onToggle: (id: string) => void;
   /** Trigger label. Defaults to `View`. */
   triggerLabel?: React.ReactNode;
-  /** Menu heading. Defaults to `Toggle columns`. */
-  menuLabel?: React.ReactNode;
 }
 
 // TanStack-independent show/hide-columns dropdown extracted from

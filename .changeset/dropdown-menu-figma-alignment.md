@@ -16,6 +16,9 @@ DropdownMenu: align with Figma design (ButtonMenuDropdown)
     checkmark (see `TableViewOptions` for the pattern).
   - `DropdownMenuRadioItem` / `DropdownMenuRadioGroup` → use
     `DropdownMenuItem` with custom selection state.
+- **`TableViewOptions`:** removed the `menuLabel` prop. The Figma design has no
+  menu heading, so the dropdown no longer renders one — the prop is gone rather
+  than silently ignored.
 
 ### Additions
 

@@ -14,7 +14,8 @@ A thin rule that divides content, horizontally or vertically.
 ## When not to use
 
 - As spacing alone — use margins/padding.
-- Inside a menu — use `DropdownMenuSeparator`.
+- Inside a menu — group items into `DropdownMenuGroup`s instead; non-first
+  groups render a top-border separator automatically.
 
 ## Example
 
