@@ -1,15 +1,17 @@
 spec_version: '1.0'
 component: DropdownMenu
 name: dropdown-menu
-status: draft
+status: stable
 category: overlays
 description: >-
-  A menu of actions anchored to a trigger, opened on demand. A rich set of
-  composable parts (trigger, content, item, checkbox item, radio item, label,
-  separator, shortcut, submenu) built on the Base UI Menu primitive. Ported from
-  the legacy shadcn-uikit `DropdownMenu`; themed by the shared semantic tokens.
+  A menu of actions anchored to a trigger (typically a `ButtonMenu`), opened on
+  demand. Composable parts — trigger, content, group (section), item, shortcut,
+  submenu — built on the Base UI Menu primitive. Themed by the
+  `--ui-button-menu-dropdown-*` token tier from @acronis-platform/tokens-pd.
 since: 0.14.0
+figma:
+  node: '3116:60887'
 dependencies:
   components:
-    - CheckIcon
+    - ButtonMenu
     - ChevronRightIcon

@@ -36,22 +36,6 @@ Scenario: Roving navigation and typeahead
   And typing characters jumps to the matching item
 ```
 
-## Checkbox & radio items
-
-```gherkin
-Scenario: Toggling a checkbox item
-  Given a DropdownMenuCheckboxItem with checked = false
-  When the user activates it
-  Then it toggles and checked-change(true) fires (consumer owns the value)
-```
-
-```gherkin
-Scenario: Choosing a radio item
-  Given a DropdownMenuRadioGroup with a value
-  When the user activates a different radio item
-  Then value-change fires with that item's value
-```
-
 ## Submenus
 
 ```gherkin

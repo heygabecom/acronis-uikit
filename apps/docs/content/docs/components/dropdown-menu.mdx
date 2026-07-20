@@ -13,66 +13,51 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuCheckboxItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuSub,
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
+  ButtonMenu,
 } from '@acronis-platform/ui-react';
 ```
 
 `DropdownMenu` is a compound component built on Base UI's Menu primitive
 (positioning, roving focus, typeahead, outside-press / Esc dismissal, ARIA).
-`DropdownMenu` owns the open state; `DropdownMenuTrigger` opens it; and
-`DropdownMenuContent` is the portaled popup holding `DropdownMenuItem`s — with
-optional labels, separators, checkbox/radio items, shortcuts, and nested
-submenus. This is a design-pending v1 themed from the shared semantic tokens; a
-`--ui-menu-*` tier is pending a Figma pass.
+Themed by the `--ui-button-menu-dropdown-*` token tier from
+`@acronis-platform/tokens-pd`. `DropdownMenu` owns the open state;
+`DropdownMenuTrigger` opens it (typically composed with a `ButtonMenu`); and
+`DropdownMenuContent` is the portaled popup holding `DropdownMenuGroup`s of
+`DropdownMenuItem`s — with optional shortcuts and nested submenus.
 
 ## Examples
-
 
 <DemoReact>
   <DropdownMenuDemo />
 </DemoReact>
 
-A basic actions menu:
+A basic actions menu with a `ButtonMenu` trigger:
 
 ```tsx
 <DropdownMenu>
-  <DropdownMenuTrigger render={<Button variant="secondary">Open menu</Button>} />
-  <DropdownMenuContent className="w-56">
-    <DropdownMenuLabel>My account</DropdownMenuLabel>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem>
-      Profile <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-    </DropdownMenuItem>
-    <DropdownMenuItem>Settings</DropdownMenuItem>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem>Log out</DropdownMenuItem>
+  <DropdownMenuTrigger render={<ButtonMenu variant="secondary">Actions</ButtonMenu>} />
+  <DropdownMenuContent>
+    <DropdownMenuGroup>
+      <DropdownMenuItem>
+        Profile <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+      </DropdownMenuItem>
+      <DropdownMenuItem>Settings</DropdownMenuItem>
+    </DropdownMenuGroup>
+    <DropdownMenuGroup>
+      <DropdownMenuItem>Log out</DropdownMenuItem>
+    </DropdownMenuGroup>
   </DropdownMenuContent>
 </DropdownMenu>
 ```
 
-Checkbox and radio items (consumer owns the values):
-
-```tsx
-<DropdownMenuContent>
-  <DropdownMenuCheckboxItem checked={grid} onCheckedChange={setGrid}>
-    Show grid
-  </DropdownMenuCheckboxItem>
-  <DropdownMenuSeparator />
-  <DropdownMenuRadioGroup value={density} onValueChange={setDensity}>
-    <DropdownMenuRadioItem value="comfortable">Comfortable</DropdownMenuRadioItem>
-    <DropdownMenuRadioItem value="compact">Compact</DropdownMenuRadioItem>
-  </DropdownMenuRadioGroup>
-</DropdownMenuContent>
-```
+Multiple `DropdownMenuGroup`s render an automatic top-border separator between
+sections (non-first groups get the border).
 
 A nested submenu:
 
@@ -80,8 +65,10 @@ A nested submenu:
 <DropdownMenuSub>
   <DropdownMenuSubTrigger>More tools</DropdownMenuSubTrigger>
   <DropdownMenuSubContent>
-    <DropdownMenuItem>Import</DropdownMenuItem>
-    <DropdownMenuItem>Export</DropdownMenuItem>
+    <DropdownMenuGroup>
+      <DropdownMenuItem>Import</DropdownMenuItem>
+      <DropdownMenuItem>Export</DropdownMenuItem>
+    </DropdownMenuGroup>
   </DropdownMenuSubContent>
 </DropdownMenuSub>
 ```
@@ -96,9 +83,7 @@ A nested submenu:
 />
 
 `DropdownMenu` (root) accepts the Base UI Menu root props — `open` /
-`defaultOpen`, `onOpenChange`. `DropdownMenuItem` / `DropdownMenuLabel` /
-`DropdownMenuSubTrigger` take an `inset` flag; `DropdownMenuCheckboxItem` takes
-`checked` / `onCheckedChange`; `DropdownMenuRadioGroup` takes `value` /
-`onValueChange`. See the
+`defaultOpen`, `onOpenChange`. `DropdownMenuItem` / `DropdownMenuSubTrigger`
+take an `inset` flag. See the
 [Base UI Menu docs](https://base-ui.com/react/components/menu) for the full prop
 surface of each part.

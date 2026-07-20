@@ -1,12 +1,11 @@
 'use client';
 
 import {
-  Button,
+  ButtonMenu,
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@acronis-platform/ui-react';
@@ -14,20 +13,21 @@ import {
 export function DropdownMenuDemo() {
   return (
     <DropdownMenu defaultOpen>
-      <DropdownMenuTrigger render={<Button variant="secondary">Open menu</Button>} />
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>My account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Profile
-          <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          Settings
-          <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>Log out</DropdownMenuItem>
+      <DropdownMenuTrigger render={<ButtonMenu variant="secondary">Actions</ButtonMenu>} />
+      <DropdownMenuContent>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            Profile
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Settings
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>Log out</DropdownMenuItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );

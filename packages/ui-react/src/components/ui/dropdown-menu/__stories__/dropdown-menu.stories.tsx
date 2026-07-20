@@ -1,17 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
 
-import { Button } from '../../button';
+import { ButtonMenu } from '../../button-menu';
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
   DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '../dropdown-menu';
 
@@ -47,50 +45,78 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/** Single section with items — ButtonMenu trigger + Figma Section(firstSection=true). */
 export const Default: Story = {
   render: () => (
     <DropdownMenu defaultOpen>
-      <DropdownMenuTrigger render={<Button variant="secondary">Open menu</Button>} />
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>My account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Profile
-          <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          Settings
-          <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>Log out</DropdownMenuItem>
+      <DropdownMenuTrigger render={<ButtonMenu variant="secondary">Actions</ButtonMenu>} />
+      <DropdownMenuContent>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            Profile
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Settings
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>Log out</DropdownMenuItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   ),
 };
 
-export const CheckboxAndRadio: Story = {
-  render: function CheckboxAndRadioStory() {
-    const [grid, setGrid] = useState(true);
-    const [density, setDensity] = useState('comfortable');
-    return (
-      <DropdownMenu defaultOpen>
-        <DropdownMenuTrigger render={<Button variant="secondary">View</Button>} />
-        <DropdownMenuContent className="w-56">
-          <DropdownMenuLabel>Appearance</DropdownMenuLabel>
-          <DropdownMenuCheckboxItem checked={grid} onCheckedChange={setGrid}>
-            Show grid
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuLabel>Density</DropdownMenuLabel>
-          <DropdownMenuRadioGroup value={density} onValueChange={setDensity}>
-            <DropdownMenuRadioItem value="comfortable">
-              Comfortable
-            </DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="compact">Compact</DropdownMenuRadioItem>
-          </DropdownMenuRadioGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    );
-  },
+/** Multiple sections — non-first sections get an auto top-border separator (Figma firstSection=false). */
+export const MultipleSections: Story = {
+  render: () => (
+    <DropdownMenu defaultOpen>
+      <DropdownMenuTrigger render={<ButtonMenu variant="secondary">Actions</ButtonMenu>} />
+      <DropdownMenuContent>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            Profile
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Settings
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>Log out</DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  ),
+};
+
+/** Cascade submenu — Item with ItemExtras(variant=cascade) opens a nested dropdown. */
+export const WithSubmenu: Story = {
+  render: () => (
+    <DropdownMenu defaultOpen>
+      <DropdownMenuTrigger render={<ButtonMenu variant="primary">Actions</ButtonMenu>} />
+      <DropdownMenuContent>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>Edit</DropdownMenuItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>Share</DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <DropdownMenuGroup>
+                <DropdownMenuItem>Copy link</DropdownMenuItem>
+                <DropdownMenuItem>Email</DropdownMenuItem>
+                <DropdownMenuItem>Slack</DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+        </DropdownMenuGroup>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            Delete
+            <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  ),
 };

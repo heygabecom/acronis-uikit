@@ -7,10 +7,9 @@ roles, roving focus, typeahead, and dismissal.
 
 - The trigger exposes `aria-haspopup="menu"` and `aria-expanded`; the popup has
   `role="menu"`.
-- Items are `role="menuitem"`; checkbox items `role="menuitemcheckbox"` with
-  `aria-checked`; radio items `role="menuitemradio"` with `aria-checked`.
-- Separators are `role="separator"`. A label is a non-interactive heading; the
-  shortcut hint is decorative text inside its item.
+- Items are `role="menuitem"`. The shortcut hint is decorative text inside its
+  item. Groups (`DropdownMenuGroup`) visually section items; non-first groups
+  render a top-border separator.
 
 ## Keyboard
 
@@ -22,17 +21,18 @@ roles, roving focus, typeahead, and dismissal.
   closes it (Escape closes the whole menu from the root and returns focus to the
   trigger).
 - **Enter / Space** activates the highlighted item.
+- **Focus ring** (`--ui-focus-primary`, 3px inset) appears only on keyboard
+  navigation (`focus-visible:not(:hover)`), not on pointer interaction.
 
 ## Screen reader
 
 - Opening announces the menu and its first item ("Profile, menu item 1 of 4").
-- Checkbox / radio items announce their checked state; toggling re-announces it.
 
 ## Contrast
 
-- The popup uses `--ui-text-on-surface-primary` on
-  `--ui-background-surface-primary` with a `--ui-border-on-surface-border` border;
-  the highlighted item uses `--ui-background-surface-hover`; shortcuts use
-  `--ui-text-on-surface-secondary` — all meeting WCAG AA in light and dark.
-  Re-verify against the final palette once a `--ui-menu-*` tier and Figma
-  reference exist.
+- The popup uses `--ui-button-menu-dropdown-item-label-color` on
+  `--ui-button-menu-dropdown-container-color` with a
+  `--ui-button-menu-dropdown-container-border-color` border; the highlighted
+  item uses `--ui-button-menu-dropdown-item-container-color-hover`; shortcuts
+  use `--ui-button-menu-dropdown-extras-shortcut-label-color` — all meeting
+  WCAG AA in light and dark.

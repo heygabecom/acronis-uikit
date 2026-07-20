@@ -5,11 +5,10 @@ import { describe, expect, it, vi } from 'vitest';
 
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '../dropdown-menu';
 
@@ -21,10 +20,13 @@ function DemoMenu(props: {
     <DropdownMenu defaultOpen={props.defaultOpen}>
       <DropdownMenuTrigger>Open menu</DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>My account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={props.onItemClick}>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Settings</DropdownMenuItem>
+        <DropdownMenuGroup>
+          <DropdownMenuItem onClick={props.onItemClick}>
+            Profile
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>Settings</DropdownMenuItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -37,41 +39,68 @@ describe('DropdownMenu', () => {
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Open menu' }));
     expect(screen.getByRole('menu')).toBeInTheDocument();
-    expect(screen.getByRole('menuitem', { name: 'Profile' })).toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: /Profile/ })).toBeInTheDocument();
   });
 
-  it('renders open with defaultOpen, including a separator', () => {
+  it('renders open with defaultOpen', () => {
     render(<DemoMenu defaultOpen />);
     expect(screen.getByRole('menu')).toBeInTheDocument();
-    expect(screen.getByText('My account')).toBeInTheDocument();
-    expect(screen.getByRole('separator')).toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: /Profile/ })).toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: 'Settings' })).toBeInTheDocument();
   });
 
-  it('themes the popup from the bridged semantic tokens', () => {
+  it('themes the popup from the --ui-button-menu-dropdown tokens', () => {
     render(<DemoMenu defaultOpen />);
-    expect(screen.getByRole('menu')).toHaveClass('bg-background', 'text-foreground');
+    expect(screen.getByRole('menu')).toHaveClass(
+      'bg-[var(--ui-button-menu-dropdown-container-color)]',
+      'border-[var(--ui-button-menu-dropdown-container-border-color)]',
+      'rounded-[var(--ui-button-menu-dropdown-container-border-radius)]'
+    );
+  });
+
+  it('themes the item from the --ui-button-menu-dropdown-item tokens', () => {
+    render(<DemoMenu defaultOpen />);
+    expect(screen.getByRole('menuitem', { name: /Profile/ })).toHaveClass(
+      'bg-[var(--ui-button-menu-dropdown-item-container-color-idle)]',
+      'text-[var(--ui-button-menu-dropdown-item-label-color)]'
+    );
   });
 
   it('invokes an item handler on click', async () => {
     const user = userEvent.setup();
     const onItemClick = vi.fn();
     render(<DemoMenu defaultOpen onItemClick={onItemClick} />);
-    await user.click(screen.getByRole('menuitem', { name: 'Profile' }));
+    await user.click(screen.getByRole('menuitem', { name: /Profile/ }));
     expect(onItemClick).toHaveBeenCalledTimes(1);
   });
 
-  it('renders a checkbox item with role menuitemcheckbox', () => {
+  it('renders a shortcut inside the item', () => {
+    render(<DemoMenu defaultOpen />);
+    expect(screen.getByText('⇧⌘P')).toBeInTheDocument();
+    expect(screen.getByText('⇧⌘P')).toHaveClass(
+      'text-[var(--ui-button-menu-dropdown-extras-shortcut-label-color)]'
+    );
+  });
+
+  it('renders sections with auto-border between groups', () => {
     render(
       <DropdownMenu defaultOpen>
         <DropdownMenuTrigger>Open</DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuCheckboxItem checked>Show grid</DropdownMenuCheckboxItem>
+          <DropdownMenuGroup>
+            <DropdownMenuItem>One</DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuGroup>
+            <DropdownMenuItem>Two</DropdownMenuItem>
+          </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
     );
-    expect(
-      screen.getByRole('menuitemcheckbox', { name: 'Show grid' })
-    ).toBeInTheDocument();
+    const groups = screen.getByRole('menu').querySelectorAll('[role="group"]');
+    expect(groups).toHaveLength(2);
+    expect(groups[0]).toHaveClass(
+      'py-[var(--ui-button-menu-dropdown-section-container-padding-y)]'
+    );
   });
 
   it('forwards the ref to the popup', () => {
@@ -80,7 +109,9 @@ describe('DropdownMenu', () => {
       <DropdownMenu defaultOpen>
         <DropdownMenuTrigger>Open</DropdownMenuTrigger>
         <DropdownMenuContent ref={ref}>
-          <DropdownMenuItem>Item</DropdownMenuItem>
+          <DropdownMenuGroup>
+            <DropdownMenuItem>Item</DropdownMenuItem>
+          </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
     );

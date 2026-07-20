@@ -2,67 +2,62 @@ spec_version: '1.0'
 component: DropdownMenu
 
 schematic: |
-  trigger: <button> (opens the menu)
+  trigger: <ButtonMenu> (opens the menu)
 
-  ─ when open ─────────────────────────────
+  ─ when open ─────────────────────────────────────
   root: <div role="menu"> (popup)
-  +---------------------------------------+
-  | label: "My account"                   |
-  | separator: ───────────────────────    |
-  | item: Profile            shortcut ⇧⌘P |
-  | item: Settings               shortcut |
-  | checkbox-item: ✓ Show grid            |
-  | radio-item: ● Comfortable             |
-  | submenu-trigger: More            ›     |
-  |     └ submenu-content: <div role=menu>|
-  +---------------------------------------+
-     popup -> bg-background / text-foreground / border-border + shadow-md
-     item highlight (pointer or keyboard) -> bg-accent (data-[highlighted])
+  +-----------------------------------------------+
+  | group (section, firstSection=true)            |
+  |   item: Profile            shortcut ⇧⌘P      |
+  |   item: Settings                    shortcut  |
+  | ────── border-top (section separator) ──────  |
+  | group (section, firstSection=false)           |
+  |   submenu-trigger: Share               ›      |
+  |     └ submenu-content: <div role=menu>        |
+  |   item: Log out                               |
+  +-----------------------------------------------+
+     popup -> --ui-button-menu-dropdown-container-*
+     item highlight -> --ui-button-menu-dropdown-item-container-color-hover
+     item active    -> --ui-button-menu-dropdown-item-container-color-active
+     focus ring     -> --ui-focus-primary (3px inset, keyboard-only)
 
 root:
   element: div
   role: menu
   description: >-
     The portaled, positioned menu popup (Base UI `Menu.Popup`). A bordered,
-    rounded surface; receives focus and roving keyboard navigation when open.
+    rounded surface themed by `--ui-button-menu-dropdown-container-*` tokens;
+    receives focus and roving keyboard navigation when open.
 
 parts:
   - id: trigger
-    description: The control that opens the menu (Base UI `Menu.Trigger`).
+    description: >-
+      The control that opens the menu (Base UI `Menu.Trigger`). Typically
+      composed with a `ButtonMenu` via the `render` prop.
     element: button
+  - id: group
+    description: >-
+      A section of items (Figma `Section`). Non-first sections render a
+      top border separator via `--ui-button-menu-dropdown-section-container-border-*`.
+    element: div
+    optional: true
   - id: item
     description: >-
       An action row (`role="menuitem"`). Highlighted via `data-[highlighted]`
       (pointer or keyboard); `inset` aligns it with items that have an indicator.
+      Focus ring is visible only on keyboard navigation (focus-visible:not(:hover)).
     element: div
-  - id: checkbox-item
-    description: >-
-      A toggleable row (`role="menuitemcheckbox"`) with a leading check
-      indicator. Controlled by `checked` / change event.
-    element: div
-    optional: true
-  - id: radio-item
-    description: >-
-      A single-choice row (`role="menuitemradio"`) with a leading dot indicator,
-      inside a radio group keyed by `value`.
-    element: div
-    optional: true
-  - id: label
-    description: A non-interactive section heading.
-    element: div
-    optional: true
-  - id: separator
-    description: A divider (`role="separator"`) between groups of items.
-    element: div
-    optional: true
   - id: shortcut
-    description: Right-aligned keyboard-shortcut hint inside an item, muted.
+    description: >-
+      Right-aligned keyboard-shortcut hint inside an item
+      (Figma `ItemExtras` variant=shortcut), muted color.
     element: span
     optional: true
   - id: submenu-trigger
     description: >-
-      An item that opens a nested submenu (trailing chevron); highlighted on
-      `data-[highlighted]` and filled on `data-[popup-open]`.
+      An item that opens a nested submenu (trailing chevron, Figma `ItemExtras`
+      variant=cascade); highlighted on `data-[highlighted]` and filled on
+      `data-[popup-open]`.
     element: div
     optional: true
   - id: submenu-content
@@ -73,7 +68,7 @@ parts:
 layout:
   type: flex
   direction: column
-  order: [label, separator, item]
+  order: [group, item]
 
 # DropdownMenu owns one piece of internal state — whether it is open. The popup's
 # presence is `internal` (driven by this state), reached via the controlled prop

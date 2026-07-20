@@ -35,31 +35,19 @@ contract:
       required: false
       default: false
       description: >-
-        On an item / label / submenu-trigger — left-pad to align with rows that
+        On an item / submenu-trigger — left-pad to align with rows that
         have a leading indicator.
-    - name: value
-      type: string
-      required: false
-      description: >-
-        On a radio group / radio item — the selected value / this item's value.
-        Checkbox items use a boolean `checked` instead.
 
   events:
     - name: open-change
       payload: boolean
       description: Fired when the menu opens or closes (React `onOpenChange`).
-    - name: checked-change
-      payload: boolean
-      description: Fired by a checkbox item when toggled (React `onCheckedChange`).
-    - name: value-change
-      payload: string
-      description: Fired by a radio group when the selection changes (React `onValueChange`).
 
   content:
     - name: default
       description: >-
-        A `trigger` plus the `content` popup of `item`s — optionally `label`s,
-        `separator`s, `checkbox-item`s, a radio group of `radio-item`s, and
+        A `trigger` (typically a `ButtonMenu`) plus the `content` popup of
+        `group`s containing `item`s — optionally with `shortcut` hints and
         nested submenus (`submenu-trigger` + `submenu-content`).
 
   methods: []
@@ -70,20 +58,19 @@ adapters:
     status: implemented
     import: >-
       import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent,
-      DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuRadioGroup,
-      DropdownMenuRadioItem, DropdownMenuLabel, DropdownMenuSeparator,
-      DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubTrigger,
-      DropdownMenuSubContent } from '@acronis-platform/ui-react'
+      DropdownMenuGroup, DropdownMenuItem, DropdownMenuShortcut,
+      DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent,
+      ButtonMenu } from '@acronis-platform/ui-react'
     example: |
       <DropdownMenu>
-        <DropdownMenuTrigger render={<Button variant="secondary">Open</Button>} />
+        <DropdownMenuTrigger render={<ButtonMenu variant="secondary">Actions</ButtonMenu>} />
         <DropdownMenuContent>
-          <DropdownMenuLabel>My account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            Profile <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              Profile <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuItem>Settings</DropdownMenuItem>
+          </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
 

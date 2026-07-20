@@ -3,35 +3,136 @@ component: DropdownMenu
 
 # References only. Values live in @acronis-platform/tokens-pd (generated from
 # @acronis-platform/design-tokens) and resolve per brand/theme at paint time.
-# Design-pending v1: no `--ui-menu-*` tier yet, so the menu consumes the shared
-# *semantic* tokens (via bridged Tailwind names bg-background / text-foreground /
-# border-border / bg-accent / text-muted-foreground). Replace with a `--ui-menu-*`
-# tier if/when a Figma pass introduces one.
+# Tokens come from the ButtonMenu/default.css tier (--ui-button-menu-dropdown-*).
 source: '@acronis-platform/tokens-pd'
 
 tokens:
+  # ── Container (popup) ──────────────────────────────────────────────
   - {
-      name: --ui-background-surface-primary,
+      name: --ui-button-menu-dropdown-container-color,
       affects: root,
-      description: Popup surface (bridged as bg-background),
+      description: Popup surface fill,
     }
   - {
-      name: --ui-text-on-surface-primary,
+      name: --ui-button-menu-dropdown-container-border-color,
       affects: root,
-      description: Popup text color (bridged as text-foreground),
+      description: Popup border color,
     }
   - {
-      name: --ui-border-on-surface-border,
+      name: --ui-button-menu-dropdown-container-border-width,
       affects: root,
-      description: Popup border and separator (bridged as border-border / bg-border),
+      description: Popup border width,
     }
   - {
-      name: --ui-background-surface-hover,
+      name: --ui-button-menu-dropdown-container-border-radius,
+      affects: root,
+      description: Popup corner radius,
+    }
+  - {
+      name: --ui-button-menu-dropdown-container-padding-x,
+      affects: root,
+      description: Popup horizontal padding,
+    }
+  - {
+      name: --ui-button-menu-dropdown-container-padding-y,
+      affects: root,
+      description: Popup vertical padding,
+    }
+  - {
+      name: --ui-button-menu-dropdown-container-gap,
+      affects: root,
+      description: Gap between sections inside the popup,
+    }
+
+  # ── Section (group) ────────────────────────────────────────────────
+  - {
+      name: --ui-button-menu-dropdown-section-list-gap,
+      affects: group,
+      description: Gap between items inside a section,
+    }
+  - {
+      name: --ui-button-menu-dropdown-section-container-padding-x,
+      affects: group,
+      description: Section horizontal padding,
+    }
+  - {
+      name: --ui-button-menu-dropdown-section-container-padding-y,
+      affects: group,
+      description: Section vertical padding,
+    }
+  - {
+      name: --ui-button-menu-dropdown-section-container-border-width,
+      affects: group,
+      description: 'Section separator border width (non-first sections)',
+    }
+  - {
+      name: --ui-button-menu-dropdown-section-container-border-color,
+      affects: group,
+      description: 'Section separator border color (non-first sections)',
+    }
+
+  # ── Item ───────────────────────────────────────────────────────────
+  - {
+      name: --ui-button-menu-dropdown-item-container-height,
       affects: item,
-      description: Highlighted item background (bridged as bg-accent),
+      description: Minimum item height,
     }
   - {
-      name: --ui-text-on-surface-secondary,
+      name: --ui-button-menu-dropdown-item-container-gap,
+      affects: item,
+      description: Gap between icon/label/extras inside an item,
+    }
+  - {
+      name: --ui-button-menu-dropdown-item-container-padding-x,
+      affects: item,
+      description: Item horizontal padding,
+    }
+  - {
+      name: --ui-button-menu-dropdown-item-container-padding-y,
+      affects: item,
+      description: Item vertical padding,
+    }
+  - {
+      name: --ui-button-menu-dropdown-item-container-color-idle,
+      affects: item,
+      description: Item background — idle,
+    }
+  - {
+      name: --ui-button-menu-dropdown-item-container-color-hover,
+      affects: item,
+      description: 'Item background — highlighted (pointer or keyboard)',
+    }
+  - {
+      name: --ui-button-menu-dropdown-item-container-color-active,
+      affects: item,
+      description: 'Item background — active (pressed)',
+    }
+  - {
+      name: --ui-button-menu-dropdown-item-label-color,
+      affects: item,
+      description: Item label text color,
+    }
+  - {
+      name: --ui-button-menu-dropdown-item-icon-color,
+      affects: item,
+      description: Item leading icon color,
+    }
+
+  # ── Extras ─────────────────────────────────────────────────────────
+  - {
+      name: --ui-button-menu-dropdown-extras-shortcut-label-color,
       affects: shortcut,
-      description: Shortcut hint color (bridged as text-muted-foreground),
+      description: Shortcut hint text color,
+    }
+  - {
+      name: --ui-button-menu-dropdown-extras-cascade-icon-color,
+      affects: submenu-trigger,
+      description: Cascade chevron icon color,
+    }
+
+  # ── Focus ──────────────────────────────────────────────────────────
+  - {
+      name: --ui-focus-primary,
+      affects: item,
+      description: 'Focus ring color (3px inset, keyboard-only via focus-visible)',
     }
