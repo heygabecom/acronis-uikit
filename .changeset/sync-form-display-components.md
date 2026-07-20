@@ -4,4 +4,6 @@
 
 Sync design tokens with Figma.
 
-Updates Checkbox (adds border.borderRadius, removes legacy borderRadius), Radio (same), Switch, Avatar (adds/removes borderRadius), CardFilter, Table, Tag (gradients.ai), and Tooltip (now uses backdrop-inverse semantics).
+- **Avatar**: moves `_global.borderRadius` into `_global.avatar.border.borderRadius` (aligns token path with the component structure).
+- **Checkbox**: renames `marginX` to `marginY`.
+- **Radio**: renames `marginX` to `marginY`.
