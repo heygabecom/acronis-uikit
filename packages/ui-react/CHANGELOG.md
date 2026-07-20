@@ -1,5 +1,136 @@
 # @acronis-platform/ui-react
 
+## 0.56.1
+
+### Major Changes
+
+- [#549](https://github.com/acronis/uikit/pull/549) [`d01f9ab`](https://github.com/acronis/uikit/commit/d01f9ab44089b3a8dd9927b94cdaf129c677a032) Thanks [@marta-sampedro](https://github.com/marta-sampedro)! - DropdownMenu: align with Figma design (ButtonMenuDropdown)
+
+  ### BREAKING CHANGES
+  - **Removed exports:** `DropdownMenuCheckboxItem`, `DropdownMenuRadioItem`,
+    `DropdownMenuRadioGroup`, `DropdownMenuLabel`, `DropdownMenuSeparator` —
+    not present in the Figma design. Consumers using these must migrate:
+    - `DropdownMenuLabel` → remove or use a plain styled `<div>`.
+    - `DropdownMenuSeparator` → use multiple `DropdownMenuGroup`s (non-first
+      groups render a top-border separator automatically).
+    - `DropdownMenuCheckboxItem` → use `DropdownMenuItem` with a visual
+      checkmark (see `TableViewOptions` for the pattern).
+    - `DropdownMenuRadioItem` / `DropdownMenuRadioGroup` → use
+      `DropdownMenuItem` with custom selection state.
+  - **`TableViewOptions`:** removed the `menuLabel` prop. The Figma design has no
+    menu heading, so the dropdown no longer renders one — the prop is gone rather
+    than silently ignored.
+
+  ### Additions
+  - Theme the entire component with `--ui-button-menu-dropdown-*` tokens from
+    `@acronis-platform/tokens-pd` (replacing shared semantic tokens).
+  - Add `DropdownMenuGroup` (Figma `Section`): non-first groups render a
+    top-border separator automatically.
+  - Add item active state (`data-[highlighted]:active`) and keyboard-only
+    focus ring (`focus-visible:not(:hover)`, 3px inset, `--ui-focus-primary`).
+  - Add `DropdownMenuShortcut` (Figma `ItemExtras` variant=shortcut) and
+    cascade chevron color token for submenu triggers.
+
+  ### Internal
+  - Update `TableViewOptions` to use `DropdownMenuItem` with visual checkmark
+    instead of removed checkbox sub-component.
+  - Stories now use `ButtonMenu` as the trigger (matching Figma pattern).
+
+### Minor Changes
+
+- [#551](https://github.com/acronis/uikit/pull/551) [`24f0096`](https://github.com/acronis/uikit/commit/24f0096ae19b2613077dd02bee8f582b3e6d2b7d) Thanks [@madjorr](https://github.com/madjorr)! - Add `AppShellChat` — a 3-section, horizontally resizable application scaffold
+  (sidebar rail | Content | Chat). Content and Chat resize against each other via a
+  drag handle on Chat's start border (mirroring `SidebarSecondary`'s resize
+  interaction, flipped for the end-of-row panel); sidebar interactions reflow
+  Content only, never Chat. Chat is resize-only: dragging down to its floor width
+  switches its header to an icon-only rail, and dragging up can take it to full
+  width (Content shrinks to 0) since the resize ceiling is measured from the
+  actual available space rather than a fixed cap. Composable parts:
+  `AppShellChat`, `AppShellChatSidebar`, `AppShellChatContent`,
+  `AppShellChatContentHeader`, `AppShellChatContentBody`, `AppShellChatChat`,
+  `AppShellChatChatHeader`, `AppShellChatChatBody`. RTL-safe via CSS logical
+  properties. Distinct from the existing `AppShell` component.
+
+- [#551](https://github.com/acronis/uikit/pull/551) [`e199d0e`](https://github.com/acronis/uikit/commit/e199d0e672c763bb88e140c0341e5a7c3a3a3759) Thanks [@madjorr](https://github.com/madjorr)! - `AppShellChat`'s Chat panel now has a breakpoint-responsive width: 512px at
+  1680px+, 448px from 1280-1679px, and the 48px icon-rail floor below 1280px.
+  This is genuinely LIVE — driven by plain responsive Tailwind classes
+  (`w-12 xl:w-md 3xl:w-lg`), reflowing on every browser resize — until the
+  user drags the resize handle or nudges it with the arrow keys, at which
+  point that explicit choice wins until double-click/Home resets it.
+
+  Also exports `useAppShellChatInitialLayout` (and the pure
+  `getAppShellChatInitialLayout` helper) so consumers can wire the sidebars'
+  breakpoint-appropriate INITIAL layout into `SidebarPrimary`/
+  `SidebarSecondary`'s `defaultExpanded` prop. Unlike Chat's width, this is
+  resolved ONCE from the viewport width at mount and frozen after that (the
+  sidebars have their own manual collapse/expand controls, so their state
+  should not fight a live viewport change): at 1680px+ both sidebars start
+  open; below that the primary sidebar starts closed (secondary stays open).
+
+- [#550](https://github.com/acronis/uikit/pull/550) [`9fe95f9`](https://github.com/acronis/uikit/commit/9fe95f9d3529c357432e1d767139cf6b7a515ab5) Thanks [@madjorr](https://github.com/madjorr)! - Pin the design team's viewport breakpoint scale in `src/styles/index.css`'s `@theme`
+  block, replacing Tailwind's stock `lg`/`xl`/`2xl` values and adding new `3xl`/`4xl`
+  steps:
+
+  | Breakpoint | Before (Tailwind default) | After              |
+  | ---------- | ------------------------- | ------------------ |
+  | `lg`       | 1024px                    | 1024px (unchanged) |
+  | `xl`       | 1280px                    | 1280px (unchanged) |
+  | `2xl`      | 1536px                    | **1440px**         |
+  | `3xl`      | n/a                       | **1680px** (new)   |
+  | `4xl`      | n/a                       | **1920px** (new)   |
+
+  **Breaking for consumers relying on Tailwind's default `2xl` (1536px)**: any
+  `2xl:`-prefixed utility, and the built-in `.container` utility's `2xl` step, now
+  activates at 1440px instead of 1536px. `sm`/`md` are unchanged. A
+  `Foundations/Breakpoints` Storybook story documents the full scale.
+
+- [#547](https://github.com/acronis/uikit/pull/547) [`d504bcd`](https://github.com/acronis/uikit/commit/d504bcdc0f5f42fc96c2760bc206e573c646a251) Thanks [@marta-sampedro](https://github.com/marta-sampedro)! - **InputSelect: functional in-dropdown search, tree/hierarchy support, and Figma Code Connect for the dropdown.**
+
+  New public API:
+  - `InputSelectExpander` — a non-selectable expand/collapse row for tree groups.
+  - `useInputSelectFilter` — reads the live search query so hierarchical (tree)
+    dropdowns can filter themselves in place, without flattening.
+  - `InputSelectItem` gains an `icon` prop (leading icon, colored by
+    `--ui-input-select-dropdown-item-global-icon-tenant`), a `textValue` prop to
+    override the text matched against the search query, and an `indent` prop.
+
+  In-dropdown search now works:
+  - `InputSelectSearch` drives a filter context — flat `InputSelectItem`s auto-hide
+    when their label doesn't match the query.
+  - Fixes a bug where Base UI's typeahead swallowed the typed keys, so the query
+    never appeared. Only printable keys are now intercepted, so Arrow / Enter /
+    Escape still navigate and dismiss the list from the search box.
+  - Passing `value`/`onChange` controls the query externally: the internal filter
+    the items match against now stays synced to the controlled value, so a
+    prop-driven change (a "clear" button, a debounced value) that fires no
+    `onChange` no longer leaves items hidden against a stale query.
+
+  Tree/hierarchy layout:
+  - `indent` (on `InputSelectItem` and `InputSelectExpander`) reserves a leading
+    nesting spacer matching the Figma tenant tree: 16 / 40 / 64 px for levels 1–3
+    (`16 + (level − 1) × 24`). Expander chevrons are tucked right-aligned into that
+    reserved space so tenant icons stay aligned across rows.
+
+  Token / Figma alignment:
+  - The single-select check indicator now uses
+    `--ui-input-select-dropdown-item-global-icon-checked`.
+  - `InputSelectStatus`'s hardcoded `min-h` is replaced with
+    `--ui-input-select-dropdown-container-status-width-min`.
+  - Icon colors match Figma: the search magnifier and loading spinner use
+    `--ui-glyph-on-surface-primary`, the empty icon `--ui-glyph-on-status-info`,
+    and the error icon `--ui-glyph-on-status-warning`.
+  - Adds Figma Code Connect for the `InputSelectDropdown` (2885-2373) and
+    `InputSelectDropdownTenants` (3064-21461) component sets.
+
+### Patch Changes
+
+- [#544](https://github.com/acronis/uikit/pull/544) [`494f5a3`](https://github.com/acronis/uikit/commit/494f5a357642a5ea92953041939f5ec71e6b49cd) Thanks [@marta-sampedro](https://github.com/marta-sampedro)! - Button: remove `inverted` variant (no longer in Figma) and make the AI icon optional (consumer-provided, not auto-injected)
+
+- [#521](https://github.com/acronis/uikit/pull/521) [`07e9c24`](https://github.com/acronis/uikit/commit/07e9c24d301df0711c9acbd1fc54c150c00e239b) Thanks [@heygabecom](https://github.com/heygabecom)! - Migrate Dialog and Sheet off the removed `--ui-background-overlay-primary` token. Dialog's overlay now uses `--ui-background-backdrop-screen`; Sheet no longer renders a backdrop by default (sheets open on top of the page), though the `SheetOverlay` / `DetailsOverlay` export is retained for drop-in compatibility.
+
+- Updated dependencies [[`f9c28af`](https://github.com/acronis/uikit/commit/f9c28af09ec180013642a929b058274c179903bf), [`99562f8`](https://github.com/acronis/uikit/commit/99562f83b216f8ee777e04cb4d73de7b474c200d), [`88b73be`](https://github.com/acronis/uikit/commit/88b73be4f8e1edcf11628be7bc876844eef4a73b), [`92c325e`](https://github.com/acronis/uikit/commit/92c325ef755689523fa8c186bb96dd083fe23a58), [`07e9c24`](https://github.com/acronis/uikit/commit/07e9c24d301df0711c9acbd1fc54c150c00e239b)]:
+  - @acronis-platform/tokens-pd@2.1.0
+
 ## 0.56.0
 
 ### Minor Changes

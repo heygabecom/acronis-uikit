@@ -1,5 +1,40 @@
 # @acronis-platform/tokens-pd
 
+## 2.1.0
+
+### Minor Changes
+
+- [#515](https://github.com/acronis/uikit/pull/515) [`99562f8`](https://github.com/acronis/uikit/commit/99562f83b216f8ee777e04cb4d73de7b474c200d) Thanks [@heygabecom](https://github.com/heygabecom)! - Sync design tokens with Figma.
+
+  Adds branding primitives for 20 partner brands (buttonprimary and sidebarprimary color ramps). Updates background.brand semantic aliases for the deep_sky_itkontoret mode to reference the new branding tokens. Updates SidebarPrimary and SidebarSecondary component values.
+
+  Regenerates `@acronis-platform/tokens-pd` from the updated tiers: the `deep_sky_itkontoret` brand now resolves the branding ramps, and the unused `--ui-background-brand-primary-focus` custom property is dropped from all brands.
+
+- [#517](https://github.com/acronis/uikit/pull/517) [`88b73be`](https://github.com/acronis/uikit/commit/88b73be4f8e1edcf11628be7bc876844eef4a73b) Thanks [@heygabecom](https://github.com/heygabecom)! - Sync design tokens with Figma.
+
+  Renames electricblue palette keys from prefixed strings to clean numeric indices. Updates info-status and link-on-backdrop semantic tokens to reference the new keys.
+
+- [#521](https://github.com/acronis/uikit/pull/521) [`07e9c24`](https://github.com/acronis/uikit/commit/07e9c24d301df0711c9acbd1fc54c150c00e239b) Thanks [@heygabecom](https://github.com/heygabecom)! - Sync design tokens with Figma.
+
+  Restructures the transparent palette (new fixed/inverse sub-groups replace old dark/inverted/light entries), adds backdrop and inverse semantic tokens, and removes the deprecated inverted and overlay semantic groups.
+
+  Adds text.onStatusStrong.\* tokens (11), text.onBackdrop and text.onInverse additions, and renames text.on\*.link to text.on\*.link-idle across brand, status, and surface contexts. Removes the deprecated com.acronis.textDecoration extension from two link typography styles.
+
+### Patch Changes
+
+- [#518](https://github.com/acronis/uikit/pull/518) [`f9c28af`](https://github.com/acronis/uikit/commit/f9c28af09ec180013642a929b058274c179903bf) Thanks [@heygabecom](https://github.com/heygabecom)! - Sync design tokens with Figma.
+
+  Updates HSL values for palette.blue.4, .7, .9, and .10. Downstream semantic tokens referencing those stops — surface, statusStrong.info, focus, onSurface text/glyph — are updated accordingly.
+
+  Regenerates `@acronis-platform/tokens-pd` for the updated blue values.
+
+- [#522](https://github.com/acronis/uikit/pull/522) [`92c325e`](https://github.com/acronis/uikit/commit/92c325ef755689523fa8c186bb96dd083fe23a58) Thanks [@heygabecom](https://github.com/heygabecom)! - Sync design tokens with Figma.
+
+  Marks all font.\* primitive tokens as hiddenFromPublishing. Renames units.radius.999 to units.radius.full.
+
+- Updated dependencies [[`f9c28af`](https://github.com/acronis/uikit/commit/f9c28af09ec180013642a929b058274c179903bf), [`99562f8`](https://github.com/acronis/uikit/commit/99562f83b216f8ee777e04cb4d73de7b474c200d), [`88b73be`](https://github.com/acronis/uikit/commit/88b73be4f8e1edcf11628be7bc876844eef4a73b), [`92c325e`](https://github.com/acronis/uikit/commit/92c325ef755689523fa8c186bb96dd083fe23a58), [`07e9c24`](https://github.com/acronis/uikit/commit/07e9c24d301df0711c9acbd1fc54c150c00e239b)]:
+  - @acronis-platform/design-tokens@2.1.0
+
 ## 2.0.0
 
 ### Major Changes
