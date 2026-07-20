@@ -1,0 +1,87 @@
+spec_version: '1.0'
+component: Toolbar
+
+schematic: |
+  root: <fieldset> (flex row, gap-16, disabled cascades to every nested control)
+  +-----------------------------------------------------------+
+  |  [list-actions]  |  [more-actions menu]  |  actions       |
+  |  Button(s)       |  ButtonMenu            |  right slot    |
+  +-----------------------------------------------------------+
+    root         -> flex container, 16px gap, center-aligned, native disabled cascade
+    list-actions -> ToolbarActionList; self-measures, collapses trailing items into more-actions
+    actions      -> flex-1, content pushed to trailing edge, 8px inter-child gap
+
+root:
+  element: fieldset
+  description: >-
+    Flex container that arranges the toolbar's children in a horizontal row
+    with 16px gap (`gap-4` in Tailwind v4), reset to look like a plain div
+    (no border/margin/padding). Rendered as a native `<fieldset>` so its
+    `disabled` attribute cascades to every nested form control (Button,
+    ButtonMenu) without prop-drilling into arbitrary children. No semantic
+    role beyond the fieldset's implicit "group" — the component is a layout
+    wrapper, not a landmark.
+
+parts:
+  - id: list-actions
+    description: >-
+      Figma's `ListActions` part (`ToolbarActionList`): a row of ghost Button
+      actions that collapses its trailing items into a `more-actions`
+      overflow menu once they no longer fit the row's available width — see
+      `internal_state`. Optional; a Toolbar may instead compose plain,
+      non-collapsing Button/ButtonMenu children directly when the action
+      list is short and fixed and auto-collapse isn't needed.
+    element: div
+    optional: true
+  - id: more-actions
+    description: >-
+      The overflow trigger (`ButtonMenu` opening a `DropdownMenu`) that
+      `ToolbarActionList` renders once one or more actions no longer fit
+      inline. Mirrors the Figma `hasMoreActions` variant, but driven by
+      measured width instead of a static boolean.
+    element: button
+    optional: true
+    visible_when: ToolbarActionList's actions don't all fit the available width
+  - id: actions
+    description: >-
+      Right-aligned trailing area (a status text, or a selection counter +
+      action, e.g. "6 items selected: Deselect"). Uses `flex-1` to push its
+      content to the trailing edge, with an 8px gap between its own children.
+    element: div
+    optional: true
+    visible_when: the consumer adds a ToolbarActions child
+
+layout:
+  type: flex
+  direction: row
+  align: center
+  order: [list-actions, more-actions, actions]
+
+# ToolbarActionList owns one piece of internal state — how many leading
+# actions currently fit inline — recomputed from measured geometry, not a
+# prop. Toolbar's own root is otherwise a pure function of its children and
+# `disabled` prop.
+internal_state:
+  - id: visibleCount
+    type: number
+    initial: actions.length
+    description: >-
+      Count of leading actions rendered inline in `list-actions`; the rest
+      render as items inside the `more-actions` menu. Computed by measuring
+      each action's natural width (via an invisible clone) against the space
+      left in the row after the parent Toolbar's other children.
+    changed_by: >-
+      a ResizeObserver firing on the parent Toolbar (its own resize, or a
+      sibling like ToolbarActions changing size), or the `actions` prop
+      changing
+
+states:
+  - id: disabled
+    trigger: the `disabled` prop is true
+    kind: prop
+    prop: disabled
+    affects: [root, list-actions, more-actions, actions]
+  - id: collapsed
+    trigger: 'internal visibleCount < actions.length'
+    kind: internal
+    affects: [list-actions, more-actions]

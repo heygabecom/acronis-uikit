@@ -1,0 +1,96 @@
+spec_version: '1.0'
+component: Toolbar
+
+# Framework-agnostic contract for a *composable* action row: assembled from
+# parts (see anatomy.yaml). Property names are neutral; see `adapters` for
+# per-framework syntax. Native fieldset/element attributes pass through.
+contract:
+  properties:
+    - name: disabled
+      type: boolean
+      required: false
+      default: false
+      description: >-
+        Disables every native form control nested inside (Button,
+        ButtonMenu), via the platform's own fieldset-disables-descendants
+        cascade. No prop-drilling into arbitrary children is required.
+    - name: className
+      type: string
+      required: false
+      default: undefined
+      description: Additional CSS classes for the root container.
+    - name: actions
+      type: 'Array<{ key: string; label: Node; onSelect?: () => void; disabled?: boolean }>'
+      required: false
+      default: undefined
+      description: >-
+        `ToolbarActionList`-only: the ordered action list it renders. As many
+        leading actions as fit the row render as ghost Buttons; the rest
+        move into the `more-actions` overflow menu, recomputed on resize (see
+        `internal_state.visibleCount` in anatomy.yaml). `onSelect`/`disabled`
+        are honored whichever way an action currently renders.
+    - name: moreActionsLabel
+      type: Node
+      required: false
+      default: "'More actions'"
+      description: 'ToolbarActionList-only: label for the overflow trigger.'
+
+  events: []
+
+  content:
+    - name: default
+      description: >-
+        The list-action controls — either a `ToolbarActionList` (self-
+        collapsing, see `actions` prop) or plain Button/ButtonMenu instances
+        for a short, fixed action list — and, as the last child, an optional
+        `actions` part (ToolbarActions) for the trailing status text or
+        selection counter. Order of children determines visual order.
+    - name: actions
+      description: >-
+        ToolbarActions' children — a status text, or a selection counter +
+        action (e.g. a "Deselect" Button).
+
+  methods: []
+
+adapters:
+  react:
+    component: Toolbar
+    status: implemented
+    import: >-
+      import { Toolbar, ToolbarActionList, ToolbarActions } from
+      '@acronis-platform/ui-react'
+    example: |
+      // ToolbarActionList collapses trailing actions into "More actions"
+      // once they no longer fit the row — no manual breakpoint wiring.
+      <Toolbar disabled={selectedCount === 0}>
+        <ToolbarActionList
+          actions={[
+            { key: 'first', label: 'First action', onSelect: () => {} },
+            { key: 'second', label: 'Second action', onSelect: () => {} },
+          ]}
+        />
+        <ToolbarActions>
+          <span>{selectedCount} items selected:</span>
+          <Button variant="ghost" onClick={clearSelection}>
+            Deselect
+          </Button>
+        </ToolbarActions>
+      </Toolbar>
+
+  vue:
+    component: AvToolbar
+    status: planned
+    import: "import { AvToolbar } from '@acronis-platform/ui-vue'"
+    example: |
+      <AvToolbar>
+        <AvButton variant="ghost">First action</AvButton>
+      </AvToolbar>
+
+  web-components:
+    element: ui-toolbar
+    status: planned
+    import: "import '@acronis-platform/ui-wc/toolbar'"
+    example: |
+      <ui-toolbar>
+        <ui-button variant="ghost">First action</ui-button>
+      </ui-toolbar>

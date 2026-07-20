@@ -1,0 +1,13 @@
+spec_version: '1.0'
+component: Toolbar
+
+# Toolbar has no dedicated token tier — it's a pure layout wrapper (16px gap
+# between children, 8px gap inside the trailing `actions` part). Every action
+# is an existing Button/ButtonMenu instance that brings its own `--ui-*` token
+# tier; any status/counter text the consumer renders inside `actions` should
+# use the shared `--ui-text-on-surface-primary`/`-secondary` semantic tokens
+# directly (not a Toolbar-specific reference), same precedent as FilterSearch's
+# identical un-tokenized gap.
+source: '@acronis-platform/tokens-pd'
+
+tokens: []

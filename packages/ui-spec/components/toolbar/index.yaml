@@ -1,0 +1,21 @@
+spec_version: '1.0'
+component: Toolbar
+name: toolbar
+status: ready
+category: layout
+description: >-
+  A horizontal action row — list actions, an optional overflow control (e.g. a
+  ButtonMenu), and an optional trailing area (a status text, or a selection
+  counter + action) — typically shown above/below a list or table when rows
+  are selected or bulk actions are available. Pure layout — no dedicated
+  token tier; every action is an existing Button/ButtonMenu instance that
+  brings its own tokens. Distinct from FilterSearch/DataTableToolbar (search +
+  filter toolbars): Toolbar is a bulk-action/selection bar, not a filter bar.
+since: 0.57.0
+dependencies:
+  components:
+    - Button
+    - ButtonMenu
+figma:
+  node: '3897-7199'
+  codeConnect: packages/ui-react/src/components/ui/toolbar/toolbar.figma.tsx

@@ -476,6 +476,11 @@ const RENDER: Record<string, RenderHint> = {
     // hand-written stories (Default / Multiple).
     skip: true,
   },
+  toolbar: {
+    // A layout wrapper needing Button/ButtonMenu action children. VR is
+    // covered by the hand-written stories (Default / MoreActions / Disabled).
+    skip: true,
+  },
   'progress-circle': {
     // Driven by `value`; render a representative filled ring (per size grid).
     props: 'value={75} showValue',
