@@ -9,7 +9,7 @@ import {
 } from '@tanstack/react-table';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useFilterSearchFilters } from '../../filter-search';
 import { getResizeKeyboardStep } from '../data-table';
@@ -94,6 +94,222 @@ describe('DataTable', () => {
     expect(screen.queryByText('Details for r1')).not.toBeInTheDocument();
     await userEvent.click(screen.getAllByRole('button', { name: 'Expand row' })[0]);
     expect(screen.getByText('Details for r1')).toBeInTheDocument();
+  });
+});
+
+describe('DataTable external table instance', () => {
+  function ExternalTableHarness({ rows }: { rows: Row[] }) {
+    const table = useReactTable({
+      data: rows,
+      columns,
+      getCoreRowModel: getCoreRowModel(),
+    });
+    return <DataTable columns={columns} data={rows} table={table} />;
+  }
+
+  it('renders from an externally-built table instance like the internal one', () => {
+    render(<ExternalTableHarness rows={data.slice(0, 3)} />);
+    expect(screen.getByText('Email')).toBeInTheDocument();
+    expect(screen.getByText('user1@example.com')).toBeInTheDocument();
+    expect(screen.getByText('user3@example.com')).toBeInTheDocument();
+  });
+});
+
+describe('DataTable manualSorting', () => {
+  it('does not reorder rows itself but still fires onSortingChange', async () => {
+    const handleSortingChange = vi.fn();
+    const sortable: ColumnDef<Row>[] = [
+      {
+        accessorKey: 'amount',
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title="Amount" />
+        ),
+        cell: ({ row }) => <span>{row.original.amount}</span>,
+      },
+    ];
+    render(
+      <DataTable
+        columns={sortable}
+        data={data.slice(0, 3)}
+        manualSorting
+        sorting={[]}
+        onSortingChange={handleSortingChange}
+      />
+    );
+    const cellsBefore = screen.getAllByRole('cell').map((c) => c.textContent);
+
+    await userEvent.click(screen.getByRole('button', { name: 'Sort by Amount' }));
+
+    // Controlled `sorting` never changed, so DataTable's own comparator (which
+    // manualSorting disables anyway) never runs — the row order is untouched.
+    const cellsAfter = screen.getAllByRole('cell').map((c) => c.textContent);
+    expect(cellsAfter).toEqual(cellsBefore);
+    expect(handleSortingChange).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('DataTable renderRow', () => {
+  it('calls renderRow instead of the default per-cell path, with the right row and rowIndex', () => {
+    const renderRow = vi.fn((row: Row, rowIndex: number) => (
+      <tr key={row.id} data-testid={`custom-row-${rowIndex}`}>
+        <td>{row.email}</td>
+      </tr>
+    ));
+    render(
+      <DataTable
+        columns={columns}
+        data={data.slice(0, 2)}
+        renderRow={(row, rowIndex) => renderRow(row.original, rowIndex)}
+      />
+    );
+    // The pinning effect re-renders once after mount (pre-existing behavior,
+    // unrelated to renderRow), so assert pairing rather than call count.
+    expect(
+      renderRow.mock.calls.some(([row, rowIndex]) => row.id === 'r1' && rowIndex === 0)
+    ).toBe(true);
+    expect(
+      renderRow.mock.calls.some(([row, rowIndex]) => row.id === 'r2' && rowIndex === 1)
+    ).toBe(true);
+    expect(screen.getByTestId('custom-row-0')).toHaveTextContent(
+      'user1@example.com'
+    );
+    expect(screen.getByTestId('custom-row-1')).toHaveTextContent(
+      'user2@example.com'
+    );
+    // The default per-cell `flexRender` path (which would render the amount
+    // column's value) is bypassed entirely.
+    expect(screen.queryByText('100')).not.toBeInTheDocument();
+  });
+});
+
+describe('DataTable renderEmptyState', () => {
+  it('receives hasFilters=false for an empty, unfiltered table', () => {
+    render(
+      <DataTable
+        columns={columns}
+        data={[]}
+        renderEmptyState={({ hasFilters }) => (
+          <span>{hasFilters ? 'No matches' : 'Nothing here'}</span>
+        )}
+      />
+    );
+    expect(screen.getByText('Nothing here')).toBeInTheDocument();
+  });
+
+  function FilteredEmptyHarness() {
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([
+      { id: 'email', value: 'nonexistent' },
+    ]);
+    const table = useReactTable({
+      data,
+      columns,
+      getCoreRowModel: getCoreRowModel(),
+      getFilteredRowModel: getFilteredRowModel(),
+      onColumnFiltersChange: setColumnFilters,
+      state: { columnFilters },
+    });
+    return (
+      <DataTable
+        columns={columns}
+        data={data}
+        table={table}
+        renderEmptyState={({ hasFilters }) => (
+          <span>{hasFilters ? 'No matches' : 'Nothing here'}</span>
+        )}
+      />
+    );
+  }
+
+  it('receives hasFilters=true when a column filter is applied (via an external table)', () => {
+    render(<FilteredEmptyHarness />);
+    expect(screen.getByText('No matches')).toBeInTheDocument();
+  });
+
+  it('spans only the visible columns, not hidden ones, for the default empty state', () => {
+    render(
+      <DataTable
+        columns={columns}
+        data={[]}
+        columnVisibility={{ amount: false }}
+        onColumnVisibilityChange={() => {}}
+      />
+    );
+    const cell = screen.getByText('No results.').closest('td')!;
+    expect(cell).toHaveAttribute('colspan', '1');
+  });
+});
+
+class MockIntersectionObserver implements IntersectionObserver {
+  static instances: MockIntersectionObserver[] = [];
+  readonly root = null;
+  readonly rootMargin = '';
+  readonly scrollMargin = '';
+  readonly thresholds: ReadonlyArray<number> = [];
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+  takeRecords = vi.fn(() => []);
+
+  constructor(private readonly callback: IntersectionObserverCallback) {
+    MockIntersectionObserver.instances.push(this);
+  }
+
+  trigger(isIntersecting: boolean) {
+    this.callback([{ isIntersecting } as IntersectionObserverEntry], this);
+  }
+}
+
+describe('DataTable infinite scroll (paginationMode="infinite")', () => {
+  beforeEach(() => {
+    MockIntersectionObserver.instances = [];
+    vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('calls onLoadMore when the sentinel intersects', () => {
+    const onLoadMore = vi.fn();
+    render(
+      <DataTable
+        columns={columns}
+        data={data.slice(0, 3)}
+        paginationMode="infinite"
+        hasNextPage
+        onLoadMore={onLoadMore}
+      />
+    );
+    const [observer] = MockIntersectionObserver.instances;
+    observer.trigger(true);
+    expect(onLoadMore).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not observe when hasNextPage is false', () => {
+    render(
+      <DataTable
+        columns={columns}
+        data={data.slice(0, 3)}
+        paginationMode="infinite"
+        onLoadMore={() => {}}
+      />
+    );
+    expect(MockIntersectionObserver.instances).toHaveLength(0);
+  });
+
+  it('does not observe while isLoadingMore, and renders a loading row', () => {
+    const { container } = render(
+      <DataTable
+        columns={columns}
+        data={data.slice(0, 3)}
+        paginationMode="infinite"
+        hasNextPage
+        isLoadingMore
+        onLoadMore={() => {}}
+      />
+    );
+    expect(MockIntersectionObserver.instances).toHaveLength(0);
+    expect(container.querySelectorAll('.animate-pulse')).toHaveLength(1);
   });
 });
 

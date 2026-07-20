@@ -1,9 +1,12 @@
 spec_version: '1.0'
 component: DataTable
 
-# DataTable takes columns/data (it owns table state). The companion parts
-# (DataTableToolbar / DataTablePagination / DataTableColumnHeader /
-# DataTableViewOptions) take a TanStack `table` instance — see README.
+# DataTable takes columns/data and owns table state by default. The companion
+# parts (DataTableToolbar / DataTablePagination / DataTableColumnHeader /
+# DataTableViewOptions) take a TanStack `table` instance — see README. As of
+# this revision, DataTable itself can also take a `table` instance (below) —
+# when passed, DataTable owns no state and several props become no-ops (see
+# each property's description).
 contract:
   properties:
     - name: columns
@@ -14,6 +17,16 @@ contract:
       type: 'TData[]'
       required: true
       description: The row data.
+    - name: table
+      type: 'Table<TData>'
+      required: false
+      description: >-
+        Render from an externally-built TanStack `table` instance instead of
+        DataTable's own — DataTable then owns no state. Makes the following
+        no-ops (configure the equivalent on the external instance instead):
+        columnVisibility, onColumnVisibilityChange, onColumnSizingChange,
+        enableColumnResizing, getRowCanExpand, manualSorting, sorting,
+        onSortingChange, paginationMode, onLoadMore, hasNextPage, isLoadingMore.
     - name: getRowCanExpand
       type: '(row: Row<TData>) => boolean'
       required: false
@@ -89,12 +102,81 @@ contract:
       description: >-
         On DataTableToolbar — formats an applied-filter chip's label (defaults to
         "<id>: <value>").
+    - name: manualSorting
+      type: boolean
+      required: false
+      default: 'false'
+      description: >-
+        Opt out of client-side sorting — pass already-sorted `data` and drive
+        sorting via `sorting`/`onSortingChange` (e.g. mapped to a server
+        query by the caller). Mapping sort state to a query and refetching
+        stays the caller's job. No-op when `table` is passed.
+    - name: sorting
+      type: SortingState
+      required: false
+      description: >-
+        Controlled sorting state; pairs with `onSortingChange`. Uncontrolled
+        (internal state) when omitted. No-op when `table` is passed.
+    - name: renderRow
+      type: '(row: Row<TData>, rowIndex: number) => ReactNode'
+      required: false
+      description: >-
+        Renders a full row, bypassing DataTable's default per-cell
+        `flexRender` path entirely. Use to swap in a custom, independently
+        memoizable row component — the caller owns the row's markup and
+        equality semantics. Reuse the exported `getCellStyle` /
+        `getPinnedStyle` / `getColumnWidth` helpers to match DataTable's
+        default cell styling if desired.
+    - name: renderEmptyState
+      type: '(context: { hasFilters: boolean }) => ReactNode'
+      required: false
+      description: >-
+        Renders a custom empty state instead of the default "No results."
+        row. Receives `hasFilters` (whether any column filter is currently
+        applied) so the caller can distinguish "no data at all" from "no
+        matches" — the copy/wording/localization stays the caller's job.
+    - name: paginationMode
+      type: "'page' | 'infinite'"
+      required: false
+      default: "'page'"
+      description: >-
+        `'page'` keeps today's client-paginated behavior. `'infinite'` omits
+        the paginated row model — `data` is the full accumulated array the
+        caller appends to on each `onLoadMore` — and renders a sentinel row
+        that calls `onLoadMore` once it scrolls into view. No-op when `table`
+        is passed. Does not compose with virtualization; for a large
+        accumulated list, use the `VirtualScrolling` recipe over the raw
+        `Table` primitives instead.
+    - name: hasNextPage
+      type: boolean
+      required: false
+      default: 'false'
+      description: >-
+        Whether more rows are available to load. `paginationMode="infinite"`
+        only.
+    - name: isLoadingMore
+      type: boolean
+      required: false
+      default: 'false'
+      description: >-
+        Whether a load is in flight — suppresses further `onLoadMore` calls
+        and renders a trailing loading row. `paginationMode="infinite"` only.
   events:
     - name: onColumnSizingChange
       payload: 'ColumnSizingState (TanStack OnChangeFn)'
       description: >-
         Passthrough for the `columnSizing` state so a consumer can persist
         column widths when `enableColumnResizing` is set.
+    - name: onSortingChange
+      payload: 'SortingState (TanStack OnChangeFn)'
+      description: >-
+        Passthrough for the `sorting` state; pairs with `sorting`. No-op when
+        `table` is passed.
+    - name: onLoadMore
+      description: >-
+        Called when the infinite-scroll sentinel intersects the viewport.
+        `paginationMode="infinite"` only. The fetch-more call, cursor/offset
+        tracking, dedup, and accumulating `data` stay the caller's job.
   methods: []
 
 adapters:

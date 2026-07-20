@@ -1,8 +1,11 @@
 # DataTable — behavior
 
-DataTable renders a TanStack react-table over the Table primitives. The grid
-state (sorting, filtering, visibility, selection, pagination, expansion) lives in
-the component; the companion parts operate on a caller-built `table` instance.
+DataTable renders a TanStack react-table over the Table primitives. By default
+the grid state (sorting, filtering, visibility, selection, pagination,
+expansion) lives in the component; the companion parts operate on a
+caller-built `table` instance. DataTable can also render from a caller-built
+`table` instance itself (see "Render from an external table instance" below),
+in which case it owns none of that state.
 
 ```gherkin
 Scenario: Render rows
@@ -13,7 +16,51 @@ Scenario: Render rows
 ```gherkin
 Scenario: Empty
   Given an empty data array
-  Then a single "No results." row spans all columns
+  Then a single "No results." row spans only the visible columns
+```
+
+```gherkin
+Scenario: Custom empty state
+  Given renderEmptyState is provided
+  When there are no rows to render
+  Then renderEmptyState is called with hasFilters (whether a column filter is applied)
+  And its return value replaces the default "No results." row
+```
+
+```gherkin
+Scenario: Render from an external table instance
+  Given a `table` instance built by the caller with useReactTable
+  When it is passed to DataTable's `table` prop
+  Then DataTable renders from that instance and owns no state of its own
+  And columnVisibility/onColumnVisibilityChange, onColumnSizingChange,
+      enableColumnResizing, getRowCanExpand, manualSorting, sorting,
+      onSortingChange, and paginationMode-related props are no-ops
+```
+
+```gherkin
+Scenario: Manual (server-side) sorting
+  Given manualSorting and controlled sorting/onSortingChange
+  When the user clicks a DataTableColumnHeader
+  Then onSortingChange fires with the next sort
+  And DataTable does not reorder the rows itself (no client-side comparator runs)
+```
+
+```gherkin
+Scenario: Custom row rendering
+  Given renderRow is provided
+  Then each row is rendered by calling renderRow(row, rowIndex)
+  And DataTable's own per-cell flexRender/pinning/styling path is skipped for that row
+```
+
+```gherkin
+Scenario: Infinite scroll
+  Given paginationMode="infinite" and hasNextPage is true
+  Then a sentinel row renders as the last row of the body
+  When the sentinel scrolls into view and isLoadingMore is false
+  Then onLoadMore fires
+  And no further onLoadMore calls fire while isLoadingMore is true
+  When isLoadingMore is true
+  Then a trailing loading row renders below the sentinel
 ```
 
 ```gherkin
