@@ -6387,7 +6387,7 @@
           "$extensions": {
             "com.figma.hiddenFromPublishing": true,
             "com.figma.scopes": [
-              "GAP"
+              "SHAPE_FILL"
             ],
             "com.figma.variableId": "VariableID:3735:874"
           },
@@ -6398,7 +6398,7 @@
           "$extensions": {
             "com.figma.hiddenFromPublishing": true,
             "com.figma.scopes": [
-              "ALL_SCOPES"
+              "SHAPE_FILL"
             ],
             "com.figma.variableId": "VariableID:3735:865"
           },
@@ -6409,7 +6409,7 @@
           "$extensions": {
             "com.figma.hiddenFromPublishing": true,
             "com.figma.scopes": [
-              "ALL_SCOPES"
+              "SHAPE_FILL"
             ],
             "com.figma.variableId": "VariableID:3735:863"
           },
@@ -6420,7 +6420,7 @@
           "$extensions": {
             "com.figma.hiddenFromPublishing": true,
             "com.figma.scopes": [
-              "ALL_SCOPES"
+              "SHAPE_FILL"
             ],
             "com.figma.variableId": "VariableID:3735:862"
           },

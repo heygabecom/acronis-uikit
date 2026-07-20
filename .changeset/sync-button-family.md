@@ -1,5 +1,6 @@
 ---
 '@acronis-platform/design-tokens': patch
+'@acronis-platform/tokens-pd': patch
 ---
 
 Update Figma extension metadata on component tokens.
