@@ -22,7 +22,7 @@ parts:
   - id: icon
     description: >-
       Optional leading icon, rendered at 16px before the label and tinted with
-      `--ui-chips-icon-color`.
+      `--ui-chip-global-icon-color`.
     element: svg
     optional: true
     visible_when: an `icon` is provided

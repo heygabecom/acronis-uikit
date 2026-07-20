@@ -44,7 +44,7 @@ describe('Chip', () => {
     expect(root).toHaveAttribute('aria-pressed', 'true');
     expect(root).toHaveAttribute('data-selected', 'true');
     expect(root).toHaveClass(
-      'data-[selected=true]:bg-[var(--ui-chips-container-color-active)]'
+      'data-[selected=true]:bg-[var(--ui-chip-global-box-color-active)]'
     );
     // No remove button on a selectable chip.
     expect(screen.queryByRole('button', { name: 'Remove' })).toBeNull();
