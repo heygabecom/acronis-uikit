@@ -40,8 +40,8 @@
             "$type": "dimension",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{palette.units.radius.radius-full}",
-              "default": "{palette.units.radius.radius-full}"
+              "deep_sky_itkontoret": "{units.radius.full}",
+              "default": "{units.radius.full}"
             }
           },
           "borderStyle": {
