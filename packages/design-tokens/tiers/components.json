@@ -96,23 +96,6 @@
             }
           }
         },
-        "borderRadius": {
-          "$extensions": {
-            "com.figma.hiddenFromPublishing": true,
-            "com.figma.scopes": [
-              "CORNER_RADIUS"
-            ],
-            "com.figma.variableId": "VariableID:3111:188"
-          },
-          "$type": "dimension",
-          "platforms": [
-            "PD"
-          ],
-          "values": {
-            "deep_sky_itkontoret": "{units.radius.full}",
-            "default": "{units.radius.full}"
-          }
-        },
         "group": {
           "gap": {
             "$extensions": {
