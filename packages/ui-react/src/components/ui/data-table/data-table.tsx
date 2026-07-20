@@ -163,26 +163,42 @@ export function getResizeKeyboardStep(
   return undefined;
 }
 
-export interface DataTableProps<TData, TValue = unknown> {
-  /** Required unless `table` (an externally-built instance) is passed. */
-  columns?: ColumnDef<TData, TValue>[];
-  /** Required unless `table` (an externally-built instance) is passed. */
-  data?: TData[];
-  /**
-   * Render from an externally-built TanStack `table` instance instead of
-   * DataTable's own — DataTable then owns no state and renders the caller's
-   * instance as-is (sorting, filtering, pagination, row models, etc. are all
-   * configured on that instance). Makes `columns`/`data` unnecessary (they're
-   * only used to build DataTable's own instance) and the following props
-   * no-ops (configure the equivalent directly on the external instance
-   * instead): `columnVisibility`, `onColumnVisibilityChange`,
-   * `onColumnSizingChange`, `enableColumnResizing`, `getRowCanExpand`,
-   * `manualSorting`, `sorting`, `onSortingChange`, `paginationMode`,
-   * `onLoadMore`, `loadMoreRootMargin`, `hasNextPage`, `isLoadingMore`.
-   * `meta.pin`-driven column pinning is also skipped — pin/unpin the
-   * caller's own instance via TanStack's `column.pin()` directly.
-   */
-  table?: TanstackTable<TData>;
+// `columns`/`data` build DataTable's own table instance; `table` renders an
+// externally-built one instead. At least one of the two forms is required —
+// omitting both would otherwise silently render an empty table — but `table`
+// may still be passed alongside `columns`/`data` (e.g. to also drive a
+// composed toolbar/pagination from the same instance DataTable renders).
+type DataTableDataSourceProps<TData, TValue> =
+  | {
+      columns: ColumnDef<TData, TValue>[];
+      data: TData[];
+      /**
+       * Also drive an externally-built TanStack `table` instance (e.g. a
+       * composed toolbar/pagination) from the same state as this DataTable.
+       */
+      table?: TanstackTable<TData>;
+    }
+  | {
+      columns?: ColumnDef<TData, TValue>[];
+      data?: TData[];
+      /**
+       * Render from an externally-built TanStack `table` instance instead of
+       * DataTable's own — DataTable then owns no state and renders the caller's
+       * instance as-is (sorting, filtering, pagination, row models, etc. are all
+       * configured on that instance). Makes `columns`/`data` unnecessary (they're
+       * only used to build DataTable's own instance) and the following props
+       * no-ops (configure the equivalent directly on the external instance
+       * instead): `columnVisibility`, `onColumnVisibilityChange`,
+       * `onColumnSizingChange`, `enableColumnResizing`, `getRowCanExpand`,
+       * `manualSorting`, `sorting`, `onSortingChange`, `paginationMode`,
+       * `onLoadMore`, `loadMoreRootMargin`, `hasNextPage`, `isLoadingMore`.
+       * `meta.pin`-driven column pinning is also skipped — pin/unpin the
+       * caller's own instance via TanStack's `column.pin()` directly.
+       */
+      table: TanstackTable<TData>;
+    };
+
+interface DataTableOwnProps<TData> {
   /** Enables row expansion for rows that return true. Pair with `renderExpandedRow`. */
   getRowCanExpand?: (row: Row<TData>) => boolean;
   /**
@@ -289,6 +305,9 @@ export interface DataTableProps<TData, TValue = unknown> {
   isLoadingMore?: boolean;
 }
 
+export type DataTableProps<TData, TValue = unknown> = DataTableOwnProps<TData> &
+  DataTableDataSourceProps<TData, TValue>;
+
 export function DataTable<TData, TValue = unknown>({
   columns = [],
   data = [],
@@ -340,7 +359,9 @@ export function DataTable<TData, TValue = unknown>({
   };
 
   const handleSortingChange: OnChangeFn<SortingState> = (updater) => {
-    setInternalSorting(updater);
+    if (controlledSorting === undefined) {
+      setInternalSorting(updater);
+    }
     onSortingChange?.(updater);
   };
 
