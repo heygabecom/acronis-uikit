@@ -45,7 +45,7 @@ export default {
         "avatar-global-container-gap": "8px"
       },
       "borderRadius": {
-        "avatar-global-avatar-border-radius": "999px"
+        "avatar-global-avatar-border-border-radius": "999px"
       }
     },
   },

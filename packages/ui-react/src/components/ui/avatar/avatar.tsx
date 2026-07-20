@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 // Wraps Base UI's Avatar primitive (Root / Image / Fallback), themed by the
 // dedicated next-gen `--ui-avatar-*` token tier from @acronis-platform/tokens-pd.
-// A 32px circle (`--ui-avatar-global-avatar-size` / `-border-radius`) with a 2px
+// A 32px circle (`--ui-avatar-global-avatar-size` / `-border-border-radius`) with a 2px
 // ring (`-border-border-width` / `-border-color`) — the ring is what visually
 // separates avatars when they overlap in an `AvatarGroup`. When no image is set
 // (or it fails to load) the `AvatarFallback` shows initials.
@@ -30,7 +30,7 @@ import { cn } from '@/lib/utils';
 // style baked into the design (`text-xs font-semibold leading-4`).
 const avatarVariants = cva(
   'relative inline-flex shrink-0 select-none items-center justify-center overflow-hidden ' +
-    'size-[var(--ui-avatar-global-avatar-size)] rounded-[var(--ui-avatar-global-avatar-border-radius)] ' +
+    'size-[var(--ui-avatar-global-avatar-size)] rounded-[var(--ui-avatar-global-avatar-border-border-radius)] ' +
     '[box-shadow:0_0_0_var(--ui-avatar-global-avatar-border-border-width)_var(--ui-avatar-global-avatar-border-color)] ' +
     'text-xs font-semibold leading-4',
   {

@@ -59,7 +59,7 @@ export default {
       },
       "spacing": {
         "radio-global-box-border-width": "1px",
-        "radio-global-box-margin-x": "4px",
+        "radio-global-box-margin-y": "4px",
         "radio-global-box-size": "16px",
         "radio-global-container-gap": "8px",
         "radio-global-container-width-max": "632px",

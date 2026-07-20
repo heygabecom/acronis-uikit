@@ -24,7 +24,7 @@ import { cn } from '@/lib/utils';
 // optional label, and an optional description stacked beside it. When either is
 // present the whole row is a `<label>` (so clicking the text toggles the box — a
 // Base UI checkbox renders a labelable <button>), the box gets a top margin of
-// `--ui-checkbox-global-box-margin-x` (4px = (line-height 24 − box 16) / 2, the
+// `--ui-checkbox-global-box-margin-y` (4px = (line-height 24 − box 16) / 2, the
 // design's box alignment margin) to center it on the first text line, and the
 // box is wired to the text via aria-labelledby / aria-describedby. With neither,
 // the box renders on its own (name it with `aria-label`).
@@ -76,7 +76,7 @@ const Checkbox = React.forwardRef<
       aria-describedby={descriptionId}
       className={cn(
         boxClasses,
-        hasContent && 'mt-[var(--ui-checkbox-global-box-margin-x)]',
+        hasContent && 'mt-[var(--ui-checkbox-global-box-margin-y)]',
         className
       )}
       {...props}
