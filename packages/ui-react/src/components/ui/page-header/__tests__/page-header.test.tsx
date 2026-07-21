@@ -325,6 +325,24 @@ describe('PageHeader', () => {
       expect(onClick).toHaveBeenCalledTimes(1);
     });
 
+    it('preserves a folded secondary action\'s render prop in its "More" menu item', async () => {
+      mockOverflow(true);
+      render(
+        <PageHeaderActions>
+          <Button variant="secondary" render={<a href="/export.csv" />}>
+            Export data
+          </Button>
+          <Button>Add user</Button>
+        </PageHeaderActions>
+      );
+      await userEvent.click(
+        screen.getByRole('button', { name: 'More actions' })
+      );
+      expect(
+        await screen.findByRole('menuitem', { name: 'Export data' })
+      ).toHaveAttribute('href', '/export.csv');
+    });
+
     it('never folds a non-Button action, even with variant="secondary"', async () => {
       mockOverflow(true);
       render(

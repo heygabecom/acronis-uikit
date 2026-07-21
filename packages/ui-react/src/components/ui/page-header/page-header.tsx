@@ -176,6 +176,9 @@ type ActionElement = React.ReactElement<{
   variant?: string;
   disabled?: boolean;
   onClick?: React.MouseEventHandler;
+  // Only the element form is meaningful once folded — a function-form
+  // render receives Button's own state shape, not the "More" menu item's.
+  render?: React.ReactElement;
   children?: React.ReactNode;
 }>;
 
@@ -218,6 +221,7 @@ const PageHeaderActions = React.forwardRef<
             key={index}
             disabled={secondaryItem.props?.disabled}
             onClick={secondaryItem.props?.onClick}
+            render={secondaryItem.props?.render}
           >
             {secondaryItem.props?.children}
           </DropdownMenuItem>
