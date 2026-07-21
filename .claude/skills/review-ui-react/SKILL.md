@@ -188,6 +188,26 @@ contains and exit — don't run devil-advocate on nothing.
      own — report it even before constructing the exact failing input, and
      even if nothing currently visibly fails.
 
+   For any **element-reconstruction / prop-dropping transform** (code that
+   builds a new element from another element's props by picking a subset —
+   e.g. `disabled`/`onClick`/`children` — instead of spreading the rest):
+   - Enumerate what's dropped (`render`/`href`, other event handlers,
+     `aria-*`, `type`, …) and grep this component's own stories/tests for the
+     same prop/variant used on a non-trivial composition (a trigger
+     component, a link-rendered button, anything driven by more than a bare
+     click handler) — not just a plain click-button case. Report it even if
+     nothing in the current diff visibly breaks, since a later consumer will
+     hit it (see the PageHeaderActions/ButtonMenu fold precedent).
+   - Check that whichever behavior the transform _does_ preserve (e.g. the
+     surviving `onClick`) has its own dedicated regression test — attach a
+     spy, trigger the transformed path, assert it fires — not just an
+     assertion that the label/disabled state renders correctly.
+
+   For any **comment asserting equivalence with other code** ("same shape
+   as X", "mirrors Y", "same as Z"), verify the claim against the
+   referenced code instead of taking it on faith — a stale or inaccurate
+   equivalence comment is a Nit-severity finding on its own.
+
 7. **Impact review (tiers b/c/d)** — for tiers (b)/(c), assess effect on
    ui-react specifically rather than reviewing the file as if it were
    ui-react source. For tier (d), apply the `qa`/`devil-advocate` wide-view
