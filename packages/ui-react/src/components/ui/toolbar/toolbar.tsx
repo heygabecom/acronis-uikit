@@ -227,6 +227,30 @@ const ToolbarActionList = React.forwardRef<
     );
     const moreRef = React.useRef<HTMLButtonElement>(null);
     const [visibleCount, setVisibleCount] = React.useState(actions.length);
+    const [moreMenuOpen, setMoreMenuOpen] = React.useState(false);
+    // The overflow menu renders in a portal, outside the ancestor
+    // `<fieldset>`'s DOM subtree, so the native disabled-cascade (see
+    // `Toolbar` above) never reaches its items. Tracked separately here so a
+    // menu already open when the fieldset becomes disabled gets closed, and
+    // its items stay disabled even if forced open again (e.g. via a ref).
+    const [ancestorDisabled, setAncestorDisabled] = React.useState(false);
+
+    React.useEffect(() => {
+      const fieldset = containerRef.current?.closest('fieldset');
+      if (!fieldset) return;
+      const sync = () => setAncestorDisabled(fieldset.disabled);
+      sync();
+      const observer = new MutationObserver(sync);
+      observer.observe(fieldset, {
+        attributes: true,
+        attributeFilter: ['disabled'],
+      });
+      return () => observer.disconnect();
+    }, []);
+
+    React.useEffect(() => {
+      if (ancestorDisabled) setMoreMenuOpen(false);
+    }, [ancestorDisabled]);
 
     const measure = React.useCallback(() => {
       const container = containerRef.current;
@@ -265,6 +289,15 @@ const ToolbarActionList = React.forwardRef<
       if (!parent) return;
       const observer = new ResizeObserver(measure);
       observer.observe(parent);
+      // A sibling like `ToolbarActions` is `shrink-0`, so its own border-box
+      // grows with its content (e.g. a "6 items selected" counter ticking
+      // up) even while `parent`'s box stays fixed — a ResizeObserver bound
+      // only to `parent` never fires for that case, so `measure()` goes
+      // stale and the row silently overflows instead of collapsing further.
+      // Observing every sibling directly catches that box-size change too.
+      Array.from(parent.children).forEach((sibling) => {
+        if (sibling !== containerRef.current) observer.observe(sibling);
+      });
       return () => observer.disconnect();
     }, [measure, actions]);
 
@@ -297,7 +330,11 @@ const ToolbarActionList = React.forwardRef<
           />
         ))}
         {hiddenActions.length > 0 && (
-          <DropdownMenu>
+          <DropdownMenu
+            open={moreMenuOpen}
+            onOpenChange={setMoreMenuOpen}
+            disabled={ancestorDisabled}
+          >
             <ToolbarPrimitive.Button
               render={
                 <DropdownMenuTrigger
@@ -313,7 +350,7 @@ const ToolbarActionList = React.forwardRef<
               {hiddenActions.map((action) => (
                 <DropdownMenuItem
                   key={action.key}
-                  disabled={action.disabled}
+                  disabled={action.disabled || ancestorDisabled}
                   onClick={action.onSelect}
                 >
                   {action.label}
@@ -325,7 +362,7 @@ const ToolbarActionList = React.forwardRef<
         <div
           aria-hidden
           inert
-          className="pointer-events-none invisible absolute left-0 top-0 flex items-center gap-4"
+          className="pointer-events-none invisible absolute start-0 top-0 flex items-center gap-4"
         >
           {actions.map((action) => (
             <Button

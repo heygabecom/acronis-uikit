@@ -73,9 +73,11 @@ internal_state:
       each action's natural width (via an invisible clone) against the space
       left in the row after the parent Toolbar's other children.
     changed_by: >-
-      a ResizeObserver firing on the parent Toolbar (its own resize, or a
-      sibling like ToolbarActions changing size), or the `actions` prop
-      changing
+      a ResizeObserver firing on the parent Toolbar's own box, on any of its
+      other direct children (e.g. ToolbarActions growing/shrinking its own
+      border-box as its content changes — a sibling resizing does not, by
+      itself, fire a ResizeObserver bound only to the parent), or the
+      `actions` prop changing
 
 states:
   - id: disabled

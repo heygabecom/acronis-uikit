@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
@@ -373,6 +373,89 @@ describe('ToolbarActionList', () => {
     expect(
       screen.queryByRole('button', { name: 'More actions' })
     ).not.toBeInTheDocument();
+  });
+
+  it('re-collapses when a sibling ToolbarActions counter grows, even though the parent Toolbar itself never resizes', () => {
+    // Regression: a dynamic counter (e.g. "6 items selected") widens
+    // ToolbarActions' own border-box (it's `shrink-0`) without the parent
+    // fieldset's own box changing at all. A ResizeObserver bound only to
+    // the parent would never fire for this — the observer must also watch
+    // the sibling directly.
+    vi.stubGlobal('ResizeObserver', FakeResizeObserver);
+    let siblingWidth = 50;
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(
+      function (this: HTMLElement) {
+        const width = this.tagName === 'SPAN' ? siblingWidth : 100;
+        return {
+          width,
+          height: 32,
+          top: 0,
+          left: 0,
+          right: width,
+          bottom: 32,
+          x: 0,
+          y: 0,
+          toJSON: () => {},
+        } as DOMRect;
+      }
+    );
+    // The parent's own clientWidth is fixed for the whole test — only the
+    // sibling's content grows.
+    vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(400);
+
+    render(
+      <Toolbar>
+        <ToolbarActionList actions={THREE_ACTIONS} />
+        <ToolbarActions>
+          <span>Status</span>
+        </ToolbarActions>
+      </Toolbar>
+    );
+
+    expect(screen.getByRole('button', { name: 'Third action' })).toBeInTheDocument();
+
+    // The observer must be bound to the sibling itself, not just the parent
+    // — otherwise the growth below would never be observed in a real browser.
+    const statusEl = screen.getByText('Status').parentElement;
+    expect(FakeResizeObserver.instances[0].observe).toHaveBeenCalledWith(statusEl);
+
+    siblingWidth = 300;
+    act(() => {
+      FakeResizeObserver.instances[0].trigger();
+    });
+
+    expect(
+      screen.queryByRole('button', { name: 'Third action' })
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'More actions' })).toBeInTheDocument();
+  });
+
+  it('closes the overflow menu and disables its items once the ancestor Toolbar becomes disabled while it is open', async () => {
+    // Regression: the overflow menu renders in a portal, outside the
+    // <fieldset>'s DOM subtree, so the native disabled cascade never
+    // reaches items already open there when the toolbar is disabled mid-session.
+    mockGeometry({ itemWidth: 100, clientWidth: 250 });
+    const { rerender } = render(
+      <Toolbar>
+        <ToolbarActionList actions={THREE_ACTIONS} />
+      </Toolbar>
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'More actions' }));
+    expect(
+      await screen.findByRole('menuitem', { name: 'Second action' })
+    ).toBeInTheDocument();
+
+    rerender(
+      <Toolbar disabled>
+        <ToolbarActionList actions={THREE_ACTIONS} />
+      </Toolbar>
+    );
+
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('menuitem', { name: 'Second action' })
+      ).not.toBeInTheDocument();
+    });
   });
 
   it('re-measures correctly when actions shrinks, without stale phantom widths', () => {
