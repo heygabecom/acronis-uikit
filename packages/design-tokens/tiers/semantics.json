@@ -1449,17 +1449,6 @@
             "virtuozzo": "{palette.transparent.white.fixed-30}"
           }
         },
-        "link": {
-          "$extensions": {
-            "com.figma.scopes": ["TEXT_FILL"],
-            "com.figma.variableId": "VariableID:139:169"
-          },
-          "platforms": ["PD"],
-          "values": {
-            "deep_sky_itkontoret": "{palette.blue.7}",
-            "default": "{palette.blue.7}"
-          }
-        },
         "link-disabled": {
           "$extensions": {
             "com.figma.scopes": ["TEXT_FILL"],
@@ -1606,17 +1595,6 @@
             "deep_sky_itkontoret": "{palette.electricblue.11}",
             "default": "{palette.electricblue.11}",
             "virtuozzo": "{palette.electricblue.11}"
-          }
-        },
-        "link": {
-          "$extensions": {
-            "com.figma.scopes": ["TEXT_FILL"],
-            "com.figma.variableId": "VariableID:149:4"
-          },
-          "platforms": ["PD"],
-          "values": {
-            "deep_sky_itkontoret": "{palette.electricblue.11}",
-            "default": "{palette.electricblue.11}"
           }
         },
         "link-disabled": {
@@ -1873,20 +1851,6 @@
             "deep_sky_itkontoret": "{palette.grayscale.5}",
             "default": "{palette.grayscale.5}",
             "virtuozzo": "{palette.grayscale.5}"
-          }
-        },
-        "link": {
-          "$extensions": {
-            "com.figma.scopes": ["TEXT_FILL"],
-            "com.figma.variableId": "VariableID:139:155"
-          },
-          "platforms": ["PD"],
-          "values": {
-            "deep_sky_itkontoret": {
-              "colorSpace": "hsl",
-              "components": [208.8, 15.53, 31.57]
-            },
-            "default": "{palette.blue.7}"
           }
         },
         "link-disabled": {
