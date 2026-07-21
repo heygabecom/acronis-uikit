@@ -1,5 +1,105 @@
 # @acronis-platform/ui-react
 
+## 0.57.0
+
+### Minor Changes
+
+- [#563](https://github.com/acronis/uikit/pull/563) [`cdb19f4`](https://github.com/acronis/uikit/commit/cdb19f47ee45d67a451600f57d43cac9256fbdae) Thanks [@marta-sampedro](https://github.com/marta-sampedro)! - Add `BarChart` — a typed recharts composition over the shared `Chart` primitives, with `orientation` (vertical / horizontal) and `layout` (grouped / stacked) variants, a themed tooltip/legend/axes/grid, and caller-supplied series colors. Initial version ported from the apps/demo `BarChartPlayground`; design + data-viz palette reconciliation pending.
+
+- [#553](https://github.com/acronis/uikit/pull/553) [`aeb71d8`](https://github.com/acronis/uikit/commit/aeb71d834e8e6302295db208ca6677a41daad075) Thanks [@madjorr](https://github.com/madjorr)! - `DataTable` gains five additive, opt-in props for server-driven usage — no
+  existing call site needs to change:
+  - `table` — render from an externally-built TanStack `table` instance instead
+    of DataTable's own, so it composes with a caller's manual sorting/filtering/
+    pagination/row models or a shared toolbar instance.
+  - `manualSorting` + controlled `sorting`/`onSortingChange` — a lightweight
+    opt-out of client-side sorting without needing a full external instance.
+  - `renderRow` — bypass the default per-cell rendering path for a custom
+    (independently memoizable) row component.
+  - `renderEmptyState` — replace the default "No results." row with custom,
+    filter-aware content (`hasFilters` in context). Also fixes the empty-state
+    `colSpan` to use the visible column count instead of the full column count.
+  - `paginationMode="infinite"` + `onLoadMore`/`hasNextPage`/`isLoadingMore` — a
+    sentinel row + `IntersectionObserver` for non-virtualized infinite scroll.
+
+  Also exports `getCellStyle`/`getPinnedStyle`/`getColumnWidth` from
+  `data-table.tsx` and adds a new `useIntersectionObserver` hook to `@/hooks`.
+
+- [#554](https://github.com/acronis/uikit/pull/554) [`bbc9903`](https://github.com/acronis/uikit/commit/bbc99037da1e5a32d2b962dfc24d0e80a0228784) Thanks [@madjorr](https://github.com/madjorr)! - Update `PageHeader` to match the current Figma "PageHeader" component
+  (node 2905-7678): the title row gains an optional tags slot
+  (`PageHeaderTags`) and grows the title to the design's 24px/regular style;
+  the description moves into its own row (`PageHeaderDescriptionRow`) capped
+  at 512px. The title and description edit affordance seen in full-page
+  wizards (e.g. Create Dashboard) is a plain `ButtonIcon` placed as a sibling
+  — no dedicated part for it.
+
+  **Breaking**: `PageHeaderBreadcrumb` is removed. In the current design the
+  breadcrumb is a separate sibling above `PageHeader`, not one of its parts —
+  render a `Breadcrumb` above it instead.
+
+- [#554](https://github.com/acronis/uikit/pull/554) [`7989cdc`](https://github.com/acronis/uikit/commit/7989cdc7de9742334aaec0960a7fe64971d3d85b) Thanks [@madjorr](https://github.com/madjorr)! - `PageHeaderTags` and `PageHeaderActions` now collapse on overflow, per the
+  Figma "Breakpoints" page's two hard requirements: tags collapse to the first
+  tag plus a "+#" tag (a tooltip lists the hidden labels on hover), and
+  secondary-variant action buttons fold under a single "More" `ButtonIcon`
+  menu — primary buttons are never hidden. Both are all-or-nothing collapses,
+  not a partial "however many fit" reflow.
+
+  Also fixes `PageHeaderDescriptionRow` to use `items-start` instead of
+  `items-center`, so the edit pencil sits flush with the first line of a
+  wrapped description instead of floating mid-paragraph, matching Figma.
+
+- [#557](https://github.com/acronis/uikit/pull/557) [`b4208c8`](https://github.com/acronis/uikit/commit/b4208c89ae4dfc3c822b4539cfca34acad7f4585) Thanks [@madjorr](https://github.com/madjorr)! - Add `Toolbar`: a horizontal action row — list actions, an optional overflow
+  control, and an optional trailing area (a status text, or a selection
+  counter + action) — for use above/below a list or table when rows are
+  selected or bulk actions are available.
+  - `disabled` cascades to every nested Button/ButtonMenu via a native
+    `<fieldset disabled>` — no prop-drilling into arbitrary children.
+  - `ToolbarActionList` renders an `actions` array as ghost Buttons and
+    auto-collapses the trailing ones into a "More actions" `ButtonMenu` +
+    `DropdownMenu` once they no longer fit the row, re-measuring on resize. The
+    row is a single Tab stop, with arrow-key roving-tabindex between visible
+    actions and the overflow trigger, via Base UI's `Toolbar.Root`/
+    `Toolbar.Button` (`@base-ui/react/toolbar`) — matching the WAI-ARIA toolbar
+    pattern.
+  - `ToolbarActions` is a right-aligned trailing slot (8px gap) that grows to
+    fill leftover row space without shrinking below its own content's natural
+    width, so its text never wraps or overlaps the action row.
+  - No dedicated token tier — every action brings its own tokens; the 16px/8px
+    gaps are un-tokenized, same precedent as `FilterSearch`.
+
+### Patch Changes
+
+- [#562](https://github.com/acronis/uikit/pull/562) [`21d59a8`](https://github.com/acronis/uikit/commit/21d59a859fd3047ce54ea4eda26b7d8199eeab4b) Thanks [@marta-sampedro](https://github.com/marta-sampedro)! - Align the Chart tooltip chrome with the design system. The tooltip now uses the
+  Tooltip tier's shape tokens (`--ui-tooltip-container-border-radius` /
+  `-padding-x` / `-padding-y`) and the kit's standard `shadow-md`, and drops the
+  `font-mono` numeric style — removing the `rounded-lg` / `shadow-xl` / monospace
+  outliers that appeared nowhere else in the library. Radius, padding, shadow, and
+  the numeric font change in both modes; the surface colors (`bg-background` /
+  `text-foreground`) and the two-tone label/value hierarchy are unchanged.
+
+- [#554](https://github.com/acronis/uikit/pull/554) [`ae49633`](https://github.com/acronis/uikit/commit/ae496330b87d81fc14e4e2b6acae7b5b835bce43) Thanks [@madjorr](https://github.com/madjorr)! - `PageHeaderActions` no longer folds a `variant="secondary"` action into the
+  "More" menu unless it's a plain `Button`. A trigger-style component (e.g.
+  `ButtonMenu`) opens its own menu rather than firing a single click action, so
+  it has nothing for the fold to reduce to a "Menu Item" label — it now stays
+  visible and unfolded instead of silently becoming an inert menu item.
+
+- [#523](https://github.com/acronis/uikit/pull/523) [`719517c`](https://github.com/acronis/uikit/commit/719517c4aa563b8cc80b52d35a67f4bacd7e0841) Thanks [@heygabecom](https://github.com/heygabecom)! - Sync design tokens with Figma.
+
+  Replaces the `Chips` component token group with the new `Chip` structure
+  (`_global` box/border/icon geometry + colors, per-variant label colors). Migrates
+  the ui-react `Chip` component (and its spec/tests) off the old `--ui-chips-*`
+  tokens onto the new `--ui-chip-*` names — a like-for-like rename with no rendered
+  change.
+
+- [#529](https://github.com/acronis/uikit/pull/529) [`896d9fd`](https://github.com/acronis/uikit/commit/896d9fd34afda7d66736d5b5acb47843fb0e74e2) Thanks [@heygabecom](https://github.com/heygabecom)! - Sync design tokens with Figma.
+  - **Avatar**: moves `_global.borderRadius` into `_global.avatar.border.borderRadius` (aligns token path with the component structure).
+  - **Checkbox**: renames `marginX` to `marginY`.
+  - **Radio**: renames `marginX` to `marginY`.
+
+  Regenerates tokens-pd and migrates the ui-react consumers (Avatar → `--ui-avatar-global-avatar-border-border-radius`, Checkbox → `--ui-checkbox-global-box-margin-y`) and their specs — like-for-like renames, no rendered change.
+
+- Updated dependencies [[`2584da5`](https://github.com/acronis/uikit/commit/2584da58f2ecc692446971144c45f2263f8932d6), [`deae803`](https://github.com/acronis/uikit/commit/deae803e14d94243d5c3109a0d576eaca1e5ba49), [`719517c`](https://github.com/acronis/uikit/commit/719517c4aa563b8cc80b52d35a67f4bacd7e0841), [`896d9fd`](https://github.com/acronis/uikit/commit/896d9fd34afda7d66736d5b5acb47843fb0e74e2)]:
+  - @acronis-platform/tokens-pd@2.2.0
+
 ## 0.56.1
 
 ### Major Changes

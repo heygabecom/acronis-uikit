@@ -1,5 +1,34 @@
 # @acronis-platform/design-tokens
 
+## 2.2.0
+
+### Minor Changes
+
+- [#555](https://github.com/acronis/uikit/pull/555) [`2584da5`](https://github.com/acronis/uikit/commit/2584da58f2ecc692446971144c45f2263f8932d6) Thanks [@heygabecom](https://github.com/heygabecom)! - Remove `Button.inverted` component tokens.
+
+  Deletes the 20 `Button.inverted.*` tokens — the inverted variant was removed from the React component in [#544](https://github.com/acronis/uikit/issues/544) and these token definitions are now unused.
+
+- [#523](https://github.com/acronis/uikit/pull/523) [`719517c`](https://github.com/acronis/uikit/commit/719517c4aa563b8cc80b52d35a67f4bacd7e0841) Thanks [@heygabecom](https://github.com/heygabecom)! - Sync design tokens with Figma.
+
+  Replaces the `Chips` component token group with the new `Chip` structure
+  (`_global` box/border/icon geometry + colors, per-variant label colors). Migrates
+  the ui-react `Chip` component (and its spec/tests) off the old `--ui-chips-*`
+  tokens onto the new `--ui-chip-*` names — a like-for-like rename with no rendered
+  change.
+
+- [#529](https://github.com/acronis/uikit/pull/529) [`896d9fd`](https://github.com/acronis/uikit/commit/896d9fd34afda7d66736d5b5acb47843fb0e74e2) Thanks [@heygabecom](https://github.com/heygabecom)! - Sync design tokens with Figma.
+  - **Avatar**: moves `_global.borderRadius` into `_global.avatar.border.borderRadius` (aligns token path with the component structure).
+  - **Checkbox**: renames `marginX` to `marginY`.
+  - **Radio**: renames `marginX` to `marginY`.
+
+  Regenerates tokens-pd and migrates the ui-react consumers (Avatar → `--ui-avatar-global-avatar-border-border-radius`, Checkbox → `--ui-checkbox-global-box-margin-y`) and their specs — like-for-like renames, no rendered change.
+
+### Patch Changes
+
+- [#526](https://github.com/acronis/uikit/pull/526) [`deae803`](https://github.com/acronis/uikit/commit/deae803e14d94243d5c3109a0d576eaca1e5ba49) Thanks [@heygabecom](https://github.com/heygabecom)! - Update Figma extension metadata on component tokens.
+
+  Adds `com.figma.hiddenFromPublishing: true` and corrects scope and variableId fields on 12 tokens across `Button.ai.textStyle`, `errorMsg`, and `Link.externalIcon.color` — no token values changed.
+
 ## 2.1.0
 
 ### Minor Changes
