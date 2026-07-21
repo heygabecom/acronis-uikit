@@ -4,10 +4,13 @@ name: page-header
 status: ready
 category: layout
 description: >-
-  The page header region — an optional breadcrumb, a title row (title left,
-  actions right), and an optional description. Sits at the top of a page's content.
-  Mapped to the shadcn-uikit Figma (node 2850-701).
+  The page header region — a title row (title left, an optional edit
+  icon-button, a tags slot, an actions slot) and an optional description row
+  (text + an optional edit icon-button), capped at 512px. Sits at the top of a
+  page's content; a breadcrumb is a separate sibling above it, not one of its
+  parts. Mapped to the ui-react Figma "PageHeader" master component (node
+  2905-7678).
 since: 0.52.0
 figma:
-  node: 'https://www.figma.com/design/lrU3ydIyvPYQNE6ixdsKtJ/shadcn-uikit?node-id=2850-701'
+  node: 'https://www.figma.com/design/lrU3ydIyvPYQNE6ixdsKtJ/ui-react?node-id=2905-7678'
   codeConnect: packages/ui-react/src/components/ui/page-header/page-header.figma.tsx

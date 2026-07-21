@@ -3,32 +3,62 @@ component: PageHeader
 
 schematic: |
   page-header: <div role="banner"> vertical block
-    page-header-breadcrumb:  optional breadcrumb nav (muted)
-    page-header-row:         title row
-      page-header-title:       <h1> page title
-      page-header-actions:     buttons (right)
-    page-header-description: optional muted supporting text
+    page-header-row:              title row
+      page-header-title:            <h1> page title
+      (edit ButtonIcon)              optional, consumer-placed sibling
+      page-header-tags:             optional tags slot
+        page-header-tags-overflow-indicator: "+#" tag standing in for hidden tags, on overflow
+      page-header-actions:          trailing action buttons
+        page-header-actions-more-button: "More" ButtonIcon standing in for hidden secondary actions, on overflow
+    page-header-description-row:  optional description row (max 512px)
+      page-header-description:      muted supporting text
+      (edit ButtonIcon)              optional, consumer-placed sibling
 
 root:
   element: div
   role: banner
-  description: The page header region; stacks breadcrumb, the title/actions row, and a description.
+  description: The page header region; stacks the title row and an optional description row. A breadcrumb, when used, is a separate sibling rendered above PageHeader — not one of its parts.
 
 parts:
-  - id: page-header-breadcrumb
-    element: nav
-    description: Optional breadcrumb (muted), labelled "Breadcrumb".
   - id: page-header-row
     element: div
-    description: The title + actions row (title left, actions right).
+    description: The title row (title, an optional edit button, a tags slot, and an actions slot).
   - id: page-header-title
     element: h1
     description: The page title.
+  - id: page-header-tags
+    element: div
+    description: Optional tags slot (typically `Tag` chips); shares the row's remaining width with the actions slot. Collapses to the first tag plus an overflow "+#" `Tag` when the full set doesn't fit.
+  - id: page-header-tags-overflow-indicator
+    element: span
+    optional: true
+    visible_when: the tags slot has more than one tag and the full set doesn't fit the available width
+    description: A `Tag` (info-circle icon + `+#` label) standing in for the hidden tags; a `Tooltip` on hover/focus lists their labels.
   - id: page-header-actions
     element: div
-    description: Trailing action buttons.
+    description: Trailing action buttons; right-aligned within its share of the row. Secondary buttons (variant `secondary`) collapse under a single "More" `ButtonIcon` when the full set doesn't fit; primary buttons are never hidden.
+  - id: page-header-actions-more-button
+    element: button
+    optional: true
+    visible_when: the actions slot has at least one secondary-variant action and the full set doesn't fit the available width
+    description: A `ButtonIcon` (ellipsis icon, `aria-label="More actions"`) opening a `DropdownMenu` of the hidden secondary actions, in their original order.
+  - id: page-header-description-row
+    element: div
+    description: Optional description row, capped at 512px, holding the description text and its optional edit button.
   - id: page-header-description
     element: p
-    description: Optional muted supporting text under the title.
+    description: Muted supporting text under the title.
 
 states: []
+
+internal_state:
+  - id: tags-overflow-collapsed
+    type: boolean
+    initial: false
+    changed_by: a `ResizeObserver` on `page-header-tags`, comparing the full tag set's natural width against the space actually available to it
+    description: Whether the tags slot has collapsed to the first tag + the "+#" overflow tag. All-or-nothing — never a partial "however many fit" reflow, per the Figma "Breakpoints" page.
+  - id: actions-overflow-collapsed
+    type: boolean
+    initial: false
+    changed_by: a `ResizeObserver` on `page-header-actions`, comparing the full action set's natural width against the space actually available to it
+    description: Whether the actions slot has collapsed all secondary-variant actions under the "More" ButtonIcon. Primary actions are unaffected and never collapse.

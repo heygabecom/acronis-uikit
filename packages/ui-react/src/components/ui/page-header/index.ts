@@ -1,8 +1,9 @@
 export {
   PageHeader,
-  PageHeaderBreadcrumb,
   PageHeaderRow,
   PageHeaderTitle,
-  PageHeaderDescription,
+  PageHeaderTags,
   PageHeaderActions,
+  PageHeaderDescriptionRow,
+  PageHeaderDescription,
 } from './page-header';

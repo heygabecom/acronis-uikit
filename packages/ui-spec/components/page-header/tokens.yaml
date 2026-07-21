@@ -1,11 +1,18 @@
 spec_version: '1.0'
 component: PageHeader
 
-# References only. Values live in @acronis-platform/tokens-pd. Only the muted
-# breadcrumb/description carry color; the title inherits the foreground.
+# References only. Values live in @acronis-platform/tokens-pd. The title uses
+# the primary on-surface color; the description uses the secondary (muted) one.
+# Both are consumed via their Tailwind bridge (text-foreground /
+# text-muted-foreground in src/styles/index.css), not a component-specific tier
+# — PageHeader has none; it composes existing atoms (Button, ButtonIcon, Tag)
+# for its slots, which own their own token tiers.
 source: '@acronis-platform/tokens-pd'
 
 tokens:
+  - name: --ui-text-on-surface-primary
+    affects: page-header-title
+    description: Title text color (text-foreground).
   - name: --ui-text-on-surface-secondary
     affects: page-header-description
-    description: Muted breadcrumb + description text (text-muted-foreground).
+    description: Muted description text (text-muted-foreground).

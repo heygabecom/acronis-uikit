@@ -11,13 +11,17 @@ adapters:
   react:
     component: PageHeader
     status: implemented
-    import: "import { PageHeader, PageHeaderBreadcrumb, PageHeaderRow, PageHeaderTitle, PageHeaderDescription, PageHeaderActions } from '@acronis-platform/ui-react'"
+    import: "import { PageHeader, PageHeaderRow, PageHeaderTitle, PageHeaderTags, PageHeaderActions, PageHeaderDescriptionRow, PageHeaderDescription } from '@acronis-platform/ui-react'"
     example: |
       <PageHeader>
         <PageHeaderRow>
           <PageHeaderTitle>Reports</PageHeaderTitle>
+          <PageHeaderTags><Tag variant="info">Customer</Tag></PageHeaderTags>
           <PageHeaderActions><Button>New</Button></PageHeaderActions>
         </PageHeaderRow>
+        <PageHeaderDescriptionRow>
+          <PageHeaderDescription>All scheduled reports.</PageHeaderDescription>
+        </PageHeaderDescriptionRow>
       </PageHeader>
   vue:
     component: AvPageHeader

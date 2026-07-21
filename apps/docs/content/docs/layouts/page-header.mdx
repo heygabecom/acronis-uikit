@@ -1,29 +1,33 @@
 ---
 title: Page Header
-description: A page's header region — breadcrumb, title + actions, and description.
+description: A page's header region — title + tags/actions, and an optional description.
 ---
 
-import { DemoReact } from "@/components/DemoReact";
-import { PageHeaderDemo } from "@/components/demos-react/page-header";
+import { DemoReact } from '@/components/DemoReact';
+import { PageHeaderDemo } from '@/components/demos-react/page-header';
 
 ## Usage
 
 ```tsx
 import {
   PageHeader,
-  PageHeaderBreadcrumb,
   PageHeaderRow,
   PageHeaderTitle,
-  PageHeaderDescription,
+  PageHeaderTags,
   PageHeaderActions,
+  PageHeaderDescriptionRow,
+  PageHeaderDescription,
 } from '@acronis-platform/ui-react';
 ```
 
 `PageHeader` is the header region at the top of a page's content (inside the App
-Shell's main, not the app-wide [`AppShellHeader`](/layouts/app-shell)). It stacks
-an optional breadcrumb, a title row (`PageHeaderRow` — title left, actions right),
-and an optional description. Mapped to the
-[Page Header Figma](https://www.figma.com/design/lrU3ydIyvPYQNE6ixdsKtJ/shadcn-uikit?node-id=2850-701).
+Shell's main, not the app-wide [`AppShellHeader`](/layouts/app-shell)). It stacks a
+title row (`PageHeaderRow` — title left, an optional edit icon-button, a tags slot,
+an actions slot) and an optional description row, capped at 512px. A breadcrumb, if
+you need one, is a separate [`Breadcrumb`](/components/breadcrumb) rendered as a
+sibling above `PageHeader` — it's not one of its parts. Mapped to the
+[Page Header Figma](https://www.figma.com/design/lrU3ydIyvPYQNE6ixdsKtJ/ui-react?node-id=2905-7678)
+"PageHeader" master component.
 
 ## Examples
 
@@ -33,24 +37,42 @@ and an optional description. Mapped to the
 
 ```tsx
 <PageHeader>
-  <PageHeaderBreadcrumb>Home / Reports</PageHeaderBreadcrumb>
   <PageHeaderRow>
     <PageHeaderTitle>Reports</PageHeaderTitle>
-    <PageHeaderActions><Button>New report</Button></PageHeaderActions>
+    <PageHeaderTags>
+      <Tag variant="info">Customer</Tag>
+    </PageHeaderTags>
+    <PageHeaderActions>
+      <Button>New report</Button>
+    </PageHeaderActions>
   </PageHeaderRow>
-  <PageHeaderDescription>All scheduled reports.</PageHeaderDescription>
+  <PageHeaderDescriptionRow>
+    <PageHeaderDescription>All scheduled reports.</PageHeaderDescription>
+  </PageHeaderDescriptionRow>
 </PageHeader>
+```
+
+### Editable title/description (full-page wizards)
+
+```tsx
+<PageHeaderRow>
+  <PageHeaderTitle>Untitled dashboard</PageHeaderTitle>
+  <ButtonIcon variant="secondary" aria-label="Edit title">
+    <PencilIcon size={16} />
+  </ButtonIcon>
+</PageHeaderRow>
 ```
 
 ## Parts
 
-| Export                  | Element  | Purpose                          |
-| ----------------------- | -------- | -------------------------------- |
-| `PageHeader`            | `div`    | The banner region.               |
-| `PageHeaderBreadcrumb`  | `nav`    | Optional breadcrumb (muted).     |
-| `PageHeaderRow`         | `div`    | Title + actions row.             |
-| `PageHeaderTitle`       | `h1`     | The page title.                  |
-| `PageHeaderDescription` | `p`      | Optional muted text.             |
-| `PageHeaderActions`     | `div`    | Trailing action buttons.         |
+| Export                     | Element | Purpose                                                |
+| -------------------------- | ------- | ------------------------------------------------------ |
+| `PageHeader`               | `div`   | The banner region.                                     |
+| `PageHeaderRow`            | `div`   | Title row: title, optional edit button, tags, actions. |
+| `PageHeaderTitle`          | `h1`    | The page title.                                        |
+| `PageHeaderTags`           | `div`   | Optional tags slot (e.g. `Tag` chips).                 |
+| `PageHeaderActions`        | `div`   | Trailing action buttons.                               |
+| `PageHeaderDescriptionRow` | `div`   | Optional description row (max 512px).                  |
+| `PageHeaderDescription`    | `p`     | Muted supporting text.                                 |
 
 All parts accept their native element attributes plus `className`.
