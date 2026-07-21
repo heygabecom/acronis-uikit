@@ -6,10 +6,9 @@
 // `state` maps to the React `disabled` boolean — the native `<fieldset
 // disabled>` cascade (see toolbar.tsx) reproduces Figma's per-state disabled
 // treatment of every nested Button/ButtonMenu without a separate prop.
-// `hasMoreActions`/`hasCounter` only toggle canvas visibility of the trailing
-// ButtonMenu / counter area in Figma — in code that's just whether a
-// `ButtonMenu`/`ToolbarActions` child is passed at all, so neither boolean is
-// mapped as a distinct prop.
+// `hasMoreActions`/`hasCounter` each gate whether the generated example
+// includes the trailing `ButtonMenu` / `ToolbarActions` child at all — same
+// canvas-only-boolean pattern as `FilterSearch`'s `hasTenants`/`hasFilters`.
 import * as React from 'react';
 import figma from '@figma/code-connect';
 
@@ -27,21 +26,35 @@ figma.connect(
         disabled: true,
       }),
       listActions: figma.children('ListActions'),
+      moreActions: figma.boolean('hasMoreActions', {
+        true: <ButtonMenu>More actions</ButtonMenu>,
+        false: undefined,
+      }),
+      counter: figma.boolean('hasCounter', {
+        true: (
+          <ToolbarActions>
+            <span>6 items selected:</span>
+            <Button variant="ghost">Deselect</Button>
+          </ToolbarActions>
+        ),
+        false: undefined,
+      }),
     },
     example: ({
       disabled,
       listActions,
+      moreActions,
+      counter,
     }: {
       disabled: boolean;
       listActions: React.ReactNode;
+      moreActions: React.ReactNode;
+      counter: React.ReactNode;
     }) => (
       <Toolbar disabled={disabled}>
         {listActions}
-        <ButtonMenu>More actions</ButtonMenu>
-        <ToolbarActions>
-          <span>6 items selected:</span>
-          <Button variant="ghost">Deselect</Button>
-        </ToolbarActions>
+        {moreActions}
+        {counter}
       </Toolbar>
     ),
   }

@@ -275,7 +275,14 @@ const ToolbarActionList = React.forwardRef<
       <ToolbarPrimitive.Root
         ref={mergeRefs(containerRef, forwardedRef)}
         className={cn(
-          'relative flex min-w-0 flex-nowrap items-center gap-4',
+          // `overflow-hidden` clips the invisible measurement clone below —
+          // it's `position: absolute` + `visibility: hidden`, which keeps
+          // contributing to this element's scrollable overflow (and thus a
+          // real horizontal scrollbar on a narrow container/page) unless
+          // something in the ancestor chain clips it. Visible content is
+          // already sized to fit `availableWidth` by the collapse math, so
+          // clipping never affects anything actually shown.
+          'relative flex min-w-0 flex-nowrap items-center gap-4 overflow-hidden',
           className
         )}
         {...props}
@@ -317,6 +324,7 @@ const ToolbarActionList = React.forwardRef<
         )}
         <div
           aria-hidden
+          inert
           className="pointer-events-none invisible absolute left-0 top-0 flex items-center gap-4"
         >
           {actions.map((action) => (
