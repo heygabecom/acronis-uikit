@@ -31,8 +31,8 @@ in this kit.
 `ToolbarActionList`'s own root implements the WAI-ARIA `toolbar` pattern via
 Base UI's `Toolbar.Root`/`Toolbar.Button` (`@base-ui/react/toolbar`):
 `role="toolbar"`, one Tab stop into the row, and roving `tabindex` between
-every visible action and the overflow trigger, driven by arrow keys and
-Home/End. A disabled action opts out of Base UI's default APG toolbar
+every visible action and the overflow trigger, driven by arrow keys. A
+disabled action opts out of Base UI's default APG toolbar
 treatment (`focusableWhenDisabled={false}`) so it matches every other
 disabled `Button` in this kit: unreachable via Tab or arrow keys, rather than
 focusable-but-inert. The invisible measurement clones used to compute
@@ -52,7 +52,6 @@ collapse width are not registered in the roving-tabindex sequence.
 | `ToolbarActionList` visible action    | Enter/Space          | Activates the action                                                |
 | `ToolbarActionList` overflow trigger  | Enter/Space          | Opens/closes the overflow `DropdownMenu`                            |
 | `ToolbarActionList` row               | ArrowLeft/ArrowRight | Moves roving focus between visible actions and the overflow trigger |
-| `ToolbarActionList` row               | Home/End             | Moves roving focus to the first/last focusable item in the row      |
 | Button/ButtonMenu (composed directly) | Enter/Space          | Activates the action / opens the menu it triggers                   |
 
 Plain Button/ButtonMenu children composed directly on `Toolbar` (not through
@@ -92,8 +91,8 @@ compliant.
 - [ ] Plain Button/ButtonMenu children composed directly on `Toolbar` are each
       reachable via Tab
 - [ ] `ToolbarActionList` renders `role="toolbar"` and is reachable as a
-      single Tab stop, with arrow keys/Home/End moving roving focus between
-      its visible actions and the overflow trigger
+      single Tab stop, with arrow keys moving roving focus between its
+      visible actions and the overflow trigger
 - [ ] `disabled` removes every nested control from the Tab order
 - [ ] A disabled action inside `ToolbarActionList` is unreachable via Tab or
       arrow keys, not merely `aria-disabled`

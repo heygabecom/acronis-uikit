@@ -12,8 +12,8 @@ selected or bulk actions are available.
 - `ToolbarActionList` renders an `actions` array as ghost Buttons and
   auto-collapses the trailing ones into a "More actions" `ButtonMenu` +
   `DropdownMenu` once they no longer fit the row, re-measuring on resize. The
-  row is a single Tab stop, with arrow-key/Home/End roving-tabindex between
-  visible actions and the overflow trigger, via Base UI's `Toolbar.Root`/
+  row is a single Tab stop, with arrow-key roving-tabindex between visible
+  actions and the overflow trigger, via Base UI's `Toolbar.Root`/
   `Toolbar.Button` (`@base-ui/react/toolbar`) — matching the WAI-ARIA toolbar
   pattern.
 - `ToolbarActions` is a right-aligned trailing slot (8px gap) that grows to
