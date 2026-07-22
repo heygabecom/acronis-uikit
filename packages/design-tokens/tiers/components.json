@@ -740,8 +740,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.text.onBrand.disabled}",
-              "default": "{colors.text.onBrand.disabled}",
+              "deep_sky_itkontoret": "{colors.text.onBrand.primary}",
+              "default": "{colors.text.onBrand.primary}",
               "virtuozzo": "{colors.text.onBrand.primary}"
             }
           },
@@ -876,7 +876,7 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.glyph.onInverse.primary}",
+              "deep_sky_itkontoret": "{colors.glyph.onBrand.primary}",
               "default": "{colors.glyph.onBrand.primary}",
               "virtuozzo": "{colors.glyph.onBrand.primary}"
             }
@@ -890,8 +890,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.glyph.onInverse.primary}",
-              "default": "{colors.glyph.onBrand.disabled}",
+              "deep_sky_itkontoret": "{colors.glyph.onBrand.primary}",
+              "default": "{colors.glyph.onBrand.primary}",
               "virtuozzo": "{colors.glyph.onBrand.primary}"
             }
           },
@@ -904,7 +904,7 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.glyph.onInverse.primary}",
+              "deep_sky_itkontoret": "{colors.glyph.onBrand.primary}",
               "default": "{colors.glyph.onBrand.primary}",
               "virtuozzo": "{colors.glyph.onBrand.primary}"
             }
@@ -918,7 +918,7 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.glyph.onInverse.primary}",
+              "deep_sky_itkontoret": "{colors.glyph.onBrand.primary}",
               "default": "{colors.glyph.onBrand.primary}",
               "virtuozzo": "{colors.glyph.onBrand.primary}"
             }
@@ -936,7 +936,7 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.text.onInverse.primary}",
+              "deep_sky_itkontoret": "{colors.text.onBrand.primary}",
               "default": "{colors.text.onBrand.primary}",
               "virtuozzo": "{colors.text.onBrand.primary}"
             }
@@ -950,8 +950,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.text.onBrand.disabled}",
-              "default": "{colors.text.onBrand.disabled}",
+              "deep_sky_itkontoret": "{colors.text.onBrand.primary}",
+              "default": "{colors.text.onBrand.primary}",
               "virtuozzo": "{colors.text.onBrand.primary}"
             }
           },
@@ -964,7 +964,7 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.text.onInverse.primary}",
+              "deep_sky_itkontoret": "{colors.text.onBrand.primary}",
               "default": "{colors.text.onBrand.primary}",
               "virtuozzo": "{colors.text.onBrand.primary}"
             }
@@ -978,7 +978,7 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.text.onInverse.primary}",
+              "deep_sky_itkontoret": "{colors.text.onBrand.primary}",
               "default": "{colors.text.onBrand.primary}",
               "virtuozzo": "{colors.text.onBrand.primary}"
             }
@@ -1116,8 +1116,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.text.onSurface.link}",
-              "default": "{colors.text.onSurface.link}",
+              "deep_sky_itkontoret": "{colors.text.onSurface.link-idle}",
+              "default": "{colors.text.onSurface.link-idle}",
               "virtuozzo": "{colors.text.onSurface.link-idle}"
             }
           }
@@ -1354,8 +1354,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.glyph.onBrand.disabled}",
-              "default": "{colors.glyph.onBrand.disabled}",
+              "deep_sky_itkontoret": "{colors.glyph.onBrand.primary}",
+              "default": "{colors.glyph.onBrand.primary}",
               "virtuozzo": "{colors.glyph.onBrand.primary}"
             }
           },
@@ -1414,8 +1414,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.text.onBrand.disabled}",
-              "default": "{colors.text.onBrand.disabled}",
+              "deep_sky_itkontoret": "{colors.text.onBrand.primary}",
+              "default": "{colors.text.onBrand.primary}",
               "virtuozzo": "{colors.text.onBrand.primary}"
             }
           },
@@ -1462,8 +1462,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "transparent",
-              "default": "transparent",
+              "deep_sky_itkontoret": "{colors.border.onSurface.border-active}",
+              "default": "{colors.border.onSurface.border-active}",
               "virtuozzo": "{colors.border.onSurface.border-active}"
             }
           },
@@ -1476,8 +1476,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.border.onSurface.border}",
-              "default": "{colors.border.onSurface.border}",
+              "deep_sky_itkontoret": "{palette.grayscale.3}",
+              "default": "{palette.electricblue.3}",
               "virtuozzo": "{palette.grayscale.3}"
             }
           },
@@ -1490,8 +1490,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "transparent",
-              "default": "transparent",
+              "deep_sky_itkontoret": "{colors.border.onSurface.border-active}",
+              "default": "{colors.border.onSurface.border-active}",
               "virtuozzo": "{colors.border.onSurface.border-active}"
             }
           },
@@ -1504,8 +1504,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.border.onSurface.border}",
-              "default": "{colors.border.onSurface.border}",
+              "deep_sky_itkontoret": "{palette.grayscale.3}",
+              "default": "{palette.electricblue.3}",
               "virtuozzo": "{palette.grayscale.3}"
             }
           }
@@ -1696,8 +1696,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.text.onSurface.link-pressed}",
-              "default": "{colors.text.onSurface.link}",
+              "deep_sky_itkontoret": "{colors.text.onSurface.link-idle}",
+              "default": "{colors.text.onSurface.link-idle}",
               "virtuozzo": "{colors.text.onSurface.link-idle}"
             }
           },
@@ -1724,8 +1724,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.text.onSurface.link-hover}",
-              "default": "{colors.text.onSurface.link}",
+              "deep_sky_itkontoret": "{colors.text.onSurface.link-idle}",
+              "default": "{colors.text.onSurface.link-idle}",
               "virtuozzo": "{colors.text.onSurface.link-idle}"
             }
           },
@@ -1738,8 +1738,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.text.onSurface.link}",
-              "default": "{colors.text.onSurface.link}",
+              "deep_sky_itkontoret": "{colors.text.onSurface.link-idle}",
+              "default": "{colors.text.onSurface.link-idle}",
               "virtuozzo": "{colors.text.onSurface.link-idle}"
             }
           }
@@ -2143,8 +2143,8 @@
           "$type": "dimension",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{units.size.24}",
-            "default": "{units.size.24}",
+            "deep_sky_itkontoret": "{units.size.16}",
+            "default": "{units.size.16}",
             "virtuozzo": "{units.size.16}"
           }
         }
@@ -2162,8 +2162,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.border.transparent}",
-              "default": "{colors.border.transparent}",
+              "deep_sky_itkontoret": "{colors.border.onSurface.border-active}",
+              "default": "{colors.border.onSurface.border-active}",
               "virtuozzo": "{colors.border.onSurface.border-active}"
             }
           },
@@ -2176,8 +2176,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.border.onSurface.border}",
-              "default": "{colors.border.onSurface.border}",
+              "deep_sky_itkontoret": "{palette.grayscale.3}",
+              "default": "{palette.electricblue.3}",
               "virtuozzo": "{palette.grayscale.3}"
             }
           },
@@ -2190,8 +2190,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.border.transparent}",
-              "default": "{colors.border.transparent}",
+              "deep_sky_itkontoret": "{colors.border.onSurface.border-active}",
+              "default": "{colors.border.onSurface.border-active}",
               "virtuozzo": "{colors.border.onSurface.border-active}"
             }
           },
@@ -2204,8 +2204,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.border.onSurface.border}",
-              "default": "{colors.border.onSurface.border}",
+              "deep_sky_itkontoret": "{palette.grayscale.3}",
+              "default": "{palette.electricblue.3}",
               "virtuozzo": "{palette.grayscale.3}"
             }
           }
@@ -2587,7 +2587,7 @@
           "$type": "color",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{colors.border.onSurface.border}",
+            "deep_sky_itkontoret": "{colors.border.onSurface.border-active}",
             "default": "{colors.border.onSurface.border-active}",
             "virtuozzo": "{colors.border.onSurface.border-active}"
           }
@@ -2756,7 +2756,7 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.background.surface.secondary}",
+              "deep_sky_itkontoret": "{colors.background.surface.active}",
               "default": "{colors.background.surface.active}",
               "virtuozzo": "{colors.background.surface.active}"
             }
@@ -2770,7 +2770,7 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.background.surface.active}",
+              "deep_sky_itkontoret": "{colors.background.surface.hover}",
               "default": "{colors.background.surface.hover}",
               "virtuozzo": "{colors.background.surface.hover}"
             }
@@ -2784,7 +2784,7 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.background.surface.active}",
+              "deep_sky_itkontoret": "{colors.background.surface.primary}",
               "default": "{colors.background.surface.primary}",
               "virtuozzo": "{colors.background.surface.primary}"
             }
@@ -2873,8 +2873,8 @@
           "$type": "color",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{colors.text.onSurface.link}",
-            "default": "{colors.text.onSurface.link}",
+            "deep_sky_itkontoret": "{colors.text.onSurface.link-idle}",
+            "default": "{colors.text.onSurface.link-idle}",
             "virtuozzo": "{colors.text.onSurface.link-idle}"
           }
         },
@@ -2887,7 +2887,7 @@
           "$type": "typography",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "String value",
+            "deep_sky_itkontoret": "{typography.body.strong}",
             "default": "{typography.body.strong}",
             "virtuozzo": "{typography.body.strong}"
           }
@@ -2947,8 +2947,8 @@
           "$type": "dimension",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{units.gap.0}",
-            "default": "{units.gap.0}",
+            "deep_sky_itkontoret": "{units.gap.8}",
+            "default": "{units.gap.8}",
             "virtuozzo": "{units.gap.8}"
           }
         }
@@ -3196,8 +3196,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "transparent",
-              "default": "transparent",
+              "deep_sky_itkontoret": "{colors.border.onSurface.border-active}",
+              "default": "{colors.border.onSurface.border-active}",
               "virtuozzo": "{colors.border.onSurface.border-active}"
             }
           },
@@ -3210,8 +3210,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.border.onSurface.border}",
-              "default": "{colors.border.onSurface.border}",
+              "deep_sky_itkontoret": "{palette.grayscale.3}",
+              "default": "{palette.electricblue.3}",
               "virtuozzo": "{palette.grayscale.3}"
             }
           },
@@ -3224,8 +3224,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "transparent",
-              "default": "transparent",
+              "deep_sky_itkontoret": "{colors.border.onSurface.border-active}",
+              "default": "{colors.border.onSurface.border-active}",
               "virtuozzo": "{colors.border.onSurface.border-active}"
             }
           },
@@ -3238,8 +3238,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.border.onSurface.border}",
-              "default": "{colors.border.onSurface.border}",
+              "deep_sky_itkontoret": "{palette.grayscale.3}",
+              "default": "{palette.electricblue.3}",
               "virtuozzo": "{palette.grayscale.3}"
             }
           }
@@ -3402,8 +3402,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.text.onSurface.link}",
-              "default": "{colors.text.onSurface.link}",
+              "deep_sky_itkontoret": "{colors.text.onSurface.link-idle}",
+              "default": "{colors.text.onSurface.link-idle}",
               "virtuozzo": "{colors.text.onSurface.link-idle}"
             }
           },
@@ -3430,8 +3430,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.text.onSurface.link}",
-              "default": "{colors.text.onSurface.link}",
+              "deep_sky_itkontoret": "{colors.text.onSurface.link-idle}",
+              "default": "{colors.text.onSurface.link-idle}",
               "virtuozzo": "{colors.text.onSurface.link-idle}"
             }
           },
@@ -3444,8 +3444,8 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.text.onSurface.link}",
-              "default": "{colors.text.onSurface.link}",
+              "deep_sky_itkontoret": "{colors.text.onSurface.link-idle}",
+              "default": "{colors.text.onSurface.link-idle}",
               "virtuozzo": "{colors.text.onSurface.link-idle}"
             }
           }
@@ -3466,7 +3466,7 @@
           "platforms": ["PD"],
           "values": {
             "deep_sky_itkontoret": "{colors.border.onSurface.border-active}",
-            "default": "{colors.border.onSurface.border}",
+            "default": "{colors.border.onSurface.border-active}",
             "virtuozzo": "{colors.border.onSurface.border-active}"
           }
         },
@@ -3494,7 +3494,7 @@
           "platforms": ["PD"],
           "values": {
             "deep_sky_itkontoret": "{colors.border.onSurface.border-active}",
-            "default": "{colors.border.onSurface.border}",
+            "default": "{colors.border.onSurface.border-active}",
             "virtuozzo": "{colors.border.onSurface.border-active}"
           }
         },
@@ -3566,7 +3566,7 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.background.surface.primary}",
+              "deep_sky_itkontoret": "{colors.background.surface.active}",
               "default": "{colors.background.surface.active}",
               "virtuozzo": "{colors.background.surface.active}"
             }
@@ -3580,7 +3580,7 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.background.surface.primary}",
+              "deep_sky_itkontoret": "{colors.background.surface.hover}",
               "default": "{colors.background.surface.hover}",
               "virtuozzo": "{colors.background.surface.hover}"
             }
@@ -3717,8 +3717,8 @@
           "$type": "color",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{colors.text.onSurface.link}",
-            "default": "{colors.text.onSurface.link}",
+            "deep_sky_itkontoret": "{colors.text.onSurface.link-idle}",
+            "default": "{colors.text.onSurface.link-idle}",
             "virtuozzo": "{colors.text.onSurface.link-idle}"
           }
         }
@@ -5029,7 +5029,7 @@
         "size": {
           "$extensions": {
             "com.figma.hiddenFromPublishing": true,
-            "com.figma.scopes": ["WIDTH_HEIGHT"],
+            "com.figma.scopes": ["ALL_SCOPES"],
             "com.figma.variableId": "VariableID:3767:4110"
           },
           "$type": "dimension",
@@ -5053,8 +5053,8 @@
           "$type": "color",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{colors.text.onSurface.link}",
-            "default": "{colors.text.onSurface.link}",
+            "deep_sky_itkontoret": "{colors.text.onSurface.link-idle}",
+            "default": "{colors.text.onSurface.link-idle}",
             "virtuozzo": "{colors.text.onSurface.link-idle}"
           }
         },
@@ -5067,7 +5067,7 @@
           "$type": "typography",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{typography.link.strong}",
+            "deep_sky_itkontoret": "{typography.link.default}",
             "default": "{typography.link.strong}",
             "virtuozzo": "{typography.link.default}"
           }
@@ -5093,7 +5093,8 @@
         "textStyle": {
           "$extensions": {
             "com.figma.hiddenFromPublishing": true,
-            "com.figma.scopes": ["ALL_SCOPES"]
+            "com.figma.scopes": ["ALL_SCOPES"],
+            "com.figma.variableId": "VariableID:3767:4107"
           },
           "$type": "typography",
           "platforms": ["PD"],
@@ -5124,7 +5125,8 @@
         "textStyle": {
           "$extensions": {
             "com.figma.hiddenFromPublishing": true,
-            "com.figma.scopes": ["ALL_SCOPES"]
+            "com.figma.scopes": ["ALL_SCOPES"],
+            "com.figma.variableId": "VariableID:4090:12306"
           },
           "$type": "typography",
           "platforms": ["PD"],
@@ -6495,7 +6497,7 @@
         "platforms": ["PD"],
         "values": {
           "deep_sky_itkontoret": "{typography.headings.display-numeric}",
-          "default": "{typography.headigns.display-numeric}",
+          "default": "{typography.headings.display-numeric}",
           "virtuozzo": "{typography.headings.display-numeric}"
         }
       }
@@ -6539,7 +6541,7 @@
         "platforms": ["PD"],
         "values": {
           "deep_sky_itkontoret": "{typography.headings.display-numeric}",
-          "default": "{typography.headigns.display-numeric}",
+          "default": "{typography.headings.display-numeric}",
           "virtuozzo": "{typography.headings.display-numeric}"
         }
       }
@@ -7659,7 +7661,7 @@
           "$type": "color",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{colors.border.onSurface.border}",
+            "deep_sky_itkontoret": "{colors.border.onSurface.border-active}",
             "default": "{colors.border.onSurface.border-active}",
             "virtuozzo": "{colors.border.onSurface.border-active}"
           }
@@ -8063,8 +8065,8 @@
           "$type": "dimension",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{units.gap.0}",
-            "default": "{units.gap.0}",
+            "deep_sky_itkontoret": "{units.gap.8}",
+            "default": "{units.gap.8}",
             "virtuozzo": "{units.gap.8}"
           }
         }
@@ -8229,7 +8231,7 @@
           "$type": "dimension",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{units.gap.12}",
+            "deep_sky_itkontoret": "{units.gap.8}",
             "default": "{units.gap.8}",
             "virtuozzo": "{units.gap.8}"
           }
@@ -8610,7 +8612,7 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.text.onSurface.secondary}",
+              "deep_sky_itkontoret": "{colors.glyph.onSurface.destructive}",
               "default": "{colors.glyph.onSurface.destructive}",
               "virtuozzo": "{colors.glyph.onSurface.destructive}"
             }
@@ -8624,7 +8626,7 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.text.onSurface.secondary}",
+              "deep_sky_itkontoret": "{colors.glyph.onSurface.destructive}",
               "default": "{colors.glyph.onSurface.destructive}",
               "virtuozzo": "{colors.glyph.onSurface.destructive}"
             }
@@ -8656,7 +8658,7 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.glyph.onSurface.primary}",
+              "deep_sky_itkontoret": "{colors.glyph.onSurface.destructive}",
               "default": "{colors.glyph.onSurface.destructive}",
               "virtuozzo": "{colors.glyph.onSurface.destructive}"
             }
@@ -8670,7 +8672,7 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.glyph.onSurface.primary}",
+              "deep_sky_itkontoret": "{colors.glyph.onSurface.destructive}",
               "default": "{colors.glyph.onSurface.destructive}",
               "virtuozzo": "{colors.glyph.onSurface.destructive}"
             }
@@ -8810,7 +8812,7 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.text.onSurface.secondary}",
+              "deep_sky_itkontoret": "{colors.glyph.onSurface.primary}",
               "default": "{colors.glyph.onSurface.primary}",
               "virtuozzo": "{colors.glyph.onSurface.primary}"
             }
@@ -8824,7 +8826,7 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.text.onSurface.secondary}",
+              "deep_sky_itkontoret": "{colors.glyph.onSurface.primary}",
               "default": "{colors.glyph.onSurface.primary}",
               "virtuozzo": "{colors.glyph.onSurface.primary}"
             }
@@ -9128,7 +9130,7 @@
             "$type": "color",
             "platforms": ["PD"],
             "values": {
-              "deep_sky_itkontoret": "{colors.text.onSurface.secondary}",
+              "deep_sky_itkontoret": "{colors.text.onSurface.disabled}",
               "default": "{colors.text.onSurface.disabled}",
               "virtuozzo": "{colors.text.onSurface.disabled}"
             }
@@ -11889,7 +11891,7 @@
               "$type": "color",
               "platforms": ["PD"],
               "values": {
-                "deep_sky_itkontoret": "{colors.glyph.onBrand.secondary}",
+                "deep_sky_itkontoret": "{colors.glyph.onBrand.primary}",
                 "default": "{colors.glyph.onBrand.primary}",
                 "virtuozzo": "{colors.glyph.onBrand.primary}"
               }
@@ -12651,7 +12653,7 @@
               "$type": "color",
               "platforms": ["PD"],
               "values": {
-                "deep_sky_itkontoret": "{colors.background.surface.hover}",
+                "deep_sky_itkontoret": "{colors.background.surface.active}",
                 "default": "{colors.background.surface.hover}",
                 "virtuozzo": "{colors.background.surface.active}"
               }
@@ -12679,7 +12681,7 @@
               "$type": "color",
               "platforms": ["PD"],
               "values": {
-                "deep_sky_itkontoret": "{colors.background.surface.primary}",
+                "deep_sky_itkontoret": "{colors.background.surface.secondary}",
                 "default": "{colors.background.surface.secondary}",
                 "virtuozzo": "{colors.background.surface.secondary}"
               }
@@ -12795,7 +12797,7 @@
           "$type": "dimension",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{units.gap.8}",
+            "deep_sky_itkontoret": "{units.gap.0}",
             "default": "{units.gap.0}",
             "virtuozzo": "{units.gap.0}"
           }
@@ -12825,8 +12827,8 @@
           "$type": "dimension",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": 36,
-            "default": 36,
+            "deep_sky_itkontoret": "{units.size.40}",
+            "default": "{units.size.40}",
             "virtuozzo": "{units.size.40}"
           }
         },
@@ -12853,7 +12855,7 @@
           "$type": "dimension",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{units.gap.8}",
+            "deep_sky_itkontoret": "{units.gap.2}",
             "default": "{units.gap.2}",
             "virtuozzo": "{units.gap.2}"
           }
@@ -12869,10 +12871,7 @@
           "$type": "color",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": {
-              "colorSpace": "hsl",
-              "components": [0, 0, 100]
-            },
+            "deep_sky_itkontoret": "{colors.glyph.onSurface.primary}",
             "default": "{colors.glyph.onSurface.primary}",
             "virtuozzo": "{colors.glyph.onSurface.primary}"
           }
@@ -12948,7 +12947,7 @@
           "$type": "color",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{colors.background.surface.primary}",
+            "deep_sky_itkontoret": "{colors.background.surface.secondary}",
             "default": "{colors.background.surface.secondary}",
             "virtuozzo": "{colors.background.surface.secondary}"
           }
@@ -13008,8 +13007,8 @@
           "$type": "dimension",
           "platforms": ["PD"],
           "values": {
-            "deep_sky_itkontoret": "{units.gap.12}",
-            "default": "{units.gap.12}",
+            "deep_sky_itkontoret": "{units.gap.16}",
+            "default": "{units.gap.16}",
             "virtuozzo": "{units.gap.16}"
           }
         }
@@ -14859,8 +14858,8 @@
         "$type": "typography",
         "platforms": ["PD"],
         "values": {
-          "deep_sky_itkontoret": "{typography.caption.strong}",
-          "default": "{typography.caption.strong}",
+          "deep_sky_itkontoret": "{typography.caption.default}",
+          "default": "{typography.caption.default}",
           "virtuozzo": "{typography.caption.default}"
         }
       }
