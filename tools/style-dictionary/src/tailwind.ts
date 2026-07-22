@@ -135,6 +135,49 @@ const normalizeSegment = (segment: string): string =>
 // so component authoring drift can't break the whole build.
 const isSemanticColor = (path: string[]): boolean => path[0] === 'colors';
 
+// Fallback routing signal: Figma's variable `scopes` (preserved as
+// `$extensions['com.figma.scopes']`) name the render surface a color is meant for.
+// When a component token's PATH carries no routable role word, its scope still can:
+// a single scope maps cleanly to a namespace; the icon `SHAPE_FILL`+`STROKE_COLOR`
+// pair defaults to `fill`; `ALL_SCOPES` / empty / unknown give no signal (→ null,
+// stays warned+skipped). Used only as a fallback when `routeColor` throws, so it
+// never re-routes a token that already routes by path.
+const SCOPE_TO_NAMESPACE: Partial<Record<string, ColorNamespace>> = {
+  TEXT_FILL: 'textColor',
+  FRAME_FILL: 'backgroundColor',
+  STROKE_COLOR: 'borderColor',
+  SHAPE_FILL: 'fill',
+};
+
+/** Namespace implied by a color token's Figma scopes, or null when scopes give no signal. */
+export function scopeToNamespace(scopes: string[]): ColorNamespace | null {
+  if (!Array.isArray(scopes) || scopes.length === 0) return null;
+  if (scopes.length === 1) return SCOPE_TO_NAMESPACE[scopes[0]] ?? null; // ALL_SCOPES → null
+  const set = new Set(scopes);
+  if (set.size === 2 && set.has('SHAPE_FILL') && set.has('STROKE_COLOR')) return 'fill'; // icon default
+  return null;
+}
+
+/**
+ * Build a Tailwind color key from a path: drop `color` wrapper segments; for a
+ * semantic token also drop the matched role segment (`skipIndex`) and a leading
+ * `colors` tier prefix. Shared by path routing and the scope fallback so both
+ * produce byte-identical keys.
+ */
+function colorKeyFromPath(path: string[], skipIndex = -1, isSemantic = false): string {
+  let key = '';
+  for (let j = 0; j < path.length; j++) {
+    const seg = path[j];
+    if (seg === WRAPPER_SEGMENT) continue;
+    if (isSemantic && j === skipIndex) continue;
+    if (isSemantic && j === 0 && seg === TIER_PREFIX) continue;
+
+    const normalized = normalizeSegment(seg);
+    key = key ? `${key}-${normalized}` : normalized;
+  }
+  return key;
+}
+
 /** Map a color token's path to its Tailwind namespace + key (no `ui-`, no role word). */
 export function routeColor(path: string[]): { namespace: ColorNamespace; key: string } {
   const isSemantic = SEMANTIC_ROOTS.has(path[0]);
@@ -143,17 +186,7 @@ export function routeColor(path: string[]): { namespace: ColorNamespace; key: st
     if (path[i] === WRAPPER_SEGMENT) continue;
     const namespace = roleMap.get(path[i]);
     if (namespace) {
-      let key = '';
-      for (let j = 0; j < path.length; j++) {
-        const seg = path[j];
-        if (seg === WRAPPER_SEGMENT) continue;
-        if (isSemantic && j === i) continue;
-        if (isSemantic && j === 0 && seg === TIER_PREFIX) continue;
-
-        const normalized = normalizeSegment(seg);
-        key = key ? `${key}-${normalized}` : normalized;
-      }
-      return { namespace: namespace as ColorNamespace, key };
+      return { namespace: namespace as ColorNamespace, key: colorKeyFromPath(path, i, isSemantic) };
     }
   }
   throw new Error(`Cannot route color token to a Tailwind namespace: ${path.join('.')}`);
@@ -209,16 +242,21 @@ export function buildThemeExtend(
       try {
         routed = routeColor(token.path);
       } catch (err) {
-        // Component-tier tokens that don't encode a routable role are kept in
-        // CSS + tiers but omitted from the Tailwind preset (warned). Semantic
-        // color tokens must always route — a throw there is a genuine bug.
-        if (!isSemanticColor(token.path)) {
+        // Component-tier tokens that don't encode a routable role fall back to the
+        // Figma scope (`com.figma.scopes`) for the namespace, keeping the path for
+        // the key. Semantic color tokens must always route by path — a throw there
+        // is a genuine bug. Tokens the scope can't disambiguate (ALL_SCOPES / empty)
+        // are kept in CSS + tiers but omitted from the Tailwind preset (warned).
+        if (isSemanticColor(token.path)) throw err;
+        const scopes = (token.$extensions as Record<string, unknown> | undefined)?.['com.figma.scopes'];
+        const ns = Array.isArray(scopes) ? scopeToNamespace(scopes as string[]) : null;
+        if (!ns) {
           console.warn(
             `tailwind: skipped unroutable component color token (kept in CSS/tiers; fix naming in Figma): ${token.path.join('.')}`,
           );
           continue;
         }
-        throw err;
+        routed = { namespace: ns, key: colorKeyFromPath(token.path) };
       }
       let lightDarkValue: string;
       try {

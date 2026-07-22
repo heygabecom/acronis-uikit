@@ -9,7 +9,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { collectDecls, serializeCss } from '../formats/css-light-dark';
 import { normalizeTree } from '../preprocessors/acronis-dtcg';
-import { buildThemeExtend, routeColor } from '../../tailwind';
+import { buildThemeExtend, routeColor, scopeToNamespace } from '../../tailwind';
 
 // ── normalizeTree (stage 1) ──────────────────────────────────────────────────
 
@@ -335,6 +335,28 @@ describe('routeColor', () => {
   });
 });
 
+describe('scopeToNamespace', () => {
+  it('maps each single Figma scope to its namespace', () => {
+    expect(scopeToNamespace(['TEXT_FILL'])).toBe('textColor');
+    expect(scopeToNamespace(['FRAME_FILL'])).toBe('backgroundColor');
+    expect(scopeToNamespace(['STROKE_COLOR'])).toBe('borderColor');
+    expect(scopeToNamespace(['SHAPE_FILL'])).toBe('fill');
+  });
+
+  it('defaults the icon SHAPE_FILL+STROKE_COLOR pair to fill', () => {
+    expect(scopeToNamespace(['SHAPE_FILL', 'STROKE_COLOR'])).toBe('fill');
+    expect(scopeToNamespace(['STROKE_COLOR', 'SHAPE_FILL'])).toBe('fill');
+  });
+
+  it('returns null when scopes give no signal', () => {
+    expect(scopeToNamespace(['ALL_SCOPES'])).toBeNull();
+    expect(scopeToNamespace([])).toBeNull();
+    expect(scopeToNamespace(['WHO_KNOWS'])).toBeNull();
+    // an unhandled multi-scope combination is ambiguous → null
+    expect(scopeToNamespace(['TEXT_FILL', 'FRAME_FILL'])).toBeNull();
+  });
+});
+
 describe('buildThemeExtend', () => {
   const tok = (over: Partial<TransformedToken>): TransformedToken =>
     ({ name: 'x', path: ['x'], ...over }) as TransformedToken;
@@ -433,5 +455,65 @@ describe('buildThemeExtend', () => {
         new Map()
       )
     ).toThrow(/Invalid characters in color value for light-dark\(\)/);
+  });
+
+  it('falls back to the Figma scope for the namespace when the path has no role word', () => {
+    // path carries no routable role (`table`/`data`/`row` aren't roles, `color`
+    // is the skipped wrapper) → routeColor throws → scope decides the namespace,
+    // path still builds the key (drop only `color`).
+    const theme = buildThemeExtend(
+      [
+        tok({
+          name: 'ui-table-data-row-idle',
+          path: ['table', 'data', 'row', 'color', 'idle'],
+          $type: 'color',
+          $value: 'rgb(255 255 255)',
+          $extensions: { 'com.figma.scopes': ['TEXT_FILL'] },
+        } as Partial<TransformedToken>),
+      ],
+      new Map([['table.data.row.color.idle', 'rgb(0 0 0)']])
+    );
+    expect(theme.textColor['table-data-row-idle']).toBe('light-dark(rgb(255 255 255), rgb(0 0 0))');
+  });
+
+  it('still warns and skips a path-unroutable component color whose scope is ALL_SCOPES', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      const theme = buildThemeExtend(
+        [
+          tok({
+            name: 'ui-table-data-row-idle',
+            path: ['table', 'data', 'row', 'color', 'idle'],
+            $type: 'color',
+            $value: 'rgb(255 255 255)',
+            $extensions: { 'com.figma.scopes': ['ALL_SCOPES'] },
+          } as Partial<TransformedToken>),
+        ],
+        new Map()
+      );
+      expect(theme.textColor['table-data-row-idle']).toBeUndefined();
+      expect(theme.backgroundColor['table-data-row-idle']).toBeUndefined();
+      expect(warn).toHaveBeenCalledWith(
+        expect.stringContaining('skipped unroutable component color token')
+      );
+    } finally {
+      warn.mockRestore();
+    }
+  });
+
+  it('keeps semantic color route failures fatal even with a mappable scope', () => {
+    expect(() =>
+      buildThemeExtend(
+        [
+          tok({
+            path: ['colors', 'mystery', 'thing'],
+            $type: 'color',
+            $value: 'rgb(1 1 1)',
+            $extensions: { 'com.figma.scopes': ['TEXT_FILL'] },
+          } as Partial<TransformedToken>),
+        ],
+        new Map()
+      )
+    ).toThrow(/Cannot route/);
   });
 });
