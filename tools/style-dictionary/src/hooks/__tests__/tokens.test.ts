@@ -9,7 +9,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { collectDecls, serializeCss } from '../formats/css-light-dark';
 import { normalizeTree } from '../preprocessors/acronis-dtcg';
-import { buildThemeExtend, routeColor, scopeToNamespace } from '../../tailwind';
+import { buildThemeExtend, colorKeyFromPath, routeColor, scopeToNamespace } from '../../tailwind';
 
 // ── normalizeTree (stage 1) ──────────────────────────────────────────────────
 
@@ -332,6 +332,34 @@ describe('routeColor', () => {
 
   it('throws for a color it cannot route', () => {
     expect(() => routeColor(['mystery', 'thing'])).toThrow(/Cannot route/);
+  });
+});
+
+describe('colorKeyFromPath', () => {
+  it('drops only the `color` wrapper for a component path (default args)', () => {
+    // No role segment skipped, not semantic: every non-wrapper segment survives.
+    expect(colorKeyFromPath(['table', 'data', 'row', 'color', 'idle'])).toBe('table-data-row-idle');
+  });
+
+  it('normalizes each surviving segment (camelCase → kebab, leading underscore)', () => {
+    expect(colorKeyFromPath(['button', '_global', 'icon', 'borderColor', 'idle'])).toBe(
+      'button-global-icon-border-color-idle',
+    );
+  });
+
+  it('for a semantic path drops the role segment at skipIndex and a leading `colors` prefix', () => {
+    // colors[0] tier prefix + role `background` at index 1 both dropped.
+    expect(colorKeyFromPath(['colors', 'background', 'neutral', 'idle'], 1, true)).toBe('neutral-idle');
+  });
+
+  it('produces keys byte-identical to routeColor for the same path', () => {
+    // routeColor delegates key building here — pin that they never drift.
+    const path = ['button', 'secondary', 'container', 'borderColor', 'idle'];
+    const { key } = routeColor(path);
+    // borderColor is the role at index 3, but component paths are not semantic,
+    // so no role segment is dropped — matching routeColor's component branch.
+    expect(colorKeyFromPath(path)).toBe(key);
+    expect(colorKeyFromPath(path)).toBe('button-secondary-container-border-color-idle');
   });
 });
 

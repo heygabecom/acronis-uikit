@@ -164,7 +164,7 @@ export function scopeToNamespace(scopes: string[]): ColorNamespace | null {
  * `colors` tier prefix. Shared by path routing and the scope fallback so both
  * produce byte-identical keys.
  */
-function colorKeyFromPath(path: string[], skipIndex = -1, isSemantic = false): string {
+export function colorKeyFromPath(path: string[], skipIndex = -1, isSemantic = false): string {
   let key = '';
   for (let j = 0; j < path.length; j++) {
     const seg = path[j];
